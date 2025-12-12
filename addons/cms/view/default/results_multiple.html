@@ -1,0 +1,1023 @@
+{layout name="common/layout" /}
+<article class="test-result-page" itemscope itemtype="https://schema.org/Article">
+    <!-- 谷歌广告位 - 顶部横幅（展示广告）-->
+    <div class="ad-container ad-banner-top">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-9195262048954682"
+             data-ad-slot="2969657271"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="test-result">
+                    <!-- 测试标题 -->
+                    <header class="test-header">
+                        <h1 id="test-title" itemprop="headline">FPA性格色彩测试结果</h1>
+                        <p id="test-subtitle" itemprop="description">测试结果仅供参考，具体请咨询专业指导</p>
+                        <meta itemprop="author" content="心理测试平台">
+                        <meta itemprop="datePublished" content="">
+                        <meta itemprop="dateModified" content="">
+                    </header>
+                    
+                    <!-- 测试信息 - 折叠式 -->
+                    <section class="test-info" id="test-info">
+                        <div class="info-toggle" onclick="toggleTestInfo()">
+                            <h2>测试信息</h2>
+                            <span class="toggle-icon" id="test-info-icon">▼</span>
+                        </div>
+                        <div class="info-content collapsed" id="info-content">
+                            <!-- 测试信息将在这里显示 -->
+                        </div>
+                    </section>
+                    
+                    <!-- 主要性格类型显示 -->
+                    <section class="score-section">
+                        <div class="score-card">
+                            <div class="score-circle">
+                                <div class="score-number" id="main-type">分析中...</div>
+                                <div class="score-label">主要性格</div>
+                            </div>
+                            <div class="score-info">
+                                <div class="score-description" id="type-description">正在分析您的性格类型...</div>
+                                <div class="score-level" id="type-percentage">计算中...</div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- 各类型分数显示 -->
+                    <section class="dimension-scores-section" id="dimension-scores-section">
+                        <h2>各类型得分</h2>
+                        <div class="dimension-grid" id="dimension-grid">
+                            <!-- 类型分数将在这里显示 -->
+                        </div>
+                    </section>
+                    
+                    <!-- 结果分析 -->
+                    <section class="analysis-section" id="analysis-section">
+                        <h2>详细分析报告</h2>
+                        <div class="analysis-content" id="analysis-content">
+                            <!-- 分析内容将在这里显示 -->
+                        </div>
+                    </section>
+                    
+                    <!-- 建议和指导 -->
+                    <section class="suggestions-section" id="suggestions-section">
+                        <h2>建议和指导</h2>
+                        <div class="suggestions-content" id="suggestions-content">
+                            <!-- 建议内容将在这里显示 -->
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 谷歌广告位 - 中间内容（文章内嵌广告）-->
+    <div class="ad-container ad-banner-middle">
+        <ins class="adsbygoogle"
+             style="display:block; text-align:center;"
+             data-ad-layout="in-article"
+             data-ad-format="fluid"
+             data-ad-client="ca-pub-9195262048954682"
+             data-ad-slot="5294962935"></ins>
+        <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+</article>
+
+<style>
+/* 谷歌广告位样式 */
+.ad-container {
+    margin: 20px auto;
+    max-width: 900px;
+    text-align: center;
+}
+
+.ad-banner-top {
+    margin-bottom: 30px;
+}
+
+.ad-banner-middle {
+    margin: 40px auto;
+}
+
+.ad-placeholder {
+    background: #f8f9fa;
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+    padding: 20px;
+    min-height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6c757d;
+    font-size: 14px;
+}
+
+/* 整体容器 */
+.test-result-page {
+    background: #f8f9fa;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.test-result {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+/* 测试标题 */
+.test-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #f5f5f5;
+}
+
+.test-header h1 {
+    color: #2c3e50;
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    line-height: 1.2;
+}
+
+.test-header p {
+    color: #7f8c8d;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+/* 测试信息折叠区域 */
+.test-info {
+    background: #f8f9fa;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    overflow: hidden;
+    border: 1px solid #e9ecef;
+}
+
+.info-toggle {
+    padding: 20px 25px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s ease;
+    background: #fff;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+.info-toggle:hover {
+    background-color: #f8f9fa;
+}
+
+.info-toggle h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #495057;
+    font-weight: 600;
+}
+
+.toggle-icon {
+    font-size: 1rem;
+    color: #6c757d;
+    transition: transform 0.3s ease;
+}
+
+.info-content {
+    padding: 0 25px;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+}
+
+.info-content.expanded {
+    max-height: 500px;
+    padding: 20px 25px;
+}
+
+.info-content.collapsed {
+    max-height: 0;
+    padding: 0 25px;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.info-item:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    font-weight: 600;
+    color: #495057;
+}
+
+.info-value {
+    color: #6c757d;
+}
+
+/* 性格类型显示区域 */
+.score-section {
+    margin-bottom: 40px;
+}
+
+.score-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 20px;
+    padding: 40px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    box-shadow: 0 8px 30px rgba(102, 126, 234, 0.3);
+}
+
+.score-circle {
+    flex-shrink: 0;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.score-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 5px;
+}
+
+.score-label {
+    font-size: 1rem;
+    opacity: 0.9;
+    font-weight: 500;
+}
+
+.score-info {
+    flex: 1;
+}
+
+.score-description {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    line-height: 1.3;
+}
+
+.score-level {
+    font-size: 1rem;
+    opacity: 0.9;
+    font-weight: 500;
+}
+
+/* 各类型分数显示区域 */
+.dimension-scores-section {
+    margin-bottom: 40px;
+}
+
+.dimension-scores-section h2 {
+    color: #2c3e50;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-align: center;
+    position: relative;
+}
+
+.dimension-scores-section h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 2px;
+}
+
+.dimension-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.dimension-item {
+    background: #fff;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    text-align: center;
+    transition: all 0.3s ease;
+    border-left: 5px solid #667eea;
+    position: relative;
+    overflow: hidden;
+}
+
+.dimension-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.dimension-item.red {
+    border-left-color: #e74c3c;
+}
+
+.dimension-item.red::before {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+}
+
+.dimension-item.blue {
+    border-left-color: #3498db;
+}
+
+.dimension-item.blue::before {
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+}
+
+.dimension-item.yellow {
+    border-left-color: #f39c12;
+}
+
+.dimension-item.yellow::before {
+    background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+}
+
+.dimension-item.green {
+    border-left-color: #27ae60;
+}
+
+.dimension-item.green::before {
+    background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+}
+
+.dimension-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.dimension-label {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+.dimension-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #667eea;
+    margin-bottom: 15px;
+}
+
+.dimension-item.red .dimension-value {
+    color: #e74c3c;
+}
+
+.dimension-item.blue .dimension-value {
+    color: #3498db;
+}
+
+.dimension-item.yellow .dimension-value {
+    color: #f39c12;
+}
+
+.dimension-item.green .dimension-value {
+    color: #27ae60;
+}
+
+.dimension-bar {
+    width: 100%;
+    height: 8px;
+    background: #e9ecef;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.dimension-bar-fill {
+    height: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 4px;
+    transition: width 0.8s ease;
+}
+
+.dimension-item.red .dimension-bar-fill {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+}
+
+.dimension-item.blue .dimension-bar-fill {
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+}
+
+.dimension-item.yellow .dimension-bar-fill {
+    background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+}
+
+.dimension-item.green .dimension-bar-fill {
+    background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+}
+
+.dimension-percentage {
+    font-size: 0.9rem;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+/* 分析区域 */
+.analysis-section {
+    margin-bottom: 40px;
+}
+
+.analysis-section h2 {
+    color: #2c3e50;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-align: center;
+    position: relative;
+}
+
+.analysis-section h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 2px;
+}
+
+.analysis-content {
+    background: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    line-height: 1.8;
+    color: #555;
+}
+
+.analysis-content h4 {
+    color: #2c3e50;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-top: 25px;
+    margin-bottom: 15px;
+    padding-left: 15px;
+    border-left: 4px solid #667eea;
+}
+
+.analysis-content p {
+    margin-bottom: 20px;
+    text-align: justify;
+}
+
+/* 建议区域 */
+.suggestions-section {
+    margin-bottom: 40px;
+}
+
+.suggestions-section h2 {
+    color: #2c3e50;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-align: center;
+    position: relative;
+}
+
+.suggestions-section h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 2px;
+}
+
+.suggestions-content {
+    background: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    line-height: 1.8;
+    color: #555;
+}
+
+.suggestions-content h4 {
+    color: #2c3e50;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-top: 25px;
+    margin-bottom: 15px;
+    padding-left: 15px;
+    border-left: 4px solid #667eea;
+}
+
+.suggestions-content p {
+    margin-bottom: 20px;
+    text-align: justify;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .test-result {
+        padding: 15px;
+        margin: 10px;
+        border-radius: 12px;
+    }
+    
+    .test-header {
+        margin-bottom: 30px;
+        padding-bottom: 15px;
+    }
+    
+    .test-header h1 {
+        font-size: 1.8rem;
+        line-height: 1.3;
+    }
+    
+    .test-header p {
+        font-size: 1rem;
+        margin-top: 8px;
+    }
+    
+    .score-card {
+        flex-direction: column;
+        gap: 25px;
+        padding: 25px 20px;
+        text-align: center;
+        border-radius: 15px;
+    }
+    
+    .score-circle {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .score-number {
+        font-size: 2rem;
+    }
+    
+    .score-description {
+        font-size: 1.1rem;
+        text-align: center;
+    }
+    
+    .score-level {
+        font-size: 0.9rem;
+        text-align: center;
+    }
+    
+    .dimension-scores-section {
+        margin-bottom: 30px;
+    }
+    
+    .dimension-scores-section h2 {
+        font-size: 1.5rem;
+        margin-bottom: 25px;
+    }
+    
+    .dimension-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin-top: 25px;
+    }
+    
+    .dimension-item {
+        padding: 20px 15px;
+        border-radius: 12px;
+    }
+    
+    .dimension-label {
+        font-size: 1rem;
+        margin-bottom: 12px;
+    }
+    
+    .dimension-value {
+        font-size: 2rem;
+        margin-bottom: 12px;
+    }
+    
+    .dimension-bar {
+        height: 6px;
+        margin-bottom: 8px;
+    }
+    
+    .dimension-percentage {
+        font-size: 0.85rem;
+    }
+    
+    .analysis-section,
+    .suggestions-section {
+        margin-bottom: 30px;
+    }
+    
+    .analysis-section h2,
+    .suggestions-section h2 {
+        font-size: 1.5rem;
+        margin-bottom: 25px;
+    }
+    
+    .analysis-content,
+    .suggestions-content {
+        padding: 20px;
+        border-radius: 12px;
+    }
+    
+    .analysis-content h4,
+    .suggestions-content h4 {
+        font-size: 1.2rem;
+        margin-top: 20px;
+        margin-bottom: 12px;
+        padding-left: 12px;
+    }
+    
+    .analysis-content p,
+    .suggestions-content p {
+        font-size: 0.95rem;
+        line-height: 1.7;
+        margin-bottom: 15px;
+    }
+    
+    .info-toggle {
+        padding: 15px 20px;
+    }
+    
+    .info-content.expanded {
+        padding: 15px 20px;
+    }
+    
+    .info-item {
+        padding: 10px 0;
+        font-size: 0.9rem;
+    }
+    
+    .ad-container {
+        margin: 15px auto;
+    }
+    
+    .ad-placeholder {
+        padding: 15px;
+        min-height: 80px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .test-result {
+        padding: 12px;
+        margin: 8px;
+    }
+    
+    .test-header h1 {
+        font-size: 1.6rem;
+    }
+    
+    .test-header p {
+        font-size: 0.95rem;
+    }
+    
+    .score-card {
+        padding: 20px 15px;
+        gap: 20px;
+    }
+    
+    .score-circle {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .score-number {
+        font-size: 1.8rem;
+    }
+    
+    .score-description {
+        font-size: 1rem;
+    }
+    
+    .dimension-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .dimension-item {
+        padding: 18px 15px;
+    }
+    
+    .dimension-value {
+        font-size: 1.8rem;
+    }
+    
+    .analysis-content,
+    .suggestions-content {
+        padding: 15px;
+    }
+    
+    .analysis-content h4,
+    .suggestions-content h4 {
+        font-size: 1.1rem;
+        padding-left: 10px;
+    }
+    
+    .analysis-content p,
+    .suggestions-content p {
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
+}
+
+@media (max-width: 360px) {
+    .test-result {
+        padding: 10px;
+        margin: 5px;
+    }
+    
+    .test-header h1 {
+        font-size: 1.4rem;
+    }
+    
+    .score-card {
+        padding: 15px 12px;
+    }
+    
+    .score-circle {
+        width: 90px;
+        height: 90px;
+    }
+    
+    .score-number {
+        font-size: 1.6rem;
+    }
+    
+    .dimension-item {
+        padding: 15px 12px;
+    }
+    
+    .dimension-value {
+        font-size: 1.6rem;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 获取URL参数
+    const urlParams = new URLSearchParams(window.location.search);
+    const answer_id = urlParams.get('answer_id');
+    
+    if (!answer_id) {
+        document.getElementById('type-description').textContent = '未找到测试结果';
+        return;
+    }
+    
+    // 获取测试结果
+    fetch('/addons/cms/psychometry/answerInfo', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'answer_id=' + answer_id
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.code === 1) {
+            displayMultipleResult(data.data);
+        } else {
+            document.getElementById('type-description').textContent = '获取结果失败：' + data.msg;
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('type-description').textContent = '网络错误，请稍后重试';
+    });
+});
+
+function displayMultipleResult(data) {
+    // 更新页面标题和SEO信息
+    if (data.a_info) {
+        const title = data.a_info.title || '多选测试结果';
+        const subtitle = data.a_info.sub_title || '测试结果仅供参考，具体请咨询专业指导';
+        
+        document.getElementById('test-title').textContent = title;
+        document.getElementById('test-subtitle').textContent = subtitle;
+        
+        // 更新页面标题
+        document.title = title + ' - 测试结果';
+        
+        // 更新meta描述
+        const metaDescription = document.querySelector('meta[name="description"]');
+        if (metaDescription) {
+            metaDescription.setAttribute('content', subtitle);
+        }
+        
+        // 更新结构化数据
+        const headlineMeta = document.querySelector('meta[itemprop="headline"]');
+        const descriptionMeta = document.querySelector('meta[itemprop="description"]');
+        const datePublishedMeta = document.querySelector('meta[itemprop="datePublished"]');
+        
+        if (headlineMeta) headlineMeta.setAttribute('content', title);
+        if (descriptionMeta) descriptionMeta.setAttribute('content', subtitle);
+        if (datePublishedMeta) datePublishedMeta.setAttribute('content', new Date().toISOString());
+    }
+    
+    // 显示测试信息
+    displayTestInfo(data);
+    
+    // 显示主要性格类型
+    displayMainType(data);
+    
+    // 显示各类型分数
+    displayTypeScores(data);
+    
+    // 显示分析内容
+    displayAnalysis(data);
+    
+    // 显示建议内容
+    displaySuggestions(data);
+}
+
+function displayTestInfo(data) {
+    const infoContent = document.getElementById('info-content');
+    
+    let html = '';
+    if (data.a_info) {
+        html += '<div class="info-item">';
+        html += '<span class="info-label">测试名称</span>';
+        html += '<span class="info-value">' + (data.a_info.title || '未知测试') + '</span>';
+        html += '</div>';
+        
+        html += '<div class="info-item">';
+        html += '<span class="info-label">测试说明</span>';
+        html += '<span class="info-value">' + (data.a_info.sub_title || '暂无说明') + '</span>';
+        html += '</div>';
+        
+        html += '<div class="info-item">';
+        html += '<span class="info-label">题目数量</span>';
+        html += '<span class="info-value">' + (data.test_info.question_count || 0) + '题</span>';
+        html += '</div>';
+        
+        html += '<div class="info-item">';
+        html += '<span class="info-label">满分</span>';
+        html += '<span class="info-value">' + (data.test_info.question_count || 0) + '分</span>';
+        html += '</div>';
+    }
+    
+    infoContent.innerHTML = html;
+}
+
+function displayMainType(data) {
+    if (!data.stat_data) return;
+    
+    // 找到得分最高的类型
+    let maxType = '';
+    let maxScore = 0;
+    let totalScore = 0;
+    
+    for (const [type, score] of Object.entries(data.stat_data)) {
+        totalScore += score;
+        if (score > maxScore) {
+            maxScore = score;
+            maxType = type;
+        }
+    }
+    
+    // 类型名称映射
+    const typeNames = {
+        '1': '红色',
+        '2': '蓝色', 
+        '3': '黄色',
+        '4': '绿色'
+    };
+    
+    const typeName = typeNames[maxType] || '未知';
+    const percentage = totalScore > 0 ? Math.round((maxScore / totalScore) * 100) : 0;
+    
+    document.getElementById('main-type').textContent = typeName;
+    document.getElementById('type-description').textContent = `您的主要性格类型是${typeName}，得分${maxScore}分`;
+    document.getElementById('type-percentage').textContent = `占比${percentage}%`;
+}
+
+function displayTypeScores(data) {
+    if (!data.stat_data) return;
+    
+    const dimensionGrid = document.getElementById('dimension-grid');
+    const typeNames = {
+        '1': { name: '红色', class: 'red' },
+        '2': { name: '蓝色', class: 'blue' },
+        '3': { name: '黄色', class: 'yellow' },
+        '4': { name: '绿色', class: 'green' }
+    };
+    
+    // 计算总分用于百分比计算
+    const scores = Object.values(data.stat_data);
+    const totalScore = scores.reduce((sum, score) => sum + score, 0);
+    
+    let html = '';
+    for (const [type, score] of Object.entries(data.stat_data)) {
+        const typeInfo = typeNames[type] || { name: '未知', class: '' };
+        const percentage = totalScore > 0 ? Math.round((score / totalScore) * 100) : 0;
+        
+        html += `
+            <div class="dimension-item ${typeInfo.class}">
+                <div class="dimension-label">${typeInfo.name}</div>
+                <div class="dimension-value">${score}</div>
+                <div class="dimension-bar">
+                    <div class="dimension-bar-fill" style="width: ${percentage}%"></div>
+                </div>
+                <div class="dimension-percentage">${percentage}%</div>
+            </div>
+        `;
+    }
+    
+    dimensionGrid.innerHTML = html;
+}
+
+function displayAnalysis(data) {
+    const analysisContent = document.getElementById('analysis-content');
+    
+    if (data.analyse && data.analyse.content) {
+        analysisContent.innerHTML = data.analyse.content;
+    } else {
+        analysisContent.innerHTML = '<p>感谢您完成测试！您的性格类型分析已完成。</p>';
+    }
+}
+
+function displaySuggestions(data) {
+    const suggestionsContent = document.getElementById('suggestions-content');
+    
+    if (data.analyse && data.analyse.suggestion) {
+        suggestionsContent.innerHTML = data.analyse.suggestion;
+    } else {
+        suggestionsContent.innerHTML = '<p>测试结果仅供参考，如需专业指导，请咨询相关领域的专家。</p>';
+    }
+}
+
+function toggleTestInfo() {
+    const content = document.getElementById('info-content');
+    const icon = document.getElementById('test-info-icon');
+    
+    if (!content || !icon) {
+        console.error('无法找到测试信息元素');
+        return;
+    }
+    
+    if (content.classList.contains('collapsed')) {
+        content.classList.remove('collapsed');
+        content.classList.add('expanded');
+        icon.textContent = '▲';
+        
+        // 移动端滚动到展开的内容
+        if (window.innerWidth <= 768) {
+            setTimeout(() => {
+                content.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'nearest' 
+                });
+            }, 100);
+        }
+    } else {
+        content.classList.remove('expanded');
+        content.classList.add('collapsed');
+        icon.textContent = '▼';
+    }
+}
+</script>

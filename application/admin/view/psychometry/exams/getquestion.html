@@ -1,0 +1,16 @@
+
+<div class="form-group">
+	<h3 class="type-tips"></h3>
+</div>
+
+{foreach name='questions'  item="timu" key="k"}
+<div class="form-group">
+	<h4>题型{$k+1}：{$typeList[$timu['type']]}</h4>
+</div>
+<div class="form-group">
+	<h5>题目：{$timu['question']}<br></h5>
+	{foreach name="timu['selectdata']"  item="select"}
+	<input type="checkbox" value="{$select['key']}">{$select['key']}、{$select['value']}(统计值：{$select['cal_value']})
+	{/foreach}
+</div>
+{/foreach}

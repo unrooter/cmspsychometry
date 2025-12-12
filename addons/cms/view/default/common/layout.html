@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+<html class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="" lang="zh-CN"> <!--<![endif]-->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="renderer" content="webkit">
+    <title>{cms:config name="cms.title|htmlentities"/} - {cms:config name="cms.sitename"/}</title>
+    <meta name="keywords" content="{cms:config name='cms.keywords|htmlentities'/}"/>
+    <meta name="description" content="{cms:config name='cms.description|htmlentities'/}"/>
+
+    <link rel="shortcut icon" href="__CDN__/favicon.ico" type="image/x-icon"/>
+    
+    <!-- 性能优化：DNS预连接和资源预加载 -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+    <link rel="preconnect" href="https://adservice.google.com" crossorigin>
+    <link rel="preconnect" href="https://googleads.g.doubleclick.net" crossorigin>
+    <link rel="preconnect" href="https://api.nbmgkj.com" crossorigin>
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="//pagead2.googlesyndication.com">
+    <link rel="dns-prefetch" href="//adservice.google.com">
+    <link rel="dns-prefetch" href="//googleads.g.doubleclick.net">
+    <link rel="dns-prefetch" href="//api.nbmgkj.com">
+    <!-- 内联最小关键CSS，防止FOUC -->
+    <style>
+    body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;font-size:14px;line-height:1.42857143;color:#333;background-color:#fff;opacity:0;transition:opacity 0.3s ease-in}
+    body.loaded{opacity:1}
+    .container{margin-right:auto;margin-left:auto;padding-left:15px;padding-right:15px}
+    .navbar{position:relative;min-height:50px;margin-bottom:20px;border:1px solid transparent}
+    .navbar-fixed-top{position:fixed;right:0;left:0;z-index:9999;top:0}
+    @media(min-width:768px){.container{width:750px}}
+    @media(min-width:992px){.container{width:970px}}
+    @media(min-width:1200px){.container{width:1170px}}
+    
+    /* 页面加载动画 */
+    #page-loader{position:fixed;top:0;left:0;width:100%;height:100%;background:#fff;z-index:99999;display:flex;align-items:center;justify-content:center;transition:opacity 0.3s ease-out,visibility 0.3s ease-out}
+    #page-loader.hidden{opacity:0;visibility:hidden}
+    .loader-spinner{width:50px;height:50px;border:4px solid #f3f3f3;border-top:4px solid #5CB89F;border-radius:50%;animation:spin 0.8s linear infinite}
+    @keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+    </style>
+    
+    <!-- 完整Bootstrap CSS异步加载 -->
+    <link rel="preload" href="__CDN__/assets/css/bootstrap.css?v={$site.version}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="__CDN__/assets/css/bootstrap.css?v={$site.version}"></noscript>
+    
+    <!-- 字体预加载（防止CLS布局偏移） -->
+    <link rel="preload" href="__CDN__/assets/libs/font-awesome/fonts/fontawesome-webfont.woff2?v=4.7.0" as="font" type="font/woff2" crossorigin>
+    
+    <!-- LCP图片预加载（关键性能优化） -->
+    <link rel="preload" as="image" href="/uploads/simpleimages/117.jpg" fetchpriority="high">
+    
+    <!-- 预加载关键JavaScript（减少解析延迟） -->
+    <link rel="modulepreload" href="__CDN__/assets/libs/jquery/dist/jquery.min.js?v={$site.version}">
+    
+    <!-- 非关键CSS延迟加载 -->
+    <link rel="preload" href="__CDN__/assets/libs/font-awesome/css/font-awesome.min.css?v={$site.version}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="__CDN__/assets/libs/fastadmin-layer/dist/theme/default/layer.css?v={$site.version}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="__ADDON__/css/swiper.min.css?v={$site.version}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="__ADDON__/css/share.min.css?v={$site.version}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="__ADDON__/css/iconfont.css?v={$site.version}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="__ADDON__/css/common.css?v={$site.version}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="__ADDON__/css/vue-css.css?v={$site.version}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- 降级方案（无JS时正常加载） -->
+    <noscript>
+        <link rel="stylesheet" media="screen" href="__CDN__/assets/libs/font-awesome/css/font-awesome.min.css?v={$site.version}"/>
+        <link rel="stylesheet" media="screen" href="__CDN__/assets/libs/fastadmin-layer/dist/theme/default/layer.css?v={$site.version}"/>
+        <link rel="stylesheet" media="screen" href="__ADDON__/css/swiper.min.css?v={$site.version}">
+        <link rel="stylesheet" media="screen" href="__ADDON__/css/share.min.css?v={$site.version}">
+        <link rel="stylesheet" media="screen" href="__ADDON__/css/iconfont.css?v={$site.version}">
+        <link rel="stylesheet" media="screen" href="__ADDON__/css/common.css?v={$site.version}"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+        <link rel="stylesheet" media="screen" href="__ADDON__/css/vue-css.css?v={$site.version}"/>
+    </noscript>
+
+    <!-- <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css"> -->
+    <!--分享 - Open Graph-->
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="{cms:config name='cms.title|htmlentities'/}"/>
+    <meta property="og:image" content="{cms:config name='cms.image|htmlentities'/}"/>
+    <meta property="og:image:width" content="1200"/>
+    <meta property="og:image:height" content="630"/>
+    <meta property="og:description" content="{cms:config name='cms.description|htmlentities'/}"/>
+    <meta property="og:url" content="{$Think.request.domain}{$Think.request.url}"/>
+    <meta property="og:site_name" content="{cms:config name='cms.sitename'/}"/>
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:title" content="{cms:config name='cms.title|htmlentities'/}"/>
+    <meta name="twitter:description" content="{cms:config name='cms.description|htmlentities'/}"/>
+    <meta name="twitter:image" content="{cms:config name='cms.image|htmlentities'/}"/>
+    
+    <!-- 多语言SEO优化 -->
+    <meta name="language" content="{if $Think.cookie.frontend_language == 'en'}en{else}zh{/if}"/>
+    <meta name="geo.region" content="CN"/>
+    <meta name="geo.placename" content="China"/>
+    
+    <!-- 针对文章详情页的SEO优化 -->
+    {if isset($__ARCHIVES__)}
+    {php}$fullUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'] . $__ARCHIVES__['url'];{/php}
+    <link rel="canonical" href="{$fullUrl}"/>
+    <link rel="alternate" hreflang="zh-CN" href="{$fullUrl}"/>
+    <link rel="alternate" hreflang="en" href="{$fullUrl}?lg=en"/>
+    <link rel="alternate" hreflang="x-default" href="{$fullUrl}"/>
+    
+    <meta name="description" content="{:htmlentities($__ARCHIVES__['description'] ?: $__ARCHIVES__['sub_title'])}"/>
+    <meta name="keywords" content="{:htmlentities($__ARCHIVES__['keywords'] ?? '')}"/>
+    <meta name="author" content="{cms:config name='cms.sitename'/}"/>
+    <meta name="robots" content="index,follow"/>
+    
+    <!-- Open Graph 文章专用标签 -->
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="{:htmlentities($__ARCHIVES__['title'] ?? '')}"/>
+    <meta property="og:description" content="{:htmlentities($__ARCHIVES__['sub_title'] ?: $__ARCHIVES__['description'])}"/>
+    <meta property="og:image" content="{:cdnurl($__ARCHIVES__['image'] ?? '')}"/>
+    <meta property="og:url" content="{$fullUrl}"/>
+    <meta property="article:published_time" content="{$__ARCHIVES__.publishtime|date='c',###}"/>
+    <meta property="article:modified_time" content="{$__ARCHIVES__.updatetime|date='c',###}"/>
+    <meta property="article:author" content="{cms:config name='cms.sitename'/}"/>
+    {if $__ARCHIVES__.tags}
+    {volist name="__ARCHIVES__.tags" id="tag"}
+    <meta property="article:tag" content="{$tag.title}"/>
+    {/volist}
+    {/if}
+    
+    <!-- Twitter Card 文章专用 -->
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:title" content="{:htmlentities($__ARCHIVES__['title'] ?? '')}"/>
+    <meta name="twitter:description" content="{:htmlentities($__ARCHIVES__['sub_title'] ?: $__ARCHIVES__['description'])}"/>
+    <meta name="twitter:image" content="{:cdnurl($__ARCHIVES__['image'] ?? '')}"/>
+    
+    {elseif isset($__CHANNEL__)}
+    <!-- 针对频道页的SEO优化 -->
+    {php}$fullUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'] . $__CHANNEL__['url'];{/php}
+    <link rel="canonical" href="{$fullUrl}"/>
+    <link rel="alternate" hreflang="zh-CN" href="{$fullUrl}"/>
+    <link rel="alternate" hreflang="en" href="{$fullUrl}?lg=en"/>
+    <link rel="alternate" hreflang="x-default" href="{$fullUrl}"/>
+    
+    {php}
+    $channelDesc = !empty($__CHANNEL__['description']) ? $__CHANNEL__['description'] : '探索' . $__CHANNEL__['name'] . '相关的心理测试，深入了解自我';
+    $channelKeywords = !empty($__CHANNEL__['keywords']) ? $__CHANNEL__['keywords'] : $__CHANNEL__['name'] . ',心理测试,自我认知';
+    $channelOgDesc = !empty($__CHANNEL__['description']) ? $__CHANNEL__['description'] : '探索' . $__CHANNEL__['name'] . '相关的心理测试';
+    {/php}
+    
+    <meta name="description" content="{$channelDesc|htmlentities}"/>
+    <meta name="keywords" content="{$channelKeywords|htmlentities}"/>
+    <meta name="robots" content="index,follow"/>
+    
+    <!-- Open Graph 频道页专用 -->
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="{$__CHANNEL__.seotitle ?: $__CHANNEL__.name} - {cms:config name='cms.sitename'/}"/>
+    <meta property="og:description" content="{$channelOgDesc|htmlentities}"/>
+    <meta property="og:url" content="{$__CHANNEL__.url}"/>
+    {if $__CHANNEL__.image}
+    <meta property="og:image" content="{$__CHANNEL__.image|cdnurl}"/>
+    {/if}
+    
+    <!-- Twitter Card 频道页 -->
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:title" content="{$__CHANNEL__.seotitle ?: $__CHANNEL__.name}"/>
+    <meta name="twitter:description" content="{$channelOgDesc|htmlentities}"/>
+    {/if}
+
+    {__STYLE__}
+    
+    <!-- 多语言切换样式 -->
+    <style>
+    .lang-switch {
+        position: relative;
+        padding: 8px 15px;
+        display: block;
+        color: #333;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .lang-switch:hover {
+        background-color: #f5f5f5;
+        color: #5DBE9E;
+        text-decoration: none;
+    }
+    
+    .lang-switch.active {
+        background-color: #5DBE9E;
+        color: white;
+        font-weight: bold;
+    }
+    
+    .lang-switch.active:hover {
+        background-color: #4a9d7e;
+        color: white;
+    }
+    
+    .lang-switch i {
+        margin-right: 8px;
+        width: 16px;
+        text-align: center;
+    }
+    
+    #current-lang-text {
+        margin-left: 5px;
+    }
+    
+    .navbar-userinfo .dropdown-menu {
+        min-width: 120px;
+    }
+    
+    /* 移动端优化 */
+    @media (max-width: 768px) {
+        .lang-switch {
+            padding: 10px 15px;
+            font-size: 14px;
+        }
+        
+        #current-lang-text {
+            display: none;
+        }
+        
+        .navbar-userinfo .dropdown-toggle {
+            padding: 8px 12px;
+        }
+    }
+    </style>
+
+    <!--[if lt IE 9]>
+    <script src="__CDN__/libs/html5shiv.js"></script>
+    <script src="__CDN__/libs/respond.min.js"></script>
+    <![endif]-->
+    <!-- Google AdSense 脚本 - 立即加载以确保广告显示 -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9195262048954682"
+            crossorigin="anonymous"></script>
+     
+    {cms:block name="header" field="content" /}
+    
+    <!-- JSON-LD 结构化数据 - 网站信息 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "{cms:config name='cms.sitename'/}",
+      "url": "{$Think.request.domain}",
+      "description": "{cms:config name='cms.description|htmlentities'/}",
+      "inLanguage": ["{if $Think.cookie.frontend_language == 'en'}en{else}zh-CN{/if}"],
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "{$Think.request.domain}{:addon_url('cms/search/index')}?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    
+    <!-- JSON-LD 结构化数据 - 组织信息 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "{cms:config name='cms.sitename'/}",
+      "url": "{$Think.request.domain}",
+      "logo": "{$Think.config.cms.sitelogo|default='/assets/addons/cms/img/logo.png'|cdnurl}",
+      "description": "{cms:config name='cms.description|htmlentities'/}",
+      "sameAs": []
+    }
+    </script>
+</head>
+<style>
+    /* 性能优化：确保文本在字体加载时可见 */
+    * {
+        font-display: swap !important;
+    }
+    
+    /* SEO优化的布局样式 */
+    header {
+        position: relative;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        background: #fff;
+        z-index: 9998;
+    }
+    
+    /* 防止导航折叠导致布局偏移 */
+    .navbar-collapse {
+        transition: height 0.35s ease;
+    }
+    
+    @media (min-width: 768px) {
+        .navbar-collapse {
+            height: auto !important;
+        }
+    }
+    
+    .navbar-brand {
+        padding: 5px 15px;
+        transition: all 0.3s ease;
+        display: block;
+        min-height: 80px;
+    }
+    
+    .navbar-brand img {
+        width: 70px;
+        height: 70px;
+        display: block;
+    }
+    
+    .navbar-brand:hover {
+        transform: scale(1.05);
+    }
+    
+    /* 优化导航样式 */
+    .navbar-nav > li > a {
+        transition: all 0.3s ease;
+        font-weight: 500;
+        padding: 15px 18px;
+    }
+    
+    .navbar-nav > li > a:hover {
+        color: #5DBE9E;
+        background-color: rgba(93, 190, 158, 0.1);
+    }
+    
+    .navbar-nav > li.active > a {
+        color: #5DBE9E;
+        font-weight: 600;
+        border-bottom: 2px solid #5DBE9E;
+    }
+    
+    /* 优化搜索框 */
+    .form-search {
+        position: relative;
+    }
+    
+    .form-search input {
+        border-radius: 20px;
+        padding-left: 40px;
+        border: 1px solid #e0e0e0;
+        transition: all 0.3s ease;
+    }
+    
+    .form-search input:focus {
+        border-color: #5DBE9E;
+        box-shadow: 0 0 0 3px rgba(93, 190, 158, 0.1);
+        outline: none;
+    }
+    
+    .search-icon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        pointer-events: none;
+    }
+    
+    .search-icon::before {
+        content: "\f002";
+        font-family: FontAwesome;
+        color: #999;
+    }
+    
+    /* 主内容区域 */
+    .main-content {
+        min-height: calc(100vh - 300px);
+        position: relative;
+        z-index: 1;
+    }
+    
+    /* 优化Footer */
+    #footer {
+        background: #5CB89F;
+        color: #fff;
+        padding: 40px 0 20px;
+        margin-top: 60px;
+    }
+    
+    .footer-inner {
+        padding: 0 15px;
+    }
+    
+    .footer-logo a {
+        color: #fff;
+        font-size: 24px;
+        transition: all 0.3s ease;
+    }
+    
+    .footer-logo a:hover {
+        color: #5DBE9E;
+        transform: scale(1.1);
+    }
+    
+    .footer-logo p {
+        color: rgba(255,255,255,0.9);
+        font-size: 14px;
+        line-height: 1.8;
+        max-width: 600px;
+    }
+    
+    #footer .list-inline a {
+        color: rgba(255,255,255,0.9);
+        padding: 0 15px;
+        transition: all 0.3s ease;
+    }
+    
+    #footer .list-inline a:hover {
+        color: #5DBE9E;
+        text-decoration: none;
+    }
+    
+    /* 返回顶部按钮 */
+    #back-to-top {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 50px;
+        height: 50px;
+        background: #5DBE9E;
+        color: #fff;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 50px;
+        font-size: 20px;
+        cursor: pointer;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(93, 190, 158, 0.4);
+        z-index: 999;
+    }
+    
+    #back-to-top.show {
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    #back-to-top:hover {
+        background: #4a9d7e;
+        transform: translateY(-5px);
+        box-shadow: 0 6px 20px rgba(93, 190, 158, 0.5);
+    }
+    
+    /* 移动端优化 */
+    @media (max-width: 768px) {
+        
+        .navbar-nav > li > a {
+            padding: 12px 15px;
+        }
+        
+        #footer {
+            padding: 30px 0 15px;
+        }
+        
+        .footer-logo {
+            margin-bottom: 20px;
+            float: none !important;
+        }
+        
+        .footer-inner .u-flex {
+            flex-direction: column;
+        }
+        
+        #back-to-top {
+            bottom: 20px;
+            right: 20px;
+            width: 45px;
+            height: 45px;
+            line-height: 45px;
+        }
+    }
+    
+    /* 面包屑优化 */
+    .breadcrumb {
+        background: transparent;
+        padding: 8px 0;
+        margin-bottom: 20px;
+        border-radius: 0;
+        border-bottom: 1px solid #e8e8e8;
+    }
+    
+    .breadcrumb > li + li:before {
+        content: "/\00a0";
+        color: #ccc;
+    }
+    
+    .breadcrumb a {
+        color: #666;
+        transition: color 0.3s ease;
+    }
+    
+    .breadcrumb a:hover {
+        color: #5DBE9E;
+        text-decoration: none;
+    }
+    
+    /* 用户头像优化 */
+    .avatar-img img {
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+    
+    .avatar-img:hover img {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        transform: scale(1.05);
+    }
+    
+    /* 下拉菜单优化 */
+    .dropdown-menu {
+        border-radius: 8px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        border: none;
+        margin-top: 5px;
+        z-index: 1050 !important;
+        position: absolute;
+    }
+    
+    .dropdown-menu > li > a {
+        padding: 10px 20px;
+        transition: all 0.3s ease;
+    }
+    
+    .dropdown-menu > li > a:hover {
+        background-color: rgba(93, 190, 158, 0.1);
+        color: #5DBE9E;
+    }
+</style>
+<body class="group-page skin-white">
+
+<!-- 页面加载动画 -->
+<div id="page-loader">
+    <div class="loader-spinner"></div>
+</div>
+
+<header class="header">
+    <!-- S 导航 -->
+    <nav class="navbar navbar-default navbar-white navbar-fixed-top transparent" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle sidebar-toggle">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{cms:config name='cms.indexurl'/}" title="{cms:config name='cms.sitename'/} - {:__('返回首页')}"><img src="{$Think.config.cms.sitelogo|default='/assets/addons/cms/img/logo.png'|cdnurl}" alt="{cms:config name='cms.sitename'/} - {:__('专业心理测试在线平台')}" width="70" height="70" loading="eager" style="max-width: 70px; height: auto;"></a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav" data-current="{$__CHANNEL__.id|default=0}">
+                    {cms:channellist id="nav" type="top" condition="1=isnav"}
+                    <li class="{if $nav.has_child}dropdown{/if} {if $nav->is_active} active{/if}">
+                        <a href="{$nav.url}" {if $nav.has_child} data-toggle="dropdown" {/if}>{:__($nav.name)}{if $nav.has_nav_child} <b class="caret"></b>{/if}</a>
+                        <ul class="dropdown-menu {if !$nav.has_nav_child}hidden{/if}" role="menu">
+                            {cms:channellist id="sub" type="son" typeid="nav['id']" condition="1=isnav"}
+                            <li><a href="{$sub.url}">{:__($sub.name)}</a></li>
+                            {/cms:channellist}
+                        </ul>
+                    </li>
+                    {/cms:channellist}
+                    {//cms:nav maxlevel="4" cache="86400" /}
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <form class="form-inline navbar-form" action="{:addon_url('cms/search/index')}" method="get">
+                            <div class="form-search hidden-sm">
+                                <input class="form-control" name="q" data-suggestion-url="{:addon_url('cms/search/suggestion')}" type="search" id="searchinput" value="{$Think.request.q|default=''|htmlentities}" placeholder="{:__('搜索心理测试、文章...')}" aria-label="搜索" autocomplete="off">
+                                <div class="search-icon"></div>
+                            </div>
+                            {:token('__searchtoken__')}
+                        </form>
+                    </li>
+                    <li class="dropdown navbar-userinfo">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-label="{:__('切换语言')}" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-globe"></i> 
+                            <span id="current-lang-text">{if $Think.cookie.frontend_language == 'en'}English{else}中文{/if}</span>
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="?lang=zh-cn" onclick="switchLanguage('zh-cn'); return false;" class="lang-switch {if $Think.cookie.frontend_language == 'zh-cn'}active{/if}">
+                                <i class="fa fa-flag"></i> 中文
+                            </a></li>
+                            <li><a href="?lang=en" onclick="switchLanguage('en'); return false;" class="lang-switch {if $Think.cookie.frontend_language == 'en'}active{/if}">
+                                <i class="fa fa-flag"></i> English
+                            </a></li>
+                        </ul>
+                    </li>
+                    {if config('fastadmin.usercenter')}
+                    <li class="dropdown navbar-userinfo">
+                        {if $user}
+                        <a href="{:url('index/user/index')}" class="dropdown-toggle" data-toggle="dropdown">
+                            <span class="avatar-img pull-left"><img src="{$user.avatar|cdnurl|htmlentities}" style="width:27px;height:27px;border-radius:50%;" alt="{$user.nickname|htmlentities} - {:__('用户头像')}"></span>
+                            <span class="visible-xs pull-left ml-2 pt-1">{$user.nickname|htmlentities} <b class="caret"></b></span>
+                        </a>
+                        {else /}
+                        <a href="{:url('index/user/index')}" class="dropdown-toggle" data-toggle="dropdown">{:__('会员')}<span class="hidden-sm">{:__('中心')}</span> <b class="caret"></b></a>
+                        {/if}
+                        <ul class="dropdown-menu">
+
+                            {if $user}
+                            <li><a href="{:url('index/user/index')}"><i class="fa fa-user fa-fw"></i> {:__('会员中心')}</a></li>
+                            {php}$sidenav = array_filter(explode(',', config('cms.usersidenav')));{/php}
+                            {if in_array('myorder', $sidenav)}
+                           <!-- <li><a href="{:url('index/vip/viplist')}"><i class="fa fa-shopping-bag fa-fw"></i> 开通VIP</a></li> -->
+                            {/if}
+                            {if in_array('mycomment', $sidenav)}
+                            <li><a href="{:url('index/cms.answer/index')}"><i class="fa fa-comments fa-fw"></i> 测试记录</a></li>
+                            {/if}
+                            {if in_array('mycollection', $sidenav)}
+                            <!-- <li><a href="{:url('index/cms.collection/index')}"><i class="fa fa-bookmark fa-fw"></i> 我的收藏</a></li> -->
+                            {/if}
+                            <li><a href="javascript:localStorage.removeItem('email_token'); window.location.href='{:url('index/user/logout')}';"><i class="fa fa-sign-out fa-fw"></i> 退出</a></li>
+                            {else /}
+                            <li><a href="{:url('index/user/login')}"><i class="fa fa-sign-in fa-fw"></i> {:__('登录')}</a></li>
+                            <li><a href="{:url('index/user/register')}"><i class="fa fa-user-o fa-fw"></i> {:__('注册')}</a></li>
+                            {/if}
+                        </ul>
+                    </li>
+                    {/if}
+                </ul>
+            </div>
+
+        </div>
+    </nav>
+    <!-- E 导航 -->
+</header>
+
+<main class="main-content">
+    {__CONTENT__}
+</main>
+
+<footer itemscope itemtype="https://schema.org/WPFooter">
+    <div id="footer">
+        <div class="container">
+            <div class="footer-inner">
+                <div class="row">
+                    <div class="col-xs-12 col-md-6">
+                        <div class="footer-logo">
+                            <div class="u-flex">
+                                <a href="{:addon_url('cms/index/index')}" title="{cms:config name='cms.sitename'/}" aria-label="返回首页"><i class="fa fa-bookmark fa-2x"></i></a>
+                                <div class="ml-3">
+                                    <h3 style="color: #fff; font-size: 18px; margin-top: 0;">{cms:config name="cms.sitename"/}</h3>
+                                    <p>
+                                        {:__('自我孵化心理测试平台是一个集合各种专业的心理估量表以及趣味测试的平台，致力于为用户提供高质量、专业且有趣的在线心理测试服务。通过这些测试，希望你能够在不同的角度更加了解自我。')}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <div style="text-align: right; padding-top: 20px;">
+                            <nav aria-label="footer navigation">
+                                <ul class="list-unstyled list-inline" style="margin-bottom: 20px;">
+                                    <li><a href="{:addon_url('cms/page/index', [':diyname'=>'aboutus'])}" title="关于我们">关于我们</a></li>
+                                    <li><a href="{:addon_url('cms/page/index', [':diyname'=>'agreement'])}" title="用户协议">用户协议</a></li>
+                                    {if config('fastadmin.usercenter')}
+                                    <li><a href="{:url('index/user/index')}" title="会员中心">会员中心</a></li>
+                                    {/if}
+                                    <li><a href="{:addon_url('cms/search/index')}" title="搜索">搜索</a></li>
+                                </ul>
+                            </nav>
+                            <div style="color: rgba(255,255,255,0.8); font-size: 14px;">
+                                <p style="margin: 5px 0;">Copyright&nbsp;©&nbsp;{:date("Y")} All rights reserved</p>
+                                <p style="margin: 5px 0;">{cms:config name="cms.sitename"/}</p>
+                                {if $site.beian}
+                                <p style="margin: 5px 0;"><a href="https://beian.miit.gov.cn" target="_blank" rel="noopener noreferrer" style="color: rgba(255,255,255,0.8);">{$site.beian|htmlentities}</a></p>
+                                {/if}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- 返回顶部按钮 -->
+<div id="back-to-top" aria-label="返回顶部" role="button" tabindex="0">
+    <i class="fa fa-chevron-up"></i>
+</div>
+
+
+<!-- 关键JS：同步加载 -->
+<script src="__CDN__/assets/libs/jquery/dist/jquery.min.js?v={$site.version}"></script>
+<script src="__CDN__/assets/libs/bootstrap/dist/js/bootstrap.min.js?v={$site.version}"></script>
+<script src="__ADDON__/js/common.js?v={$site.version}"></script>
+
+<!-- 非关键JS：延迟加载 -->
+<script defer src="__CDN__/assets/libs/fastadmin-layer/dist/layer.js?v={$site.version}"></script>
+<script defer src="__CDN__/assets/libs/art-template/dist/template-native.js?v={$site.version}"></script>
+<script defer src="__ADDON__/js/jquery.autocomplete.js?v={$site.version}"></script>
+<script defer src="__ADDON__/js/swiper.min.js?v={$site.version}"></script>
+<script defer src="__ADDON__/js/share.min.js?v={$site.version}"></script>
+<script defer src="__ADDON__/js/cms.js?v={$site.version}"></script>
+<script defer src="__ADDON__/js/libs.js?v={$site.version}"></script>
+
+<!-- 多语言切换功能 -->
+<script type="text/javascript">
+// 语言切换功能
+function switchLanguage(lang) {
+    // 更新当前语言显示
+    const langTexts = {
+        'zh-cn': '中文',
+        'en': 'English'
+    };
+    
+    document.getElementById('current-lang-text').textContent = langTexts[lang] || '中文';
+    
+    // 设置cookie
+    document.cookie = 'frontend_language=' + lang + '; path=/; max-age=31536000';
+    
+    // 构建新的URL
+    const currentUrl = new URL(window.location.href);
+    const currentPath = currentUrl.pathname;
+    
+    // 移除现有的语言参数
+    currentUrl.searchParams.delete('lg');
+    
+    // 添加新的语言参数
+    currentUrl.searchParams.set('lg', lang);
+    
+    // 如果是测试页面，同时更新API调用的语言参数
+    if (window.location.pathname.includes('/MBTI/') || 
+        window.location.pathname.includes('/xinling/') || 
+        window.location.pathname.includes('/qinggan/') || 
+        window.location.pathname.includes('/renge/') || 
+        window.location.pathname.includes('/zhiye/')) {
+        
+        // 延迟跳转，让用户看到语言切换效果
+        setTimeout(() => {
+            window.location.href = currentUrl.toString();
+        }, 300);
+    } else {
+        // 立即跳转
+        window.location.href = currentUrl.toString();
+    }
+}
+
+// 页面加载时初始化语言状态
+document.addEventListener('DOMContentLoaded', function() {
+    const currentLang = getCookie('frontend_language') || 'zh-cn';
+    const langTexts = {
+        'zh-cn': '中文',
+        'en': 'English'
+    };
+    
+    const currentLangText = document.getElementById('current-lang-text');
+    if (currentLangText) {
+        currentLangText.textContent = langTexts[currentLang] || '中文';
+    }
+    
+    // 更新语言切换按钮的激活状态
+    document.querySelectorAll('.lang-switch').forEach(link => {
+        link.classList.remove('active');
+        if (link.onclick.toString().includes(currentLang)) {
+            link.classList.add('active');
+        }
+    });
+});
+
+// 获取Cookie的辅助函数
+function getCookie(name) {
+    const value = "; " + document.cookie;
+    const parts = value.split("; " + name + "=");
+    if (parts.length === 2) return parts.pop().split(";").shift();
+}
+
+// 返回顶部功能
+const backToTopBtn = document.getElementById('back-to-top');
+
+window.addEventListener('scroll', function() {
+    if (window.pageYOffset > 300) {
+        backToTopBtn.classList.add('show');
+    } else {
+        backToTopBtn.classList.remove('show');
+    }
+});
+
+backToTopBtn.addEventListener('click', function() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+});
+
+// 键盘访问支持
+backToTopBtn.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }
+});
+
+// 优化导航活动状态
+document.addEventListener('DOMContentLoaded', function() {
+    const currentPath = window.location.pathname;
+    const navLinks = document.querySelectorAll('.navbar-nav > li > a');
+    
+    navLinks.forEach(link => {
+        if (link.getAttribute('href') === currentPath) {
+            link.parentElement.classList.add('active');
+        }
+    });
+});
+</script>
+
+{if $isWechat}
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+{/if}
+
+
+{cms:block name="footer" field="content" /}
+
+<!-- 页面加载完成后隐藏loader -->
+<script>
+(function() {
+    // 立即添加loaded类开始淡入
+    document.body.classList.add('loaded');
+    
+    // 等待DOM完全加载
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        hideLoader();
+    } else {
+        window.addEventListener('DOMContentLoaded', hideLoader);
+    }
+    
+    // 备用：最多等待1秒后强制隐藏
+    setTimeout(hideLoader, 1000);
+    
+    function hideLoader() {
+        const loader = document.getElementById('page-loader');
+        if (loader && !loader.classList.contains('hidden')) {
+            loader.classList.add('hidden');
+            // 动画完成后移除DOM元素
+            setTimeout(function() {
+                if (loader.parentNode) {
+                    loader.parentNode.removeChild(loader);
+                }
+            }, 300);
+        }
+    }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+    {:token()}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__("所属测试")}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-test_id" data-field="archives_title" data-rule="required" data-source="psychometry/test/index" class="form-control selectpage" name="row[test_id]" type="text" value="">
+        </div>
+    </div>
+    
+    {if isset($test_type)}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">测试类型:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="alert alert-info" style="margin-bottom: 0;">
+                <i class="fa fa-info-circle"></i> 
+                <strong>当前测试类型：</strong>
+                {if $test_type == 'mbti'}
+                    <span class="label label-primary">MBTI 人格测试</span> - 创建答案时请使用"维度值"匹配方式
+                {elseif $test_type == 'score'}
+                    <span class="label label-success">分数型测试</span> - 创建答案时请使用"分数范围"匹配方式
+                {elseif $test_type == 'dimension'}
+                    <span class="label label-info">维度型测试</span> - 创建答案时请使用"维度值"匹配方式
+                {elseif $test_type == 'nine_type'}
+                    <span class="label label-warning">九型人格测试</span> - 创建答案时请使用"选项键值"匹配方式
+                {elseif $test_type == 'multiple_type'}
+                    <span class="label label-default">多类型测试</span> - 创建答案时请使用"选项键值"匹配方式
+                {elseif $test_type == 'custom'}
+                    <span class="label label-primary">自定义测试</span> - 创建答案时请使用"分数范围"匹配方式
+                {else}
+                    <span class="label label-default">{$test_type}</span>
+                {/if}
+            </div>
+        </div>
+    </div>
+    {/if}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('结果类型')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            {:build_radios('row[result_type]', ['type'=>__('类型结果'),'score'=>__('分数结果'),'dimension'=>__('维度结果'),'custom'=>__('自定义结果')], 'type')}
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('结果标识')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-result_key" class="form-control" name="row[result_key]" type="text">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('结果配置')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <textarea id="c-result_config" class="form-control" name="row[result_config]" rows="3" placeholder="JSON格式配置"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('条件配置')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <textarea id="c-conditions" class="form-control" name="row[conditions]" rows="3" placeholder="JSON格式条件"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('排序')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-sort_order" class="form-control" name="row[sort_order]" type="number" value="0">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Status')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            {:build_radios('row[status]', ['1'=>__('Normal'), '0'=>__('Hidden')], '1')}
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-primary btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>

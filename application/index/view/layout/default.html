@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {include file="common/meta" /}
+        <link href="__CDN__/assets/css/user.css?v={$Think.config.site.version|htmlentities}" rel="stylesheet">
+    </head>
+    <style>
+        .navbar{
+            background-color: #0E2D31;
+        }
+       
+        a {
+            color: #0E2D31;
+        }
+        a:hover, a:focus{
+            color: #000;
+        }
+        .u-flex,
+            .u-flex-row,
+            .u-flex-x {
+            display: flex
+        }
+        .u-flex-between {
+            justify-content: space-between
+        }
+        .u-flex-1{
+            flex:1;
+        }
+        .u-flex-2{
+            flex:2;
+        }
+        .u-flex-3{
+            flex:3;
+        }
+        .navbar-nav > li > a{
+            color: #fff;
+        }
+        /* .navbar-nav > li > a,.navbar-brand{
+            line-height: 32px;
+        } */
+        .navbar-toggle .icon-bar{
+            background-color: #fff;
+        }
+        .dropdown-menu > li > a{
+            color: #f8f8f8;
+        }
+        .nav .open > a, .nav .open > a:hover, .nav .open > a:focus{
+            background-color: #2D8489;
+            color: #fff;
+        }
+        .navbar-default .navbar-toggle .icon-bar{
+            background-color: #fff!important;
+        }
+    </style>
+    <body>
+
+        <nav class="navbar navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header" style="text-align: center;margin-top: 12px;">
+                    <a href="{:url('/')}" style="color: #fff;font-weight: 700;">前往网站首页</a>
+                </div>
+                <div class="collapse navbar-collapse" id="header-navbar">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            {if $user}
+                            <a href="{:url('user/index')}" class="dropdown-toggle" data-toggle="dropdown">
+                                <span class="avatar-img"><img src="{$user.avatar|htmlentities|cdnurl}" alt=""></span>
+                                <span class="visible-xs-inline-block" style="padding:5px;">{$user.nickname} <b class="caret"></b></span>
+                            </a>
+                            {else /}
+                            <a href="{:url('user/index')}" class="dropdown-toggle" data-toggle="dropdown">{:__('Member center')} <b class="caret"></b></a>
+                            {/if}
+                            <ul class="dropdown-menu">
+                                {if $user}
+                                <li><a href="{:url('user/index')}"><i class="fa fa-user-circle fa-fw"></i>{:__('User center')}</a></li>
+                                <!-- <li><a href="{:url('user/profile')}"><i class="fa fa-user-o fa-fw"></i>{:__('Profile')}</a></li> -->
+                                <li><a href="{:url('user/changepwd')}"><i class="fa fa-key fa-fw"></i>{:__('Change password')}</a></li>
+                                <li><a href="javascript:localStorage.removeItem('email_token'); window.location.href='{:url('user/logout')}';"><i class="fa fa-sign-out fa-fw"></i>{:__('Sign out')}</a></li>
+                                {else /}
+                                <li><a href="{:url('user/login')}"><i class="fa fa-sign-in fa-fw"></i> {:__('Sign in')}</a></li>
+                                <li><a href="{:url('user/register')}"><i class="fa fa-user-o fa-fw"></i> {:__('Sign up')}</a></li>
+                                {/if}
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <main class="content">
+            {__CONTENT__}
+        </main>
+
+        <footer class="footer" style="clear:both">
+            <p class="copyright">Copyright&nbsp;©&nbsp;{:date("Y")} {$site.name|htmlentities} All Rights Reserved <a href="https://beian.miit.gov.cn" target="_blank">{$site.beian|htmlentities}</a></p>
+        </footer>
+
+        {include file="common/script" /}
+
+    </body>
+
+</html>

@@ -1,0 +1,62 @@
+<style>
+    .vipBtn2{
+        background: linear-gradient(to right, #ff9966, #ff5e62); 
+            color: #fff!important;
+            font-weight: 700;
+            text-align: center;
+            border-radius: 36px;
+            width: 120px;
+            height: 36px;
+            line-height: 36px;
+    }
+</style>
+<div id="content-container" class="container">
+    <div class="row">
+        <div class="col-md-3">
+            {include file="common/sidenav" /}
+        </div>
+        <div class="col-md-9">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h2 class="page-header">
+                        {:__('Member center')}
+                        <a href="{:url('user/profile')}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> {:__('Profile')}</a>
+                    </h2>
+                    <div class="row user-baseinfo">
+                        <div class="col-md-3 col-sm-3 col-xs-3 text-center user-center">
+                            <a href="{:url('user/profile')}" title="{:__('Click to edit')}">
+                                <span class="avatar-img"><img src="{$user.avatar|htmlentities|cdnurl}" alt=""></span>
+                            </a>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-xs-9">
+                            <div class="ui-content">
+                                <h4><a href="{:url('user/profile')}">{$user.nickname|htmlentities}</a></h4>
+                                <p>
+                                    {$user.bio|default=__("This guy hasn't written anything yet")|htmlentities}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <hr/>
+                    <!-- {if $vipInfo}
+                        <div class="row mt-3" style="height: 36px;line-height: 36px;">
+                            <div class="col-xs-6 col-md-6">会员等级：<span style="font-weight: 700;font-size: 18px;color: orangered;">{$vipInfo.name}</span></div>
+                            <div class="col-xs-6 col-md-6">到期时间：{$vipInfo.expiredate}</div>
+                        </div>
+                    {else/}
+                        <div class="row mt-3"style="height: 36px;line-height: 36px;">
+                            <div class="col-xs-6 col-md-6">会员等级：<span style="font-weight: 700;font-size: 18px;color: orangered;">暂未开通会员</span></div>
+                            <a href="{:url('vip/viplist')}"><div class="col-xs-6 col-md-6 vipBtn2">去开通</div></a>
+                        </div>
+                    {/if} -->
+                    <!-- <hr/>
+
+                    <div class="row mt-3" style="height: 36px;line-height: 36px;">
+                        <div class="col-xs-6 col-md-6">{:__('Money')}：<span style="font-weight: 700;font-size: 18px;color: orangered;">{$user.money}</span></div>
+                        <a href="{:url('recharge/recharge')}"><div class="col-xs-6 col-md-6 vipBtn2">去充值</div></a>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

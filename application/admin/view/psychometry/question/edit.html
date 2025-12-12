@@ -1,0 +1,270 @@
+<style>
+    .option-item {
+        border: 1px solid #e0e0e0;
+        border-radius: 6px;
+        padding: 15px;
+        margin-bottom: 12px;
+        background-color: #fff;
+        transition: all 0.2s;
+    }
+    .option-item:hover {
+        border-color: #5bc0de;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .option-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    .option-key {
+        font-weight: 600;
+        color: #337ab7;
+        font-size: 15px;
+    }
+    .option-content {
+        margin-bottom: 10px;
+    }
+    .option-rules {
+        background-color: #f8f9fa;
+        padding: 12px;
+        border-radius: 4px;
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+    .rule-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .rule-label {
+        font-weight: 500;
+        color: #666;
+        font-size: 13px;
+    }
+    .rule-input {
+        width: 120px;
+    }
+    .options-list {
+        min-height: 100px;
+        padding: 15px;
+        background-color: #fafafa;
+        border-radius: 4px;
+        margin-bottom: 15px;
+    }
+    .options-list:empty::before {
+        content: '暂无选项，点击下方按钮添加';
+        color: #999;
+        text-align: center;
+        display: block;
+        padding: 30px;
+    }
+    .lang-tabs .nav-tabs {
+        border-bottom: 2px solid #e0e0e0;
+        margin-bottom: 20px;
+    }
+    .lang-tabs .nav-tabs > li > a {
+        border-radius: 4px 4px 0 0;
+        padding: 10px 20px;
+    }
+    .type-specific-fields {
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 4px;
+        margin-bottom: 15px;
+    }
+</style>
+
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+    <input type="hidden" id="c-id" name="row[id]" value="{$row.id|htmlentities}">
+    
+    <!-- 基本信息 -->
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <i class="fa fa-info-circle"></i> 基本信息
+            </h4>
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-2">{:__("所属测试")}:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <input id="c-test_id" data-rule="required" data-source="psychometry/test/index" data-field="archives_title" class="form-control selectpage" name="row[test_id]" type="text" value="{$row.test_id|htmlentities}" data-primary-key="id" data-primary-value="{$row.test_id|htmlentities}">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-2">{:__('题目类型')}:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <select id="c-question_type" data-rule="required" class="form-control" name="row[question_type]">
+                        <option value="single" {if $row.question_type eq 'single'}selected{/if}>单选题</option>
+                        <option value="multiple" {if $row.question_type eq 'multiple'}selected{/if}>多选题</option>
+                        <option value="text" {if $row.question_type eq 'text'}selected{/if}>文本题</option>
+                        <option value="image" {if $row.question_type eq 'image'}selected{/if}>图片题</option>
+                        <option value="video" {if $row.question_type eq 'video'}selected{/if}>视频题</option>
+                        <option value="sort" {if $row.question_type eq 'sort'}selected{/if}>排序题</option>
+                        <option value="matrix" {if $row.question_type eq 'matrix'}selected{/if}>矩阵题</option>
+                        <option value="slider" {if $row.question_type eq 'slider'}selected{/if}>滑块题</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-2">{:__('排序')}:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <input id="c-sort_order" class="form-control" name="row[sort_order]" type="number" value="{$row.sort_order|default=0}">
+                </div>
+            </div>
+                    
+            <div class="form-group">
+                <label for="c-status" class="control-label col-xs-12 col-sm-2">{:__('状态')}:</label>
+                <div class="col-xs-12 col-sm-8">
+                    {:build_radios('row[status]', ['1'=>__('启用'), '0'=>__('关闭')], $row['status'])}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 题目内容（多语言） -->
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <i class="fa fa-language"></i> 题目内容（多语言）
+            </h4>
+        </div>
+        <div class="panel-body">
+            <div class="lang-tabs">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active">
+                        <a href="#content-zh" role="tab" data-toggle="tab">
+                            <i class="fa fa-flag"></i> 中文
+                        </a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#content-en" role="tab" data-toggle="tab">
+                            <i class="fa fa-flag"></i> English
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="tab-content" style="padding-top: 15px;">
+                    <!-- 中文内容 -->
+                    <div role="tabpanel" class="tab-pane active" id="content-zh">
+                        <div class="form-group">
+                            <label class="control-label col-xs-12 col-sm-2">题目内容:</label>
+                            <div class="col-xs-12 col-sm-10">
+                                <textarea id="content-zh-text" class="form-control" rows="3" placeholder="请输入题目内容"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-12 col-sm-2">题目媒体:</label>
+                            <div class="col-xs-12 col-sm-10">
+                                <div class="input-group">
+                                    <input type="text" id="content-zh-media" class="form-control" placeholder="点击右侧按钮上传图片或视频">
+                                    <div class="input-group-addon no-border no-padding">
+                                        <span><button type="button" id="plupload-zh-media" class="btn btn-danger plupload" data-input-id="content-zh-media" data-mimetype="image/*,video/*" data-multiple="false" data-preview-id="preview-zh-media"><i class="fa fa-upload"></i> 上传</button></span>
+                                        <span><button type="button" id="fachoose-zh-media" class="btn btn-primary fachoose" data-input-id="content-zh-media" data-mimetype="image/*,video/*" data-multiple="false"><i class="fa fa-list"></i> 选择</button></span>
+                                    </div>
+                                </div>
+                                <ul class="row list-inline plupload-preview" id="preview-zh-media"></ul>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-12 col-sm-2">题目提示:</label>
+                            <div class="col-xs-12 col-sm-10">
+                                <textarea id="content-zh-hint" class="form-control" rows="2" placeholder="可选的提示信息"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 英文内容 -->
+                    <div role="tabpanel" class="tab-pane" id="content-en">
+                        <div class="form-group">
+                            <label class="control-label col-xs-12 col-sm-2">Question Text:</label>
+                            <div class="col-xs-12 col-sm-10">
+                                <textarea id="content-en-text" class="form-control" rows="3" placeholder="Enter question text"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-12 col-sm-2">Question Media:</label>
+                            <div class="col-xs-12 col-sm-10">
+                                <div class="input-group">
+                                    <input type="text" id="content-en-media" class="form-control" placeholder="Click right button to upload image or video">
+                                    <div class="input-group-addon no-border no-padding">
+                                        <span><button type="button" id="plupload-en-media" class="btn btn-danger plupload" data-input-id="content-en-media" data-mimetype="image/*,video/*" data-multiple="false" data-preview-id="preview-en-media"><i class="fa fa-upload"></i> Upload</button></span>
+                                        <span><button type="button" id="fachoose-en-media" class="btn btn-primary fachoose" data-input-id="content-en-media" data-mimetype="image/*,video/*" data-multiple="false"><i class="fa fa-list"></i> Choose</button></span>
+                                    </div>
+                                </div>
+                                <ul class="row list-inline plupload-preview" id="preview-en-media"></ul>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-12 col-sm-2">Question Hint:</label>
+                            <div class="col-xs-12 col-sm-10">
+                                <textarea id="content-en-hint" class="form-control" rows="2" placeholder="Optional hint text"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 选项管理 -->
+    <div class="panel panel-default" id="options-panel">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <i class="fa fa-list"></i> 选项管理
+            </h4>
+        </div>
+        <div class="panel-body">
+            <div class="lang-tabs">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active">
+                        <a href="#options-zh" role="tab" data-toggle="tab">
+                            <i class="fa fa-flag"></i> 中文选项
+                        </a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#options-en" role="tab" data-toggle="tab">
+                            <i class="fa fa-flag"></i> English Options
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="tab-content" style="padding-top: 15px;">
+                    <!-- 中文选项 -->
+                    <div role="tabpanel" class="tab-pane active" id="options-zh">
+                        <div class="options-list" id="options-list-zh"></div>
+                        <button type="button" class="btn btn-success btn-block add-option-btn" data-lang="zh">
+                            <i class="fa fa-plus"></i> 添加中文选项
+                        </button>
+                    </div>
+                    
+                    <!-- 英文选项 -->
+                    <div role="tabpanel" class="tab-pane" id="options-en">
+                        <div class="options-list" id="options-list-en"></div>
+                        <button type="button" class="btn btn-success btn-block add-option-btn" data-lang="en">
+                            <i class="fa fa-plus"></i> Add English Option
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+                    
+    <!-- 隐藏字段用于数据同步 -->
+    <input type="hidden" id="c-options_config" name="row[options_config]" value="{$row.options_config|json_encode|htmlentities}">
+    <input type="hidden" id="c-scoring_rules" name="row[scoring_rules]" value="{$row.scoring_rules|json_encode|htmlentities}">
+    
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('确定')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('重置')}</button>
+        </div>
+    </div>
+</form>

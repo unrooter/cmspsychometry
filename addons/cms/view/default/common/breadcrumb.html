@@ -1,0 +1,76 @@
+<!-- 面包屑导航组件 - 用于内页 -->
+<nav aria-label="breadcrumb" class="breadcrumb-nav">
+    <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+        <!-- 首页链接 -->
+        <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a href="{cms:config name='cms.indexurl'/}" itemprop="item">
+                <span itemprop="name">{:__('首页')}</span>
+            </a>
+            <meta itemprop="position" content="1" />
+        </li>
+        
+        <!-- 如果有栏目信息 -->
+        {if isset($__CHANNEL__) && $__CHANNEL__.id}
+        <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a href="{$__CHANNEL__.url}" itemprop="item">
+                <span itemprop="name">{:__($__CHANNEL__.name)}</span>
+            </a>
+            <meta itemprop="position" content="2" />
+        </li>
+        {/if}
+        
+        <!-- 如果有文章/测试标题 -->
+        {if isset($__ARCHIVES__) && $__ARCHIVES__.title}
+        <li class="breadcrumb-item active" aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span itemprop="name">{$__ARCHIVES__.title|htmlentities}</span>
+            <meta itemprop="position" content="{if isset($__CHANNEL__)}3{else}2{/if}" />
+        </li>
+        {/if}
+    </ol>
+</nav>
+
+<style>
+    .breadcrumb-nav {
+        margin-bottom: 20px;
+    }
+    
+    .breadcrumb {
+        background: transparent;
+        padding: 10px 0;
+        margin-bottom: 0;
+        font-size: 14px;
+    }
+    
+    .breadcrumb-item + .breadcrumb-item::before {
+        content: "›";
+        padding: 0 8px;
+        color: #999;
+    }
+    
+    .breadcrumb-item a {
+        color: #666;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+    
+    .breadcrumb-item a:hover {
+        color: #5DBE9E;
+        text-decoration: none;
+    }
+    
+    .breadcrumb-item.active {
+        color: #333;
+    }
+    
+    /* 移动端优化 */
+    @media (max-width: 768px) {
+        .breadcrumb {
+            font-size: 12px;
+            padding: 8px 0;
+        }
+        
+        .breadcrumb-item + .breadcrumb-item::before {
+            padding: 0 5px;
+        }
+    }
+</style>

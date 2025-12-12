@@ -1,0 +1,234 @@
+{layout name="common/layout" /}
+
+<!-- SEO结构化数据 -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "{$__CHANNEL__.seotitle ?: $__CHANNEL__.name}",
+  "description": "{$__CHANNEL__.description}",
+  "url": "{$__CHANNEL__.url}"
+}
+</script>
+
+<style>
+.article-list .article-item {
+    padding: 14px 0;
+}
+
+.article-list .media .media-body {
+    padding-left: 14px;
+}
+
+/* 子栏目导航样式 */
+.sub-channels-nav {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.sub-channels-nav-title {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 15px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sub-channels-nav-title i {
+    font-size: 18px;
+}
+
+.sub-channels-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.sub-channel-item {
+    flex: 0 0 auto;
+}
+
+.sub-channel-link {
+    display: inline-block;
+    padding: 8px 20px;
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: all 0.3s;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.sub-channel-link:hover {
+    background: rgba(255, 255, 255, 0.25);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    text-decoration: none;
+}
+
+.sub-channel-link.active {
+    background: #fff;
+    color: #667eea;
+    font-weight: 600;
+}
+
+/* 页面标题优化 */
+.category-title {
+    padding: 25px 0;
+    border-bottom: 3px solid #667eea;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.category-title::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 80px;
+    height: 3px;
+    background: #764ba2;
+}
+
+.channel-description {
+    font-size: 14px;
+    color: #666;
+    margin: 15px 0 0 0;
+    line-height: 1.6;
+}
+
+/* 响应式 */
+@media (max-width: 767px) {
+    .sub-channels-nav {
+        padding: 15px;
+    }
+    
+    .sub-channel-link {
+        padding: 6px 15px;
+        font-size: 13px;
+    }
+}
+</style>
+
+<div class="container" id="content-container" itemscope itemtype="https://schema.org/CollectionPage">
+    
+    <!-- 页面标题 -->
+    <h1 class="category-title" itemprop="name">
+        {:__($__CHANNEL__.name)}
+        {if $__CHANNEL__.description}
+        <p class="channel-description" itemprop="description">{$__CHANNEL__.description}</p>
+        {/if}
+        <div class="more pull-right">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+                    <!-- S 面包屑导航 -->
+                    {cms:breadcrumb id="item"}
+                    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                        <a href="{$item.url}" itemprop="item">
+                            <span itemprop="name">{:__($item.name)}</span>
+                        </a>
+                        <meta itemprop="position" content="{$i}" />
+                    </li>
+                    {/cms:breadcrumb}
+                    <!-- E 面包屑导航 -->
+                </ol>
+            </nav>
+        </div>
+    </h1>
+
+    <!-- 子栏目导航 -->
+    {php}$hasSubChannels = false;{/php}
+    {cms:channellist id="subchan" type="son" typeid="$__CHANNEL__.id" limit="1"}
+    {php}$hasSubChannels = true;{/php}
+    {/cms:channellist}
+    
+    {if $hasSubChannels}
+    <div class="sub-channels-nav">
+        <h2 class="sub-channels-nav-title">
+            <i class="fa fa-th-large"></i>
+            {:__('栏目分类')}
+        </h2>
+        <ul class="sub-channels-list">
+            {cms:channellist id="subchan" type="son" typeid="$__CHANNEL__.id"}
+            <li class="sub-channel-item">
+                <a href="{$subchan.url}" class="sub-channel-link">
+                    {:__($subchan.name)}
+                </a>
+            </li>
+            {/cms:channellist}
+        </ul>
+    </div>
+    {/if}
+
+    <!-- 主内容区 -->
+    <div class="row">
+        <main class="col-xs-12 col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <span>{:__('列表')}</span>
+                        <div class="more">
+                            <ul class="list-unstyled list-inline category-order clearfix">
+                                <!-- S 排序 -->
+                                {cms:pageorder id="order"}
+                                <li><a href="{$order.url}" class="{$order.active?'active':''}">{$order.title|htmlentities}</a></li>
+                                {/cms:pageorder}
+                                <!-- E 排序 -->
+                            </ul>
+                        </div>
+                    </h3>
+                </div>
+                <div class="panel-body py-0">
+                    <div class="article-list" itemscope itemtype="https://schema.org/ItemList">
+                        <meta itemprop="name" content="{:__($__CHANNEL__.name)}文章列表" />
+                        
+                        <!-- S 列表 -->
+                        {cms:pagelist id="item"}
+                            {include file="common/item_news"}
+                        {/cms:pagelist}
+                        <!-- E 列表 -->
+                    </div>
+
+                    <!-- S 分页 -->
+                    {include file="common/pageinfo" /}
+                    <!-- E 分页 -->
+                </div>
+            </div>
+        </main>
+
+        <aside class="col-xs-12 col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3 class="panel-title">{:__('相关推荐')}</h3>
+                    <div class="row">
+                        {cms:arclist id="item" channel="$__CHANNEL__.id" orderby="views" orderway="DESC" limit="4"}
+                        <div class="col-xs-12" style="margin-top: 12px;">
+                            <a href="{$item.url}" class="article-item">
+                                <div class="embed-responsive embed-responsive-4by1">
+                                    <img src="{$item.image}" 
+                                         alt="{$item.title|htmlentities}"
+                                         class="embed-responsive-item"
+                                         loading="lazy">
+                                </div>
+                                <div class="article-title">{$item.title|htmlentities}</div>
+                            </a>
+                        </div>
+                        {/cms:arclist}
+                    </div>
+                </div>
+            </div>
+            {include file="common/sidebar" /}
+        </aside>
+    </div>
+</div>

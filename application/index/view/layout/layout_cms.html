@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+<html class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class=""> <!--<![endif]-->
+<head>
+
+    {include file="common/meta" /}
+    <link rel="stylesheet" media="screen" href="__CDN__/assets/css/bootstrap.css?v={$site.version}"/>
+    <link rel="stylesheet" media="screen" href="__CDN__/assets/libs/font-awesome/css/font-awesome.min.css?v={$site.version}"/>
+    <link rel="stylesheet" media="screen" href="__CDN__/assets/libs/fastadmin-layer/dist/theme/default/layer.css?v={$site.version}"/>
+    <link rel="stylesheet" media="screen" href="__ADDONCMS__/css/common.css?v={$site.version}"/>
+    <link href="__CDN__/assets/css/user.css?v={$Think.config.site.version|htmlentities}" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="__CDN__/libs/html5shiv.js"></script>
+    <script src="__CDN__/libs/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="group-page skin-white">
+<style>
+    /* header {
+        position: relative;
+    }
+     .navbar{
+         background-color: #0E2D31;
+     }
+    a {
+        color: #0E2D31;
+    }
+    a:hover, a:focus{
+        color: #000;
+    }
+    .u-flex-between {
+        justify-content: space-between
+    }
+    .navbar-nav > li > a{
+        color: #fff;
+    }
+    .navbar-toggle .icon-bar{
+        background-color: #fff;
+    }
+    .dropdown-menu > li > a{
+        color: #f8f8f8;
+    }
+    .nav .open > a, .nav .open > a:hover, .nav .open > a:focus{
+        background-color: #2D8489;
+        color: #fff;
+    }
+    .vipBtn{
+            background: linear-gradient(to right, #ff9966, #ff5e62); 
+            color: #fff!important;
+            font-weight: 700;
+            text-align: center;
+        } */
+        /* @media (max-width: 991px) {
+        .sidebar-toggle{
+            position: fixed;
+            right: 0;
+            top: 0;
+            border-radius: 50%;
+            background: #FB6B00;
+            color: #fff;
+            font-size: 22px;
+            padding: 10px;
+            line-height: 30px;
+            height: 50px;
+            width: 50px;
+            text-align: center;
+            z-index: 999999;
+        }
+    } */
+    
+    /* 语言切换样式 */
+    .lang-switch {
+        position: relative;
+        padding: 8px 15px;
+        display: block;
+        color: #333;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .lang-switch:hover {
+        background-color: #f5f5f5;
+        color: #5DBE9E;
+        text-decoration: none;
+    }
+    
+    .lang-switch.active {
+        background-color: #5DBE9E;
+        color: white !important;
+        font-weight: bold;
+    }
+    
+    .lang-switch.active:hover {
+        background-color: #4a9d7e;
+        color: white !important;
+    }
+    
+    .lang-switch i {
+        margin-right: 8px;
+        width: 16px;
+        text-align: center;
+    }
+    
+    .lang-switch.active i {
+        color: white !important;
+    }
+    
+    /* 移动端优化 */
+    @media (max-width: 768px) {
+        .lang-switch {
+            padding: 10px 15px;
+            font-size: 14px;
+        }
+    }
+</style>
+<header class="header">
+    <!-- S 导航 -->
+    <nav class="navbar navbar-default navbar-white navbar-fixed-top transparent" role="navigation">
+        <div class="container">
+            <div class="navbar-header" style="text-align: center;">
+                <!-- <a href="{:url('/')}" style="color: #fff;font-weight: 700;">前往网站首页</a> -->
+                <a class="navbar-brand" href="{:url('/')}"><img src="{$Think.config.cms.sitelogo|default='/assets/addons/cms/img/logo.png'|cdnurl}" style="height:100%;" alt=""></a>
+            </div>
+
+            <!-- <div class="navbar-header">
+                <button type="button" class="navbar-toggle">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{cms:config name='cms.indexurl'/}"><img src="{$Think.config.cms.sitelogo|default='/assets/addons/cms/img/logo.png'|cdnurl}" style="height:100%;" alt=""></a>
+            </div> -->
+
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav" data-current="{$__CHANNEL__.id|default=0}">
+                    <!--如果你需要自定义NAV,可使用channellist标签来完成,这里只设置了2级,如果显示无限级,请使用cms:nav标签-->
+                    {cms:channellist id="nav" type="top" condition="1=isnav"}
+                    <!--判断是否有子级或高亮当前栏目-->
+                    <li class="{if $nav.has_child}dropdown{/if} {if $nav->is_active} active{/if}">
+                        <a href="{$nav.url}" {if $nav.has_child} data-toggle="dropdown" {/if}>{:__($nav.name)}{if $nav.has_nav_child} <b class="caret"></b>{/if}</a>
+                        <ul class="dropdown-menu {if !$nav.has_nav_child}hidden{/if}" role="menu">
+                            {cms:channellist id="sub" type="son" typeid="nav['id']" condition="1=isnav"}
+                            <li><a href="{$sub.url}">{:__($sub.name)}</a></li>
+                            {/cms:channellist}
+                        </ul>
+                    </li>
+                    {/cms:channellist}
+                    <!--如果需要无限级请使用cms:nav标签-->
+                    {//cms:nav maxlevel="4" cache="86400" /}
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <form class="form-inline navbar-form" action="{:addon_url('cms/search/index')}" method="get">
+                            <div class="form-search hidden-sm">
+                                <input class="form-control" name="q" data-suggestion-url="{:addon_url('cms/search/suggestion')}" type="search" id="searchinput" value="{$Think.request.q|default=''|htmlentities}" placeholder="搜索">
+                                <div class="search-icon"></div>
+                            </div>
+                            {:token('__searchtoken__')}
+                        </form>
+                    </li>
+                    <!-- 语言切换 -->
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-globe"></i> <span class="hidden-sm">{:__('Lang')}</span> <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="?lang=zh-cn" onclick="switchLanguage('zh-cn'); return false;" class="lang-switch {if cookie('frontend_language')=='zh-cn' || !cookie('frontend_language')}active{/if}"><i class="fa fa-flag"></i> 中文</a></li>
+                            <li><a href="?lang=en" onclick="switchLanguage('en'); return false;" class="lang-switch {if cookie('frontend_language')=='en'}active{/if}"><i class="fa fa-flag"></i> English</a></li>
+                        </ul>
+                    </li>
+
+                    {if config('fastadmin.usercenter')}
+                    <li class="dropdown navbar-userinfo">
+                        {if $user}
+                        <a href="{:url('index/user/index')}" class="dropdown-toggle" data-toggle="dropdown">
+                            <span class="avatar-img pull-left"><img src="{$user.avatar|cdnurl|htmlentities}" style="width:27px;height:27px;border-radius:50%;" alt=""></span>
+                            <span class="visible-xs pull-left ml-2 pt-1">{$user.nickname|htmlentities} <b class="caret"></b></span>
+                        </a>
+                        {else /}
+                        <a href="{:url('index/user/index')}" class="dropdown-toggle" data-toggle="dropdown">{:__('Member center')} <b class="caret"></b></a>
+                        {/if}
+                        <ul class="dropdown-menu">
+
+                            {if $user}
+                            <li><a href="{:url('index/user/index')}"><i class="fa fa-user fa-fw"></i> {:__('Member center')}</a></li>
+                            {php}$sidenav = array_filter(explode(',', config('cms.usersidenav')));{/php}
+                            {if in_array('mycomment', $sidenav)}
+                            <li><a href="{:url('index/cms.answer/index')}"><i class="fa fa-comments fa-fw"></i> {:__('Test Records')}</a></li>
+                            {/if}
+                            {if in_array('mycollection', $sidenav)}
+                            <!-- <li><a href="{:url('index/cms.collection/index')}"><i class="fa fa-bookmark fa-fw"></i> 我的收藏</a></li> -->
+                            {/if}
+                            <li><a href="javascript:localStorage.removeItem('email_token'); window.location.href='{:url('index/user/logout')}';"  data-placement="left"><i class="fa fa-sign-out fa-fw"></i> {:__('Sign out')}</a></li>
+                            {else /}
+                            <li><a href="{:url('index/user/login')}"><i class="fa fa-sign-in fa-fw"></i> {:__('Login')}</a></li>
+                            <li><a href="{:url('index/user/register')}"><i class="fa fa-user-o fa-fw"></i> {:__('Register')}</a></li>
+                            {/if}
+                        </ul>
+                    </li>
+                    {/if}
+                </ul>
+            </div>
+
+        </div>
+    </nav>
+    <!-- E 导航 -->
+
+</header>
+
+<main class="main-content">
+    {__CONTENT__}
+</main>
+
+<footer>
+    <div id="footer">
+        <div class="container">
+            <div class="row footer-inner">
+                <div class="col-xs-12">
+                    <div class="footer-logo pull-left mr-4">
+                        <div class="u-flex">
+                            <a href="{:addon_url('cms/index/index')}"><i class="fa fa-bookmark"></i></a>
+                            <div class="ml-3">
+                                <p>
+                                    {:__('Platform Description')}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pull-left u-flex u-flex-between" style="width: 100%;">
+                        Copyright&nbsp;©&nbsp;{:date("Y")} All rights reserved. {cms:config name="cms.sitename"/}
+                        <a href="https://beian.miit.gov.cn" target="_blank">{$site.beian|htmlentities}</a>
+
+                        <ul class="list-unstyled list-inline">
+                            <li><a href="{:addon_url('cms/page/index', [':diyname'=>'aboutus'])}">{:__('About Us')}</a></li>
+                            <li><a href="{:addon_url('cms/page/index', [':diyname'=>'agreement'])}">{:__('User Agreement')}</a></li>
+                            {if config('fastadmin.usercenter')}
+                            <li><a href="{:url('index/user/index')}">{:__('Member center')}</a></li>
+                            {/if}
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<div id="floatbtn">
+    <a id="back-to-top" class="hover" href="javascript:;">
+        <i class="iconfont icon-backtotop"></i>
+        <em>返回<br>顶部</em>
+    </a>
+    <!-- E 浮动按钮 -->
+</div>
+{if !$isMobile}
+<script type="text/javascript" src="__CDN__/assets/libs/jquery/dist/jquery.min.js?v={$site.version}"></script>
+<script type="text/javascript" src="__CDN__/assets/libs/bootstrap/dist/js/bootstrap.min.js?v={$site.version}"></script>
+<script type="text/javascript" src="__CDN__/assets/libs/fastadmin-layer/dist/layer.js?v={$site.version}"></script>
+<script type="text/javascript" src="__ADDONCMS__/js/jquery.autocomplete.js?v={$site.version}"></script>
+<script type="text/javascript" src="__ADDONCMS__/js/libs.js?v={$site.version}"></script>
+<script type="text/javascript" src="__ADDONCMS__/js/common.js?v={$site.version}"></script>
+{/if}
+
+<!-- 多语言切换功能 -->
+<script type="text/javascript">
+// 语言切换功能
+function switchLanguage(lang) {
+    // 设置cookie
+    document.cookie = 'frontend_language=' + lang + '; path=/; max-age=31536000';
+    
+    // 构建新的URL
+    const currentUrl = new URL(window.location.href);
+    
+    // 移除现有的语言参数
+    currentUrl.searchParams.delete('lg');
+    
+    // 添加新的语言参数
+    currentUrl.searchParams.set('lg', lang);
+    
+    // 如果是测试页面，同时更新API调用的语言参数
+    if (window.location.pathname.includes('/MBTI/') || 
+        window.location.pathname.includes('/xinling/') || 
+        window.location.pathname.includes('/qinggan/') || 
+        window.location.pathname.includes('/renge/') || 
+        window.location.pathname.includes('/zhiye/')) {
+        
+        // 延迟跳转，让用户看到语言切换效果
+        setTimeout(() => {
+            window.location.href = currentUrl.toString();
+        }, 300);
+    } else {
+        // 立即跳转
+        window.location.href = currentUrl.toString();
+    }
+}
+
+// 页面加载时初始化语言状态
+document.addEventListener('DOMContentLoaded', function() {
+    const currentLang = getCookie('frontend_language') || 'zh-cn';
+    
+    // 更新语言切换按钮的激活状态
+    document.querySelectorAll('.lang-switch').forEach(link => {
+        link.classList.remove('active');
+        if (link.onclick.toString().includes(currentLang)) {
+            link.classList.add('active');
+        }
+    });
+});
+
+// 获取Cookie的辅助函数
+function getCookie(name) {
+    const value = "; " + document.cookie;
+    const parts = value.split("; " + name + "=");
+    if (parts.length === 2) return parts.pop().split(";").shift();
+}
+</script>
+
+{include file="common/script" /}
+</body>
+</html>

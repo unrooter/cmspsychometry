@@ -1,0 +1,893 @@
+{layout name="common/layout" /}
+<article class="test-result-page">
+    <!-- 谷歌广告位 - 顶部横幅（展示广告）-->
+    <div class="ad-container ad-banner-top">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-9195262048954682"
+             data-ad-slot="2969657271"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="test-result">
+                    <!-- 测试标题 -->
+                    <header class="test-header">
+                        <h1 id="test-title">贝克抑郁量表（BDI-SF）</h1>
+                        <!-- <p id="test-subtitle">测试结果仅供参考，具体请咨询专业指导</p> -->
+                    </header>
+                    <!-- 测试信息 - 折叠式 -->
+                    <section class="test-info" id="test-info">
+                        <div class="info-toggle" onclick="toggleTestInfo()">
+                            <h2 id="info-header-title">测试信息</h2>
+                            <span class="toggle-icon" id="test-info-icon">▼</span>
+                        </div>
+                        <div class="info-content collapsed" id="info-content">
+                            <!-- 测试信息将在这里显示 -->
+                        </div>
+                    </section>
+                    
+                    <!-- 分数显示 -->
+                    <section class="score-section">
+                        <div class="score-card">
+                            <div class="score-circle">
+                                <div class="score-number" id="total-score">0</div>
+                                <div class="score-label" id="score-label">总分</div>
+                            </div>
+                            <div class="score-info">
+                                <div class="score-description" id="score-description">Loading...</div>
+                                <div class="score-level" id="score-level">Evaluating...</div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    
+                    <!-- 结果分析 -->
+                    <section class="analysis-section" id="analysis-section">
+                        <h2 id="analysis-header-title">详细分析报告</h2>
+                        <div class="analysis-content" id="analysis-content">
+                            <!-- 分析内容将在这里显示 -->
+                        </div>
+                    </section>
+                    
+                    <!-- 建议和指导 -->
+                    <section class="suggestions-section" id="suggestions-section">
+                        <h2 id="suggestions-header-title">建议和指导</h2>
+                        <div class="suggestions-content" id="suggestions-content">
+                            <!-- 建议内容将在这里显示 -->
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 谷歌广告位 - 中间内容（文章内嵌广告）-->
+    <div class="ad-container ad-banner-middle">
+        <ins class="adsbygoogle"
+             style="display:block; text-align:center;"
+             data-ad-layout="in-article"
+             data-ad-format="fluid"
+             data-ad-client="ca-pub-9195262048954682"
+             data-ad-slot="5294962935"></ins>
+        <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+</article>
+
+<style>
+/* 谷歌广告位样式 */
+.ad-container {
+    margin: 20px auto;
+    max-width: 900px;
+    text-align: center;
+}
+
+.ad-banner-top {
+    margin-bottom: 30px;
+}
+
+.ad-banner-middle {
+    margin: 40px auto;
+}
+
+.ad-placeholder {
+    background: #f8f9fa;
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+    padding: 20px;
+    min-height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6c757d;
+    font-size: 14px;
+}
+
+/* 整体容器 */
+.test-result-page {
+    background: #f8f9fa;
+    min-height: 100vh;
+}
+
+.test-result {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+/* 测试标题 */
+.test-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #f5f5f5;
+}
+
+.test-header h1 {
+    color: #2c3e50;
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    line-height: 1.2;
+}
+
+.test-header p {
+    color: #7f8c8d;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+/* 分数显示区域 */
+.score-section {
+    margin-bottom: 40px;
+}
+
+.score-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 20px;
+    padding: 40px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    box-shadow: 0 8px 30px rgba(102, 126, 234, 0.3);
+}
+
+.score-circle {
+    flex-shrink: 0;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.score-number {
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 5px;
+}
+
+.score-label {
+    font-size: 1rem;
+    opacity: 0.9;
+    font-weight: 500;
+}
+
+.score-info {
+    flex: 1;
+}
+
+.score-description {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    line-height: 1.4;
+}
+
+.score-level {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    display: inline-block;
+    backdrop-filter: blur(10px);
+}
+
+/* 测试信息 - 折叠式 */
+.test-info {
+    margin-bottom: 40px;
+}
+
+.info-toggle {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
+    padding: 20px 25px;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
+
+.info-toggle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+}
+
+.info-toggle h2 {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.info-content {
+    background: #f8f9fa;
+    border-radius: 0 0 12px 12px;
+    padding: 25px;
+    border-left: 5px solid #28a745;
+    border-top: none;
+    color: #495057;
+    line-height: 1.6;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+}
+
+.info-content.expanded {
+    max-height: 2000px;
+    padding: 25px;
+}
+
+.info-content.collapsed {
+    max-height: 0;
+    padding: 0 25px;
+}
+
+/* 分析区域 */
+.analysis-section {
+    margin-bottom: 40px;
+}
+
+.analysis-section h2 {
+    color: #2c3e50;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.analysis-content {
+    background: #fff;
+    border-radius: 12px;
+    padding: 25px;
+    border: 1px solid #e9ecef;
+    line-height: 1.7;
+    color: #495057;
+}
+
+.analysis-content h4 {
+    color: #2c3e50;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 20px 0 10px 0;
+}
+
+.analysis-content p {
+    margin-bottom: 15px;
+    color: #6c757d;
+}
+
+/* 建议区域 */
+.suggestions-section {
+    margin-bottom: 20px;
+}
+
+.suggestions-section h2 {
+    color: #2c3e50;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.suggestions-content {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 12px;
+    padding: 25px;
+    border-left: 5px solid #28a745;
+}
+
+.suggestions-content h4 {
+    color: #28a745;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 15px 0 10px 0;
+}
+
+.suggestions-content p {
+    margin-bottom: 12px;
+    color: #495057;
+    line-height: 1.6;
+}
+
+.suggestions-content ul {
+    margin: 15px 0;
+    padding-left: 20px;
+}
+
+.suggestions-content li {
+    margin-bottom: 8px;
+    color: #495057;
+    line-height: 1.5;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .test-result-page {
+        padding: 0;
+    }
+    
+    .test-result {
+        padding: 15px;
+        margin: 10px;
+        border-radius: 12px;
+    }
+    
+    .test-header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .test-header p {
+        font-size: 1rem;
+    }
+    
+    .score-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+        padding: 30px 20px;
+    }
+    
+    .score-circle {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .score-number {
+        font-size: 2.5rem;
+    }
+    
+    .score-description {
+        font-size: 1.1rem;
+    }
+    
+    .suggestions-content {
+        padding: 20px;
+    }
+    
+    .info-toggle {
+        padding: 15px 20px;
+    }
+    
+    .info-toggle h2 {
+        font-size: 1.1rem;
+    }
+    
+    .info-content.expanded {
+        padding: 20px;
+    }
+    
+    .analysis-content {
+        padding: 20px;
+    }
+    
+    .ad-container {
+        margin: 15px auto;
+        padding: 0 10px;
+    }
+    
+    .ad-placeholder {
+        padding: 15px;
+        min-height: 80px;
+    }
+}
+
+@media (max-width: 480px) {
+    .test-result {
+        padding: 12px;
+        margin: 5px;
+        border-radius: 8px;
+    }
+    
+    .test-header h1 {
+        font-size: 1.6rem;
+    }
+    
+    .test-header p {
+        font-size: 0.9rem;
+    }
+    
+    .score-card {
+        padding: 25px 15px;
+    }
+    
+    .score-circle {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .score-number {
+        font-size: 2rem;
+    }
+    
+    .info-toggle {
+        padding: 12px 15px;
+    }
+    
+    .info-toggle h2 {
+        font-size: 1rem;
+    }
+    
+    .info-content.expanded {
+        padding: 15px;
+    }
+    
+    .analysis-content {
+        padding: 15px;
+    }
+    
+    .suggestions-content {
+        padding: 15px;
+    }
+    
+    .ad-placeholder {
+        padding: 10px;
+        min-height: 70px;
+        font-size: 12px;
+    }
+}
+
+/* 旧样式覆盖 */
+.result-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.result-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.result-header h2 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.result-subtitle {
+    color: #666;
+    font-size: 16px;
+}
+
+.score-display {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 40px;
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    border-radius: 15px;
+    color: white;
+}
+
+.total-score {
+    font-size: 72px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.score-description {
+    font-size: 20px;
+    opacity: 0.9;
+}
+
+.score-details {
+    margin-bottom: 30px;
+}
+
+.score-breakdown {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.score-item {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    border-left: 4px solid #28a745;
+}
+
+.score-label {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.score-value {
+    font-size: 24px;
+    color: #28a745;
+    font-weight: bold;
+}
+
+.score-analysis {
+    background: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.analysis-section h3 {
+    color: #333;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #28a745;
+    padding-bottom: 10px;
+}
+
+.analysis-content {
+    line-height: 1.8;
+    color: #555;
+}
+
+.analysis-content h4 {
+    color: #333;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.analysis-content p {
+    margin-bottom: 15px;
+}
+
+.rating-badge {
+    display: inline-block;
+    padding: 8px 16px;
+    background: #28a745;
+    color: white;
+    border-radius: 20px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 获取URL参数
+    const urlParams = new URLSearchParams(window.location.search);
+    const answer_id = urlParams.get('answer_id');
+    
+    if (!answer_id) {
+        document.getElementById('score-result').innerHTML = '<div class="alert alert-danger">未找到测试结果</div>';
+        return;
+    }
+    
+    // 获取URL参数中的语言
+    const lg = urlParams.get('lg') || 'zh-cn';
+    
+    // 获取测试结果
+    fetch('/addons/cms/psychometry/answerInfo', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'answer_id=' + answer_id + '&lang=' + lg
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.code === 1) {
+            displayScoreResult(data.data);
+        } else {
+            document.getElementById('score-result').innerHTML = '<div class="alert alert-danger">获取结果失败：' + data.msg + '</div>';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('score-result').innerHTML = '<div class="alert alert-danger">网络错误，请稍后重试</div>';
+    });
+});
+
+function displayScoreResult(data) {
+    // 获取语言参数
+    const lg = new URLSearchParams(window.location.search).get('lg');
+    const isEnglish = lg === 'en';
+    
+    // 更新UI语言
+    updateUILanguage(isEnglish, data);
+    
+    // 更新页面标题
+    if (data.a_info) {
+        document.getElementById('test-title').textContent = data.a_info.title || (isEnglish ? 'Score Test Result' : '分数测试结果');
+    }
+    
+    // 显示总分
+    const totalScore = data.max_score || 0;
+    document.getElementById('total-score').textContent = totalScore;
+    
+    // 显示得分描述和等级
+    const scoreInfo = getScoreInfo(totalScore, data, isEnglish);
+    document.getElementById('score-description').innerHTML = scoreInfo.description;
+    document.getElementById('score-level').textContent = scoreInfo.level;
+    
+    // 显示测试信息
+    displayTestInfo(data, isEnglish);
+    
+    // 显示分析内容
+    displayAnalysis(data, isEnglish);
+    
+    // 显示建议和指导
+    displaySuggestions(data, isEnglish);
+}
+
+// 更新UI语言
+function updateUILanguage(isEnglish, data) {
+    const texts = {
+        zh: {
+            testResult: '测试结果',
+            testInfo: '测试信息',
+            totalScore: '总分',
+            analysisReport: '详细分析报告',
+            suggestions: '建议和指导',
+            loading: '正在计算您的得分...',
+            evaluating: '评估中...',
+            testName: '测试名称：',
+            testDescription: '测试说明：',
+            questionCount: '题目数量：',
+            maxScore: '满分：',
+            testType: '测试类型：',
+            scoreTest: '分数测试',
+            questions: ' 题',
+            score: ' 分',
+            yourScore: '您的总得分为：',
+            scoreRate: '得分率为：',
+            resultExplanation: '结果说明',
+            referenceNote: '测试结果仅供参考，如需专业指导，请咨询相关领域的专家。',
+            excellent: '优秀',
+            excellentDesc: '您的得分非常优秀！',
+            good: '良好',
+            goodDesc: '您的得分表现良好。',
+            average: '中等',
+            averageDesc: '您的得分处于中等水平。',
+            pass: '及格',
+            passDesc: '您的得分达到及格水平。',
+            needImprovement: '需要改进',
+            needImprovementDesc: '您的得分还有提升空间。',
+            generalSuggestions: '💡 通用建议',
+            notes: '📝 注意事项',
+            defaultDescription: '通过专业的心理学量表，帮助您了解自己在相关方面的表现和水平。'
+        },
+        en: {
+            testResult: 'Test Result',
+            testInfo: 'Test Information',
+            totalScore: 'Total Score',
+            analysisReport: 'Detailed Analysis Report',
+            suggestions: 'Suggestions',
+            loading: 'Calculating your score...',
+            evaluating: 'Evaluating...',
+            testName: 'Test Name: ',
+            testDescription: 'Description: ',
+            questionCount: 'Questions: ',
+            maxScore: 'Max Score: ',
+            testType: 'Test Type: ',
+            scoreTest: 'Score Test',
+            questions: ' questions',
+            score: ' points',
+            yourScore: 'Your total score: ',
+            scoreRate: 'Score rate: ',
+            resultExplanation: 'Result Explanation',
+            referenceNote: 'Test results are for reference only. Please consult a professional for specific guidance.',
+            excellent: 'Excellent',
+            excellentDesc: 'Your score is excellent!',
+            good: 'Good',
+            goodDesc: 'Your score is good.',
+            average: 'Average',
+            averageDesc: 'Your score is at an average level.',
+            pass: 'Pass',
+            passDesc: 'Your score meets the passing standard.',
+            needImprovement: 'Need Improvement',
+            needImprovementDesc: 'Your score has room for improvement.',
+            generalSuggestions: '💡 General Suggestions',
+            notes: '📝 Notes',
+            defaultDescription: 'Through professional psychological scales, help you understand your performance and level in related aspects.'
+        }
+    };
+    
+    const t = isEnglish ? texts.en : texts.zh;
+    
+    // 更新各个区域标题
+    document.getElementById('info-header-title').textContent = t.testInfo;
+    document.getElementById('score-label').textContent = t.totalScore;
+    document.getElementById('analysis-header-title').textContent = t.analysisReport;
+    document.getElementById('suggestions-header-title').textContent = t.suggestions;
+    
+    // 保存文本到全局变量，供其他函数使用
+    window.i18nTexts = t;
+}
+
+function getScoreInfo(score, data, isEnglish) {
+    const t = window.i18nTexts;
+    
+    // 如果有analyse数据，优先使用
+    if (data.analyse && data.analyse.title) {
+        return {
+            level: data.analyse.title,
+            description: data.analyse.intro || t.referenceNote
+        };
+    }
+    
+    // 根据分数范围提供通用评估
+    const maxScore = data.max_score || 100;
+    const percentage = (score / maxScore) * 100;
+    
+    if (percentage >= 90) {
+        return {
+            level: t.excellent,
+            description: t.excellentDesc
+        };
+    } else if (percentage >= 80) {
+        return {
+            level: t.good,
+            description: t.goodDesc
+        };
+    } else if (percentage >= 70) {
+        return {
+            level: t.average,
+            description: t.averageDesc
+        };
+    } else if (percentage >= 60) {
+        return {
+            level: t.pass,
+            description: t.passDesc
+        };
+    } else {
+        return {
+            level: t.needImprovement,
+            description: t.needImprovementDesc
+        };
+    }
+}
+
+function displayTestInfo(data, isEnglish) {
+    const t = window.i18nTexts;
+    let infoHtml = '';
+    
+    if (data.a_info) {
+        infoHtml += '<p><strong>' + t.testName + '</strong>' + (data.a_info.title || t.scoreTest) + '</p>';
+        
+        // 优先使用sub_title，如果没有则使用description，最后使用默认描述
+        let description = data.a_info.sub_title || data.a_info.description || '';
+        if (description === '默认描述' || description === '') {
+            description = t.defaultDescription;
+        }
+        infoHtml += '<p><strong>' + t.testDescription + '</strong>' + description + '</p>';
+        
+        infoHtml += '<p><strong>' + t.questionCount + '</strong>' + (data.test_info?.question_count || 0) + t.questions + '</p>';
+        
+        // 计算理论满分（题目数量 × 每题最高分）
+        const questionCount = data.test_info?.question_count || 0;
+        const maxScorePerQuestion = 1; // 假设每题最高1分
+        const theoreticalMaxScore = questionCount * maxScorePerQuestion;
+        infoHtml += '<p><strong>' + t.maxScore + '</strong>' + theoreticalMaxScore + t.score + '</p>';
+        
+        infoHtml += '<p><strong>' + t.testType + '</strong>' + t.scoreTest + '</p>';
+    }
+    
+    document.getElementById('info-content').innerHTML = infoHtml;
+}
+
+function displayAnalysis(data, isEnglish) {
+    const t = window.i18nTexts;
+    let analysisHtml = '';
+    
+    // 如果有analyse数据，优先显示
+    if (data.analyse && data.analyse.content) {
+        analysisHtml = data.analyse.content;
+    } else if (data.analyse && data.analyse.analysis) {
+        analysisHtml = data.analyse.analysis;
+    } else {
+        // 显示基本信息
+        const totalScore = data.max_score || 0;
+        const percentage = totalScore > 0 ? Math.round((totalScore / data.max_score) * 100) : 0;
+        
+        analysisHtml = `
+            <h4>${t.testResult}</h4>
+            <p>${t.yourScore}<strong>${totalScore}</strong>${t.score}</p>
+            <p>${t.scoreRate}<strong>${percentage}%</strong></p>
+            
+            <h4>${t.resultExplanation}</h4>
+            <p>${t.referenceNote}</p>
+        `;
+    }
+    
+    document.getElementById('analysis-content').innerHTML = analysisHtml;
+}
+
+function displaySuggestions(data, isEnglish) {
+    const t = window.i18nTexts;
+    let suggestionsHtml = '';
+    
+    // 如果有analyse数据中的建议，优先显示
+    if (data.analyse && data.analyse.suggestion) {
+        suggestionsHtml = data.analyse.suggestion;
+    } else {
+        // 显示通用建议（多语言）
+        if (isEnglish) {
+            suggestionsHtml = `
+                <h4>💡 General Suggestions</h4>
+                <ul>
+                    <li>Understand your current status based on test results</li>
+                    <li>Consult relevant professionals if you have any questions</li>
+                    <li>Maintain a positive mindset and continue to focus on personal development</li>
+                    <li>Conduct regular self-assessment and reflection</li>
+                </ul>
+                
+                <h4>📝 Notes</h4>
+                <p>Test results are for reference only. Please consult a professional for specific guidance.</p>
+            `;
+        } else {
+            suggestionsHtml = `
+                <h4>💡 通用建议</h4>
+                <ul>
+                    <li>根据测试结果，了解自己的现状</li>
+                    <li>如有疑问，建议咨询相关专业人士</li>
+                    <li>保持积极的心态，持续关注自身发展</li>
+                    <li>定期进行自我评估和反思</li>
+                </ul>
+                
+                <h4>📝 注意事项</h4>
+                <p>测试结果仅供参考，具体请咨询专业指导。</p>
+            `;
+        }
+    }
+    
+    document.getElementById('suggestions-content').innerHTML = suggestionsHtml;
+}
+
+// 折叠功能
+function toggleTestInfo() {
+    const content = document.getElementById('info-content');
+    const icon = document.getElementById('test-info-icon');
+    
+    if (content.classList.contains('collapsed')) {
+        content.classList.remove('collapsed');
+        content.classList.add('expanded');
+        icon.classList.add('expanded');
+    } else {
+        content.classList.remove('expanded');
+        content.classList.add('collapsed');
+        icon.classList.remove('expanded');
+    }
+}
+
+</script>

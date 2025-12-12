@@ -1,0 +1,18 @@
+{if isset($sidenav) && $sidenav}
+<ul class="list-group">
+    <li class="list-group-heading">{:__('内容管理')}</li>
+    <!--如果需要直接跳转对应的模型(比如我的新闻,我的产品,发布新闻,发布产品)，可以在链接后加上 ?model_id=模型ID -->
+   
+    {if in_array('myorder', $sidenav)}
+<!--    <li class="list-group-item {:check_nav_active('cms.order/index')}"><a href="{:url('index/cms.order/index')}"><i class="fa fa-shopping-bag fa-fw"></i> {:__('我的消费订单')}</a></li>-->
+    {/if}
+    <li class="list-group-item {:check_nav_active('cms.answer/index')}"><a href="{:url('index/cms.answer/index')}"><i class="fa fa-shopping-bag fa-fw"></i> {:__('我的测试记录')}</a></li>
+    <li class="list-group-item {:check_nav_active('cms.answer/fun')}"><a href="{:url('index/cms.answer/fun')}"><i class="fa fa-shopping-bag fa-fw"></i> {:__('趣味测试记录')}</a></li>
+    {if in_array('mycomment', $sidenav)}
+    <li class="list-group-item {:check_nav_active('cms.comment/index')}"><a href="{:url('index/cms.comment/index')}"><i class="fa fa-comments fa-fw"></i> {:__('我发表的评论')}</a></li>
+    {/if}
+    {if in_array('mycollection', $sidenav)}
+    <!-- <li class="list-group-item {:check_nav_active('cms.collection/index')}"><a href="{:url('index/cms.collection/index')}"><i class="fa fa-bookmark fa-fw"></i> {:__('我的收藏')}</a></li> -->
+    {/if}
+</ul>
+{/if}

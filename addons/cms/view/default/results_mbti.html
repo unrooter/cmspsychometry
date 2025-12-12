@@ -1,0 +1,721 @@
+{layout name="common/layout" /}
+
+<!-- SEO 结构化数据 -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "MBTI性格测试结果",
+  "description": "MBTI性格类型测试结果分析报告",
+  "mainEntity": {
+    "@type": "Quiz",
+    "name": "MBTI性格测试"
+  }
+}
+</script>
+
+<main class="mbti-container" role="main">
+    <div id="app">
+        <!-- 加载状态 -->
+        <div v-if="loading" class="loading-state">
+            <div class="spinner"></div>
+            <p>{{t.loading}}</p>
+        </div>
+
+        <!-- 错误状态 -->
+        <div v-if="error" class="error-state">
+            <h3>{{t.loadFailed}}</h3>
+            <p>{{error}}</p>
+            <button @click="loadData" class="retry-btn">{{t.retry}}</button>
+        </div>
+
+        <!-- MBTI结果内容 -->
+        <article v-if="!loading && !error && allInfo" class="result-container" itemscope itemtype="https://schema.org/Article">
+            <!-- 测试结果头部 -->
+            <header class="result-header">
+                <span class="header-badge">{{t.testComplete}}</span>
+                <h1 class="mbti-type" itemprop="headline">{{allInfo.answer_info.mbti_type || 'MBTI'}}</h1>
+                <p class="type-title" v-if="allInfo.answer_info.mbti_content" itemprop="name">
+                    {{allInfo.answer_info.mbti_content.title}}
+                </p>
+                <p class="type-intro" v-if="allInfo.answer_info.mbti_content && allInfo.answer_info.mbti_content.intro" itemprop="description">
+                    {{allInfo.answer_info.mbti_content.intro}}
+                </p>
+            </header>
+
+            <!-- 维度分数展示 -->
+            <section class="dimension-section" v-if="allInfo.stat_data" :aria-label="t.dimensionAnalysis">
+                <h2 class="section-title">
+                    {{t.dimensionAnalysis}}
+                </h2>
+                <div class="dimension-grid" role="list">
+                    <div v-for="dimension in dimensionPairs" :key="dimension.key" class="dimension-card" role="listitem">
+                        <div class="dimension-name">{{dimension.name}}</div>
+                        <div class="dimension-bars">
+                            <div class="bar-row">
+                                <span class="bar-label">{{dimension.left.key}}</span>
+                                <div class="bar-track">
+                                    <div class="bar-fill" :style="{width: dimension.left.percentage + '%'}">
+                                        <span class="bar-text">{{dimension.left.value}}</span>
+                                    </div>
+                                </div>
+                                <span class="bar-percent">{{dimension.left.percentage}}%</span>
+                            </div>
+                            <div class="bar-row">
+                                <span class="bar-label">{{dimension.right.key}}</span>
+                                <div class="bar-track">
+                                    <div class="bar-fill" :style="{width: dimension.right.percentage + '%'}">
+                                        <span class="bar-text">{{dimension.right.value}}</span>
+                                    </div>
+                                </div>
+                                <span class="bar-percent">{{dimension.right.percentage}}%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MBTI详细解析 -->
+            <section v-if="allInfo.answer_info.mbti_content && allInfo.answer_info.mbti_content.content" class="content-section" itemprop="articleBody">
+                <h2 class="section-title">
+                    {{t.characterAnalysis}}
+                </h2>
+                <div class="content-card">
+                    <div class="content-body" v-html="allInfo.answer_info.mbti_content.content"></div>
+                </div>
+            </section>
+            
+            <!-- 深度分析 -->
+            <section v-if="allInfo.answer_info.mbti_content && allInfo.answer_info.mbti_content.analysis" class="content-section">
+                <h2 class="section-title">
+                    {{t.deepAnalysis}}
+                </h2>
+                <div class="content-card">
+                    <div class="content-body" v-html="allInfo.answer_info.mbti_content.analysis"></div>
+                </div>
+            </section>
+            
+            <!-- 发展建议 -->
+            <section v-if="allInfo.answer_info.mbti_content && allInfo.answer_info.mbti_content.suggestion" class="content-section">
+                <h2 class="section-title">
+                    {{t.developmentSuggestion}}
+                </h2>
+                <div class="content-card suggestion-card">
+                    <div class="content-body" v-html="allInfo.answer_info.mbti_content.suggestion"></div>
+                </div>
+            </section>
+
+            <!-- 详细MBTI分析报告 -->
+            <section v-if="allInfo.analyse && allInfo.analyse.content" class="content-section">
+                <h2 class="section-title">
+                    {{allInfo.analyse.title || t.detailedReport}}
+                </h2>
+                <div class="content-card analysis-card">
+                    <div class="content-body" v-html="allInfo.analyse.content"></div>
+                </div>
+            </section>
+
+
+        </article>
+    </div>
+</main>
+
+<style>
+/* 手机端优先的响应式设计 */
+* {
+    box-sizing: border-box;
+}
+
+.mbti-container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 12px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: #2c3e50;
+    background: #f5f7fa;
+}
+
+/* SEO优化：确保文本可读 */
+.mbti-container h1,
+.mbti-container h2,
+.mbti-container h3,
+.mbti-container p {
+    max-width: 100%;
+    word-wrap: break-word;
+}
+
+/* 加载状态 */
+.loading-state {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #5DBE9E;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 错误状态 */
+.error-state {
+    text-align: center;
+    padding: 40px 20px;
+    background: #fff5f5;
+    border: 1px solid #fed7d7;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.retry-btn {
+    background: #5DBE9E;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* 结果容器 */
+.result-container {
+    background: transparent;
+}
+
+/* 头部区域 */
+.result-header {
+    background: #5DBE9E;
+    color: white;
+    padding: 25px 18px;
+    text-align: center;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.header-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.25);
+    padding: 5px 14px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-bottom: 12px;
+}
+
+.mbti-type {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 8px 0;
+    letter-spacing: 5px;
+}
+
+.type-title {
+    font-size: 1.1rem;
+    margin: 10px 0 6px 0;
+    font-weight: 500;
+}
+
+.type-intro {
+    font-size: 0.9rem;
+    margin: 6px auto 0;
+    opacity: 0.95;
+    max-width: 600px;
+    line-height: 1.4;
+}
+
+
+/* 章节标题 - SEO优化 */
+.section-title {
+    font-size: 1.1rem;
+    color: #2c3e50;
+    margin: 0 0 12px 0;
+    font-weight: 600;
+    text-align: left;
+    padding-left: 10px;
+    border-left: 3px solid #5DBE9E;
+    /* 确保h2标签可见 */
+    display: block;
+    visibility: visible;
+}
+
+
+/* 维度分析区域 */
+.dimension-section {
+    margin: 0 0 15px 0;
+}
+
+.dimension-grid {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: 1fr;
+}
+
+.dimension-card {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #e8ecef;
+}
+
+.dimension-name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 12px;
+}
+
+.dimension-bars {
+    margin-bottom: 10px;
+}
+
+.bar-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.bar-label {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #2c3e50;
+    min-width: 25px;
+}
+
+.bar-track {
+    flex: 1;
+    height: 24px;
+    background: #f5f7fa;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+}
+
+.bar-fill {
+    height: 100%;
+    background: #5DBE9E;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 8px;
+    transition: width 1s ease;
+}
+
+.bar-text {
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.bar-percent {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #7f8c8d;
+    min-width: 45px;
+    text-align: right;
+}
+
+
+/* 内容区域 */
+.content-section {
+    margin-bottom: 15px;
+}
+
+.content-card {
+    background: white;
+    padding: 18px 15px;
+    border-radius: 8px;
+    border: 1px solid #e8ecef;
+}
+
+.suggestion-card {
+    background: #f8f9fa;
+    border-left: 3px solid #95a5a6;
+}
+
+.analysis-card {
+    background: #f8f9fa;
+}
+
+.content-body {
+    color: #2c3e50;
+    line-height: 1.7;
+    font-size: 0.95rem;
+}
+
+.content-body ul {
+    margin: 12px 0;
+    padding-left: 0;
+    list-style: none;
+}
+
+.content-body li {
+    margin-bottom: 8px;
+    padding-left: 24px;
+    position: relative;
+    line-height: 1.6;
+}
+
+.content-body li::before {
+    content: '✓';
+    color: #5DBE9E;
+    font-weight: bold;
+    font-size: 1.1rem;
+    position: absolute;
+    left: 0;
+}
+
+.content-body p {
+    margin-bottom: 12px;
+    line-height: 1.7;
+}
+
+.content-body strong,
+.content-body b {
+    color: #2c3e50;
+    font-weight: 700;
+}
+
+.content-body hr {
+    border: none;
+    border-top: 2px dashed #e0e7ee;
+    margin: 20px 0;
+}
+
+
+
+/* 优化Word文档样式的显示 */
+.content-body .MsoNormal,
+.content-body .MsoPlainText {
+    margin: 0 0 15px 0;
+    line-height: 1.9;
+}
+
+/* 优化黄色背景标题 */
+.content-body span[style*="background: rgb(255, 255, 0)"],
+.content-body b[style*="background-color: rgb(255, 255, 0)"] {
+    background: #5DBE9E !important;
+    color: white !important;
+    padding: 8px 16px !important;
+    border-radius: 6px !important;
+    font-weight: 600 !important;
+    display: inline-block !important;
+    margin: 15px 0 12px 0 !important;
+    font-size: 1.05rem !important;
+}
+
+/* 优化蓝色背景标题 */
+.content-body span[style*="background: rgb(0, 0, 255)"] {
+    background: #5DBE9E !important;
+    color: white !important;
+    padding: 8px 16px !important;
+    border-radius: 6px !important;
+    font-weight: 600 !important;
+    display: inline-block !important;
+    margin: 15px 0 12px 0 !important;
+    font-size: 1.05rem !important;
+}
+
+.content-body u {
+    color: #2c3e50;
+    text-decoration: none;
+    font-weight: 700;
+    border-bottom: 2px solid #95a5a6;
+    padding-bottom: 2px;
+}
+
+.content-body b u {
+    color: #2c3e50;
+}
+
+/* 箭头符号优化 */
+.content-body span[style*="font-family: 宋体"] {
+    color: #2c3e50;
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+/* 图片优化 */
+.content-body img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    margin: 20px 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+
+
+/* 平板端适配 */
+@media (min-width: 768px) {
+    .mbti-container {
+        padding: 25px;
+        max-width: 900px;
+    }
+    
+    .dimension-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .result-header {
+        padding: 40px 30px;
+    }
+    
+    .mbti-type {
+        font-size: 3.5rem;
+    }
+    
+    .section-title {
+        font-size: 1.6rem;
+    }
+    
+    .content-card {
+        padding: 40px 35px;
+    }
+}
+
+/* 桌面端适配 */
+@media (min-width: 1024px) {
+    .mbti-container {
+        max-width: 1100px;
+        padding: 40px;
+    }
+    
+    .result-header {
+        padding: 45px 40px;
+    }
+    
+    .mbti-type {
+        font-size: 4rem;
+        letter-spacing: 8px;
+    }
+    
+    .dimension-card {
+        padding: 30px;
+    }
+    
+    .content-card {
+        padding: 45px 40px;
+    }
+}
+
+/* 打印样式优化 */
+@media print {
+    .mbti-container {
+        background: white;
+        padding: 0;
+    }
+    
+    .result-header {
+        background: #5DBE9E;
+        box-shadow: none;
+    }
+    
+    .dimension-card,
+    .content-card {
+        box-shadow: none;
+        border: 1px solid #e0e7ee;
+        page-break-inside: avoid;
+    }
+}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+<script>
+new Vue({
+    el: '#app',
+    data: {
+        loading: true,
+        error: null,
+        allInfo: null,
+        currentLang: 'zh',
+        i18n: {
+            zh: {
+                loading: '正在加载测试结果...',
+                loadFailed: '加载失败',
+                retry: '重新加载',
+                testComplete: '测试完成',
+                dimensionAnalysis: '性格维度分析',
+                characterAnalysis: '性格特征分析',
+                deepAnalysis: '深度分析',
+                developmentSuggestion: '发展建议',
+                detailedReport: '详细分析报告',
+                missingId: '缺少测试结果ID',
+                fetchFailed: '获取数据失败',
+                networkError: '网络错误',
+                dimensions: {
+                    EI: '外向性 vs 内向性',
+                    SN: '感觉 vs 直觉',
+                    TF: '思考 vs 情感',
+                    JP: '判断 vs 知觉'
+                }
+            },
+            en: {
+                loading: 'Loading test results...',
+                loadFailed: 'Load Failed',
+                retry: 'Retry',
+                testComplete: 'Test Complete',
+                dimensionAnalysis: 'Personality Dimension Analysis',
+                characterAnalysis: 'Character Analysis',
+                deepAnalysis: 'In-depth Analysis',
+                developmentSuggestion: 'Development Suggestions',
+                detailedReport: 'Detailed Analysis Report',
+                missingId: 'Missing test result ID',
+                fetchFailed: 'Failed to fetch data',
+                networkError: 'Network error',
+                dimensions: {
+                    EI: 'Extraversion vs Introversion',
+                    SN: 'Sensing vs Intuition',
+                    TF: 'Thinking vs Feeling',
+                    JP: 'Judging vs Perceiving'
+                }
+            }
+        }
+    },
+    computed: {
+        t() {
+            return this.i18n[this.currentLang] || this.i18n.zh;
+        },
+        dimensionPairs() {
+            if (!this.allInfo || !this.allInfo.stat_data) return [];
+            
+            const statData = this.allInfo.stat_data;
+            const pairs = [
+                {
+                    key: 'EI',
+                    name: this.t.dimensions.EI,
+                    left: { key: 'E', value: statData.E || 0 },
+                    right: { key: 'I', value: statData.I || 0 }
+                },
+                {
+                    key: 'SN',
+                    name: this.t.dimensions.SN,
+                    left: { key: 'S', value: statData.S || 0 },
+                    right: { key: 'N', value: statData.N || 0 }
+                },
+                {
+                    key: 'TF',
+                    name: this.t.dimensions.TF,
+                    left: { key: 'T', value: statData.T || 0 },
+                    right: { key: 'F', value: statData.F || 0 }
+                },
+                {
+                    key: 'JP',
+                    name: this.t.dimensions.JP,
+                    left: { key: 'J', value: statData.J || 0 },
+                    right: { key: 'P', value: statData.P || 0 }
+                }
+            ];
+            
+            // 计算百分比和获胜者
+            pairs.forEach(pair => {
+                const total = pair.left.value + pair.right.value;
+                if (total > 0) {
+                    pair.left.percentage = Math.round((pair.left.value / total) * 100);
+                    pair.right.percentage = Math.round((pair.right.value / total) * 100);
+                } else {
+                    pair.left.percentage = 50;
+                    pair.right.percentage = 50;
+                }
+                
+                // 确定获胜者
+                if (pair.left.value > pair.right.value) {
+                    pair.winner = { ...pair.left, key: pair.left.key };
+                } else if (pair.right.value > pair.left.value) {
+                    pair.winner = { ...pair.right, key: pair.right.key };
+                } else {
+                    // 平局情况
+                    pair.winner = { ...pair.left, key: pair.left.key, percentage: 50 };
+                }
+            });
+            
+            return pairs;
+        }
+    },
+    mounted() {
+        this.loadData();
+    },
+    methods: {
+        loadData() {
+            this.loading = true;
+            this.error = null;
+            
+            // 获取URL参数
+            const urlParams = new URLSearchParams(window.location.search);
+            const answer_id = urlParams.get('answer_id');
+            const lg = urlParams.get('lg') || 'zh-cn';
+            
+            // 设置当前语言
+            this.currentLang = lg.indexOf('en') !== -1 ? 'en' : 'zh';
+            
+            if (!answer_id) {
+                this.error = this.t.missingId;
+                this.loading = false;
+                return;
+            }
+            
+            // 调用API获取数据，传递语言参数
+            fetch('/addons/cms/psychometry/answerInfo', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'answer_id=' + answer_id + '&lang=' + lg
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('API返回数据:', data); // 调试信息
+                if (data.code === 1) {
+                    this.allInfo = data.data;
+                } else {
+                    this.error = data.msg || this.t.fetchFailed;
+                }
+                this.loading = false;
+            })
+            .catch(error => {
+                console.error('API调用错误:', error); // 调试信息
+                this.error = this.t.networkError + ': ' + error.message;
+                this.loading = false;
+            });
+        },
+        
+        getTotalQuestions() {
+            if (this.allInfo && this.allInfo.a_info) {
+                return this.allInfo.a_info.question_num || 0;
+            }
+            return 0;
+        },
+        
+        // 获取性格维度数量
+        getDimensionCount() {
+            if (this.allInfo && this.allInfo.stat_data) {
+                return Object.keys(this.allInfo.stat_data).length / 2; // MBTI有4个维度对
+            }
+            return 4; // 默认4个维度
+        },
+        
+        // 获取测试时长（估算）
+        getTestDuration() {
+            if (this.allInfo && this.allInfo.a_info) {
+                const questionNum = this.allInfo.a_info.question_num || 0;
+                // 假设每题平均30秒
+                const totalSeconds = questionNum * 30;
+                const minutes = Math.floor(totalSeconds / 60);
+                return minutes > 0 ? `${minutes}分钟` : '1分钟';
+            }
+            return '5分钟';
+        },
+        
+    }
+});
+</script>

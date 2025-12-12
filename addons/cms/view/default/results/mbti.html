@@ -1,0 +1,195 @@
+{extend name="common/layout" /}
+
+{block name="content"}
+<div class="container" style="max-width: 1200px; margin: 0 auto; padding: 20px;">
+    <div id="app">
+        <!-- 加载状态 -->
+        <div v-if="loading" class="text-center" style="padding: 50px;">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">加载中...</span>
+            </div>
+            <p class="mt-3">正在加载测试结果...</p>
+        </div>
+
+        <!-- 错误状态 -->
+        <div v-if="error" class="alert alert-danger text-center" style="margin: 50px 0;">
+            <h4>加载失败</h4>
+            <p>{{error}}</p>
+            <button @click="loadData" class="btn btn-primary">重新加载</button>
+        </div>
+
+        <!-- MBTI结果内容 -->
+        <div v-if="!loading && !error && allInfo" class="mbti-result-container">
+            <!-- 测试信息头部 -->
+            <div class="test-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px; border-radius: 20px; margin-bottom: 30px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                <h1 style="font-size: 48px; font-weight: bold; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+                    {{allInfo.answer_info.mbti_type || 'MBTI'}}
+                </h1>
+                <p style="font-size: 20px; margin: 0; opacity: 0.9;">您的MBTI性格类型</p>
+                <div v-if="allInfo.a_info" style="margin-top: 15px; font-size: 16px; opacity: 0.8;">
+                    {{allInfo.a_info.title}}
+                </div>
+            </div>
+
+            <!-- 维度分数展示 -->
+            <div class="dimension-scores" style="background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 30px;">
+                <h3 style="color: #333; margin-bottom: 25px; font-size: 24px; text-align: center;">性格维度分析</h3>
+                <div class="row">
+                    <div class="col-md-6" v-for="(value, key) in allInfo.stat_data" :key="key" style="margin-bottom: 20px;">
+                        <div class="dimension-item" style="background: #f8f9fa; padding: 20px; border-radius: 12px; border-left: 5px solid #5DBE9E;">
+                            <div class="dimension-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <h5 style="color: #333; margin: 0; font-size: 18px;">{{getDimensionName(key)}}</h5>
+                                <span style="font-size: 20px; font-weight: bold; color: #2E7D5F;">{{value}}</span>
+                            </div>
+                            <div class="dimension-bar" style="background: #e9ecef; height: 12px; border-radius: 6px; overflow: hidden; position: relative;">
+                                <div :style="'background: linear-gradient(90deg, #5DBE9E, #28a745); height: 100%; width: ' + getDimensionPercentage(value) + '%; transition: width 1s ease;'"></div>
+                            </div>
+                            <div class="dimension-description" style="margin-top: 10px; font-size: 14px; color: #666;">
+                                {{getDimensionDescription(key, value)}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MBTI详细解析 -->
+            <div v-if="allInfo.answer_info.mbti_content" class="mbti-detail" style="background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 30px;">
+                <h3 style="color: #333; margin-bottom: 25px; font-size: 24px; text-align: center;">{{allInfo.answer_info.mbti_content.title || '性格类型解析'}}</h3>
+                
+                <!-- 类型简介 -->
+                <div v-if="allInfo.answer_info.mbti_content.intro" style="background: #f8f9fa; padding: 25px; border-radius: 12px; margin-bottom: 25px;">
+                    <h5 style="color: #5DBE9E; margin-bottom: 15px; font-size: 18px;">类型简介</h5>
+                    <div style="color: #666; line-height: 1.8; font-size: 16px;">{{allInfo.answer_info.mbti_content.intro}}</div>
+                </div>
+                
+                <!-- 性格特征 -->
+                <div v-if="allInfo.answer_info.mbti_content.content" style="background: #f8f9fa; padding: 25px; border-radius: 12px; margin-bottom: 25px;">
+                    <h5 style="color: #5DBE9E; margin-bottom: 15px; font-size: 18px;">性格特征</h5>
+                    <div style="color: #666; line-height: 1.8; font-size: 16px;" v-html="allInfo.answer_info.mbti_content.content"></div>
+                </div>
+                
+                <!-- 深度分析 -->
+                <div v-if="allInfo.answer_info.mbti_content.analysis" style="background: #f8f9fa; padding: 25px; border-radius: 12px; margin-bottom: 25px;">
+                    <h5 style="color: #5DBE9E; margin-bottom: 15px; font-size: 18px;">深度分析</h5>
+                    <div style="color: #666; line-height: 1.8; font-size: 16px;" v-html="allInfo.answer_info.mbti_content.analysis"></div>
+                </div>
+                
+                <!-- 发展建议 -->
+                <div v-if="allInfo.answer_info.mbti_content.suggestion" style="background: #e8f5e8; padding: 25px; border-radius: 12px; border-left: 5px solid #5DBE9E;">
+                    <h5 style="color: #5DBE9E; margin-bottom: 15px; font-size: 18px;">发展建议</h5>
+                    <div style="color: #666; line-height: 1.8; font-size: 16px;" v-html="allInfo.answer_info.mbti_content.suggestion"></div>
+                </div>
+                
+                <!-- 封面图片 -->
+                <div v-if="allInfo.answer_info.mbti_content.cover" style="text-align: center; margin-top: 25px;">
+                    <img :src="allInfo.answer_info.mbti_content.cover" style="max-width: 100%; max-height: 400px; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.1);">
+                </div>
+            </div>
+
+            <!-- 测试总结 -->
+            <div class="test-summary" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 30px; border-radius: 15px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                <h3 style="color: white; margin-bottom: 20px; font-size: 24px;">测试总结</h3>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div style="font-size: 32px; font-weight: bold; margin-bottom: 5px;">{{allInfo.answer_info.mbti_type}}</div>
+                        <div style="font-size: 16px; opacity: 0.9;">性格类型</div>
+                    </div>
+                    <div class="col-md-4">
+                        <div style="font-size: 32px; font-weight: bold; margin-bottom: 5px;">{{allInfo.max_score}}</div>
+                        <div style="font-size: 16px; opacity: 0.9;">总分数</div>
+                    </div>
+                    <div class="col-md-4">
+                        <div style="font-size: 32px; font-weight: bold; margin-bottom: 5px;">4</div>
+                        <div style="font-size: 16px; opacity: 0.9;">维度分析</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+new Vue({
+    el: '#app',
+    data: {
+        loading: true,
+        error: null,
+        allInfo: null
+    },
+    mounted() {
+        this.loadData();
+    },
+    methods: {
+        loadData() {
+            this.loading = true;
+            this.error = null;
+            
+            // 获取URL参数
+            const urlParams = new URLSearchParams(window.location.search);
+            const answer_id = urlParams.get('answer_id');
+            
+            if (!answer_id) {
+                this.error = '缺少测试结果ID';
+                this.loading = false;
+                return;
+            }
+            
+            // 调用API获取数据
+            fetch('/addons/cms/psychometry/answerInfo', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'answer_id=' + answer_id
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.code === 1) {
+                    this.allInfo = data.data;
+                } else {
+                    this.error = data.msg || '获取数据失败';
+                }
+                this.loading = false;
+            })
+            .catch(error => {
+                this.error = '网络错误：' + error.message;
+                this.loading = false;
+            });
+        },
+        
+        getDimensionName(key) {
+            const names = {
+                'E': '外向性 (E)',
+                'I': '内向性 (I)', 
+                'S': '感觉 (S)',
+                'N': '直觉 (N)',
+                'T': '思考 (T)',
+                'F': '情感 (F)',
+                'J': '判断 (J)',
+                'P': '知觉 (P)'
+            };
+            return names[key] || key;
+        },
+        
+        getDimensionPercentage(value) {
+            // 假设最大分数是40，根据实际情况调整
+            return Math.min((value / 40) * 100, 100);
+        },
+        
+        getDimensionDescription(key, value) {
+            const descriptions = {
+                'E': value > 20 ? '您更倾向于外向，喜欢与人交往，从社交中获得能量。' : '您更倾向于内向，喜欢独处思考，从内心世界获得能量。',
+                'I': value > 20 ? '您更倾向于内向，喜欢独处思考，从内心世界获得能量。' : '您更倾向于外向，喜欢与人交往，从社交中获得能量。',
+                'S': value > 20 ? '您更倾向于感觉，注重具体事实和细节。' : '您更倾向于直觉，注重可能性和整体概念。',
+                'N': value > 20 ? '您更倾向于直觉，注重可能性和整体概念。' : '您更倾向于感觉，注重具体事实和细节。',
+                'T': value > 20 ? '您更倾向于思考，注重逻辑和客观分析。' : '您更倾向于情感，注重价值观和人际关系。',
+                'F': value > 20 ? '您更倾向于情感，注重价值观和人际关系。' : '您更倾向于思考，注重逻辑和客观分析。',
+                'J': value > 20 ? '您更倾向于判断，喜欢有序和计划。' : '您更倾向于知觉，喜欢灵活和开放。',
+                'P': value > 20 ? '您更倾向于知觉，喜欢灵活和开放。' : '您更倾向于判断，喜欢有序和计划。'
+            };
+            return descriptions[key] || '';
+        }
+    }
+});
+</script>
+{/block}

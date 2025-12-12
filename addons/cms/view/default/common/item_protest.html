@@ -1,0 +1,19 @@
+<div class="card procard">
+    <a href="{$item.url}" class="thumb">
+        <div class="promark">
+            <h2>{$item.title|htmlentities}｜共{$item.question_num|htmlentities}题</h2>
+        </div>
+        <div class="preview-link">
+            <div class="embed-responsive embed-responsive-4by1">
+                <img src="{$item.image}" alt="">
+            </div>
+        </div>
+    </a>
+    <div style="padding: 6px 6px 12px 6px;">
+        <div class="sub_title">{$item.sub_title|htmlentities}</div>
+        <!-- <div class="u-flex u-flex-between">
+            <div class="smalltxt">共{$item.question_num|htmlentities}题</div>
+            <div class="pricetxt">¥{$item.price}</div>
+        </div> -->
+    </div>
+</div>

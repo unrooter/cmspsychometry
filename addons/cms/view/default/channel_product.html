@@ -1,0 +1,50 @@
+{layout name="common/layout" /}
+<div class="container" id="content-container">
+    <h1 class="category-title">
+        {:__($__CHANNEL__.name)}
+        <div class="more pull-right">
+            <ol class="breadcrumb">
+                <!-- S 面包屑导航 -->
+                {cms:breadcrumb id="item"}
+                <li><a href="{$item.url}">{$item.name|htmlentities}</a></li>
+                {/cms:breadcrumb}
+                <!-- E 面包屑导航 -->
+            </ol>
+        </div>
+    </h1>
+
+    <div class="row mt-2">
+        <main class="col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-body pt-0">
+                    <div class="channel-list">
+                        <div class="row">
+                            <!-- S 栏目列表 -->
+                            {cms:channellist id="channel" type="son" typeid="$__CHANNEL__.id" paginate="10"}
+                            <div class="col-xs-12">
+                                <h3>{:__($channel.textlink)} <em><a href="{$channel.url}">{:__('More')}</a></em></h3>
+                                <div class="row">
+                                    {cms:arclist id="item" channel="$channel.id" length="8"}
+                                    {include file="common/item_product" /}
+                                    {/cms:arclist}
+                                </div>
+                            </div>
+                            {/cms:channellist}
+                            <!-- E 栏目列表 -->
+
+                            {if $__LASTLIST__->isEmpty()}
+                            <div class="loadmore loadmore-line loadmore-nodata"><span class="loadmore-tips">{:__('暂无数据')}</span></div>
+                            {/if}
+                        </div>
+                    </div>
+
+                    <!-- S 分页 -->
+                    <div class="text-center pager">
+                        {cms:pageinfo type="full" /}
+                    </div>
+                    <!-- E 分页 -->
+                </div>
+            </div>
+        </main>
+    </div>
+</div>

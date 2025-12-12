@@ -1,0 +1,1180 @@
+{layout name="common/layout" /}
+
+<!-- SEO结构化数据 - MBTI Quiz类型 -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Quiz",
+  "name": "{$__ARCHIVES__.title|htmlentities}",
+  "description": "{$__ARCHIVES__.sub_title ?: 'MBTI性格测试'}",
+  "url": "{$Think.request.url}",
+  "image": "{$__ARCHIVES__.image|cdnurl}",
+  "author": {
+    "@type": "Organization",
+    "name": "{cms:config name='cms.sitename'/}"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "{cms:config name='cms.sitename'/}",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{$Think.config.cms.sitelogo|cdnurl}"
+    }
+  },
+  "datePublished": "{$__ARCHIVES__.publishtime|date='c',###}",
+  "dateModified": "{$__ARCHIVES__.updatetime|date='c',###}",
+  "genre": "MBTI Personality Test"
+}
+</script>
+
+<style>
+    /* Vue cloak */
+    [v-cloak] {
+        display: none;
+    }
+
+    .swiper-container {
+        width: 100%;
+        height: 300px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .swiper-slide {
+        background-size: cover;
+        background-position: center;
+    }
+
+    .gallery-top {
+        height: 80%;
+        width: 100%;
+    }
+
+    .gallery-thumbs {
+        height: 20%;
+        box-sizing: border-box;
+        padding: 10px 0;
+    }
+
+    .gallery-thumbs .swiper-slide {
+        width: 25%;
+        height: 100%;
+        opacity: 0.4;
+    }
+    .gallery-thumbs .swiper-slide-thumb-active {
+        opacity: 1;
+    }
+
+    .article-image {
+        height: 600px;
+    }
+
+    @media (max-width: 767px) {
+        .article-image {
+            height: 400px;
+        }
+    }
+
+    /* SEO优化样式 */
+    .mbti-detail-container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .breadcrumb-seo {
+        margin-bottom: 20px;
+    }
+
+    .breadcrumb-seo .breadcrumb {
+        background: transparent;
+        padding: 8px 0;
+        margin: 0;
+        font-size: 13px;
+        display: flex;
+        flex-wrap: wrap;
+        list-style: none;
+    }
+
+    .breadcrumb-seo .breadcrumb-item {
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .breadcrumb-seo .breadcrumb-item + .breadcrumb-item::before {
+        content: "›";
+        padding: 0 8px;
+        color: #adb5bd;
+    }
+
+    .breadcrumb-seo .breadcrumb-item a {
+        color: #6c757d;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+
+    .breadcrumb-seo .breadcrumb-item a:hover {
+        color: #5DBE9E;
+    }
+
+    .breadcrumb-seo .breadcrumb-item:last-child a {
+        color: #2c3e50;
+        font-weight: 500;
+    }
+
+    .test-header-seo {
+        background: linear-gradient(135deg, #f8f9fa 0%, #fff 100%);
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        border: 1px solid #e9ecef;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .test-header-seo h1 {
+        font-size: 26px;
+        font-weight: 700;
+        color: #2c3e50;
+        margin: 0 0 10px 0;
+    }
+
+    .test-meta-info {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        font-size: 14px;
+        color: #6c757d;
+    }
+
+    .test-meta-info .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .test-meta-info .meta-item i {
+        color: #5DBE9E;
+    }
+
+    /* 相关推荐模块 - 侧边栏版本 */
+    .sidebar-related.related-tests-section {
+        background: #fff;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 20px;
+        border: 1px solid #e9ecef;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .sidebar-related .section-header {
+        margin-bottom: 15px;
+    }
+
+    .sidebar-related .section-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #2c3e50;
+        margin: 0;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #5DBE9E;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .sidebar-related .section-title i {
+        color: #5DBE9E;
+        font-size: 18px;
+    }
+
+    .related-tests-list {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .related-test-item {
+        transition: all 0.3s ease;
+    }
+
+    .related-item-link {
+        display: flex;
+        gap: 12px;
+        text-decoration: none;
+        color: inherit;
+        padding: 12px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .related-item-link:hover {
+        background: #e9ecef;
+        transform: translateX(3px);
+    }
+
+    .related-item-image {
+        position: relative;
+        width: 80px;
+        height: 80px;
+        flex-shrink: 0;
+        border-radius: 6px;
+        overflow: hidden;
+        background: #fff;
+    }
+
+    .related-item-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .related-item-link:hover .related-item-image img {
+        transform: scale(1.1);
+    }
+
+    .related-item-badge {
+        position: absolute;
+        bottom: 4px;
+        left: 4px;
+        right: 4px;
+        background: rgba(93, 190, 158, 0.95);
+        color: #fff;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 10px;
+        font-weight: 600;
+        text-align: center;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .related-item-content {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .related-item-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #2c3e50;
+        margin: 0 0 6px 0;
+        line-height: 1.4;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .related-item-meta {
+        font-size: 12px;
+        color: #6c757d;
+    }
+
+    .related-item-meta .meta-views {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .related-item-meta .meta-views i {
+        color: #5DBE9E;
+    }
+
+    /* 测试功能样式 */
+    .selectItem {
+        font-size: 16px;
+        font-weight: 700;
+        position: relative;
+    }
+
+    .radioStyle {
+        width: 100%;
+        margin-top: 20px !important;
+        padding: 14px;
+        font-size: 16px;
+        background-color: #eee !important;
+        color: #000 !important;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+    
+    .radioStyle:hover:not(.disabled) {
+        background-color: #e0e0e0 !important;
+        transform: translateX(5px);
+        border-color: #5DBE9E;
+    }
+    
+    .radioStyle.disabled {
+        opacity: 0.6;
+        cursor: not-allowed !important;
+        pointer-events: none;
+    }
+
+    .labelClick {
+        background-color: #5DBE9E !important;
+        color: #fff !important;
+        border-color: #4a9d7e !important;
+        animation: pulse 0.5s ease;
+    }
+    
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.02); }
+        100% { transform: scale(1); }
+    }
+
+    .labelClick::after {
+        content: '✔';
+        color: #fff;
+        position: absolute;
+        right: 18px;
+        top: 32px;
+        z-index: 9999;
+    }
+
+    .submitBtn {
+        background: linear-gradient(135deg, #5DBE9E 0%, #4a9d7e 100%);
+        color: #fff;
+        padding: 18px;
+        border-radius: 12px;
+        margin-top: 24px;
+        text-align: center;
+        font-weight: 700;
+        letter-spacing: 2px;
+        font-size: 18px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(93, 190, 158, 0.3);
+        cursor: pointer;
+    }
+    
+    .submitBtn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(93, 190, 158, 0.4);
+    }
+    
+    .submitBtn.disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+    
+    .progress-container {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background: #fff;
+        padding: 15px 0;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+        border-radius: 8px;
+    }
+    
+    .progress-bar-custom {
+        height: 8px;
+        background: #e0e0e0;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    
+    .progress-fill {
+        height: 100%;
+        background: linear-gradient(135deg, #5DBE9E 0%, #4a9d7e 100%);
+        border-radius: 10px;
+        transition: width 0.5s ease;
+    }
+    
+    .progress-text {
+        text-align: center;
+        margin-top: 10px;
+        font-size: 14px;
+        color: #666;
+        font-weight: 600;
+    }
+    
+    .question-page {
+        display: none;
+        animation: fadeIn 0.5s ease;
+    }
+    
+    .question-page.active {
+        display: block;
+    }
+    
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .returnBtn {
+        background: #f0f0f0;
+        padding: 10px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .returnBtn:hover {
+        background: #e0e0e0;
+        transform: translateX(-3px);
+    }
+
+    .u-flex {
+        display: flex;
+    }
+
+    .u-flex-between {
+        justify-content: space-between;
+    }
+
+    .u-flex-1 {
+        flex: 1;
+    }
+
+    .mt-4 {
+        margin-top: 24px;
+    }
+
+
+    /* 广告容器样式优化 */
+    #ad-header-horizontal,
+    #ad-in-article,
+    #ad-feed,
+    #ad-sidebar-top {
+        min-height: 100px;
+        transition: min-height 0.3s ease;
+    }
+    
+    #ad-header-horizontal:empty,
+    #ad-in-article:empty,
+    #ad-feed:empty,
+    #ad-sidebar-top:empty {
+        min-height: 0;
+        margin: 0;
+    }
+
+    @media (max-width: 767px) {
+        .breadcrumb-seo .breadcrumb {
+            font-size: 12px;
+        }
+        
+        .test-header-seo {
+            padding: 15px;
+        }
+        
+        .test-header-seo h1 {
+            font-size: 22px;
+        }
+        
+        .test-meta-info {
+            gap: 15px;
+            font-size: 13px;
+        }
+
+        .sidebar-related .related-item-image {
+            width: 70px;
+            height: 70px;
+        }
+
+        .related-item-title {
+            font-size: 13px;
+        }
+    }
+
+</style>
+<div class="mbti-detail-container">
+    <!-- SEO优化的面包屑导航 -->
+    <nav aria-label="breadcrumb" class="breadcrumb-seo">
+        <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+            {php}$breadPos = 0;{/php}
+            {cms:breadcrumb id="item"}
+            {php}$breadPos++;{/php}
+            <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                <a href="{$item.url}" itemprop="item">
+                    <span itemprop="name">{:__($item.name)}</span>
+                </a>
+                <meta itemprop="position" content="{$breadPos}" />
+            </li>
+            {/cms:breadcrumb}
+        </ol>
+    </nav>
+
+    <!-- SEO优化的测试头部 -->
+    <header class="test-header-seo">
+        <h1 itemprop="headline">{cms:archives name="title|htmlentities" /}</h1>
+        {if $__ARCHIVES__.sub_title}
+        <p class="text-muted" itemprop="description">{$__ARCHIVES__.sub_title|htmlentities}</p>
+        {/if}
+        <div class="test-meta-info">
+            <span class="meta-item">
+                <i class="fa fa-eye"></i>
+                <span>{cms:archives name="views" /} {:__('阅读')}</span>
+            </span>
+            <span class="meta-item">
+                <i class="fa fa-calendar"></i>
+                <span>{$__ARCHIVES__.publishtime|date="Y-m-d",###}</span>
+            </span>
+            <span class="meta-item">
+                <i class="fa fa-folder-o"></i>
+                <span>{$__CHANNEL__.name}</span>
+            </span>
+        </div>
+    </header>
+
+    <!-- Google AdSense 头部横向广告 -->
+    <div class="container" style="margin-top: 15px;">
+        <div id="ad-header-horizontal" style="margin: 0 auto; max-width: 1200px;"></div>
+    </div>
+
+<div class="container" id="content-container">
+    <div id="app">
+    <div class="row">
+
+        <main class="col-xs-12 col-md-8">
+
+            <div class="panel panel-default article-content" id="ceshi">
+                <div class="panel-body">
+
+                    <!-- 测试开始前：显示简介和立即测试按钮 -->
+                    <div class="intro-section" id="introSection">
+                        <div class="article-text">
+                            <!-- S 正文 -->
+                            {cms:archives name="content" /}
+                            <!-- E 正文 -->
+                        </div>
+
+                        <!-- Google AdSense 文章内嵌广告 -->
+                        <div id="ad-in-article" style="margin: 20px 0 15px 0;"></div>
+
+                        {if isset($check_data) && $check_data['code']==0}
+                            <div class="alert alert-warning text-center" style="margin: 30px 0;">
+                                <i class="fa fa-info-circle"></i> {:__("今日已经做过该测试了，请明天再重试哦")}
+                            </div>
+                        {else}
+                            <div class="text-center" style="margin: 40px 0;">
+                                <button class="btn btn-primary btn-lg" @click="toTest" style="padding: 15px 60px; font-size: 18px; font-weight: 600; background: linear-gradient(135deg, #5DBE9E 0%, #4a9d7e 100%); border: none; border-radius: 8px;">
+                                    <i class="fa fa-play-circle"></i> {:__('立即测试')}
+                                </button>
+                            </div>
+                        {/if}
+                    </div>
+
+                    <!-- 测试进行中：显示题目 -->
+                    <div id="testSection" style="display: none; margin-bottom: 32px;">
+                        <!-- 进度条 -->
+                        <div class="progress-container">
+                            <div class="progress-bar-custom">
+                                <div class="progress-fill" :style="{width: progressPercentage + '%'}"></div>
+                            </div>
+                            <div class="progress-text">
+                                <i class="fa fa-check-circle" style="color: #5DBE9E;"></i>
+                                {:__("已完成")} {{answer_data.length}} / {{quesInfo.count}} {:__("题")} ({{progressPercentage}}%)
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-xs-12 col-md-12">
+                                <div class="test-wrap" style="text-align: center;">
+                                    <div v-for="(question, index) in quesList" :key="index"
+                                        :class="['question-page', { active: currentIndex === index }]">
+                                        <div class="fontWeight p-2" style="border-bottom: 4px dashed #999;">
+                                            <div class="u-font-sm u-text-center u-tips-color">
+                                                <i class="fa fa-question-circle"></i> {:__("第")}{{index+1}}{:__("题")}
+                                            </div>
+                                            <h2 style="color: #000; line-height: 1.5; font-size: 20px; margin-top: 10px;">
+                                                {{ question.question }}
+                                            </h2>
+                                        </div>
+                                        
+                                        <div class="" style="width: 100%;">
+                                            <div class="u-flex u-flex-between selectItem"
+                                                v-for="option in question.selectdata"
+                                                @click="currentChange(option, index)">
+                                                <div class="u-flex-1 u-m-r-40 radioStyle"
+                                                    :class="[option.current == 1 ? 'labelClick' : '', isProcessing ? 'disabled' : '']">
+                                                    {{option.value}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="u-flex u-flex-between mt-4">
+                                            <div class="returnBtn" @click="toReturn">{:__("上一题")}</div>
+                                            <div class="">
+                                                {:__("第")} <span style="font-size: 24px;font-weight: 700;">
+                                                    {{index+1}} </span> / {{quesInfo.count}} {:__("题")}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="submitBtn" v-show="isSubmit" @click="getExamResult()" :class="{disabled: isSubmitting}">
+                                        <span v-if="!isSubmitting">
+                                            <i class="fa fa-check-circle"></i> {:__("已完成做题，确认提交")}
+                                        </span>
+                                        <span v-else>
+                                            <i class="fa fa-spinner fa-spin"></i> {:__("正在提交中...")}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+
+                    {include file="common/payment" /}
+
+                    {include file="common/donate" /}
+
+                    {include file="common/share" type="archives" image="__ARCHIVES__.image" aid="__ARCHIVES__.id"}
+
+                    {include file="common/metainfo" /}
+
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+
+            {if $config.iscomment && config('fastadmin.usercenter')}
+            <div class="panel panel-default" id="comments">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{:__('Comment list')}
+                        <small>{:__("共有")} <span>{cms:archives name="comments" /}</span> {:__("条评论")}</small>
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    {if $__ARCHIVES__.iscomment}
+                    {include file="common/comment" type="archives" aid="__ARCHIVES__.id"}
+                    {else/}
+                    <div class="text-muted text-center">{:__("评论功能已关闭")}</div>
+                    {/if}
+                </div>
+            </div>
+            {/if}
+
+        </main>
+
+        <aside class="col-xs-12 col-md-4">
+            <!-- 相关MBTI测试推荐 -->
+            <section class="related-tests-section sidebar-related">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fa fa-lightbulb-o"></i> {:__('相关推荐')}
+                    </h2>
+                </div>
+                <div class="related-tests-list">
+                    {cms:arclist id="related" channel="$__CHANNEL__.id" limit="6" orderby="views" orderway="DESC"}
+                    {if $related.id != $__ARCHIVES__.id}
+                    <article class="related-test-item">
+                        <a href="{$related.url}" class="related-item-link">
+                            <div class="related-item-image">
+                                <img src="{$related.image ?: '/assets/addons/cms/img/default.png'}" 
+                                     alt="{$related.title|htmlentities} - {:__('MBTI测试')}"
+                                     loading="lazy">
+                                {if isset($related.tags[0])}
+                                <span class="related-item-badge">{$related.tags.0.title|htmlentities}</span>
+                                {/if}
+                            </div>
+                            <div class="related-item-content">
+                                <h3 class="related-item-title">{$related.title|htmlentities|mb_substr=0,30}</h3>
+                                <div class="related-item-meta">
+                                    <span class="meta-views">
+                                        <i class="fa fa-eye"></i> {$related.views|default=0}
+                                    </span>
+                                </div>
+                            </div>
+                        </a>
+                    </article>
+                    {/if}
+                    {/cms:arclist}
+                </div>
+            </section>
+
+            <!-- Google AdSense 信息流广告 -->
+            <div id="ad-feed" style="margin: 15px 0 10px 0;"></div>
+
+            <!-- Google AdSense 侧边栏广告 (autorelaxed) -->
+            <div id="ad-sidebar-top" style="margin: 10px 0 15px 0;"></div>
+
+            {include file="common/authorinfo" /}
+            {include file="common/sidebar" /}
+        </aside>
+
+    </div>
+    </div><!-- 闭合 #app -->
+
+</div>
+</div><!-- 闭合 mbti-detail-container -->
+
+<script data-render="script">
+        var galleryThumbs = new Swiper('.gallery-thumbs', {
+            spaceBetween: 10,
+            slidesPerView: 5,
+            freeMode: true,
+            watchSlidesVisibility: true,
+            watchSlidesProgress: true,
+        });
+        var galleryTop = new Swiper('.gallery-top', {
+            spaceBetween: 10,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            thumbs: {
+                swiper: galleryThumbs
+            }
+        });
+        //点击放大
+        $(document).on("click", ".article-image .gallery-top .swiper-slide", function () {
+            var data = [];
+            $.each($(this).parent().children(), function (i, j) {
+                data.push({
+                    "src": $(this).data("src")
+                });
+            });
+            var json = {
+                "title": "",
+                "start": $(this).index(),
+                "data": data
+            };
+            layer.photos(JSON.parse(JSON.stringify({photos: json})));
+        });
+</script>
+
+<script type="text/javascript" src="__ADDON__/js/vue.js"></script>
+<script>
+    var token = "{$token}";
+    
+    // 忽略 Office 标签（从 Word 复制粘贴产生的标签）
+    Vue.config.ignoredElements = ['o:p'];
+    
+    // 根据测试类型获取对应的结果页面
+    function getResultPage(testType) {
+        const resultPages = {
+            'mbti': '/p/results_mbti.html',
+            'score': '/p/results_score.html', 
+            'dimension': '/p/results_dimension.html',
+            'custom': '/p/results_custom.html',
+            'nine_type': '/p/results_nine_type.html',
+            'multiple_type': '/p/results_multiple.html'
+        };
+        return resultPages[testType] || '/p/ceshiye.html';
+    }
+    
+    new Vue({
+        el: '#app',
+        data: {
+            qid: '',
+            isShow: false,
+            quesList: [],
+            currentIndex: 0,
+            quesInfo: '',
+            answer_data: [],
+            isSubmit: false,
+            isSubmitting: false,
+            isMobile: false,
+            authCode: 0,
+            currentLang: 'zh',
+            isProcessing: false
+        },
+        computed: {
+            // 计算进度百分比
+            progressPercentage() {
+                if (!this.quesInfo || !this.quesInfo.count) return 0;
+                return Math.round((this.answer_data.length / this.quesInfo.count) * 100);
+            }
+        },
+        mounted() {
+            this.isMobile = window.innerWidth <= 992;
+            window.addEventListener('resize', () => {
+                this.isMobile = window.innerWidth <= 992;
+            });
+            var url = window.location.href;
+            const parsedUrl = new URL(url);
+            const pathnameParts = parsedUrl.pathname.split("/");
+            const filename = pathnameParts[pathnameParts.length - 1];
+            this.qid = filename.split(".")[0];
+
+            this.loadProgress();
+            this.getQuestions();
+
+            if (parsedUrl.searchParams.has('question')) {
+                const questionIndex = parseInt(parsedUrl.searchParams.get('question')) - 1;
+                if (questionIndex >= 0) {
+                    this.currentIndex = questionIndex;
+                    this.isShow = true;
+                } else {
+                    this.isShow = false;
+                }
+            } else {
+                this.isShow = false;
+            }
+            
+            setTimeout(() => {
+                if (this.quesList.length === 0) {
+                    this.isShow = false;
+                }
+            }, 100);
+            window.addEventListener('popstate', this.handlePopState);
+            
+            // 动态插入 Google AdSense 广告
+            this.initAds();
+        },
+        watch: {
+            isShow(newVal) {
+                var introSection = document.getElementById('introSection');
+                var testSection = document.getElementById('testSection');
+                if (introSection && testSection) {
+                    introSection.style.display = newVal ? 'none' : 'block';
+                    testSection.style.display = newVal ? 'block' : 'none';
+                }
+            }
+        },
+        methods: {
+            initAds() {
+                // 等待 AdSense 脚本加载
+                const waitForAdSense = (callback, maxAttempts = 50) => {
+                    let attempts = 0;
+                    const checkAdSense = () => {
+                        if (window.adsbygoogle || attempts >= maxAttempts) {
+                            callback();
+                        } else {
+                            attempts++;
+                            setTimeout(checkAdSense, 200);
+                        }
+                    };
+                    checkAdSense();
+                };
+                
+                // 创建广告的辅助函数
+                const createAd = (container, config) => {
+                    if (!container) return;
+                    
+                    // 创建 ins 元素
+                    const ins = document.createElement('ins');
+                    ins.className = 'adsbygoogle';
+                    ins.style.display = 'block';
+                    
+                    // 设置广告属性
+                    Object.keys(config).forEach(key => {
+                        ins.setAttribute(key, config[key]);
+                    });
+                    
+                    container.appendChild(ins);
+                    
+                    // 延迟执行广告加载
+                    setTimeout(() => {
+                        try {
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                        } catch (e) {
+                            // 静默处理错误
+                        }
+                    }, 100);
+                };
+                
+                // 等待 AdSense 加载完成后创建广告
+                waitForAdSense(() => {
+                    // 头部横向广告
+                    createAd(document.getElementById('ad-header-horizontal'), {
+                        'data-ad-client': 'ca-pub-9195262048954682',
+                        'data-ad-slot': '7906059149',
+                        'data-ad-format': 'auto',
+                        'data-full-width-responsive': 'true'
+                    });
+                    
+                    // 文章内嵌广告
+                    createAd(document.getElementById('ad-in-article'), {
+                        'style': 'display:block; text-align:center;',
+                        'data-ad-layout': 'in-article',
+                        'data-ad-format': 'fluid',
+                        'data-ad-client': 'ca-pub-9195262048954682',
+                        'data-ad-slot': '5294962935'
+                    });
+                    
+                    // 信息流广告
+                    createAd(document.getElementById('ad-feed'), {
+                        'data-ad-format': 'fluid',
+                        'data-ad-layout-key': '-6t+ed+2i-1n-4w',
+                        'data-ad-client': 'ca-pub-9195262048954682',
+                        'data-ad-slot': '3120669155'
+                    });
+                    
+                    // 侧边栏广告
+                    const sidebarAd = document.getElementById('ad-sidebar-top');
+                    if (sidebarAd) {
+                        sidebarAd.style.minHeight = '250px';
+                    }
+                    createAd(sidebarAd, {
+                        'data-ad-client': 'ca-pub-9195262048954682',
+                        'data-ad-slot': '1134419628',
+                        'data-ad-format': 'auto',
+                        'data-full-width-responsive': 'true'
+                    });
+                });
+            },
+            
+            getCurrentLanguage() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const urlLang = urlParams.get('lg');
+                if (urlLang) {
+                    this.currentLang = urlLang;
+                    return urlLang;
+                }
+                
+                const cookieLang = this.getCookie('frontend_language');
+                if (cookieLang) {
+                    this.currentLang = cookieLang;
+                    return cookieLang;
+                }
+                
+                this.currentLang = 'zh';
+                return 'zh-cn';
+            },
+            
+            getCookie(name) {
+                const value = "; " + document.cookie;
+                const parts = value.split("; " + name + "=");
+                if (parts.length === 2) return parts.pop().split(";").shift();
+            },
+            
+            handlePopState() {
+                var url = window.location.href;
+                const parsedUrl = new URL(url);
+                if (parsedUrl.searchParams.has('question')) {
+                    const questionIndex = parseInt(parsedUrl.searchParams.get('question')) - 1;
+                    if (questionIndex >= 0) {
+                        this.currentIndex = questionIndex;
+                        this.isShow = true;
+                    } else {
+                        this.isShow = false;
+                    }
+                } else {
+                    this.isShow = false;
+                }
+            },
+            toTest() {
+                this.restartTest()
+                this.isShow = true;
+                history.pushState(null, '', `${window.location.pathname}?question=${this.currentIndex + 1}`);
+                
+                // 页面滚动到做题区域
+                this.$nextTick(() => {
+                    const testSection = document.getElementById('testSection');
+                    if (testSection) {
+                        testSection.scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'start' 
+                        });
+                        // 额外向上偏移一点，避免被导航栏遮挡
+                        setTimeout(() => {
+                            window.scrollBy({ 
+                                top: -80, 
+                                behavior: 'smooth' 
+                            });
+                        }, 300);
+                    }
+                });
+            },
+            currentChange(option, questionIndex) {
+                // 防止连续快速点击
+                if (this.isProcessing) {
+                    return;
+                }
+                
+                this.isProcessing = true;
+                
+                let answerList = {
+                    qid: this.quesList[questionIndex].id,
+                    answer: option.key,
+                };
+
+                this.quesList[questionIndex].selectdata.forEach(opt => {
+                    this.$set(opt, 'current', opt.key === option.key ? 1 : '');
+                });
+
+                let index = this.answer_data.findIndex(answer => answer.qid == answerList.qid);
+                if (index > -1) {
+                    this.$set(this.answer_data, index, answerList);
+                } else {
+                    this.answer_data.push(answerList);
+                }
+
+                this.saveProgress();
+
+                if (this.currentIndex < this.quesList.length - 1) {
+                    setTimeout(() => {
+                        this.currentIndex++;
+                        history.pushState(null, '', `${window.location.pathname}?question=${this.currentIndex + 1}`);
+                        // 在切换完成后才允许下一次点击
+                        this.isProcessing = false;
+                    }, 300);
+                } else {
+                    this.isSubmit = true;
+                    this.isProcessing = false;
+                }
+            },
+            toReturn() {
+                if (this.isProcessing) {
+                    return;
+                }
+                if (this.currentIndex > 0) {
+                    this.currentIndex--;
+                    history.pushState(null, '', `${window.location.pathname}?question=${this.currentIndex + 1}`);
+                }
+            },
+            getQuestions() {
+                const params = new URLSearchParams();
+                params.append('aid', this.qid);
+                const currentLang = this.getCurrentLanguage();
+                if (currentLang) {
+                    params.append('lang', currentLang);
+                }
+                fetch('/addons/cms/psychometry/getQuestions?', {
+                    method: 'POST',
+                    body: params,
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.data.exam_info && data.data.exam_info.back_type == 3) {
+                            const options = data.data.question_data;
+                            
+                            const questionText = this.currentLang === 'zh-cn' || this.currentLang === 'zh' ? 
+                                (data.data.exam_info.test_type === 'custom' ? '请选择您的答案：' : '测试题目') :
+                                (data.data.exam_info.test_type === 'custom' ? 'Please select your answer:' : 'Test Question');
+                            
+                            this.quesList = [{
+                                id: 1,
+                                question: questionText,
+                                selectdata: options.map(option => ({
+                                    key: option.mark,
+                                    value: option.title
+                                }))
+                            }];
+                        } else {
+                            this.quesList = data.data.question_data;
+                        }
+                        
+                        this.quesInfo = data.data;
+                        this.productInfo = data.data.exam_info;
+                        this.restoreProgress();
+                    })
+                    .catch(error => {
+                        console.error('Error fetching data:', error);
+                    });
+            },
+            getExamResult() {
+                if (this.isSubmitting) return;
+                
+                this.isSubmitting = true;
+                
+                const params = new URLSearchParams();
+                params.append('aid', this.qid);
+                params.append('answer_data', JSON.stringify(this.answer_data));
+
+                fetch('/addons/cms/psychometry/getExamResult?', {
+                    method: 'POST',
+                    body: params,
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('提交返回的数据：', data);
+                        
+                        if (data.code == 1) {
+                            if (!data.data || !data.data.answer_id) {
+                                console.error('返回数据不完整：', data);
+                                const alertMsg = this.currentLang === 'zh-cn' || this.currentLang === 'zh' ? 
+                                    '提交成功，但返回数据不完整' : 'Submitted successfully, but data incomplete';
+                                alert(alertMsg);
+                                this.isSubmitting = false;
+                                return;
+                            }
+                            
+                            localStorage.removeItem(`quiz_${this.qid}_progress`);
+                            this.answer_data = [];
+                            this.currentIndex = 0;
+                            this.isSubmit = false;
+                            this.isShow = false;
+
+                            const testType = data.data.test_type || 'mbti';
+                            const resultPage = getResultPage(testType);
+                            const baseUrl = window.location.protocol + '//' + window.location.host;
+                            const resultUrl = baseUrl + resultPage + '?answer_id=' + data.data.answer_id;
+                            
+                            console.log('跳转到结果页：', resultUrl);
+                            window.location.href = resultUrl;
+
+                            history.replaceState(null, '', window.location.pathname);
+                        } else {
+                            console.error('提交失败：', data.msg);
+                            const failMsg = this.currentLang === 'zh-cn' || this.currentLang === 'zh' ? 
+                                '提交失败：' + (data.msg || '未知错误') : 
+                                'Submission failed: ' + (data.msg || 'Unknown error');
+                            alert(failMsg);
+                            this.isSubmitting = false;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error submitting exam:', error);
+                        const errorMsg = this.currentLang === 'zh-cn' || this.currentLang === 'zh' ? 
+                            '提交出错：' + error.message : 
+                            'Submission error: ' + error.message;
+                        alert(errorMsg);
+                        this.isSubmitting = false;
+                    });
+            },
+
+            saveProgress() {
+                localStorage.setItem(`quiz_${this.qid}_progress`, JSON.stringify(this.answer_data));
+            },
+            loadProgress() {
+                const savedProgress = localStorage.getItem(`quiz_${this.qid}_progress`);
+                if (savedProgress) {
+                    this.answer_data = JSON.parse(savedProgress);
+                }
+            },
+            restoreProgress() {
+                this.answer_data.forEach(answer => {
+                    const questionIndex = this.quesList.findIndex(q => q.id === answer.qid);
+                    if (questionIndex > -1) {
+                        this.quesList[questionIndex].selectdata.forEach(option => {
+                            if (option.key === answer.answer) {
+                                this.$set(option, 'current', 1);
+                            }
+                        });
+                    }
+                });
+                this.currentIndex = this.answer_data.length;
+            },
+            restartTest() {
+                this.answer_data = [];
+                this.currentIndex = 0;
+                this.isSubmit = false;
+                this.isProcessing = false;
+                if (this.quesList && Array.isArray(this.quesList)) {
+                    this.quesList.forEach(question => {
+                        if (question.selectdata && Array.isArray(question.selectdata)) {
+                            question.selectdata.forEach(option => {
+                                this.$set(option, 'current', '');
+                            });
+                        }
+                    });
+                }
+                localStorage.removeItem(`quiz_${this.qid}_progress`);
+                history.pushState(null, '', window.location.pathname);
+                this.isShow = false;
+            }
+        },
+        beforeDestroy() {
+            window.removeEventListener('popstate', this.handlePopState);
+        }
+    });
+</script>

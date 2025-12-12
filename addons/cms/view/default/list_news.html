@@ -1,0 +1,468 @@
+{layout name="common/layout" /}
+
+<!-- SEO结构化数据 -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "{$__CHANNEL__.seotitle ?: $__CHANNEL__.name}",
+  "description": "{$__CHANNEL__.description}",
+  "url": "{$__CHANNEL__.url}"
+}
+</script>
+
+<style>
+    .article-list .article-item{
+        padding: 14px 0;
+    }
+    .article-list .media .media-body{
+        padding-left: 14px;
+    }
+    
+    /* 子栏目导航样式 */
+    .sub-channels-nav {
+        background: linear-gradient(135deg, #5CB89F 0%, #5CB89F 100%);
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 15px rgba(92, 184, 159, 0.3);
+    }
+
+    .sub-channels-nav-title {
+        color: #fff;
+        font-size: 16px;
+        font-weight: 600;
+        margin: 0 0 15px 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .sub-channels-nav-title i {
+        font-size: 18px;
+    }
+
+    .sub-channels-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .sub-channel-item {
+        flex: 0 0 auto;
+    }
+
+    .sub-channel-link {
+        display: inline-block;
+        padding: 8px 20px;
+        background: rgba(255, 255, 255, 0.15);
+        color: #fff;
+        border-radius: 20px;
+        text-decoration: none;
+        font-size: 14px;
+        transition: all 0.3s;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+    }
+
+    .sub-channel-link:hover {
+        background: rgba(255, 255, 255, 0.25);
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        text-decoration: none;
+    }
+
+    /* 页面标题优化 */
+    .category-title {
+        padding: 25px 0;
+        border-bottom: 3px solid #5CB89F;
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    .category-title::after {
+        content: '';
+        position: absolute;
+        bottom: -3px;
+        left: 0;
+        width: 80px;
+        height: 3px;
+        background: #5CB89F;
+    }
+
+    .channel-description {
+        font-size: 14px;
+        color: #666;
+        margin: 15px 0 0 0;
+        line-height: 1.6;
+    }
+
+    /* 响应式 */
+    @media (max-width: 767px) {
+        .sub-channels-nav {
+            padding: 15px;
+        }
+        
+        .sub-channel-link {
+            padding: 6px 15px;
+            font-size: 13px;
+        }
+    }
+</style>
+
+<div class="container" id="content-container" itemscope itemtype="https://schema.org/CollectionPage">
+
+    <h1 class="category-title" itemprop="name">
+        {:__($__CHANNEL__.name)}
+        {if $__CHANNEL__.description}
+        <p class="channel-description" itemprop="description">{$__CHANNEL__.description}</p>
+        {/if}
+        <div class="more pull-right">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+                    <!-- S 面包屑导航 -->
+                    {cms:breadcrumb id="item"}
+                    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                        <a href="{$item.url}" itemprop="item">
+                            <span itemprop="name">{:__($item.name)}</span>
+                        </a>
+                        <meta itemprop="position" content="{$i}" />
+                    </li>
+                    {/cms:breadcrumb}
+                    <!-- E 面包屑导航 -->
+                </ol>
+            </nav>
+        </div>
+    </h1>
+    
+    <!-- 子栏目导航 -->
+    {php}$hasSubChannels = false;{/php}
+    {cms:channellist id="subchan" type="son" typeid="$__CHANNEL__.id" limit="1"}
+    {php}$hasSubChannels = true;{/php}
+    {/cms:channellist}
+    
+    {if $hasSubChannels}
+    <div class="sub-channels-nav">
+        <h2 class="sub-channels-nav-title">
+            <i class="fa fa-th-large"></i>
+            {:__('栏目分类')}
+        </h2>
+        <ul class="sub-channels-list">
+            {cms:channellist id="subchan" type="son" typeid="$__CHANNEL__.id"}
+            <li class="sub-channel-item">
+                <a href="{$subchan.url}" class="sub-channel-link">
+                    {:__($subchan.name)}
+                </a>
+            </li>
+            {/cms:channellist}
+        </ul>
+    </div>
+    {/if}
+    
+    <!-- Google AdSense 头部横向广告 -->
+    <div id="ad-list-header" style="margin: 20px 0; min-height: 90px;"></div>
+    
+    {if $__FILTERLIST__}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                筛选
+                <div class="more">
+                    <form action="" id="multipleform">
+                        <label for="multiple" class="checkbox-inline">
+                            <input type="checkbox" name="multiple" class="pull-left mt-0" id="multiple" onclick="document.getElementById('multipleform').submit();" value="{:$Think.get.multiple?0:1}" {:$Think.get.multiple?'checked':''}>
+                                                                                                                                                                                                                             多选模式
+                        </label>
+                    </form>
+                </div>
+            </h3>
+        </div>
+        <div class="panel-body">
+            <div class="tabs-wrapper {:$Think.get.multiple?'tabs-multiple':''}">
+                {cms:pagefilter id="filter" exclude=""}
+                <div class="tabs-group">
+                    <div class="title">{$filter.title|htmlentities}:</div>
+                    <ul class="content clearfix">
+                        {volist name="$filter.content" id="item"}
+                        <li class="{$item.active?'active':''}"><a href="{$item.url}">{$item.title|htmlentities}</a></li>
+                        {/volist}
+                    </ul>
+                </div>
+                {/cms:pagefilter}
+                <!-- E 分类列表 -->
+            </div>
+        </div>
+    </div>
+    {/if}
+
+    <div class="row">
+
+        <main class="col-xs-12 col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <span>{:__('列表')}</span>
+                        <div class="more">
+                            <ul class="list-unstyled list-inline category-order clearfix">
+                                <!-- S 排序 -->
+                                {cms:pageorder id="order"}
+                                <li><a href="{$order.url}" class="{$order.active?'active':''}">{$order.title|htmlentities}</a></li>
+                                {/cms:pageorder}
+                                <!-- E 排序 -->
+                            </ul>
+                        </div>
+                    </h3>
+                </div>
+                <div class="panel-body py-0">
+                    <div class="article-list" itemscope itemtype="https://schema.org/ItemList">
+                        <meta itemprop="name" content="{:__($__CHANNEL__.name)}文章列表" />
+                        <!-- S 列表 -->
+                        {cms:pagelist id="item"}
+                            {include file="common/item_news"}
+                        {/cms:pagelist}
+                        <!-- E 列表 -->
+                    </div>
+
+                    <!-- S 分页 -->
+                    {include file="common/pageinfo" /}
+                    <!-- E 分页 -->
+                </div>
+            </div>
+        </main>
+
+        <aside class="col-xs-12 col-md-4">
+            <!-- 判断是否有子栏目 -->
+            {php}$hasSubChannels = false;{/php}
+            {cms:channellist id="subchan_check" type="son" typeid="$__CHANNEL__.id" limit="1"}
+            {php}$hasSubChannels = true;{/php}
+            {/cms:channellist}
+            
+            <!-- 栏目导航 -->
+            {php}
+            // 判断显示哪种导航
+            $showNav = false;
+            $navType = '';
+            $navParentId = 0;
+            
+            if ($hasSubChannels) {
+                // 父栏目：显示子栏目
+                $showNav = true;
+                $navType = 'sub';
+                $navParentId = $__CHANNEL__['id'];
+            } elseif (isset($__CHANNEL__['parent_id']) && $__CHANNEL__['parent_id'] > 0) {
+                // 子栏目：显示兄弟栏目
+                $showNav = true;
+                $navType = 'sibling';
+                $navParentId = $__CHANNEL__['parent_id'];
+            }
+            {/php}
+            
+            {if $showNav}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3 class="panel-title">
+                        {if $navType == 'sub'}
+                            {:__('子栏目')}
+                        {else}
+                            {:__('相关栏目')}
+                        {/if}
+                    </h3>
+                    <ul class="list-unstyled" style="margin-top: 15px;">
+                        {cms:channellist id="navItem" type="son" typeid="$navParentId"}
+                        <li style="margin-bottom: 10px;">
+                            <a href="{$navItem.url}" 
+                               title="{:__($navItem.name)}"
+                               class="{if $navItem.id == $__CHANNEL__.id}active-nav{/if}"
+                               style="display: flex; align-items: center; padding: 8px 12px; background: {if $navItem.id == $__CHANNEL__.id}#5CB89F{else}#f8f9fa{/if}; border-radius: 6px; text-decoration: none; color: {if $navItem.id == $__CHANNEL__.id}#fff{else}#495057{/if}; transition: all 0.3s;"
+                               onmouseover="if({$navItem.id} != {$__CHANNEL__.id}) { this.style.background='#5CB89F'; this.style.color='#fff'; }"
+                               onmouseout="if({$navItem.id} != {$__CHANNEL__.id}) { this.style.background='#f8f9fa'; this.style.color='#495057'; }">
+                                <i class="fa fa-folder-o" style="margin-right: 8px;"></i>
+                                <span style="flex: 1;">{:__($navItem.name)}</span>
+                                {if $navItem.id == $__CHANNEL__.id}
+                                <i class="fa fa-check"></i>
+                                {else}
+                                <i class="fa fa-angle-right"></i>
+                                {/if}
+                            </a>
+                        </li>
+                        {/cms:channellist}
+                    </ul>
+                </div>
+            </div>
+            {/if}
+            <!-- 热门文章 -->
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3 class="panel-title">{:__('热门推荐')}</h3>
+                    {php}$hotCount = 0;{/php}
+                    <div class="row">
+                        {cms:arclist id="item" orderby="views" orderway="DESC" limit="6"}
+                        {php}$hotCount++;{/php}
+                        <div class="col-xs-12" style="margin-top: 12px;">
+                            <a href="{$item.url}" class="article-item" title="{$item.title|htmlentities}">
+                                <div class="embed-responsive embed-responsive-4by1">
+                                    <img src="{$item.image}" 
+                                         alt="{$item.title|htmlentities}"
+                                         class="embed-responsive-item"
+                                         loading="lazy">
+                                </div>
+                                <div class="article-title">{$item.title|htmlentities}</div>
+                            </a>
+                        </div>
+                        {/cms:arclist}
+                        {if $hotCount == 0}
+                        <div class="col-xs-12" style="margin-top: 12px; padding: 20px; text-align: center; color: #999;">
+                            {:__('暂无热门文章')}
+                        </div>
+                        {/if}
+                    </div>
+                </div>
+            </div>
+            
+            
+            <!-- 最新文章 -->
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3 class="panel-title">{:__('最新发布')}</h3>
+                    <ul class="list-unstyled" style="margin-top: 15px;">
+                        {cms:arclist id="item" orderby="publishtime" orderway="DESC" limit="8"}
+                        <li style="margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #f0f0f0;">
+                            <a href="{$item.url}" 
+                               title="{$item.title|htmlentities}"
+                               style="text-decoration: none; color: #495057; display: block; transition: color 0.3s;"
+                               onmouseover="this.style.color='#5CB89F';"
+                               onmouseout="this.style.color='#495057';">
+                                <div style="font-size: 14px; line-height: 1.5; margin-bottom: 5px;">
+                                    {$item.title|htmlentities}
+                                </div>
+                                <div style="font-size: 12px; color: #95a5a6;">
+                                    <i class="fa fa-calendar"></i> {$item.publishtime|date='Y-m-d',###}
+                                    <span style="margin-left: 10px;">
+                                        <i class="fa fa-eye"></i> {$item.views}
+                                    </span>
+                                </div>
+                            </a>
+                        </li>
+                        {/cms:arclist}
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Google AdSense 侧边栏广告 -->
+            <div id="ad-list-sidebar" style="margin: 20px 0; min-height: 600px;"></div>
+            
+            {include file="common/sidebar" /}
+        </aside>
+    </div>
+</div>
+
+<!-- Google AdSense JavaScript -->
+<script type="text/javascript" src="__ADDON__/js/vue.js"></script>
+<script>
+Vue.config.ignoredElements = ['o:p'];
+
+new Vue({
+    el: '#content-container',
+    mounted() {
+        // 立即初始化广告
+        this.initAds();
+    },
+    methods: {
+        initAds() {
+            console.log('[AdSense] Init starting...', window._adsenseInitialized);
+            
+            if (window._adsenseInitialized) {
+                console.log('[AdSense] Already initialized, skipping');
+                return;
+            }
+            
+            console.log('[AdSense] Starting initialization');
+            
+            // 50ms快速检测
+            const waitForAdSense = (callback, maxAttempts = 100) => {
+                let attempts = 0;
+                const startTime = Date.now();
+                
+                const checkAdSense = () => {
+                    if (window.adsbygoogle && Array.isArray(window.adsbygoogle)) {
+                        const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
+                        console.log(`[AdSense] Script ready in ${elapsed}s`);
+                        callback();
+                    } else if (attempts >= maxAttempts) {
+                        const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
+                        console.log(`[AdSense] Timeout after ${elapsed}s, trying anyway`);
+                        callback();
+                    } else {
+                        attempts++;
+                        setTimeout(checkAdSense, 50);
+                    }
+                };
+                checkAdSense();
+            };
+            
+            const createAd = (containerId, config) => {
+                const container = document.getElementById(containerId);
+                if (!container) {
+                    console.warn('[AdSense] Container not found:', containerId);
+                    return;
+                }
+                
+                const existingAd = container.querySelector('.adsbygoogle');
+                if (existingAd && existingAd.getAttribute('data-adsbygoogle-status') === 'done') {
+                    console.log('[AdSense] Ad already exists:', containerId);
+                    return;
+                }
+                
+                console.log('[AdSense] Creating ad:', containerId);
+                container.innerHTML = '';
+                const ins = document.createElement('ins');
+                ins.className = 'adsbygoogle';
+                ins.style.display = 'block';
+                
+                Object.keys(config).forEach(key => {
+                    ins.setAttribute(key, config[key]);
+                });
+                
+                container.appendChild(ins);
+                
+                // 立即push
+                try {
+                    console.log('[AdSense] Pushing ad:', containerId);
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                } catch (e) {
+                    console.error('[AdSense] Push error:', containerId, e);
+                }
+            };
+            
+            waitForAdSense(() => {
+                console.log('[AdSense] Creating all ads...');
+                
+                // 列表页头部横向广告
+                createAd('ad-list-header', {
+                    'data-ad-client': 'ca-pub-9195262048954682',
+                    'data-ad-slot': '7906059149',
+                    'data-ad-format': 'auto',
+                    'data-full-width-responsive': 'true'
+                });
+                
+                // 列表页侧边栏广告
+                createAd('ad-list-sidebar', {
+                    'data-ad-client': 'ca-pub-9195262048954682',
+                    'data-ad-slot': '2901144473',
+                    'data-ad-format': 'auto',
+                    'data-full-width-responsive': 'true'
+                });
+                
+                window._adsenseInitialized = true;
+                console.log('[AdSense] ✅ All ads initialized');
+            });
+        }
+    }
+});
+
+console.log('[AdSense] Vue initialized');
+</script>

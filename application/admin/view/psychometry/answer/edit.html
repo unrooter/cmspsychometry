@@ -1,0 +1,160 @@
+<style>
+    .lang-tabs .nav-tabs {
+        border-bottom: 2px solid #e0e0e0;
+        margin-bottom: 20px;
+    }
+    .lang-tabs .nav-tabs > li > a {
+        border-radius: 4px 4px 0 0;
+        padding: 10px 20px;
+    }
+    .form-section {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+    }
+    .form-label {
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 8px;
+        display: block;
+    }
+    .form-help {
+        font-size: 12px;
+        color: #6c757d;
+        margin-top: 5px;
+    }
+</style>
+
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+    {:token()}
+    
+    <!-- 基本信息 -->
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <i class="fa fa-info-circle"></i> 基本信息
+            </h4>
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-2">{:__("所属测试")}:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <input id="c-test_id" data-field="archives_title" data-rule="required" data-source="psychometry/test/index" class="form-control selectpage" name="row[test_id]" type="text" value="{$row.test_id|htmlentities}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-2">答案标题:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <div class="form-control-static">
+                        <strong class="text-primary">{$row.answer_title|default='未设置标题'}</strong>
+                        <span class="text-muted" style="margin-left: 10px;">
+                            <i class="fa fa-info-circle"></i> 标题在 
+                            <a href="javascript:;" class="btn-multilang-edit" data-id="{$row.id}">
+                                <i class="fa fa-globe"></i> 多语言管理
+                            </a> 中编辑
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 结果配置 -->
+    <div class="panel panel-default" id="result-match-panel">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <i class="fa fa-sliders"></i> 结果配置
+            </h4>
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-2">{:__('结果类型')}:</label>
+                <div class="col-xs-12 col-sm-8">
+                    {:build_radios('row[result_type]', ['type'=>__('类型结果'),'score'=>__('分数结果'),'dimension'=>__('维度结果'),'custom'=>__('自定义结果')],$row['result_type'])}
+                </div>
+            </div>
+            
+            <!-- 类型结果 -->
+            <div class="result-type-panel" id="panel-result-type" {if $row['result_type'] != 'type'}style="display:none;"{/if}>
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">结果标识:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input type="text" id="config-result-key" name="row[result_key]" class="form-control" placeholder="填写选项键值，如：A、B、C" value="{$row.result_key|trim|default=''}">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 分数结果 -->
+            <div class="result-type-panel" id="panel-result-score" {if $row['result_type'] != 'score'}style="display:none;"{/if}>
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">分数范围:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <input type="number" id="config-min-score" class="form-control" placeholder="最低分" step="0.1" value="{$row['result_config']['min_score']|default='0'}">
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="number" id="config-max-score" class="form-control" placeholder="最高分" step="0.1" value="{$row['result_config']['max_score']|default='100'}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 维度结果 -->
+            <div class="result-type-panel" id="panel-result-dimension" {if $row['result_type'] != 'dimension'}style="display:none;"{/if}>
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">维度值:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input type="text" id="config-dimension-result-key" name="row[result_key]" class="form-control" placeholder="填写维度标识，如：A、B、INFP、ESTJ" value="{$row.result_key|trim|default=''}">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 自定义结果 -->
+            <div class="result-type-panel" id="panel-result-custom" {if $row['result_type'] != 'custom'}style="display:none;"{/if}>
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2">自定义配置:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <textarea id="config-custom" class="form-control" rows="4" placeholder='JSON格式，例如: {"match_type":"score","min_score":0,"max_score":50}'>{$row.result_config|json_encode|htmlentities}</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 其他设置 -->
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <i class="fa fa-cog"></i> 其他设置
+            </h4>
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-2">{:__('排序')}:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <input id="c-sort_order" class="form-control" name="row[sort_order]" type="number" value="{$row.sort_order|htmlentities}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="c-status" class="control-label col-xs-12 col-sm-2">{:__('Status')}:</label>
+                <div class="col-xs-12 col-sm-8">
+                    {:build_radios('row[status]', ['1'=>__('Normal'), '0'=>__('Hidden')], $row['status'])}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 隐藏字段存储JSON -->
+    <input type="hidden" id="c-result_config" name="row[result_config]" value="{$row.result_config|json_encode|htmlentities}">
+    <input type="hidden" id="c-conditions" name="row[conditions]" value="{$row.conditions|json_encode|htmlentities}">
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-primary btn-embossed disabled">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+</form>

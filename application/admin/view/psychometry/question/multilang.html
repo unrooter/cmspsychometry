@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>题目多语言管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/assets/img/favicon.ico">
+    <link href="/assets/css/backend.css" rel="stylesheet">
+    <style>
+        .lang-tabs .nav-tabs {
+            border-bottom: 2px solid #e0e0e0;
+            margin-bottom: 20px;
+        }
+        .lang-tabs .nav-tabs > li > a {
+            border-radius: 4px 4px 0 0;
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .lang-tabs .nav-tabs > li.active > a {
+            border-bottom-color: transparent;
+        }
+        .lang-status {
+            display: inline-block;
+            margin-left: 8px;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: normal;
+        }
+        .lang-status.exists {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .lang-status.empty {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .form-section {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+        .form-section:last-child {
+            margin-bottom: 0;
+        }
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .form-help {
+            font-size: 12px;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="panel panel-default panel-intro">
+    <div class="panel-heading">
+        <h3 class="panel-title">题目多语言管理 - ID: {$row.id}</h3>
+        <div class="panel-actions pull-right">
+            <a href="{:url('psychometry.question/edit', ['ids' => $row.id])}" class="btn btn-primary btn-sm">
+                <i class="fa fa-arrow-left"></i> 返回编辑
+            </a>
+        </div>
+    </div>
+    <div class="panel-body">
+        <form id="multilang-form" role="form" data-toggle="validator" method="POST" action="{:url('psychometry.question/multilang_save')}">
+            <input type="hidden" name="question_id" value="{$row.id}">
+            
+            <div class="lang-tabs">
+                <!-- 标签页导航 -->
+                <ul class="nav nav-tabs" role="tablist">
+                    {volist name="availableLangs" id="lang" key="index"}
+                    <li role="presentation" class="{if $index == 1}active{/if}">
+                        <a href="#lang-{$lang.key}" role="tab" data-toggle="tab">
+                            <i class="fa fa-flag"></i> {$lang.name}
+                            {if isset($multilangContents[$lang.key]) && !empty($multilangContents[$lang.key]['question_text'])}
+                            <span class="lang-status exists">✓ 已填写</span>
+                            {else}
+                            <span class="lang-status empty">未填写</span>
+                            {/if}
+                        </a>
+                    </li>
+                    {/volist}
+                </ul>
+                
+                <!-- 标签页内容 -->
+                <div class="tab-content">
+                    {volist name="availableLangs" id="lang" key="index"}
+                    <div role="tabpanel" class="tab-pane {if $index == 1}active{/if}" id="lang-{$lang.key}">
+                        <div class="form-section">
+                            <label class="form-label">
+                                <i class="fa fa-edit"></i> 
+                                {if $lang.key eq 'zh'}题目内容{else}Question Text{/if}
+                            </label>
+                            <textarea name="multilang[{$lang.key}][question_text]" 
+                                      class="form-control" 
+                                      rows="5" 
+                                      placeholder="{if $lang.key eq 'zh'}请输入题目内容{else}Enter question text{/if}">{$multilangContents[$lang.key]['question_text']|default=''}</textarea>
+                            <div class="form-help">
+                                <i class="fa fa-info-circle"></i> 
+                                {if $lang.key eq 'zh'}这是用户看到的题目主要内容{else}This is the main question text that users will see{/if}
+                            </div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <label class="form-label">
+                                <i class="fa fa-image"></i> 
+                                {if $lang.key eq 'zh'}题目媒体{else}Question Media{/if}
+                            </label>
+                            <div class="input-group">
+                                <input type="text" 
+                                       id="media-{$lang.key}"
+                                       name="multilang[{$lang.key}][question_media]" 
+                                       class="form-control" 
+                                       value="{$multilangContents[$lang.key]['question_media']|default=''}" 
+                                       placeholder="{if $lang.key eq 'zh'}点击右侧按钮上传图片或视频{else}Click right button to upload image or video{/if}">
+                                <div class="input-group-addon no-border no-padding">
+                                    <span><button type="button" class="btn btn-danger plupload" data-input-id="media-{$lang.key}" data-mimetype="image/*,video/*" data-multiple="false" data-preview-id="preview-{$lang.key}"><i class="fa fa-upload"></i> {if $lang.key eq 'zh'}上传{else}Upload{/if}</button></span>
+                                    <span><button type="button" class="btn btn-primary fachoose" data-input-id="media-{$lang.key}" data-mimetype="image/*,video/*" data-multiple="false"><i class="fa fa-list"></i> {if $lang.key eq 'zh'}选择{else}Choose{/if}</button></span>
+                                </div>
+                            </div>
+                            <ul class="row list-inline plupload-preview" id="preview-{$lang.key}" style="margin-top: 10px;"></ul>
+                            <div class="form-help">
+                                <i class="fa fa-info-circle"></i> 
+                                {if $lang.key eq 'zh'}可选，支持图片、视频等媒体文件{else}Optional, supports image, video and other media files{/if}
+                            </div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <label class="form-label">
+                                <i class="fa fa-lightbulb-o"></i> 
+                                {if $lang.key eq 'zh'}题目提示{else}Question Hint{/if}
+                            </label>
+                            <textarea name="multilang[{$lang.key}][question_hint]" 
+                                      class="form-control" 
+                                      rows="3" 
+                                      placeholder="{if $lang.key eq 'zh'}可选的提示信息，帮助用户理解题目{else}Optional hint text to help users understand the question{/if}">{$multilangContents[$lang.key]['question_hint']|default=''}</textarea>
+                            <div class="form-help">
+                                <i class="fa fa-info-circle"></i> 
+                                {if $lang.key eq 'zh'}可选，为用户提供额外的说明或提示{else}Optional, provides additional explanation or hints for users{/if}
+                            </div>
+                        </div>
+                    </div>
+                    {/volist}
+                </div>
+            </div>
+            
+            <div style="margin-top: 30px; text-align: center; padding: 20px; background-color: #f8f9fa; border-radius: 6px;">
+                <button type="submit" class="btn btn-success btn-lg" style="min-width: 150px;">
+                    <i class="fa fa-check"></i> 保存所有语言
+                </button>
+                <button type="reset" class="btn btn-default btn-lg" style="min-width: 150px; margin-left: 10px;">
+                    <i class="fa fa-undo"></i> 重置
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

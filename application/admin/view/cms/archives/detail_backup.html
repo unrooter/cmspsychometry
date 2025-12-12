@@ -1,0 +1,458 @@
+<div class="panel panel-default panel-intro">
+    <div class="panel-heading">
+        {:build_heading()}
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- 翻译完整性概览 -->
+                <div class="alert alert-info">
+                    <h4><i class="fa fa-language"></i> 翻译完整性概览</h4>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <strong>文章内容：</strong>
+                            {volist name="availableLangs" id="langName" key="lang"}
+                                {if isset($multilangContents[$key]) && isset($multilangContents[$key]['title']) && $multilangContents[$key]['title']}
+                                    <span class="label label-success" style="margin-right: 5px;">✓ {$langName}</span>
+                                {else /}
+                                    <span class="label label-danger" style="margin-right: 5px;">✗ {$langName}</span>
+                                {/if}
+                            {/volist}
+                        </div>
+                        {if condition="$testDetails && isset($testDetails['test'])"}
+                        <div class="col-md-6">
+                            <strong>测试信息：</strong>
+                            {volist name="availableLangs" id="langName" key="lang"}
+                                {if isset($testDetails['multilang'][$key]) && isset($testDetails['multilang'][$key]['title']) && $testDetails['multilang'][$key]['title']}
+                                    <span class="label label-success" style="margin-right: 5px;">✓ {$langName}</span>
+                                {else /}
+                                    <span class="label label-danger" style="margin-right: 5px;">✗ {$langName}</span>
+                                {/if}
+                            {/volist}
+                        </div>
+                        {/if}
+                    </div>
+                    {if condition="$testDetails && isset($testDetails['test'])"}
+                    <div class="row" style="margin-top: 10px;">
+                        <div class="col-md-12">
+                            <strong>数据统计：</strong>
+                            题目 <span class="badge">{$testDetails.questions|count}</span> 个 |
+                            答案 <span class="badge">{$testDetails.answers|count}</span> 个
+                        </div>
+                    </div>
+                    {/if}
+                </div>
+
+                <!-- 文章基本信息 -->
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-file-text-o"></i> 文章基本信息</h3>
+                    </div>
+                    <div class="box-body">
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <th width="120">文章ID</th>
+                                    <td>{$row.id}</td>
+                                    <th width="120">状态</th>
+                                    <td>{$row.status}</td>
+                                </tr>
+                                <tr>
+                                    <th>创建时间</th>
+                                    <td>{$row.createtime|datetime}</td>
+                                    <th>更新时间</th>
+                                    <td>{$row.updatetime|datetime}</td>
+                                </tr>
+                                <tr>
+                                    <th>权重</th>
+                                    <td>{$row.weigh}</td>
+                                    <th>浏览次数</th>
+                                    <td>{$row.views}</td>
+                                </tr>
+                                <tr>
+                                    <th>标签</th>
+                                    <td colspan="3">{$row.tags}</td>
+                                </tr>
+                                <tr>
+                                    <th>封面图</th>
+                                    <td colspan="3">
+                                        {if $row.image}
+                                        <img src="{$row.image}" style="max-width: 200px; max-height: 150px;">
+                                        {else /}
+                                        <span class="text-muted">无</span>
+                                        {/if}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 多语言内容 -->
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-globe"></i> 多语言内容</h3>
+                    </div>
+                    <div class="box-body">
+                        <ul class="nav nav-tabs">
+                            {volist name="availableLangs" id="langName" key="lang"}
+                            <li class="{if $key == 'zh'}active{/if}">
+                                <a href="#tab-multilang-{$key}" data-toggle="tab">{$langName}</a>
+                            </li>
+                            {/volist}
+                        </ul>
+                        <div class="tab-content" style="margin-top: 20px;">
+                            {volist name="availableLangs" id="langName" key="lang"}
+                            <div class="tab-pane {if $key == 'zh'}active{/if}" id="tab-multilang-{$key}">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <th width="120">标题</th>
+                                            <td>{$multilangContents[$key]['title']|default='未设置'}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>副标题</th>
+                                            <td>{$multilangContents[$key]['sub_title']|default='未设置'}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>测试问题</th>
+                                            <td>{$multilangContents[$key]['question']|default='未设置'}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>内容</th>
+                                            <td>
+                                                <div style="max-height: 200px; overflow-y: auto;">
+                                                    {$multilangContents[$key]['content']|default='未设置'}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>SEO标题</th>
+                                            <td>{$multilangContents[$key]['seo_title']|default='未设置'}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>关键词</th>
+                                            <td>{$multilangContents[$key]['keywords']|default='未设置'}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>描述</th>
+                                            <td>
+                                                <div style="max-height: 100px; overflow-y: auto;">
+                                                    {$multilangContents[$key]['description']|default='未设置'}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            {/volist}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 测试信息 -->
+                {if condition="$testDetails && isset($testDetails['test'])"}
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-clipboard"></i> 关联测试信息</h3>
+                    </div>
+                    <div class="box-body">
+                        <ul class="nav nav-tabs">
+                            {volist name="availableLangs" id="langName" key="lang"}
+                            <li class="{if $key == 'zh'}active{/if}">
+                                <a href="#tab-test-{$key}" data-toggle="tab">{$langName}</a>
+                            </li>
+                            {/volist}
+                        </ul>
+                        <div class="tab-content" style="margin-top: 20px;">
+                            {volist name="availableLangs" id="langName" key="lang"}
+                            <div class="tab-pane {if $key == 'zh'}active{/if}" id="tab-test-{$key}">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <th width="120">测试ID</th>
+                                            <td>{$testDetails['test']['id']}</td>
+                                            <th width="120">测试类型</th>
+                                            <td>{$testDetails['test']['test_type']}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>标题</th>
+                                            <td colspan="3">{$testDetails['multilang'][$key]['title']|default='未设置'}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>描述</th>
+                                            <td colspan="3">
+                                                <div style="max-height: 100px; overflow-y: auto;">
+                                                    {$testDetails['multilang'][$key]['description']|default='未设置'}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>题目数量</th>
+                                            <td>{$testDetails['test']['question_count']}</td>
+                                            <th>状态</th>
+                                            <td>{$testDetails['test']['status'] ? '启用' : '禁用'}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            {/volist}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 题目列表 -->
+                {if condition="!empty($testDetails['questions'])"}
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-question-circle"></i> 题目列表</h3>
+                    </div>
+                    <div class="box-body">
+                        <ul class="nav nav-tabs">
+                            {volist name="availableLangs" id="langName" key="lang"}
+                            <li class="{if $lang == 'zh'}active{/if}">
+                                <a href="#tab-questions-{$lang}" data-toggle="tab">{$langName}</a>
+                            </li>
+                            {/volist}
+                        </ul>
+                        <div class="tab-content" style="margin-top: 20px;">
+                            {volist name="availableLangs" id="langName" key="lang"}
+                            <div class="tab-pane {if $lang == 'zh'}active{/if}" id="tab-questions-{$lang}">
+                                {volist name="testDetails['questions']" id="question"}
+                                <div class="panel panel-default" style="margin-bottom: 15px;">
+                                    <div class="panel-heading">
+                                        <strong>题目 {$i}</strong>
+                                        <span class="label label-primary pull-right">{$question.question_type}</span>
+                                    </div>
+                                    <div class="panel-body">
+                                        <table class="table table-bordered table-sm">
+                                            <tr>
+                                                <th width="100">题目ID</th>
+                                                <td>{$question.id}</td>
+                                                <th width="100">题目类型</th>
+                                                <td>{$question.question_type}</td>
+                                                <th width="100">排序</th>
+                                                <td>{$question.sort_order}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>题目内容</th>
+                                                <td colspan="5">
+                                                    <strong>{$question.multilang[$lang]['content']|default='<span class="text-danger">❌ 未设置内容</span>'|raw}</strong>
+                                                </td>
+                                            </tr>
+                                            {if isset($question.multilang[$lang]['intro']) && $question.multilang[$lang]['intro']}
+                                            <tr>
+                                                <th>题目简介</th>
+                                                <td colspan="5">
+                                                    <div style="padding: 8px; background: #f9f9f9; border-radius: 4px;">
+                                                        {$question.multilang[$lang]['intro']|raw}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            {/if}
+                                        </table>
+                                        
+                                        {if condition="!empty($question.options)"}
+                                        <p><strong>选项：</strong></p>
+                                        <div class="table-responsive">
+                                            <table class="table table-sm table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th width="50">#</th>
+                                                        <th width="80">选项键值</th>
+                                                        <th>选项内容</th>
+                                                        <th width="100">分数/权重</th>
+                                                        <th width="200">简介</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {volist name="question.options" id="option"}
+                                                    <tr>
+                                                        <td>{$i}</td>
+                                                        <td><span class="label label-default">{$option.option_key|default='-'}</span></td>
+                                                        <td><strong>{$option.multilang[$lang]['content']|default='未设置'}</strong></td>
+                                                        <td>{$option.score|default='0'}</td>
+                                                        <td>
+                                                            <div style="max-height: 60px; overflow-y: auto; font-size: 12px;">
+                                                                {$option.multilang[$lang]['intro']|default='-'}
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    {/volist}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        {else /}
+                                        <p class="text-muted"><i class="fa fa-info-circle"></i> 该题目暂无选项</p>
+                                        {/if}
+                                    </div>
+                                </div>
+                                {/volist}
+                            </div>
+                            {/volist}
+                        </div>
+                    </div>
+                </div>
+                {/if}
+
+                <!-- 解析（答案）列表 -->
+                {if condition="!empty($testDetails['answers'])"}
+                <div class="box box-warning">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-commenting"></i> 解析（答案）列表 (共 {$testDetails.answers|count} 条)</h3>
+                    </div>
+                    <div class="box-body">
+                        <ul class="nav nav-tabs">
+                            {volist name="availableLangs" id="langName" key="lang"}
+                            <li class="{if $lang == 'zh'}active{/if}">
+                                <a href="#tab-answers-{$lang}" data-toggle="tab">{$langName}</a>
+                            </li>
+                            {/volist}
+                        </ul>
+                        <div class="tab-content" style="margin-top: 20px;">
+                            {volist name="availableLangs" id="langName" key="lang"}
+                            <div class="tab-pane {if $lang == 'zh'}active{/if}" id="tab-answers-{$lang}">
+                                {volist name="testDetails['answers']" id="answer"}
+                                <div class="panel panel-default" style="margin-bottom: 15px;">
+                                    <div class="panel-heading">
+                                        <strong>解析 {$i}</strong>
+                                        <span class="label label-info pull-right">{$answer.result_type|default='-'}</span>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <table class="table table-bordered table-sm">
+                                                    <tr>
+                                                        <th width="100">答案ID</th>
+                                                        <td>{$answer.id}</td>
+                                                        <th width="100">结果类型</th>
+                                                        <td>{$answer.result_type|default='-'}</td>
+                                                        <th width="100">结果标识</th>
+                                                        <td>{$answer.result_key|default='-'}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>标题</th>
+                                                        <td colspan="5">
+                                                            <strong style="font-size: 14px; color: #333;">
+                                                                {if isset($answer['multilang'][$lang]['title'])}
+                                                                    {$answer['multilang'][$lang]['title']}
+                                                                {else /}
+                                                                    <span class="text-danger">❌ 未设置标题</span>
+                                                                {/if}
+                                                            </strong>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>简介 (intro)</th>
+                                                        <td colspan="5">
+                                                            <div style="padding: 8px; background: #f9f9f9; border-radius: 4px;">
+                                                                {if isset($answer['multilang'][$lang]['intro']) && $answer['multilang'][$lang]['intro']}
+                                                                    {$answer['multilang'][$lang]['intro']|raw}
+                                                                {else /}
+                                                                    <span class="text-muted">未设置</span>
+                                                                {/if}
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>内容 (content)</th>
+                                                        <td colspan="5">
+                                                            <div style="max-height: 300px; overflow-y: auto; padding: 10px; background: #f5f5f5; border-radius: 4px;">
+                                                                {if isset($answer['multilang'][$lang]['content'])}
+                                                                    {$answer['multilang'][$lang]['content']|raw}
+                                                                {else /}
+                                                                    <span class="text-danger">❌ 未设置内容</span>
+                                                                {/if}
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>分析 (analysis)</th>
+                                                        <td colspan="5">
+                                                            <div style="padding: 8px; background: #fff8e1; border-radius: 4px;">
+                                                                {if isset($answer['multilang'][$lang]['analysis']) && $answer['multilang'][$lang]['analysis']}
+                                                                    {$answer['multilang'][$lang]['analysis']|raw}
+                                                                {else /}
+                                                                    <span class="text-muted">未设置</span>
+                                                                {/if}
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>建议 (suggestion)</th>
+                                                        <td colspan="5">
+                                                            <div style="padding: 8px; background: #e8f5e9; border-radius: 4px;">
+                                                                {if isset($answer['multilang'][$lang]['suggestion']) && $answer['multilang'][$lang]['suggestion']}
+                                                                    {$answer['multilang'][$lang]['suggestion']|raw}
+                                                                {else /}
+                                                                    <span class="text-muted">未设置</span>
+                                                                {/if}
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>配置信息</th>
+                                                        <td colspan="5">
+                                                            <code style="font-size: 11px;">{$answer.result_config|default=''}</code>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {/volist}
+                            </div>
+                            {/volist}
+                        </div>
+                    </div>
+                </div>
+                {/if}
+
+                {else /}
+                <div class="alert alert-info">
+                    <i class="fa fa-info-circle"></i> 该文章尚未关联任何测试
+                </div>
+                {/if}
+            </div>
+        </div>
+
+        <div class="form-layer"></div>
+    </div>
+    <div class="panel-footer">
+        <button class="btn btn-default btn-sm" onclick="parent.layer.closeAll();">
+            <i class="fa fa-arrow-left"></i> 返回
+        </button>
+    </div>
+</div>
+
+<style>
+.box {
+    margin-bottom: 20px;
+}
+.panel-body {
+    overflow-y: visible;
+}
+.box-body {
+    max-height: none;
+}
+.tab-content {
+    max-height: none;
+}
+/* 翻译状态标识 */
+.translation-status {
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 12px;
+}
+.translation-complete {
+    color: #4caf50;
+}
+.translation-missing {
+    color: #f44336;
+}
+.panel-footer {
+    padding: 5px 15px;
+    text-align: center;
+}
+</style>

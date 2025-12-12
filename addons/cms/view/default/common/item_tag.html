@@ -1,0 +1,20 @@
+<div class="panel panel-default">
+    <nav class="main-nav panel-body">
+        {cms:channellist id="nav" type="top" condition="1=isnav"}
+        {php}$subCount = 0;{/php}
+        {cms:channellist id="sub" type="son" typeid="nav['id']"}
+        {php}$subCount++;{/php}
+        {/cms:channellist}
+        {if $subCount > 1}
+        <div class="nav-item">
+            <span class="nav-link">{:__($nav.name)}</span>
+            <div class="sub-nav">
+                {cms:channellist id="sub" type="son" typeid="nav['id']"}
+                <a href="{$sub.url}" class="sub-link">{:__($sub.name)}</a>
+                {/cms:channellist}
+            </div>
+        </div>
+        {/if}
+        {/cms:channellist}
+    </nav>
+</div>

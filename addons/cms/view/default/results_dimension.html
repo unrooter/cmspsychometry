@@ -1,0 +1,2208 @@
+{layout name="common/layout" /}
+<!-- 引入 Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<!-- 引入 Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+
+<!-- Google AdSense 异步加载脚本 -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_ID"
+     crossorigin="anonymous"></script>
+
+<article class="test-result-page" itemscope itemtype="https://schema.org/TestResult">
+ 
+    <!-- 面包屑导航 - SEO优化 -->
+    <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+        <div class="container">
+            <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+                <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <a href="/" itemprop="item"><span itemprop="name">首页</span></a>
+                    <meta itemprop="position" content="1" />
+                </li>
+                <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <a href="/tests" itemprop="item"><span itemprop="name">心理测试</span></a>
+                    <meta itemprop="position" content="2" />
+                </li>
+                <li class="breadcrumb-item active" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <span itemprop="name">测试结果</span>
+                    <meta itemprop="position" content="3" />
+                </li>
+            </ol>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="test-result">
+                    <!-- 测试标题 -->
+                    <header class="test-header">
+                        <div class="header-icon">🎯</div>
+                        <h1 id="test-title" itemprop="headline">测试结果</h1>
+                        <p id="test-subtitle" class="subtitle-text" itemprop="description">感谢您完成测试，以下是您的详细分析报告</p>
+                    </header>
+                    <!-- 测试信息 - 折叠式 -->
+                    <section class="test-info" id="test-info">
+                        <div class="info-toggle" onclick="toggleTestInfo()">
+                            <h2 id="info-header-title">测试信息</h2>
+                            <span class="toggle-icon" id="test-info-icon">▼</span>
+                        </div>
+                        <div class="info-content collapsed" id="info-content">
+                            <!-- 测试信息将在这里显示 -->
+                        </div>
+                    </section>
+                    
+                    <!-- Google AdSense 顶部横幅广告 -->
+                    <div class="ad-container ad-banner-top">
+                        <ins class="adsbygoogle"
+                             style="display:block"
+                             data-ad-client="ca-pub-9195262048954682"
+                             data-ad-slot="2969657271"
+                             data-ad-format="auto"
+                             data-full-width-responsive="true"></ins>
+                        <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                    </div>
+                    
+                    
+                    <!-- 主导类型显示 -->
+                    <section class="score-section">
+                        <div class="score-card">
+                            <div class="score-info-full">
+                                <div class="score-description" id="score-description">Loading...</div>
+                                <div class="score-level" id="score-level">Evaluating...</div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- 雷达图展示 -->
+                    <section class="radar-section">
+                        <h2 id="radar-header-title">维度得分分布</h2>
+                        <div class="radar-container">
+                            <canvas id="dimensionRadarChart"></canvas>
+                        </div>
+                        <!-- 维度图例 -->
+                        <div class="dimension-legend" id="dimension-legend">
+                            <!-- 图例将在这里显示 -->
+                        </div>
+                    </section>
+
+                    <!-- 维度分析 -->
+                    <section class="analysis-section">
+                        <h2 id="analysis-header-title">详细分析报告</h2>
+                        <div id="analysis-content">
+                            <!-- 分析内容将在这里显示 -->
+                        </div>
+                    </section>
+                    
+                    <!-- 建议和指导 -->
+                    <section class="suggestions-section" id="suggestions-section">
+                        <h2 id="suggestions-header-title">建议和指导</h2>
+                        <div class="suggestions-content" id="suggestions-content">
+                            <!-- 建议内容将在这里显示 -->
+                        </div>
+                    </section>
+                    
+                    <!-- Google AdSense 中间广告 -->
+                    <div class="ad-container ad-banner-middle">
+                        <ins class="adsbygoogle"
+                             style="display:block; text-align:center;"
+                             data-ad-layout="in-article"
+                             data-ad-format="fluid"
+                             data-ad-client="ca-pub-9195262048954682"
+                             data-ad-slot="5294962935"></ins>
+                        <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                    </div>
+                    
+                    <!-- 相关测试推荐 - SEO和用户体验优化 -->
+                    <section class="related-tests-section">
+                        <h2><i class="fas fa-tasks"></i> <span id="related-tests-title">相关心理测试推荐</span></h2>
+                        <div id="related-tests-content" class="related-tests-grid">
+                            <!-- 相关测试将在这里显示 -->
+                        </div>
+                    </section>
+                    
+                    <!-- 热门文章推荐 -->
+                    <section class="popular-articles-section">
+                        <h2><i class="fas fa-fire"></i> <span id="popular-articles-title">热门心理学文章</span></h2>
+                        <div id="popular-articles-content" class="popular-articles-grid">
+                            <!-- 热门文章将在这里显示 -->
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+
+<style>
+/* 深色顶部区域 */
+.top-dark-bar {
+    background: #2c3e50;
+    color: #ecf0f1;
+    padding: 8px 0;
+    font-size: 13px;
+}
+
+.top-bar-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.top-bar-text {
+    color: #ecf0f1;
+    opacity: 0.9;
+}
+
+/* 面包屑导航 - SEO优化 */
+.breadcrumb-nav {
+    margin-bottom: 15px;
+    background: #fff;
+    padding: 12px 15px;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.breadcrumb {
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    font-size: 13px;
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    border: none;
+}
+
+.breadcrumb-item {
+    display: inline-flex;
+    align-items: center;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    content: "›";
+    padding: 0 8px;
+    color: #adb5bd;
+}
+
+.breadcrumb-item a {
+    color: #6c757d;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.breadcrumb-item a:hover {
+    color: #5DBE9E;
+}
+
+.breadcrumb-item.active {
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+/* 谷歌广告位样式 */
+.ad-container {
+    margin: 30px auto;
+    max-width: 900px;
+    text-align: center;
+    min-height: 90px;
+}
+
+.ad-banner-top {
+    margin: 20px auto 30px;
+}
+
+.ad-banner-middle {
+    margin: 40px auto;
+}
+
+.ad-banner-bottom {
+    margin: 40px auto 20px;
+}
+
+.ad-container ins {
+    display: block;
+}
+
+/* 整体容器 */
+.test-result-page {
+    background: #f8f9fa;
+    min-height: 100vh;
+}
+
+.test-result {
+    max-width: 900px;
+    margin: 0 auto 20px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid #e8ebed;
+}
+
+/* 测试标题 */
+.test-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 25px 20px;
+    background: linear-gradient(135deg, #5DBE9E 0%, #4A9D82 100%);
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(93, 190, 158, 0.2);
+}
+
+.test-header .header-icon {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.test-header h1 {
+    color: white;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin: 0 0 10px 0;
+}
+
+.test-header .subtitle-text {
+    font-size: 1rem;
+    color: white;
+    font-weight: 400;
+    margin: 0;
+    opacity: 0.95;
+    line-height: 1.6;
+}
+
+/* 分数显示区域 */
+.score-section {
+    margin-bottom: 40px;
+}
+
+.score-card {
+    background: linear-gradient(135deg, #5DBE9E 0%, #4A9D82 100%);
+    border-radius: 10px;
+    padding: 35px 40px;
+    color: white;
+    box-shadow: 0 8px 30px rgba(102, 126, 234, 0.3);
+}
+
+.score-info-full {
+    width: 100%;
+    text-align: center;
+}
+
+.score-description {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    line-height: 1.4;
+}
+
+.score-level {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    display: inline-block;
+    backdrop-filter: blur(10px);
+}
+
+/* 雷达图区域 */
+.radar-section {
+    background: white;
+    border-radius: 16px;
+    padding: 40px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.radar-section h2 {
+    color: #2c3e50;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.radar-container {
+    max-width: 650px;
+    margin: 0 auto;
+    position: relative;
+    height: 450px;
+}
+
+.dimension-legend {
+    margin: 30px auto 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    max-width: 900px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    cursor: default;
+    justify-content: flex-start;
+}
+
+.legend-item:hover {
+    background: #e9ecef;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.legend-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    flex: 1;
+}
+
+.legend-name {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 0.9rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.legend-score {
+    font-size: 0.8rem;
+    color: #7f8c8d;
+    font-weight: 400;
+}
+
+/* 维度分数显示 */
+.dimension-scores-section {
+    margin-bottom: 40px;
+}
+
+.dimension-scores-section h2 {
+    color: #2c3e50;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 25px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.dimension-scores-section h2::before {
+    content: '📊';
+    font-size: 1.8rem;
+}
+
+.dimension-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.dimension-item {
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border-left: 5px solid #5DBE9E;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.dimension-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.rank-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: white;
+}
+
+.rank-badge.rank-1 {
+    background: linear-gradient(135deg, #ffd700, #ffed4e);
+    color: #856404;
+}
+
+.rank-badge.rank-2 {
+    background: linear-gradient(135deg, #c0c0c0, #e8e8e8);
+    color: #495057;
+}
+
+.rank-badge.rank-3 {
+    background: linear-gradient(135deg, #cd7f32, #daa520);
+    color: #fff;
+}
+
+.dimension-key {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #2c3e50;
+    margin-bottom: 8px;
+    opacity: 0.3;
+}
+
+.dimension-label {
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-size: 1.15rem;
+    line-height: 1.4;
+}
+
+.dimension-value {
+    font-size: 2.8rem;
+    font-weight: 800;
+    margin-bottom: 15px;
+    line-height: 1;
+}
+
+.dimension-value .max-score {
+    font-size: 1.2rem;
+    color: #7f8c8d;
+    font-weight: 500;
+    margin-left: 3px;
+}
+
+.dimension-bar {
+    width: 100%;
+    height: 10px;
+    background: #ecf0f1;
+    border-radius: 5px;
+    margin: 15px 0 10px 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.dimension-bar-fill {
+    height: 100%;
+    border-radius: 5px;
+    transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #5DBE9E 0%, #4A9D82 100%);
+}
+
+.dimension-bar-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.4),
+        transparent
+    );
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.dimension-percentage {
+    font-size: 0.95rem;
+    color: #7f8c8d;
+    font-weight: 600;
+    margin-top: 8px;
+}
+
+/* 维度分析样式 */
+.dimension-analysis-wrapper {
+    padding: 10px 0;
+}
+
+.dimension-analysis-item {
+    margin-bottom: 25px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #5DBE9E;
+}
+
+.dimension-analysis-item:last-child {
+    margin-bottom: 0;
+}
+
+.analysis-title {
+    color: #2c3e50;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.analysis-text {
+    color: #6c757d;
+    line-height: 1.8;
+    font-size: 0.95rem;
+}
+
+.analysis-text p {
+    margin-bottom: 10px;
+}
+
+.analysis-text div {
+    margin-bottom: 10px;
+}
+
+.analysis-text strong {
+    color: #3498db;
+    font-weight: 600;
+}
+
+/* 测试信息 - 折叠式 */
+.test-info {
+    margin-bottom: 40px;
+}
+
+.info-toggle {
+    background: linear-gradient(135deg, #5DBE9E 0%, #4A9D82 100%);
+    color: white;
+    padding: 20px 25px;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(93, 190, 158, 0.3);
+}
+
+.info-toggle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(93, 190, 158, 0.4);
+}
+
+.info-toggle h2 {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.info-content {
+    background: #f8f9fa;
+    border-radius: 0 0 12px 12px;
+    padding: 25px;
+    border-left: 5px solid #5DBE9E;
+    border-top: none;
+    color: #495057;
+    line-height: 1.6;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+}
+
+.info-content.expanded {
+    max-height: 2000px;
+    padding: 25px;
+}
+
+.info-content.collapsed {
+    max-height: 0;
+    padding: 0 25px;
+}
+
+/* 分析区域 */
+.analysis-section {
+    margin-bottom: 40px;
+}
+
+.analysis-section h2 {
+    color: #2c3e50;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-align: left;
+    padding-left: 5px;
+}
+
+/* 维度卡片样式 */
+.dimension-item {
+    background: white;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+}
+
+.dimension-item:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    transform: translateY(-2px);
+}
+
+.dim-header {
+    background: linear-gradient(135deg, #5DBE9E 0%, #4A9D82 100%);
+    padding: 20px 25px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.3s ease;
+}
+
+.dim-header:hover {
+    background: linear-gradient(135deg, #4A9D82 0%, #5DBE9E 100%);
+}
+
+.dim-title-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1;
+}
+
+.dim-key {
+    background: rgba(255,255,255,0.25);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    min-width: 45px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.dim-name {
+    color: white;
+    font-size: 1.3rem;
+    font-weight: 600;
+    flex: 1;
+    text-align: left;
+}
+
+.dim-score {
+    color: #ffd700;
+    font-size: 1.2rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    background: rgba(255,215,0,0.2);
+    border-radius: 6px;
+}
+
+.dim-toggle {
+    color: white;
+    font-size: 1.1rem;
+    transition: transform 0.3s ease;
+    margin-left: 15px;
+}
+
+.dim-toggle.rotated {
+    transform: rotate(-180deg);
+}
+
+.dim-body {
+    max-height: 2000px;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.4s ease;
+    padding: 25px;
+    background: #f8f9fa;
+}
+
+.dim-body.collapsed {
+    max-height: 0;
+    padding: 0 25px;
+}
+
+.dim-cover {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.dim-cover img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.dim-content {
+    line-height: 1.8;
+    color: #495057;
+    font-size: 1rem;
+    text-align: left;
+}
+
+.dim-content h4 {
+    color: #2c3e50;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 20px 0 12px 0;
+    text-align: left;
+}
+
+.dim-content p {
+    margin-bottom: 15px;
+    color: #6c757d;
+    text-align: left;
+}
+
+.dim-content ul, .dim-content ol {
+    margin: 15px 0;
+    padding-left: 25px;
+}
+
+.dim-content li {
+    margin-bottom: 10px;
+    line-height: 1.7;
+}
+
+/* 建议区域 */
+.suggestions-section {
+    margin-bottom: 20px;
+}
+
+.suggestions-section h2 {
+    color: #2c3e50;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: left;
+    padding-left: 5px;
+}
+
+.suggestions-content {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 12px;
+    padding: 25px;
+    border-left: 5px solid #5DBE9E;
+}
+
+.suggestions-content h4 {
+    color: #5DBE9E;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 15px 0 10px 0;
+}
+
+.suggestions-content p {
+    margin-bottom: 12px;
+    color: #495057;
+    line-height: 1.6;
+}
+
+.suggestions-content ul {
+    margin: 15px 0;
+    padding-left: 20px;
+}
+
+.suggestions-content li {
+    margin-bottom: 8px;
+    color: #495057;
+    line-height: 1.5;
+}
+
+/* 相关测试推荐 - SEO优化 */
+.related-tests-section {
+    margin: 50px 0 40px;
+    padding: 35px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border-radius: 16px;
+}
+
+.related-tests-section h2 {
+    color: #2c3e50;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.related-tests-section h2 i {
+    color: #667eea;
+    font-size: 1.8rem;
+}
+
+.related-tests-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 25px;
+}
+
+.related-test-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+}
+
+.related-test-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.test-card-image {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.test-card-content {
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.test-card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 10px;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.test-card-desc {
+    font-size: 0.9rem;
+    color: #7f8c8d;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.test-card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    color: #95a5a6;
+    padding-top: 12px;
+    border-top: 1px solid #ecf0f1;
+}
+
+.test-card-questions {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.test-card-btn {
+    background: linear-gradient(135deg, #5DBE9E 0%, #4A9D82 100%);
+    color: white;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.test-card-btn:hover {
+    transform: scale(1.05);
+}
+
+/* 热门文章推荐 - 增加内部链接 */
+.popular-articles-section {
+    margin: 50px 0 40px;
+    padding: 35px;
+    background: white;
+    border-radius: 16px;
+    border: 2px solid #f0f0f0;
+}
+
+.popular-articles-section h2 {
+    color: #2c3e50;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.popular-articles-section h2 i {
+    color: #e74c3c;
+    font-size: 1.8rem;
+}
+
+.popular-articles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+    margin-top: 25px;
+}
+
+.article-card {
+    background: #f8f9fa;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #e9ecef;
+}
+
+.article-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    border-color: #5DBE9E;
+}
+
+.article-card-image {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.article-card-content {
+    padding: 18px;
+    flex: 1;
+}
+
+.article-card-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 10px;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.article-card-excerpt {
+    font-size: 0.85rem;
+    color: #7f8c8d;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 12px;
+}
+
+.article-card-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: #95a5a6;
+    padding-top: 10px;
+    border-top: 1px solid #dee2e6;
+}
+
+.article-card-views {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .breadcrumb-nav {
+        padding: 10px 0;
+    }
+    
+    .breadcrumb {
+        font-size: 0.8rem;
+    }
+    
+    .related-tests-section,
+    .popular-articles-section {
+        padding: 25px 20px;
+        margin: 30px 0;
+    }
+    
+    .related-tests-section h2,
+    .popular-articles-section h2 {
+        font-size: 1.3rem;
+    }
+    
+    .related-tests-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .popular-articles-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .test-result-page {
+        padding: 0;
+    }
+    
+    .test-result {
+        padding: 15px;
+        margin: 10px;
+        border-radius: 12px;
+    }
+    
+    .test-header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .test-header p {
+        font-size: 1rem;
+    }
+    
+    .score-card {
+        padding: 25px 20px;
+    }
+    
+    .score-description {
+        font-size: 1.1rem;
+    }
+    
+    .score-level {
+        font-size: 1rem;
+    }
+    
+    .radar-section {
+        padding: 25px;
+    }
+    
+    .radar-container {
+        height: 350px;
+    }
+    
+    .dimension-legend {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 10px;
+    }
+    
+    .legend-item {
+        padding: 8px 12px;
+    }
+    
+    .dim-header {
+        padding: 15px 20px;
+    }
+    
+    .dim-title-content {
+        gap: 10px;
+    }
+    
+    .dim-key {
+        font-size: 1rem;
+        padding: 4px 10px;
+        min-width: 40px;
+    }
+    
+    .dim-name {
+        font-size: 1.1rem;
+    }
+    
+    .dim-score {
+        font-size: 1rem;
+        padding: 3px 8px;
+    }
+    
+    .dim-body {
+        padding: 20px 15px;
+    }
+    
+    .dim-content {
+        font-size: 0.95rem;
+    }
+    
+    .suggestions-content {
+        padding: 20px;
+    }
+    
+    .info-toggle {
+        padding: 15px 20px;
+    }
+    
+    .info-toggle h2 {
+        font-size: 1.1rem;
+    }
+    
+    .info-content.expanded {
+        padding: 20px;
+    }
+    
+    .analysis-content {
+        padding: 20px;
+    }
+    
+    .section-header h3 {
+        font-size: 1.1rem;
+    }
+    
+    .dimension-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .dimension-item {
+        padding: 20px;
+    }
+    
+    .dimension-value {
+        font-size: 2rem;
+    }
+    
+    .ad-container {
+        margin: 15px auto;
+        padding: 0 10px;
+    }
+    
+    .ad-placeholder {
+        padding: 15px;
+        min-height: 80px;
+    }
+}
+
+@media (max-width: 480px) {
+    .test-result {
+        padding: 12px;
+        margin: 5px;
+        border-radius: 8px;
+    }
+    
+    .test-header h1 {
+        font-size: 1.6rem;
+    }
+    
+    .test-header p {
+        font-size: 0.9rem;
+    }
+    
+    .score-card {
+        padding: 25px 15px;
+    }
+    
+    .score-circle {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .score-number {
+        font-size: 2rem;
+    }
+    
+    .info-toggle {
+        padding: 12px 15px;
+    }
+    
+    .info-toggle h2 {
+        font-size: 1rem;
+    }
+    
+    .info-content.expanded {
+        padding: 15px;
+    }
+    
+    .analysis-content {
+        padding: 15px;
+    }
+    
+    .suggestions-content {
+        padding: 15px;
+    }
+    
+    .dimension-item {
+        padding: 15px;
+    }
+    
+    .dimension-value {
+        font-size: 1.8rem;
+    }
+    
+    .ad-placeholder {
+        padding: 10px;
+        min-height: 70px;
+        font-size: 12px;
+    }
+}
+
+/* 折叠动画 */
+.collapsible-section {
+    margin-bottom: 30px;
+}
+
+.section-header {
+    background: linear-gradient(135deg, #5DBE9E 0%, #4A9D82 100%);
+    color: white;
+    padding: 20px 25px;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+    user-select: none;
+}
+
+.section-header:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+}
+
+.section-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.toggle-icon {
+    transition: transform 0.3s ease;
+    font-size: 1.2rem;
+}
+
+.toggle-icon.expanded {
+    transform: rotate(180deg);
+}
+
+.section-content {
+    background: #f8f9fa;
+    border-radius: 0 0 12px 12px;
+    padding: 25px;
+    border-left: 5px solid #667eea;
+    border-top: none;
+    color: #495057;
+    line-height: 1.7;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.4s ease;
+}
+
+.section-content.expanded {
+    max-height: 5000px;
+    padding: 25px;
+}
+
+.section-content.collapsed {
+    max-height: 0;
+    padding: 0 25px;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 获取URL参数
+    const urlParams = new URLSearchParams(window.location.search);
+    const answer_id = urlParams.get('answer_id');
+    
+    if (!answer_id) {
+        document.getElementById('analysis-content').innerHTML = '<div class="alert alert-danger">未找到测试结果</div>';
+        return;
+    }
+    
+    // 获取URL参数中的语言
+    const lg = urlParams.get('lg') || 'zh-cn';
+    
+    // 获取测试结果
+    fetch('/addons/cms/psychometry/answerInfo', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'answer_id=' + answer_id + '&lang=' + lg
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.code === 1) {
+            displayDimensionResult(data.data);
+        } else {
+            document.getElementById('analysis-content').innerHTML = '<div class="alert alert-danger">获取结果失败：' + data.msg + '</div>';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('analysis-content').innerHTML = '<div class="alert alert-danger">网络错误，请稍后重试</div>';
+    });
+});
+
+function displayDimensionResult(data) {
+    // 获取语言设置
+    const urlParams = new URLSearchParams(window.location.search);
+    const lg = urlParams.get('lg') || 'zh-cn';
+    const isEnglish = lg === 'en';
+    
+    // 更新所有界面文本（多语言支持）
+    updateUILanguage(isEnglish, data);
+    
+    // 更新页面标题
+    if (data.a_info) {
+        const title = data.a_info.title || (isEnglish ? 'Dimension Test Result' : '维度测试结果');
+        document.getElementById('test-title').textContent = title;
+        
+        // 更新页面tab标题
+        const tabSuffix = isEnglish ? ' - Test Result' : ' - 测试结果';
+        document.title = title + tabSuffix;
+    }
+    
+    // 显示主导类型描述
+    const scoreInfo = getScoreInfo(0, data, isEnglish);
+    document.getElementById('score-description').innerHTML = scoreInfo.description;
+    document.getElementById('score-level').textContent = scoreInfo.level;
+    
+    // 显示维度分数
+    displayDimensionScores(data);
+    
+    // 显示分析内容
+    displayAnalysis(data);
+    
+    // 显示测试信息
+    displayTestInfo(data, isEnglish);
+    
+    // 显示建议和指导
+    displaySuggestions(data);
+    
+    // 添加加载动画
+    setTimeout(() => {
+        document.querySelectorAll('.dimension-bar-fill').forEach((el, index) => {
+            setTimeout(() => {
+                el.style.width = el.getAttribute('data-width') || el.style.width;
+            }, index * 100);
+        });
+    }, 300);
+}
+
+// 翻译维度名称（中文转英文）
+function translateDimensionName(chineseName) {
+    // 卡特尔16PF维度翻译对照表
+    const translations = {
+        'A乐群性': 'A-Warmth',
+        'B聪慧性': 'B-Reasoning',
+        'C稳定性': 'C-Emotional Stability',
+        'E恃强性': 'E-Dominance',
+        'F兴奋性': 'F-Liveliness',
+        'G有恒性': 'G-Rule-Consciousness',
+        'H敢为性': 'H-Social Boldness',
+        'I敏感性': 'I-Sensitivity',
+        'L怀疑性': 'L-Vigilance',
+        'M幻想性': 'M-Abstractedness',
+        'N世故性': 'N-Privateness',
+        'O忧虑性': 'O-Apprehension',
+        'Q1实验性': 'Q1-Openness to Change',
+        'Q2独立性': 'Q2-Self-Reliance',
+        'Q3自律性': 'Q3-Perfectionism',
+        'Q4紧张性': 'Q4-Tension',
+        // 去掉前缀的版本
+        '乐群性': 'Warmth',
+        '聪慧性': 'Reasoning',
+        '稳定性': 'Emotional Stability',
+        '恃强性': 'Dominance',
+        '兴奋性': 'Liveliness',
+        '有恒性': 'Rule-Consciousness',
+        '敢为性': 'Social Boldness',
+        '敏感性': 'Sensitivity',
+        '怀疑性': 'Vigilance',
+        '幻想性': 'Abstractedness',
+        '世故性': 'Privateness',
+        '忧虑性': 'Apprehension',
+        '实验性': 'Openness to Change',
+        '独立性': 'Self-Reliance',
+        '自律性': 'Perfectionism',
+        '紧张性': 'Tension',
+        // 霍兰德职业兴趣测试
+        'R现实型': 'R-Realistic',
+        'I研究型': 'I-Investigative',
+        'A艺术型': 'A-Artistic',
+        'S社会型': 'S-Social',
+        'E企业型': 'E-Enterprising',
+        'C传统型': 'C-Conventional',
+        '现实型': 'Realistic',
+        '研究型': 'Investigative',
+        '艺术型': 'Artistic',
+        '社会型': 'Social',
+        '企业型': 'Enterprising',
+        '传统型': 'Conventional',
+        // MBTI维度
+        '外向': 'Extraversion',
+        '内向': 'Introversion',
+        '感觉': 'Sensing',
+        '直觉': 'Intuition',
+        '思维': 'Thinking',
+        '情感': 'Feeling',
+        '判断': 'Judging',
+        '知觉': 'Perceiving'
+    };
+    
+    // 先尝试完全匹配
+    if (translations[chineseName]) {
+        return translations[chineseName];
+    }
+    
+    // 尝试去掉前缀字母后匹配
+    const withoutPrefix = chineseName.replace(/^[A-Z0-9]+/, '');
+    if (translations[withoutPrefix]) {
+        // 保留原来的前缀
+        const prefix = chineseName.match(/^[A-Z0-9]+/);
+        return prefix ? `${prefix[0]}-${translations[withoutPrefix]}` : translations[withoutPrefix];
+    }
+    
+    // 如果没有找到翻译，返回原名称
+    return chineseName;
+}
+
+// 更新UI语言
+function updateUILanguage(isEnglish, data) {
+    const texts = {
+        zh: {
+            testResult: '测试结果',
+            subtitle: '感谢您完成测试，以下是您的详细分析报告',
+            testInfo: '测试信息',
+            radarChart: '维度得分分布',
+            analysisReport: '详细分析报告',
+            suggestions: '建议和指导',
+            loading: '正在加载...',
+            analyzing: '正在分析您的维度特点...',
+            evaluating: '评估中...',
+            score: '分'
+        },
+        en: {
+            testResult: 'Test Result',
+            subtitle: 'Thank you for completing the test. Below is your detailed analysis report',
+            testInfo: 'Test Information',
+            radarChart: 'Dimension Score Distribution',
+            analysisReport: 'Detailed Analysis Report',
+            suggestions: 'Suggestions',
+            loading: 'Loading...',
+            analyzing: 'Analyzing your dimension characteristics...',
+            evaluating: 'Evaluating...',
+            score: ''  // 英文版不显示单位，更简洁
+        }
+    };
+    
+    const t = isEnglish ? texts.en : texts.zh;
+    
+    // 更新页面标题和副标题（如果没有从data中获取）
+    const titleElement = document.getElementById('test-title');
+    if (!data.a_info?.title) {
+        titleElement.textContent = t.testResult;
+    }
+    
+    const subtitleElement = document.getElementById('test-subtitle');
+    subtitleElement.textContent = t.subtitle;
+    
+    // 更新各个区域标题
+    document.getElementById('info-header-title').textContent = t.testInfo;
+    document.getElementById('radar-header-title').textContent = t.radarChart;
+    document.getElementById('analysis-header-title').textContent = t.analysisReport;
+    document.getElementById('suggestions-header-title').textContent = t.suggestions;
+    
+    // 保存文本到全局变量，供其他函数使用
+    window.i18nTexts = t;
+}
+
+function getScoreInfo(score, data, isEnglish) {
+    // 优先使用analyse.dimensions中的配置信息
+    if (data.analyse && data.analyse.dimensions) {
+        const dimensionArray = Object.values(data.analyse.dimensions)
+            .sort((a, b) => b.score - a.score)
+            .slice(0, 3);
+        
+        if (dimensionArray.length > 0) {
+            const separator = isEnglish ? ', ' : '、';
+            const topNames = dimensionArray.map(dim => {
+                // 优先使用 title（完整名称），其次 name，最后 key
+                let displayName = dim.title || dim.name || dim.key;
+                
+                // 如果是英文版且名称包含中文，进行翻译
+                if (isEnglish && /[\u4e00-\u9fa5]/.test(displayName)) {
+                    displayName = translateDimensionName(displayName);
+                }
+                
+                return `${displayName} (${dim.score}${isEnglish ? ' pts' : '分'})`;
+            }).join(separator);
+            
+            return {
+                level: isEnglish ? 'Dominant Types' : '主导类型',
+                description: isEnglish 
+                    ? `Your dominant types are: ${topNames}`
+                    : `您的主导类型是：${topNames}`
+            };
+        }
+    }
+    
+    // 兼容旧格式：从stat_data获取
+    const dimensions = data.stat_data || {};
+    let topDimensions = Object.entries(dimensions)
+        .filter(([key]) => key !== '总分')
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 3);
+    
+    if (topDimensions.length > 0) {
+        const separator = isEnglish ? ', ' : '、';
+        const topNames = topDimensions.map(([key, score]) => {
+            let displayName = key;
+            
+            // 如果是英文版且名称包含中文，进行翻译
+            if (isEnglish && /[\u4e00-\u9fa5]/.test(displayName)) {
+                displayName = translateDimensionName(displayName);
+            }
+            
+            return `${displayName} (${score}${isEnglish ? ' pts' : '分'})`;
+        }).join(separator);
+        
+        return {
+            level: isEnglish ? 'Dominant Types' : '主导类型',
+            description: isEnglish 
+                ? `Your dominant types are: ${topNames}`
+                : `您的主导类型是：${topNames}`
+        };
+    }
+    
+    // 如果有analyse数据，使用它
+    if (data.analyse && data.analyse.title) {
+        return {
+            level: data.analyse.title,
+            description: data.analyse.intro || (isEnglish 
+                ? 'Based on your test results, we have analyzed your performance in each dimension'
+                : '根据您的测试结果，我们为您分析了各个维度的表现')
+        };
+    }
+    
+    return {
+        level: isEnglish ? 'Test Completed' : '测试完成',
+        description: isEnglish 
+            ? 'Thank you for completing the test. Please see the detailed analysis below'
+            : '感谢您完成测试，请查看下方详细分析'
+    };
+}
+
+function displayDimensionScores(data) {
+    // 优先使用analyse.dimensions中的配置信息
+    let dimensionArray = [];
+    
+    if (data.analyse && data.analyse.dimensions) {
+        // 使用后端返回的完整维度配置
+        dimensionArray = Object.values(data.analyse.dimensions)
+            .sort((a, b) => b.score - a.score);
+    } else {
+        // 兼容旧格式：从stat_data构建
+        const dimensions = data.stat_data || {};
+        
+        if (Object.keys(dimensions).length === 0 || (Object.keys(dimensions).length <= 1 && dimensions['总分'])) {
+            return;
+        }
+        
+        dimensionArray = Object.entries(dimensions)
+            .filter(([key]) => key !== '总分')
+            // 过滤对立维度：如果同时存在"XX稳定性"和"XX不稳定性"，只保留分数较高的那个
+            .filter(([key, score], index, arr) => {
+                // 检查是否是"不稳定性"维度
+                if (key.includes('不稳定性')) {
+                    const stableKey = key.replace('不稳定性', '稳定性');
+                    const stableEntry = arr.find(([k]) => k === stableKey);
+                    // 如果存在对应的"稳定性"维度，比较分数，只保留分数高的
+                    if (stableEntry) {
+                        return score > stableEntry[1];
+                    }
+                }
+                // 检查是否是"稳定性"维度
+                if (key.includes('稳定性') && !key.includes('不稳定性')) {
+                    const unstableKey = key.replace('稳定性', '不稳定性');
+                    const unstableEntry = arr.find(([k]) => k === unstableKey);
+                    // 如果存在对应的"不稳定性"维度，比较分数，只保留分数高的
+                    if (unstableEntry) {
+                        return score > unstableEntry[1];
+                    }
+                }
+                return true; // 其他维度都保留
+            })
+            .map(([key, score]) => ({
+                key: key,
+                name: key,
+                score: score,
+                max_score: 15 // 默认满分
+            }))
+            .sort((a, b) => b.score - a.score);
+    }
+    
+    if (dimensionArray.length === 0) {
+        return;
+    }
+    
+    // 只有维度数量>=3时才显示雷达图，否则隐藏雷达图区域
+    const radarSection = document.querySelector('.radar-section');
+    if (dimensionArray.length >= 3) {
+        // 创建雷达图和图例
+        createRadarChart(dimensionArray);
+        createLegend(dimensionArray);
+        if (radarSection) {
+            radarSection.style.display = 'block';
+        }
+    } else {
+        // 维度数量少于3，隐藏雷达图区域
+        if (radarSection) {
+            radarSection.style.display = 'none';
+        }
+        console.log('维度数量少于3个，不适合显示雷达图');
+    }
+}
+
+// 创建图例
+function createLegend(dimensionArray) {
+    const legendContainer = document.getElementById('dimension-legend');
+    if (!legendContainer) return;
+    
+    // 预定义颜色方案
+    const colorPalette = [
+        '#3498db', '#9b59b6', '#e74c3c', 
+        '#2ecc71', '#f39c12', '#1abc9c',
+        '#e67e22', '#16a085', '#c0392b'
+    ];
+    
+    // 获取当前语言设置
+    const urlParams = new URLSearchParams(window.location.search);
+    const lg = urlParams.get('lg') || 'zh-cn';
+    const isEnglish = lg === 'en';
+    
+    // 获取当前语言的分数单位
+    const scoreUnit = window.i18nTexts?.score || '分';
+    
+    let html = '';
+    dimensionArray.forEach((dim, index) => {
+        const color = colorPalette[index % colorPalette.length];
+        // 主导标记：前3名显示排名，表示主导类型
+        const rankBadge = index < 3 ? `<span style="color: ${color}; font-weight: 700; margin-right: 4px;">#${index + 1}</span>` : '';
+        // 优先使用 title（完整名称），其次 name，最后 key
+        let displayName = dim.title || dim.name || dim.key;
+        
+        // 如果是英文版且名称包含中文，进行翻译
+        if (isEnglish && /[\u4e00-\u9fa5]/.test(displayName)) {
+            displayName = translateDimensionName(displayName);
+        }
+        
+        html += `
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: ${color};"></div>
+                <div class="legend-info">
+                    <div class="legend-name">${rankBadge}${displayName}</div>
+                    <div class="legend-score">${dim.score}${scoreUnit}</div>
+                </div>
+            </div>
+        `;
+    });
+    
+    legendContainer.innerHTML = html;
+}
+
+function displayTestInfo(data, isEnglish) {
+    let infoHtml = '';
+    
+    if (data.a_info) {
+        const labels = isEnglish ? {
+            testName: 'Test Name: ',
+            description: 'Description: ',
+            questionCount: 'Questions: ',
+            maxScore: 'Max Score: ',
+            testType: 'Test Type: ',
+            questions: ' questions',
+            points: ' points',
+            dimensionTest: 'Dimension Test'
+        } : {
+            testName: '测试名称：',
+            description: '测试说明：',
+            questionCount: '题目数量：',
+            maxScore: '满分：',
+            testType: '测试类型：',
+            questions: ' 题',
+            points: ' 分',
+            dimensionTest: '维度测试'
+        };
+        
+        infoHtml += '<p><strong>' + labels.testName + '</strong>' + (data.a_info.title || (isEnglish ? 'Dimension Test' : '维度测试')) + '</p>';
+        
+        // 优先使用sub_title，如果没有则使用description
+        let description = data.a_info.sub_title || data.a_info.description || '';
+        if (description) {
+            infoHtml += '<p><strong>' + labels.description + '</strong>' + description + '</p>';
+        }
+        
+        infoHtml += '<p><strong>' + labels.questionCount + '</strong>' + (data.test_info?.question_count || 0) + labels.questions + '</p>';
+        
+        // 使用后端返回的max_possible_score
+        const maxScore = data.analyse?.max_possible_score || data.test_info?.question_count || 15;
+        infoHtml += '<p><strong>' + labels.maxScore + '</strong>' + maxScore + labels.points + '</p>';
+        
+        infoHtml += '<p><strong>' + labels.testType + '</strong>' + labels.dimensionTest + '</p>';
+    }
+    
+    document.getElementById('info-content').innerHTML = infoHtml;
+}
+
+function displayAnalysis(data) {
+    let analysisHtml = '';
+    
+    // 优先使用 dimensions 对象，按照维度结构显示
+    if (data.analyse && data.analyse.dimensions) {
+        const dimensions = data.analyse.dimensions;
+        let hasDimensions = false;
+        
+        // 动态按分数从高到低排序（不硬编码维度顺序）
+        const sortedDimensions = Object.entries(dimensions)
+            .sort((a, b) => b[1].score - a[1].score)
+            .map(([key, dim]) => ({ key, ...dim }));
+        
+        // 判断是否为英文版
+        const urlParams = new URLSearchParams(window.location.search);
+        const lg = urlParams.get('lg') || 'zh-cn';
+        const isEnglish = lg === 'en';
+        
+        sortedDimensions.forEach((dim, index) => {
+            if (dim.name && dim.score !== undefined) {
+                hasDimensions = true;
+                
+                // 提取分析内容 - 优先使用 analysis，其次 content，再次 intro
+                const analysisContent = dim.analysis || dim.content || dim.intro || '';
+                
+                // 提取图片（如果有）
+                const coverImage = dim.cover ? `
+                    <div class="dim-cover">
+                        <img src="${dim.cover}" alt="${dim.name}">
+                    </div>
+                ` : '';
+                
+                // 标题文本：如果 title 存在则使用，否则使用 name
+                let displayTitle = dim.title || dim.name || dim.key;
+                
+                // 如果是英文版且标题包含中文，进行翻译
+                if (isEnglish && /[\u4e00-\u9fa5]/.test(displayTitle)) {
+                    displayTitle = translateDimensionName(displayTitle);
+                }
+                
+                // 获取当前语言的分数单位
+                const scoreUnit = window.i18nTexts?.score || '分';
+                
+                analysisHtml += `
+                    <div class="dimension-item">
+                        <div class="dim-header" onclick="toggleDimensionContent(this)">
+                            <div class="dim-title-content">
+                                <span class="dim-key">${dim.key}</span>
+                                <span class="dim-name">${displayTitle}</span>
+                                <span class="dim-score">${dim.score}${scoreUnit}</span>
+                            </div>
+                            <i class="fas fa-chevron-down dim-toggle"></i>
+                        </div>
+                        <div class="dim-body">
+                            ${coverImage}
+                            <div class="dim-content">${analysisContent}</div>
+                        </div>
+                    </div>
+                `;
+            }
+        });
+        
+        if (hasDimensions) {
+            document.getElementById('analysis-content').innerHTML = analysisHtml;
+            return;
+        }
+    }
+    
+    // 降级：如果没有 dimensions 结构，显示提示
+    analysisHtml = `
+        <div style="text-align: center; padding: 40px 20px; color: #7f8c8d;">
+            <i class="fas fa-chart-bar" style="font-size: 3rem; margin-bottom: 20px; color: #bdc3c7;"></i>
+            <p style="font-size: 1.1rem;">详细分析内容正在准备中...</p>
+            <p style="margin-top: 10px;">请参考上方雷达图和图例了解您的各维度得分</p>
+        </div>
+    `;
+    
+    document.getElementById('analysis-content').innerHTML = analysisHtml;
+}
+
+function displaySuggestions(data) {
+    let suggestionsHtml = '';
+    
+    // 如果有analyse数据中的建议，优先显示
+    if (data.analyse && data.analyse.suggestion) {
+        suggestionsHtml = data.analyse.suggestion;
+    } else {
+        // 获取当前语言，判断是否为英文
+        const lg = new URLSearchParams(window.location.search).get('lg');
+        const isEnglish = lg === 'en';
+        
+        // 显示通用建议（多语言）
+        if (isEnglish) {
+            suggestionsHtml = `
+                <h4>💡 General Suggestions</h4>
+                <ul>
+                    <li>Understand your current status based on test results</li>
+                    <li>Consult relevant professionals if you have any questions</li>
+                    <li>Maintain a positive mindset and continue to focus on personal development</li>
+                    <li>Conduct regular self-assessment and reflection</li>
+                </ul>
+                
+                <h4>📝 Notes</h4>
+                <p>Test results are for reference only. Please consult a professional for specific guidance.</p>
+            `;
+        } else {
+            suggestionsHtml = `
+                <h4>💡 通用建议</h4>
+                <ul>
+                    <li>根据测试结果，了解自己的现状</li>
+                    <li>如有疑问，建议咨询相关专业人士</li>
+                    <li>保持积极的心态，持续关注自身发展</li>
+                    <li>定期进行自我评估和反思</li>
+                </ul>
+                
+                <h4>📝 注意事项</h4>
+                <p>测试结果仅供参考，具体请咨询专业指导。</p>
+            `;
+        }
+    }
+    
+    document.getElementById('suggestions-content').innerHTML = suggestionsHtml;
+    
+    // 加载相关推荐内容
+    loadRelatedTests();
+    loadPopularArticles();
+}
+
+// 加载相关测试
+function loadRelatedTests() {
+    const lg = new URLSearchParams(window.location.search).get('lg') || 'zh-cn';
+    const isEnglish = lg === 'en';
+    
+    // 更新标题
+    document.getElementById('related-tests-title').textContent = isEnglish ? 'Related Psychological Tests' : '相关心理测试推荐';
+    
+    // 获取相关测试（这里使用模拟数据，实际应该调用后端API）
+    fetch('/addons/cms/psychometry/getRelatedTests?limit=6&lang=' + lg)
+        .then(response => response.json())
+        .then(data => {
+            if (data.code === 1 && data.data && data.data.length > 0) {
+                displayRelatedTests(data.data, isEnglish);
+            } else {
+                // 如果API不存在或没有数据，隐藏该区域
+                document.querySelector('.related-tests-section').style.display = 'none';
+            }
+        })
+        .catch(error => {
+            console.log('加载相关测试:', error);
+            // API不存在时隐藏该区域
+            document.querySelector('.related-tests-section').style.display = 'none';
+        });
+}
+
+// 显示相关测试
+function displayRelatedTests(tests, isEnglish) {
+    const container = document.getElementById('related-tests-content');
+    let html = '';
+    
+    tests.forEach(test => {
+        const title = test.title || '';
+        const description = test.description || test.intro || '';
+        const questionCount = test.question_count || 0;
+        const url = test.url || `/test/${test.id}`;
+        const imageUrl = test.image || test.cover || '';
+        
+        html += `
+            <a href="${url}" class="related-test-card" title="${title}">
+                ${imageUrl ? `<img src="${imageUrl}" alt="${title}" class="test-card-image" loading="lazy">` : '<div class="test-card-image"></div>'}
+                <div class="test-card-content">
+                    <h3 class="test-card-title">${title}</h3>
+                    <p class="test-card-desc">${description}</p>
+                    <div class="test-card-meta">
+                        <span class="test-card-questions">
+                            <i class="fas fa-question-circle"></i>
+                            ${questionCount} ${isEnglish ? 'questions' : '题'}
+                        </span>
+                        <span class="test-card-btn">${isEnglish ? 'Take Test' : '开始测试'}</span>
+                    </div>
+                </div>
+            </a>
+        `;
+    });
+    
+    container.innerHTML = html;
+}
+
+// 加载热门文章
+function loadPopularArticles() {
+    const lg = new URLSearchParams(window.location.search).get('lg') || 'zh-cn';
+    const isEnglish = lg === 'en';
+    
+    // 更新标题
+    document.getElementById('popular-articles-title').textContent = isEnglish ? 'Popular Psychology Articles' : '热门心理学文章';
+    
+    // 获取热门文章
+    fetch('/addons/cms/psychometry/getPopularArticles?limit=8&lang=' + lg)
+        .then(response => response.json())
+        .then(data => {
+            if (data.code === 1 && data.data && data.data.length > 0) {
+                displayPopularArticles(data.data, isEnglish);
+            } else {
+                // 如果API不存在或没有数据，隐藏该区域
+                document.querySelector('.popular-articles-section').style.display = 'none';
+            }
+        })
+        .catch(error => {
+            console.log('加载热门文章:', error);
+            // API不存在时隐藏该区域
+            document.querySelector('.popular-articles-section').style.display = 'none';
+        });
+}
+
+// 显示热门文章
+function displayPopularArticles(articles, isEnglish) {
+    const container = document.getElementById('popular-articles-content');
+    let html = '';
+    
+    articles.forEach(article => {
+        const title = article.title || '';
+        const description = article.description || article.excerpt || '';
+        const views = article.views || article.view_count || 0;
+        const url = article.url || `/article/${article.id}`;
+        const imageUrl = article.image || article.cover || '';
+        const publishTime = article.publish_time || article.createtime || '';
+        
+        html += `
+            <a href="${url}" class="article-card" title="${title}">
+                ${imageUrl ? `<img src="${imageUrl}" alt="${title}" class="article-card-image" loading="lazy">` : '<div class="article-card-image"></div>'}
+                <div class="article-card-content">
+                    <h3 class="article-card-title">${title}</h3>
+                    <p class="article-card-excerpt">${description}</p>
+                    <div class="article-card-meta">
+                        <span class="article-card-views">
+                            <i class="fas fa-eye"></i>
+                            ${views.toLocaleString()}
+                        </span>
+                        <span class="article-card-date">
+                            <i class="far fa-clock"></i>
+                            ${formatDate(publishTime, isEnglish)}
+                        </span>
+                    </div>
+                </div>
+            </a>
+        `;
+    });
+    
+    container.innerHTML = html;
+}
+
+// 格式化日期
+function formatDate(timestamp, isEnglish) {
+    if (!timestamp) return '';
+    
+    const date = new Date(timestamp * 1000);
+    const now = new Date();
+    const diffTime = Math.abs(now - date);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    if (diffDays < 1) {
+        return isEnglish ? 'Today' : '今天';
+    } else if (diffDays < 7) {
+        return isEnglish ? `${diffDays} days ago` : `${diffDays}天前`;
+    } else if (diffDays < 30) {
+        const weeks = Math.floor(diffDays / 7);
+        return isEnglish ? `${weeks} weeks ago` : `${weeks}周前`;
+    } else {
+        return date.toLocaleDateString(isEnglish ? 'en-US' : 'zh-CN', { 
+            year: 'numeric', 
+            month: 'short', 
+            day: 'numeric' 
+        });
+    }
+}
+
+// 折叠功能
+function toggleTestInfo() {
+    const content = document.getElementById('info-content');
+    const icon = document.getElementById('test-info-icon');
+    
+    if (content.classList.contains('collapsed')) {
+        content.classList.remove('collapsed');
+        content.classList.add('expanded');
+        icon.classList.add('expanded');
+    } else {
+        content.classList.remove('expanded');
+        content.classList.add('collapsed');
+        icon.classList.remove('expanded');
+    }
+}
+
+// 通用折叠功能
+function toggleSection(sectionName) {
+    const content = document.getElementById(sectionName + '-content');
+    const icon = document.getElementById(sectionName + '-icon');
+    
+    if (content.classList.contains('collapsed')) {
+        content.classList.remove('collapsed');
+        content.classList.add('expanded');
+        icon.classList.add('expanded');
+    } else {
+        content.classList.remove('expanded');
+        content.classList.add('collapsed');
+        icon.classList.remove('expanded');
+    }
+}
+
+// 维度内容折叠功能
+function toggleDimensionContent(header) {
+    const dimBody = header.nextElementSibling;
+    const toggleIcon = header.querySelector('.dim-toggle');
+    
+    if (dimBody.classList.contains('collapsed')) {
+        dimBody.classList.remove('collapsed');
+        toggleIcon.classList.remove('rotated');
+    } else {
+        dimBody.classList.add('collapsed');
+        toggleIcon.classList.add('rotated');
+    }
+}
+
+// 创建雷达图
+let radarChart = null;
+function createRadarChart(dimensionArray) {
+    const canvas = document.getElementById('dimensionRadarChart');
+    if (!canvas) return;
+    
+    // 销毁旧图表
+    if (radarChart) {
+        radarChart.destroy();
+    }
+    
+    // 获取语言设置
+    const urlParams = new URLSearchParams(window.location.search);
+    const lg = urlParams.get('lg') || 'zh-cn';
+    const isEnglish = lg === 'en';
+    
+    // 准备数据 - 翻译维度名称
+    const labels = dimensionArray.map(dim => {
+        let name = dim.name;
+        // 如果是英文版且名称包含中文，进行翻译
+        if (isEnglish && /[\u4e00-\u9fa5]/.test(name)) {
+            name = translateDimensionName(name);
+        }
+        return name;
+    });
+    const scores = dimensionArray.map(dim => dim.score);
+    const maxScores = dimensionArray.map(dim => dim.max_score || 15);
+    const maxPossible = Math.max(...maxScores);
+    
+    // 预定义颜色
+    const colorPalette = [
+        'rgba(52, 152, 219, 0.7)',   // 蓝色
+        'rgba(155, 89, 182, 0.7)',   // 紫色
+        'rgba(231, 76, 60, 0.7)',    // 红色
+        'rgba(46, 204, 113, 0.7)',   // 绿色
+        'rgba(243, 156, 18, 0.7)',   // 橙色
+        'rgba(26, 188, 156, 0.7)',   // 青色
+        'rgba(230, 126, 34, 0.7)',   // 深橙
+        'rgba(22, 160, 133, 0.7)',   // 深青
+        'rgba(192, 57, 43, 0.7)'     // 深红
+    ];
+    
+    const ctx = canvas.getContext('2d');
+    radarChart = new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: isEnglish ? 'Score' : '得分',
+                data: scores,
+                backgroundColor: 'rgba(102, 126, 234, 0.2)',
+                borderColor: 'rgba(102, 126, 234, 1)',
+                borderWidth: 2,
+                pointBackgroundColor: colorPalette.slice(0, dimensionArray.length),
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgba(102, 126, 234, 1)',
+                pointRadius: 6,
+                pointHoverRadius: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            scales: {
+                r: {
+                    beginAtZero: true,
+                    max: maxPossible,
+                    ticks: {
+                        stepSize: Math.ceil(maxPossible / 5),
+                        font: {
+                            size: 12
+                        }
+                    },
+                    pointLabels: {
+                        font: {
+                            size: 14,
+                            weight: '600'
+                        },
+                        color: '#2c3e50'
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    },
+                    angleLines: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const dim = dimensionArray[context.dataIndex];
+                            return `${dim.name}: ${dim.score}/${dim.max_score} (${Math.round(dim.score/dim.max_score*100)}%)`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+</script>

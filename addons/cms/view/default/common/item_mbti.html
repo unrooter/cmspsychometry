@@ -1,0 +1,18 @@
+<div class="card">
+    <div class="thumb">
+        <a href="{$item.url}" class="preview-link">
+            <div class="embed-responsive embed-responsive-4by3">
+                <img src="{$item.image}" alt="">
+            </div>
+        </a>
+        <a href="{$item.url}" class="quickview-link"><i class="fa fa-search"></i></a>
+    </div>
+    <a class="title" href="{$item.url}" {if $item.style}style="{$item.style_text}" {/if}></a>
+    <h2>{$item.title|htmlentities}</h2>
+    <div class="sub_title" style="padding: 0 6px 12px 6px;color: #666;font-size: 13px;">
+        <!-- 揭示个人性格特点和行为模式 -->
+        {$item.sub_title|htmlentities}
+    </div>
+    </a>
+</div>
+

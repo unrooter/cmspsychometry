@@ -1,0 +1,172 @@
+<style>
+    .lang-tabs .nav-tabs {
+        border-bottom: 2px solid #e0e0e0;
+        margin-bottom: 20px;
+    }
+    .lang-tabs .nav-tabs > li > a {
+        border-radius: 4px 4px 0 0;
+        padding: 12px 24px;
+        font-size: 14px;
+        font-weight: 500;
+    }
+    .form-section {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+    }
+    .form-label {
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 8px;
+        display: block;
+    }
+    .form-help {
+        font-size: 12px;
+        color: #6c757d;
+        margin-top: 5px;
+    }
+    .panel-heading {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+    .panel-heading .panel-title {
+        color: white;
+    }
+</style>
+
+<form id="edit-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <!-- 基本信息 -->
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <i class="fa fa-info-circle"></i> 基本信息
+            </h4>
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-2">
+                    <i class="fa fa-file-text"></i> {:__('Archives_id')}:
+                </label>
+                <div class="col-xs-12 col-sm-8">
+                    <input id="c-archives_id" data-rule="required" min="0" data-source="cms/archives/index" class="form-control selectpage" name="row[archives_id]" type="text" value="{$row.archives_id|htmlentities}">
+                    <span class="help-block"><i class="fa fa-info-circle"></i> 选择要翻译的文章</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-2">
+                    <i class="fa fa-language"></i> {:__('Lang')}:
+                </label>
+                <div class="col-xs-12 col-sm-8">
+                    <select id="c-lang" data-rule="required" class="form-control selectpicker" name="row[lang]">
+                        {foreach name="langList" item="vo"}
+                            <option value="{$key}" {in name="key" value="$row.lang"}selected{/in}>{$vo}</option>
+                        {/foreach}
+                    </select>
+                    <span class="help-block"><i class="fa fa-info-circle"></i> 选择目标语言</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 内容编辑 -->
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <i class="fa fa-edit"></i> 内容编辑
+            </h4>
+        </div>
+        <div class="panel-body">
+            <div class="form-section">
+                <label class="form-label">
+                    <i class="fa fa-header"></i> {:__('Title')}
+                </label>
+                <input id="c-title" data-rule="required" class="form-control" name="row[title]" type="text" value="{$row.title|htmlentities}" placeholder="请输入文章标题">
+                <div class="form-help">
+                    <i class="fa fa-lightbulb-o"></i> 文章的主标题，显示在页面顶部
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <label class="form-label">
+                    <i class="fa fa-align-left"></i> {:__('Sub_title')}
+                </label>
+                <textarea id="c-sub_title" class="form-control" rows="3" name="row[sub_title]" cols="50" placeholder="请输入副标题">{$row.sub_title|htmlentities}</textarea>
+                <div class="form-help">
+                    <i class="fa fa-lightbulb-o"></i> 副标题或简短描述
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <label class="form-label">
+                    <i class="fa fa-file-text"></i> {:__('Content')}
+                </label>
+                <textarea id="c-content" class="form-control summernote" rows="10" name="row[content]" cols="50" placeholder="请输入文章内容">{$row.content|htmlentities}</textarea>
+                <div class="form-help">
+                    <i class="fa fa-lightbulb-o"></i> 文章的详细内容，支持富文本编辑
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <label class="form-label">
+                    <i class="fa fa-question-circle"></i> {:__('Question')}
+                </label>
+                <input id="c-question" class="form-control" name="row[question]" type="text" value="{$row.question|htmlentities}" placeholder="请输入问题">
+                <div class="form-help">
+                    <i class="fa fa-lightbulb-o"></i> 相关问题或引导性提问
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- SEO优化 -->
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <i class="fa fa-search"></i> SEO优化
+            </h4>
+        </div>
+        <div class="panel-body">
+            <div class="alert alert-info">
+                <i class="fa fa-info-circle"></i> 
+                <strong>说明：</strong>SEO设置将帮助搜索引擎更好地理解和索引您的内容。
+            </div>
+            
+            <div class="form-section">
+                <label class="form-label">
+                    <i class="fa fa-tag"></i> {:__('Seo_title')}
+                </label>
+                <input id="c-seo_title" class="form-control" name="row[seo_title]" type="text" value="{$row.seo_title|htmlentities}" placeholder="请输入SEO标题">
+                <div class="form-help">
+                    <i class="fa fa-lightbulb-o"></i> 显示在搜索结果中的标题，建议50-60个字符
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <label class="form-label">
+                    <i class="fa fa-tags"></i> {:__('Keywords')}
+                </label>
+                <input id="c-keywords" class="form-control" name="row[keywords]" type="text" value="{$row.keywords|htmlentities}" placeholder="请输入关键词，用逗号分隔">
+                <div class="form-help">
+                    <i class="fa fa-lightbulb-o"></i> 关键词用逗号分隔，建议3-5个
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <label class="form-label">
+                    <i class="fa fa-file-text-o"></i> {:__('Description')}
+                </label>
+                <textarea id="c-description" class="form-control" rows="3" name="row[description]" cols="50" placeholder="请输入描述">{$row.description|htmlentities}</textarea>
+                <div class="form-help">
+                    <i class="fa fa-lightbulb-o"></i> 显示在搜索结果中的描述，建议150-160个字符
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-primary btn-embossed disabled">{:__('OK')}</button>
+        </div>
+    </div>
+</form>

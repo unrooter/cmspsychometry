@@ -1,0 +1,814 @@
+{layout name="common/layout" /}
+
+<!-- SEO结构化数据 -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "{$__CHANNEL__.seotitle ?: $__CHANNEL__.name}",
+  "description": "{$__CHANNEL__.description}",
+  "url": "{$__CHANNEL__.url}",
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {cms:breadcrumb id="item"}
+      {
+        "@type": "ListItem",
+        "position": {$i},
+        "name": "{$item.name|htmlentities|raw}",
+        "item": "{$item.url}"
+      }{if !$last},{/if}
+      {/cms:breadcrumb}
+    ]
+  }
+}
+</script>
+
+<div class="test-list-container">
+    <!-- SEO优化的面包屑导航 -->
+    <nav aria-label="breadcrumb" class="breadcrumb-seo">
+        <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+            {php}$breadPos = 0;{/php}
+            {cms:breadcrumb id="item"}
+            {php}$breadPos++;{/php}
+            <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                <a href="{$item.url}" itemprop="item">
+                    <span itemprop="name">{:__($item.name)}</span>
+                </a>
+                <meta itemprop="position" content="{$breadPos}" />
+            </li>
+            {/cms:breadcrumb}
+        </ol>
+    </nav>
+
+    <!-- SEO优化的页面头部 -->
+    <header class="page-header-seo">
+        <!-- 页面主标题区 -->
+        <div class="header-main">
+            <div class="title-wrapper">
+                <h1 class="page-title" itemprop="headline">{:__($__CHANNEL__.name ?: '趣味心理测试')}</h1>
+                <div class="title-badge">
+                    <i class="fa fa-check-circle"></i> {$__PAGELIST__->total()} 个测试
+                </div>
+            </div>
+            
+            {if $__CHANNEL__.description}
+            <div class="page-intro" itemprop="description">
+                <p>{$__CHANNEL__.description}</p>
+            </div>
+            {else}
+            <div class="page-intro" itemprop="description">
+                <p>探索 <strong>{:__($__CHANNEL__.name)}</strong> 相关的心理测试，深入了解自我，发现内心世界的更多可能性。</p>
+            </div>
+            {/if}
+            
+            <!-- 子栏目快速导航 -->
+            <nav class="sub-channels-nav" aria-label="子分类导航">
+                <i class="fa fa-th-list"></i>
+                {php}$navType = $__CHANNEL__['parent_id'] > 0 ? $__CHANNEL__['parent_id'] : $__CHANNEL__['id'];{/php}
+                {cms:channellist id="subchan" type="son" typeid="$navType" limit="6"}
+                <a href="{$subchan.url}" class="nav-item {if $subchan.id == $__CHANNEL__.id}active{/if}">
+                    {:__($subchan.name)}
+                </a>
+                {/cms:channellist}
+            </nav>
+        </div>
+    </header>
+
+    <div class="row mt-3">
+        <main class="col-xs-12 col-md-9">
+            <!-- 测试列表 -->
+            <section class="test-list-section" aria-label="{:__('测试列表')}">
+                <div class="product-list row">
+                    {volist name="__PAGELIST__" id="item"}
+                    <div class="col-xs-6 col-sm-4 col-md-4 product-item">
+                        <article class="test-card" itemscope itemtype="https://schema.org/Quiz">
+                            <a href="{$item.url}" class="test-link" aria-label="{$item.title|htmlentities}">
+                                <!-- 测试封面 -->
+                                <div class="test-image">
+                                    <div class="embed-responsive embed-responsive-square">
+                                        <img src="{$item.image ?: '/assets/addons/cms/img/default.png'}" 
+                                             class="embed-responsive-item" 
+                                             alt="{$item.title|htmlentities} - 心理测试题封面图"
+                                             title="{$item.title|htmlentities}"
+                                             itemprop="image"
+                                             loading="lazy"
+                                             width="300"
+                                             height="300">
+                                    </div>
+                                    {if $item.tags}
+                                    <div class="test-tags">
+                                        {volist name="item.tags" id="tag"}
+                                        <span class="tag">{$tag.title}</span>
+                                        {/volist}
+                                    </div>
+                                    {/if}
+                                </div>
+                                
+                                <!-- 测试信息 -->
+                                <div class="test-info">
+                                    <h3 class="test-title" itemprop="name">{$item.title|htmlentities}</h3>
+                                    {if $item.sub_title}
+                                    <p class="test-subtitle" itemprop="description">{$item.sub_title|htmlentities}</p>
+                                    {/if}
+                                    <div class="test-meta">
+                                        <span class="meta-item views">
+                                            <i class="fa fa-eye"></i> {$item.views|default=0}
+                                        </span>
+                                    </div>
+                                </div>
+                            </a>
+                        </article>
+                    </div>
+                    {/volist}
+                </div>
+
+                <!-- 空状态 -->
+                {if $__PAGELIST__->isEmpty()}
+                <div class="empty-state">
+                    <i class="fa fa-inbox"></i>
+                    <p>{:__('暂无测试内容')}</p>
+                </div>
+                {/if}
+
+                <!-- 分页 -->
+                {if !$__PAGELIST__->isEmpty()}
+                <div class="pagination-wrapper">
+                    {cms:pageinfo type="full" /}
+                </div>
+                {/if}
+            </section>
+        </main>
+
+        <!-- 侧边栏 -->
+        <aside class="col-xs-12 col-md-3 sidebar">
+            <!-- 热门测试 -->
+            <section class="sidebar-widget hot-tests-widget" aria-labelledby="hot-tests-title">
+                <h2 class="widget-title" id="hot-tests-title">
+                    <i class="fa fa-fire"></i> {:__('热门测试')}
+                </h2>
+                <div class="widget-content">
+                    {php}$hotType = $__CHANNEL__['parent_id'] > 0 ? '' : 'son';{/php}
+                    {cms:arclist id="hot" type="$hotType" channel="$__CHANNEL__.id" orderby="views" orderway="DESC" limit="5"}
+                    <div class="hot-test-item">
+                        <a href="{$hot.url}">
+                            <div class="hot-test-number">{$i}</div>
+                            <div class="hot-test-info">
+                                <div class="hot-test-title">{$hot.title|htmlentities|mb_substr=0,30}</div>
+                                <div class="hot-test-views">
+                                    <i class="fa fa-eye"></i> {$hot.views|default=0}
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    {/cms:arclist}
+                </div>
+            </section>
+
+            <!-- 快速分类导航 -->
+            <section class="sidebar-widget category-widget-enhanced" aria-labelledby="category-title">
+                <h2 class="widget-title" id="category-title">
+                    <i class="fa fa-th-large"></i> {:__('分类导航')}
+                </h2>
+                <nav class="widget-content">
+                    <div class="category-grid">
+                        <!-- 如果是子频道，显示父频道的所有子频道（兄弟频道） -->
+                        {if $__CHANNEL__.parent_id > 0}
+                        {cms:channellist id="sub" type="son" typeid="$__CHANNEL__.parent_id"}
+                        <a href="{$sub.url}" class="category-card {if $sub.id == $__CHANNEL__.id}active{/if}">
+                            <div class="category-icon">
+                                <i class="fa fa-folder-o"></i>
+                            </div>
+                            <div class="category-name">{:__($sub.name)}</div>
+                        </a>
+                        {/cms:channellist}
+                        {else}
+                        <!-- 如果是父频道，显示自己的子频道 -->
+                        {cms:channellist id="sub" type="son" typeid="$__CHANNEL__.id"}
+                        <a href="{$sub.url}" class="category-card">
+                            <div class="category-icon">
+                                <i class="fa fa-folder-o"></i>
+                            </div>
+                            <div class="category-name">{:__($sub.name)}</div>
+                        </a>
+                        {/cms:channellist}
+                        {/if}
+                    </div>
+                </nav>
+            </section>
+
+            <!-- 最新测试 -->
+            <section class="sidebar-widget recent-tests-widget" aria-labelledby="recent-tests-title">
+                <h2 class="widget-title" id="recent-tests-title">
+                    <i class="fa fa-clock-o"></i> {:__('最新测试')}
+                </h2>
+                <div class="widget-content">
+                    {php}$recentType = $__CHANNEL__['parent_id'] > 0 ? '' : 'son';{/php}
+                    {cms:arclist id="recent" type="$recentType" channel="$__CHANNEL__.id" orderby="publishtime" orderway="DESC" limit="5"}
+                    <div class="recent-test-item">
+                        <a href="{$recent.url}">
+                            <div class="recent-test-image">
+                                <img src="{$recent.image ?: '/assets/addons/cms/img/default.png'}" 
+                                     alt="{$recent.title|htmlentities}"
+                                     loading="lazy">
+                            </div>
+                            <div class="recent-test-info">
+                                <div class="recent-test-title">{$recent.title|htmlentities|mb_substr=0,30}</div>
+                                <div class="recent-test-time">
+                                    <i class="fa fa-calendar"></i> {$recent.publishtime|date='Y-m-d',###}
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    {/cms:arclist}
+                </div>
+            </section>
+        </aside>
+    </div>
+</div>
+
+<style>
+/* 测试列表样式 */
+.test-list-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 15px;
+}
+
+/* 面包屑导航 */
+.breadcrumb-nav {
+    margin-bottom: 20px;
+}
+
+.breadcrumb {
+    background: #f8f9fa;
+    padding: 10px 15px;
+    border-radius: 6px;
+    margin-bottom: 0;
+    font-size: 14px;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    content: "›";
+    padding: 0 8px;
+    color: #6c757d;
+}
+
+.breadcrumb-item a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.breadcrumb-item a:hover {
+    text-decoration: underline;
+}
+
+.breadcrumb-item.active {
+    color: #6c757d;
+}
+
+/* SEO优化的面包屑导航 */
+.breadcrumb-seo {
+    margin-bottom: 20px;
+}
+
+.breadcrumb-seo .breadcrumb {
+    background: transparent;
+    padding: 8px 0;
+    margin: 0;
+    font-size: 13px;
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+}
+
+.breadcrumb-seo .breadcrumb-item {
+    display: inline-flex;
+    align-items: center;
+}
+
+.breadcrumb-seo .breadcrumb-item + .breadcrumb-item::before {
+    content: "›";
+    padding: 0 8px;
+    color: #adb5bd;
+}
+
+.breadcrumb-seo .breadcrumb-item a {
+    color: #6c757d;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.breadcrumb-seo .breadcrumb-item a:hover {
+    color: #5DBE9E;
+}
+
+.breadcrumb-seo .breadcrumb-item:last-child a {
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+/* SEO优化的页面头部 */
+.page-header-seo {
+    background: linear-gradient(135deg, #f8f9fa 0%, #fff 100%);
+    border-radius: 12px;
+    padding: 20px 25px;
+    margin-bottom: 25px;
+    border: 1px solid #e9ecef;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+/* 标题区域 */
+.header-main {
+    padding: 10px 0;
+}
+
+.title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.page-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.title-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: linear-gradient(135deg, #5DBE9E 0%, #4a9d7e 100%);
+    color: #fff;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(93, 190, 158, 0.3);
+}
+
+.title-badge i {
+    font-size: 14px;
+}
+
+/* 页面介绍 */
+.page-intro {
+    margin-bottom: 15px;
+}
+
+.page-intro p {
+    font-size: 15px;
+    color: #495057;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.page-intro strong {
+    color: #5DBE9E;
+    font-weight: 600;
+}
+
+/* 子栏目快速导航 */
+.sub-channels-nav {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.sub-channels-nav i {
+    color: #5DBE9E;
+    font-size: 14px;
+}
+
+.sub-channels-nav .nav-item {
+    display: inline-block;
+    padding: 6px 16px;
+    background: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 20px;
+    font-size: 13px;
+    color: #495057;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.sub-channels-nav .nav-item:hover {
+    border-color: #5DBE9E;
+    color: #5DBE9E;
+    background: #f0fdf9;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(93, 190, 158, 0.15);
+}
+
+.sub-channels-nav .nav-item.active {
+    background: linear-gradient(135deg, #5DBE9E 0%, #4a9d7e 100%);
+    border-color: #5DBE9E;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(93, 190, 158, 0.3);
+}
+
+/* 测试卡片 */
+.product-list {
+    margin: 0 -10px;
+}
+
+.product-item {
+    padding: 0 10px;
+    margin-bottom: 20px;
+}
+
+.test-card {
+    display: block;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.test-card:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    transform: translateY(-4px);
+}
+
+.test-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.test-image {
+    position: relative;
+    background: #f8f9fa;
+}
+
+.test-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.test-tags {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.test-tags .tag {
+    background: rgba(93, 190, 158, 0.9);
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.test-info {
+    padding: 15px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.test-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 0 0 8px 0;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.test-subtitle {
+    font-size: 13px;
+    color: #6c757d;
+    margin: 0 0 10px 0;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.test-meta {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: #95a5a6;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* 空状态 */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #95a5a6;
+}
+
+.empty-state i {
+    font-size: 64px;
+    margin-bottom: 15px;
+    opacity: 0.5;
+}
+
+.empty-state p {
+    font-size: 16px;
+    margin: 0;
+}
+
+/* 分页 */
+.pagination-wrapper {
+    margin-top: 40px;
+    text-align: center;
+}
+
+/* 侧边栏 */
+.sidebar {
+    margin-top: 20px;
+}
+
+.sidebar-widget {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.widget-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 0 0 15px 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #5DBE9E;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.widget-title i {
+    color: #5DBE9E;
+}
+
+/* 热门测试 */
+.hot-test-item {
+    border-bottom: 1px solid #e9ecef;
+    padding: 12px 0;
+}
+
+.hot-test-item:last-child {
+    border-bottom: none;
+}
+
+.hot-test-item a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
+}
+
+.hot-test-item a:hover {
+    color: #5DBE9E;
+}
+
+.hot-test-number {
+    width: 24px;
+    height: 24px;
+    background: #5DBE9E;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 12px;
+    flex-shrink: 0;
+}
+
+.hot-test-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.hot-test-title {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.hot-test-views {
+    font-size: 12px;
+    color: #95a5a6;
+}
+
+/* 快速分类导航 - 卡片式 */
+.category-widget-enhanced .widget-content {
+    padding: 0;
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.category-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 10px;
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #495057;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.category-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: #5DBE9E;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.category-card:hover {
+    border-color: #5DBE9E;
+    background: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(93, 190, 158, 0.15);
+}
+
+.category-card:hover::before {
+    transform: scaleX(1);
+}
+
+.category-card.active {
+    background: linear-gradient(135deg, #5DBE9E 0%, #4a9d7e 100%);
+    border-color: #5DBE9E;
+    color: #fff;
+}
+
+.category-card.active::before {
+    transform: scaleX(1);
+    background: #fff;
+}
+
+.category-icon {
+    font-size: 24px;
+    margin-bottom: 8px;
+    color: #5DBE9E;
+}
+
+.category-card.active .category-icon {
+    color: #fff;
+}
+
+.category-name {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    text-align: center;
+}
+
+.category-count {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+.category-card.active .category-count {
+    opacity: 0.9;
+}
+
+/* 平板适配 */
+@media (min-width: 768px) and (max-width: 991px) {
+    .page-title {
+        font-size: 24px;
+    }
+    
+    .product-item {
+        margin-bottom: 20px;
+    }
+}
+
+/* 桌面端适配 */
+@media (min-width: 992px) {
+    .test-list-container {
+        padding: 20px 40px;
+    }
+    
+    .page-title {
+        font-size: 32px;
+    }
+    
+    .sidebar {
+        margin-top: 0;
+    }
+}
+
+/* 移动端适配 */
+@media (max-width: 767px) {
+    .test-list-container {
+        padding: 10px;
+    }
+    
+    .page-header-seo {
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+    
+    .breadcrumb-seo .breadcrumb {
+        font-size: 12px;
+    }
+    
+    .breadcrumb-seo .breadcrumb-item + .breadcrumb-item::before {
+        padding: 0 5px;
+    }
+    
+    .title-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .page-title {
+        font-size: 22px;
+    }
+    
+    .title-badge {
+        padding: 5px 12px;
+        font-size: 12px;
+    }
+    
+    .page-intro p {
+        font-size: 14px;
+    }
+    
+    .sub-channels-nav {
+        gap: 8px;
+    }
+    
+    .sub-channels-nav .nav-item {
+        font-size: 12px;
+        padding: 5px 12px;
+    }
+    
+    .test-title {
+        font-size: 15px;
+    }
+    
+    .test-subtitle {
+        font-size: 12px;
+    }
+    
+    .sidebar {
+        margin-top: 30px;
+    }
+}
+
+/* 超小屏幕 */
+@media (max-width: 480px) {
+    .test-stats {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+</style>

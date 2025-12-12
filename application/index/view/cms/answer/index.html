@@ -1,0 +1,108 @@
+<style>
+    .panel-post {
+        position: relative;
+    }
+
+    .btn-post {
+        position: absolute;
+        right: 0;
+        bottom: 10px;
+    }
+
+    .img-border {
+        border-radius: 3px;
+        box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+    }
+
+    .embed-responsive img {
+        position: absolute;
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        border: 0;
+    }
+
+    .channel-list li a {
+        color: #2c3e50;
+    }
+
+    .channel-list li.active a,
+    .channel-list li a:hover {
+        color: #3c8dbc;
+    }
+
+    .channel-list li.active a {
+        font-weight: bold;
+    }
+
+    .panel-user h4 {
+        font-weight: normal;
+        font-size: 14px;
+    }
+    .img-thumb{
+        width: 30%;
+    }
+    .payBtn{
+        background-color: orangered;
+        color: #fff;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-weight: 700;
+    }
+</style>
+<div class="container mt-20">
+    <div id="content-container">
+        <div class="row">
+            <div class="col-md-3">
+                {include file="common/sidenav" /}
+            </div>
+            <div class="col-md-9">
+                <div class="panel panel-user">
+                    <div class="panel-body">
+                        <div class="panel-post">
+                            <h2 class="page-header">{:__('My Test Records')}</h2>
+                        </div>
+                        <div class="row">
+
+                        {volist name='answerList' id='item'}
+                            <div class="col-md-6">
+                                <div class="mb-2" style="background-color: #f9f9f9;padding: 12px;border-radius: 8px;">
+                                <div class="u-flex">
+                                    <a href="/p/ceshiye.html?aid={$item.product_id}" target="_blank">
+                                        <div class="embed-responsive embed-responsive-4by3 img-zoom" style="width: 90px;">
+                                            <img src="{$item.image}" class="embed-responsive-item"
+                                                onerror="this.src='__CDN__/assets/addons/cms/img/noimage.jpg';this.onerror=null;">
+                                        </div>
+                                    </a>
+                                    <div style="margin-left: 16px;flex: 1;">
+                                        <h4 style="margin: 0 0 8px 0;font-size: 16px;">
+                                            <a href="/p/ceshiye.html?aid={$item.product_id}" target="_blank">
+                                                {$item.title}
+                                            </a>
+                                        </h4>
+                                        <div class="text-muted" style="font-size: 13px;">
+                                            <div>{:__('Test Time')}: {$item.test_time|datetime='Y-m-d H:i'}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-2">
+                                    <a class="btn btn-primary btn-sm btn-block" href="{$item.result_url}" target="_blank">
+                                        {:__('View Results')}
+                                    </a>
+                                </div>
+                            </div>
+                            </div>
+                        <!-- <hr> -->
+                        {/volist}
+                    </div>
+
+                        {if $answerList->total()==0}
+                        <div class="text-center text-muted" style="padding: 40px 0;">{:__('No records found')}</div>
+                        {/if}
+                        <div class="pager">{$answerList->render()}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

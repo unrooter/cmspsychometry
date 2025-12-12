@@ -1,0 +1,118 @@
+{layout name="common/layout" /}
+<style>
+    .titleline {
+        font-weight: 600;
+    }
+
+    .grayline {
+        padding: 15px;
+        background: #f3f3f3;
+        margin-bottom: 10px;
+    }
+
+    .grayline > p {
+        color: #909399;
+        margin: 0;
+    }
+</style>
+<div class="container" id="content-container">
+
+    <div class="row">
+
+        <main class="col-xs-12">
+
+            <div class="panel panel-default article-content">
+                <div class="panel-heading">
+                    <ol class="breadcrumb">
+                        <!-- S 面包屑导航 -->
+                        {cms:breadcrumb id="item"}
+                        <li><a href="{$item.url}">{:__($item.name)}</a></li>
+                        {/cms:breadcrumb}
+                        <li>详情</li>
+                        <!-- E 面包屑导航 -->
+                    </ol>
+                </div>
+                <div class="panel-body">
+                    <div class="article-metas">
+                        <!--@formatter:off-->
+                        {foreach name="fieldsList" id="item"}
+                            {php}if(in_array($item['name'], ['id', 'user_id', 'createtime', 'updatetime', 'memo', 'status']) || !isset($__DIYDATA__[$item['name']])) continue;{/php}
+                            <div class="itemline">
+                                <div class="titleline"><p>{$item.title|htmlentities}：</p></div>
+                                <div class="grayline">
+                                    {if in_array($item['type'],['file', 'files', 'image', 'images'])}
+                                        {php}$files = array_filter(explode(',', $__DIYDATA__[$item['name']]));{/php}
+
+                                        {if in_array($item['type'],['image', 'images'])}
+                                            <div class="related-article mb-2">
+                                                <div class="row mt-2">
+                                                    {foreach name="files" id="file"}
+                                                            <div class="col-xs-6 col-sm-3 col-md-2">
+                                                                <div class="embed-responsive embed-responsive-4by3 img-zoom">
+                                                                    <a href="{$file|cdnurl}" target="_blank"><img src="{$file|cdnurl}" alt=""></a>
+                                                                </div>
+                                                            </div>
+                                                    {/foreach}
+                                                </div>
+                                            </div>
+                                        {else/}
+                                            <p>
+                                                {foreach name="files" id="file"}
+                                                <a href="{:htmlentities(cdnurl($file))}" class="btn btn-xs btn-primary" target="_blank"><i class="fa fa-download"></i> 点击下载</a>
+                                                {/foreach}
+                                            </p>
+                                        {/if}
+                                    {elseif in_array($item['type'],['selectpage', 'selectpages'])}
+                                        <p>{:htmlentities($__DIYDATA__[$item['name'].'_value']??'')}</p>
+                                    {elseif in_array($item['type'],['radio', 'checkbox', 'select', 'selects'])}
+                                        <p>{:htmlentities($__DIYDATA__[$item['name'].'_text']??'')}</p>
+                                    {else/}
+                                        <p>{:htmlentities($__DIYDATA__[$item['name']])}</p>
+                                    {/if}
+                                </div>
+                            </div>
+                        {/foreach}
+                        <!--@formatter:on-->
+                        <div>
+                            <div class="titleline"><p>添加时间：</p></div>
+                            <div class="grayline">
+                                <p>{$__DIYDATA__.createtime|datetime}</p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="titleline"><p>状态：</p></div>
+                            <div class="grayline">
+                                <p>{$__DIYDATA__.status_text}</p>
+                            </div>
+                        </div>
+                        {if $user && $user.id==$__DIYDATA__.user_id && $__DIYDATA__.status=='rejected'}
+                        <div>
+                            <div class="titleline"><p>拒绝原因：</p></div>
+                            <div class="grayline">
+                                <p class="text-danger">{$__DIYDATA__.memo}</p>
+                            </div>
+                        </div>
+                        {/if}
+
+                        <div class="mt-2">
+                            <div class="titleline"></div>
+                            <div>
+                                <p>
+                                    {if $user && $user.id==$__DIYDATA__.user_id && $__DIYFORM__.isedit}
+                                    <a href="{$__DIYFORM__.posturl}?id={$__DIYDATA__.id}" class="btn btn-primary"><i class="fa fa-pencil"></i> 修改</a>
+                                    {/if}
+                                    <a href="{$__DIYFORM__.url}" class="btn btn-default"><i class="fa fa-reply"></i> 返回</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+
+        </main>
+
+    </div>
+</div>

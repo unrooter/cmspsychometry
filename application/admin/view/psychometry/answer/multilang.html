@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>结果多语言管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/assets/img/favicon.ico">
+    <link href="/assets/css/backend.css" rel="stylesheet">
+    <style>
+        .lang-tabs .nav-tabs {
+            border-bottom: 2px solid #e0e0e0;
+            margin-bottom: 20px;
+        }
+        .lang-tabs .nav-tabs > li > a {
+            border-radius: 4px 4px 0 0;
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .lang-status {
+            display: inline-block;
+            margin-left: 8px;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: normal;
+        }
+        .lang-status.exists {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .lang-status.empty {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .form-section {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .form-help {
+            font-size: 12px;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="panel panel-default panel-intro">
+    <div class="panel-heading">
+        <h3 class="panel-title">结果多语言管理 - ID: {$row.id}</h3>
+        <div class="panel-actions pull-right">
+            <a href="{:url('psychometry.answer/edit', ['ids' => $row.id])}" class="btn btn-primary btn-sm">
+                <i class="fa fa-arrow-left"></i> 返回编辑
+            </a>
+        </div>
+    </div>
+    <div class="panel-body">
+        <form id="multilang-form" role="form" data-toggle="validator" method="POST" action="">
+            <input type="hidden" name="answer_id" value="{$row.id}">
+            
+            <div class="lang-tabs">
+                <ul class="nav nav-tabs" role="tablist">
+                    {volist name="availableLangs" id="lang" key="index"}
+                    <li role="presentation" class="{if $index == 1}active{/if}">
+                        <a href="#lang-{$lang.key}" role="tab" data-toggle="tab">
+                            <i class="fa fa-flag"></i> {$lang.name}
+                            {if isset($multilangContents[$lang.key]) && !empty($multilangContents[$lang.key]['title'])}
+                            <span class="lang-status exists">✓ 已填写</span>
+                            {else}
+                            <span class="lang-status empty">未填写</span>
+                            {/if}
+                        </a>
+                    </li>
+                    {/volist}
+                </ul>
+                
+                <div class="tab-content">
+                    {volist name="availableLangs" id="lang" key="index"}
+                    <div role="tabpanel" class="tab-pane {if $index == 1}active{/if}" id="lang-{$lang.key}">
+                        <div class="form-section">
+                            <label class="form-label">
+                                <i class="fa fa-header"></i> 
+                                {if $lang.key eq 'zh'}标题{else}Title{/if}
+                            </label>
+                            <input type="text" 
+                                   name="multilang[{$lang.key}][title]" 
+                                   class="form-control" 
+                                   value="{$multilangContents[$lang.key]['title']|default=''}" 
+                                   placeholder="{if $lang.key eq 'zh'}请输入结果标题{else}Enter result title{/if}">
+                            <div class="form-help">
+                                <i class="fa fa-info-circle"></i> 
+                                {if $lang.key eq 'zh'}显示在结果页面顶部的标题{else}Title displayed at the top of result page{/if}
+                            </div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <label class="form-label">
+                                <i class="fa fa-align-left"></i> 
+                                {if $lang.key eq 'zh'}简介{else}Introduction{/if}
+                            </label>
+                            <textarea name="multilang[{$lang.key}][intro]" 
+                                      class="form-control" 
+                                      rows="3" 
+                                      placeholder="{if $lang.key eq 'zh'}请输入简短介绍{else}Enter brief introduction{/if}">{$multilangContents[$lang.key]['intro']|default=''}</textarea>
+                            <div class="form-help">
+                                <i class="fa fa-info-circle"></i> 
+                                {if $lang.key eq 'zh'}简短的结果描述，1-2句话{else}Brief description, 1-2 sentences{/if}
+                            </div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <label class="form-label">
+                                <i class="fa fa-file-text"></i> 
+                                {if $lang.key eq 'zh'}详细内容{else}Content{/if}
+                            </label>
+                            <textarea name="multilang[{$lang.key}][content]" 
+                                      class="form-control" 
+                                      rows="5" 
+                                      placeholder="{if $lang.key eq 'zh'}请输入详细内容{else}Enter detailed content{/if}">{$multilangContents[$lang.key]['content']|default=''}</textarea>
+                            <div class="form-help">
+                                <i class="fa fa-info-circle"></i> 
+                                {if $lang.key eq 'zh'}详细的结果说明和解释{else}Detailed explanation of the result{/if}
+                            </div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <label class="form-label">
+                                <i class="fa fa-image"></i> 
+                                {if $lang.key eq 'zh'}封面图片{else}Cover Image{/if}
+                            </label>
+                            <div class="input-group">
+                                <input type="text" 
+                                       id="cover-{$lang.key}"
+                                       name="multilang[{$lang.key}][cover]" 
+                                       class="form-control" 
+                                       value="{$multilangContents[$lang.key]['cover']|default=''}" 
+                                       placeholder="{if $lang.key eq 'zh'}点击右侧按钮上传封面图片{else}Click right button to upload cover image{/if}">
+                                <div class="input-group-addon no-border no-padding">
+                                    <span><button type="button" class="btn btn-danger plupload" data-input-id="cover-{$lang.key}" data-mimetype="image/*" data-multiple="false" data-preview-id="preview-cover-{$lang.key}"><i class="fa fa-upload"></i> {if $lang.key eq 'zh'}上传{else}Upload{/if}</button></span>
+                                    <span><button type="button" class="btn btn-primary fachoose" data-input-id="cover-{$lang.key}" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {if $lang.key eq 'zh'}选择{else}Choose{/if}</button></span>
+                                </div>
+                            </div>
+                            <ul class="row list-inline plupload-preview" id="preview-cover-{$lang.key}" style="margin-top: 10px;"></ul>
+                            <div class="form-help">
+                                <i class="fa fa-info-circle"></i> 
+                                {if $lang.key eq 'zh'}结果页面的封面图片{else}Cover image for result page{/if}
+                            </div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <label class="form-label">
+                                <i class="fa fa-bar-chart"></i> 
+                                {if $lang.key eq 'zh'}分析说明{else}Analysis{/if}
+                            </label>
+                            <textarea name="multilang[{$lang.key}][analysis]" 
+                                      class="form-control" 
+                                      rows="4" 
+                                      placeholder="{if $lang.key eq 'zh'}请输入分析说明{else}Enter analysis{/if}">{$multilangContents[$lang.key]['analysis']|default=''}</textarea>
+                            <div class="form-help">
+                                <i class="fa fa-info-circle"></i> 
+                                {if $lang.key eq 'zh'}对结果的专业分析和解读{else}Professional analysis and interpretation{/if}
+                            </div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <label class="form-label">
+                                <i class="fa fa-lightbulb-o"></i> 
+                                {if $lang.key eq 'zh'}建议{else}Suggestion{/if}
+                            </label>
+                            <textarea name="multilang[{$lang.key}][suggestion]" 
+                                      class="form-control" 
+                                      rows="3" 
+                                      placeholder="{if $lang.key eq 'zh'}请输入建议{else}Enter suggestions{/if}">{$multilangContents[$lang.key]['suggestion']|default=''}</textarea>
+                            <div class="form-help">
+                                <i class="fa fa-info-circle"></i> 
+                                {if $lang.key eq 'zh'}给用户的建议和指导{else}Suggestions and guidance for users{/if}
+                            </div>
+                        </div>
+                    </div>
+                    {/volist}
+                </div>
+            </div>
+            
+            <div style="margin-top: 30px; text-align: center; padding: 20px; background-color: #f8f9fa; border-radius: 6px;">
+                <button type="submit" class="btn btn-success btn-lg" style="min-width: 150px;">
+                    <i class="fa fa-check"></i> 保存所有语言
+                </button>
+                <button type="reset" class="btn btn-default btn-lg" style="min-width: 150px; margin-left: 10px;">
+                    <i class="fa fa-undo"></i> 重置
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
+
+<script>
+$(document).ready(function() {
+    $('#multilang-form').on('submit', function(e) {
+        e.preventDefault();
+        
+        var formData = $(this).serialize();
+        
+        $.post('{:url("psychometry.answer/multilang_save")}', formData, function(data) {
+            if (data.code === 1) {
+                Toastr.success(data.msg);
+                setTimeout(function() {
+                    parent.location.reload();
+                }, 1500);
+            } else {
+                Toastr.error(data.msg);
+            }
+        }, 'json');
+    });
+});
+</script>

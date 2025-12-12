@@ -1,0 +1,19 @@
+    <div class="card" itemscope itemtype="https://schema.org/Quiz">
+        <div class="thumb">
+            <a href="{$item.url}" class="preview-link" aria-label="{$item.title|htmlentities}">
+                <div class="embed-responsive embed-responsive-4by3">
+                    <img src="{$item.image ?: '/assets/addons/cms/img/default.png'}" 
+                         alt="{$item.title|htmlentities} - 心理测试推荐"
+                         title="{$item.title|htmlentities}"
+                         itemprop="image"
+                         loading="lazy"
+                         class="embed-responsive-item">
+                </div>
+            </a>
+            <a href="{$item.url}" class="quickview-link" aria-label="查看{$item.title|htmlentities}详情"><i class="fa fa-search"></i></a>
+            <div class="cetitle">{:__('测：')}{$item.sub_title|htmlentities}</div>
+        </div>
+        <a class="title" href="{$item.url}" {if $item.style}style="{$item.style_text}"{/if}>
+            <h2 itemprop="name">{$item.title|htmlentities}</h2>
+        </a>
+    </div>

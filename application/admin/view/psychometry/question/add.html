@@ -1,0 +1,233 @@
+<style>
+    .config-editor {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 15px;
+        background-color: #f9f9f9;
+    }
+    .config-tabs {
+        margin-bottom: 15px;
+    }
+    .config-tab {
+        margin-right: 5px;
+    }
+    .config-panel {
+        display: none;
+    }
+    .config-panel.active {
+        display: block;
+    }
+    .json-editor {
+        font-family: 'Courier New', monospace;
+        font-size: 12px;
+    }
+    .json-editor-tools {
+        margin-top: 10px;
+    }
+    .json-success {
+        border-color: #5cb85c;
+    }
+    .json-error {
+        border-color: #d9534f;
+    }
+    .option-item {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 10px;
+        margin-bottom: 10px;
+        background-color: #fff;
+    }
+    .options-list {
+        max-height: 300px;
+        overflow-y: auto;
+    }
+</style>
+
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__("所属测试")}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-test_id" data-field="archives_title" data-rule="required" data-source="psychometry/test/index" class="form-control selectpage" name="row[test_id]" type="text" value="">
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('题目类型')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <select id="c-question_type" data-rule="required" class="form-control" name="row[question_type]">
+                <option value="single" selected>单选题</option>
+                <option value="multiple">多选题</option>
+                <option value="text">文本题</option>
+                <option value="image">图片题</option>
+                <option value="video">视频题</option>
+                <option value="sort">排序题</option>
+                <option value="matrix">矩阵题</option>
+                <option value="slider">滑块题</option>
+            </select>
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('题目配置')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="config-editor" id="question_config_editor">
+                <div class="config-tabs">
+                    <button type="button" class="btn btn-sm btn-primary config-tab active" data-tab="visual">
+                        <i class="fa fa-eye"></i> 可视化编辑
+                    </button>
+                    <button type="button" class="btn btn-sm btn-default config-tab" data-tab="json">
+                        <i class="fa fa-code"></i> JSON编辑
+                    </button>
+                </div>
+                
+                <!-- 可视化编辑界面 -->
+                <div class="config-panel visual-panel active" id="question_config_visual">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-xs-12 col-sm-3">是否必填:</label>
+                            <div class="col-xs-12 col-sm-9">
+                                <label class="radio-inline">
+                                    <input type="radio" name="question_config[required]" value="1" checked> 是
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="question_config[required]" value="0"> 否
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-12 col-sm-3">排序:</label>
+                            <div class="col-xs-12 col-sm-9">
+                                <input type="number" class="form-control" name="question_config[sort_order]" value="0">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- JSON编辑界面 -->
+                <div class="config-panel json-panel" id="question_config_json">
+                    <textarea id="c-question_config" class="form-control json-editor" name="row[question_config]" rows="6" placeholder="JSON格式配置">{"required":true,"sort_order":0}</textarea>
+                    <div class="json-editor-tools">
+                        <button type="button" class="btn btn-sm btn-info json-format" data-target="c-question_config">
+                            <i class="fa fa-code"></i> 格式化
+                        </button>
+                        <button type="button" class="btn btn-sm btn-warning json-validate" data-target="c-question_config">
+                            <i class="fa fa-check"></i> 验证
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('选项配置')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="config-editor" id="options_config_editor">
+                <div class="config-tabs">
+                    <button type="button" class="btn btn-sm btn-primary config-tab active" data-tab="visual">
+                        <i class="fa fa-eye"></i> 可视化编辑
+                    </button>
+                    <button type="button" class="btn btn-sm btn-default config-tab" data-tab="json">
+                        <i class="fa fa-code"></i> JSON编辑
+                    </button>
+                </div>
+                
+                <!-- 可视化编辑界面 -->
+                <div class="config-panel visual-panel active" id="options_config_visual">
+                    <div class="options-list" id="options-list">
+                        <!-- 选项列表将在这里动态生成 -->
+                    </div>
+                    <button type="button" class="btn btn-sm btn-success" id="add-option">
+                        <i class="fa fa-plus"></i> 添加选项
+                    </button>
+                </div>
+                
+                <!-- JSON编辑界面 -->
+                <div class="config-panel json-panel" id="options_config_json">
+                    <textarea id="c-options_config" class="form-control json-editor" name="row[options_config]" rows="6" placeholder="JSON格式选项配置">[]</textarea>
+                    <div class="json-editor-tools">
+                        <button type="button" class="btn btn-sm btn-info json-format" data-target="c-options_config">
+                            <i class="fa fa-code"></i> 格式化
+                        </button>
+                        <button type="button" class="btn btn-sm btn-warning json-validate" data-target="c-options_config">
+                            <i class="fa fa-check"></i> 验证
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('评分规则')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="config-editor" id="scoring_rules_editor">
+                <div class="config-tabs">
+                    <button type="button" class="btn btn-sm btn-primary config-tab active" data-tab="visual">
+                        <i class="fa fa-eye"></i> 可视化编辑
+                    </button>
+                    <button type="button" class="btn btn-sm btn-default config-tab" data-tab="json">
+                        <i class="fa fa-code"></i> JSON编辑
+                    </button>
+                </div>
+                
+                <!-- 可视化编辑界面 -->
+                <div class="config-panel visual-panel active" id="scoring_rules_visual">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-xs-12 col-sm-3">评分方式:</label>
+                            <div class="col-xs-12 col-sm-9">
+                                <select class="form-control" name="scoring_rules[method]">
+                                    <option value="single" selected>单选评分</option>
+                                    <option value="multiple">多选评分</option>
+                                    <option value="text">文本评分</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-12 col-sm-3">权重:</label>
+                            <div class="col-xs-12 col-sm-9">
+                                <input type="number" class="form-control" name="scoring_rules[weight]" value="1" min="0" max="10" step="0.1">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- JSON编辑界面 -->
+                <div class="config-panel json-panel" id="scoring_rules_json">
+                    <textarea id="c-scoring_rules" class="form-control json-editor" name="row[scoring_rules]" rows="6" placeholder="JSON格式评分规则">{"method":"single","weight":1}</textarea>
+                    <div class="json-editor-tools">
+                        <button type="button" class="btn btn-sm btn-info json-format" data-target="c-scoring_rules">
+                            <i class="fa fa-code"></i> 格式化
+                        </button>
+                        <button type="button" class="btn btn-sm btn-warning json-validate" data-target="c-scoring_rules">
+                            <i class="fa fa-check"></i> 验证
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('排序')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-sort_order" class="form-control" name="row[sort_order]" type="number" value="0">
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('状态')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            {:build_radios('row[status]', ['1'=>__('启用'), '0'=>__('关闭')], '1')}
+        </div>
+    </div>
+    
+    <div class="form-group layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">{:__("确定")}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__("重置")}</button>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,223 @@
+{include file="cms/archives/common" /}
+<form id="edit-form" class="form-horizontal form-archives" role="form" data-toggle="validator" method="POST" action="">
+    <input type="hidden" value="{$row.id}" id="archive-id"/>
+    <input type="hidden" name="row[style]" value="{$row.style}"/>
+    <div class="row">
+        <div class="col-md-9 col-sm-12">
+            <div class="panel panel-default panel-intro">
+                <div class="panel-heading">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#basic" data-toggle="tab">基础信息</a></li>
+                    </ul>
+                    <div class="pull-right" style="margin-top: -35px;">
+                        <a href="{:url('cms.archives/multilang', ['ids' => $row.id])}" class="btn btn-info btn-sm btn-multilang" data-toggle="dialog" data-id="multilang" data-title="多语言管理">
+                            <i class="fa fa-globe"></i> 多语言管理
+                        </a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div id="myTabContent" class="tab-content">
+                        <div class="tab-pane fade active in" id="basic">
+                            <!-- 频道选择 -->
+                            <div class="form-group">
+                                <label for="c-channel_id" class="control-label col-xs-12 col-sm-2">{:__('Channel_id')}</label>
+                                <div class="col-xs-12 col-sm-8">
+                                    <select id="c-channel_id" data-rule="required" class="form-control selectpicker" data-live-search="true" name="row[channel_id]">
+                                        {$channelOptions}
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <!-- 标题 -->
+                            <div class="form-group">
+                                <label for="c-title" class="control-label col-xs-12 col-sm-2">{:__('Title')}</label>
+                                <div class="col-xs-12 col-sm-8">
+                                    <div class="input-group">
+                                        <input id="c-title" data-rule="required;length(~100, true)" class="form-control {:$row.style_bold?'text-bold':''}" name="multilang[zh][title]" type="text" value="{$row.title|htmlentities}" data-suggestion-url="{:url('cms.archives/suggestion')}?id={$row.id}" style="color:{:$row.style_color?$row.style_color:'inherit'};">
+                                        <!-- 隐藏字段用于验证 -->
+                                        <input type="hidden" name="row[title]" value="{$row.title|htmlentities}" data-rule="required">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default btn-bold {:$row.style_bold?'text-bold active':''}" style="margin:0 1px;" type="button">粗</button>
+                                            <button type="button" data-color="{$row.style_color}" class="btn btn-default btn-color colorpicker {:$row.style_color?'active':''}" style="padding:0;margin-left:1px;" title="选择标题颜色">
+                                                <img src="__CDN__/assets/addons/cms/img/colorful.png" height="29" alt="">
+                                            </button>
+                                            <span class="msg-box n-right" for="c-title"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 副标题 -->
+                            <div class="form-group">
+                                <label for="c-sub_title" class="control-label col-xs-12 col-sm-2">{:__('测试目的')}</label>
+                                <div class="col-xs-12 col-sm-8">
+                                    <input type="text" id="c-sub_title" name="multilang[zh][sub_title]" class="form-control" placeholder="请输入测试目的" value="{$row.sub_title}"/>
+                                </div>
+                            </div>
+
+                            <!-- 测试问题 -->
+                            <div class="form-group">
+                                <label for="c-question" class="control-label col-xs-12 col-sm-2">{:__('测试问题')}</label>
+                                <div class="col-xs-12 col-sm-8">
+                                    <input type="text" id="c-question" name="multilang[zh][question]" class="form-control" placeholder="请输入测试问题" value="{$row.question}"/>
+                                </div>
+                            </div>
+
+                            <!-- 内容 -->
+                            <div class="form-group" data-field="content">
+                                <label for="c-content" class="control-label col-xs-12 col-sm-2">{:__('Content')}</label>
+                                <div class="col-xs-12 col-sm-8">
+                                    <textarea id="c-content" data-rule="" class="form-control editor" name="multilang[zh][content]" rows="15">{$multilangContents.zh.content|default=''}</textarea>
+                                    <div style="margin-top:5px;">
+                                        <a href="javascript:" class="btn btn-xs btn-primary btn-legal"><i class="fa fa-magic"></i> {:__('Check content is legal')}</a>
+                                        <a href="javascript:" class="btn btn-xs btn-danger btn-keywords"><i class="fa fa-file"></i> {:__('Get the keyword and description')}</a>
+                                        <a href="javascript:" class="btn btn-xs btn-info btn-getimage" data-toggle="tooltip" data-title="将提取内容第一张图作为缩略图"><i class="fa fa-camera"></i> {:__('提取缩略图')}</a>
+                                        <a href="javascript:" class="btn btn-xs btn-info btn-getimages" data-toggle="tooltip" data-title="将提取内容前4张图作为组图"><i class="fa fa-camera"></i> {:__('提取组图')}</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- SEO标题 -->
+                            <div class="form-group">
+                                <label for="c-seo_title" class="control-label col-xs-12 col-sm-2">{:__('SEO标题')}</label>
+                                <div class="col-xs-12 col-sm-8">
+                                    <input type="text" id="c-seo_title" name="multilang[zh][seo_title]" class="form-control" placeholder="请输入SEO标题" value="{$row.seo_title}"/>
+                                </div>
+                            </div>
+
+                            <!-- 关键词 -->
+                            <div class="form-group">
+                                <label for="c-keywords" class="control-label col-xs-12 col-sm-2">{:__('关键词')}</label>
+                                <div class="col-xs-12 col-sm-8">
+                                    <input type="text" id="c-keywords" name="multilang[zh][keywords]" class="form-control" placeholder="请输入关键词" value="{$row.keywords}"/>
+                                </div>
+                            </div>
+
+                            <!-- 描述 -->
+                            <div class="form-group">
+                                <label for="c-description" class="control-label col-xs-12 col-sm-2">{:__('描述')}</label>
+                                <div class="col-xs-12 col-sm-8">
+                                    <textarea id="c-description" name="multilang[zh][description]" class="form-control" rows="3" placeholder="请输入描述">{$row.description}</textarea>
+                                </div>
+                            </div>
+
+                            <!-- 其他字段 -->
+                            <div class="form-group" data-field="price">
+                                <label for="c-price" class="control-label col-xs-12 col-sm-2">{:__('Price')}</label>
+                                <div class="col-xs-12 col-sm-8">
+                                    <input type="number" name="row[price]" id="c-price" value="{$row.price}" class="form-control" data-tip="" data-rule="">
+                                </div>
+                            </div>
+
+                            <div class="form-group" data-field="image">
+                                <label for="c-image" class="control-label col-xs-12 col-sm-2">{:__('Image')}</label>
+                                <div class="col-xs-12 col-sm-8">
+                                    <div class="input-group">
+                                        <input id="c-image" data-rule="" class="form-control" size="50" name="row[image]" type="text" value="{$row.image}">
+                                        <div class="input-group-addon no-border no-padding">
+                                            <span><button type="button" id="plupload-image" class="btn btn-danger plupload" data-input-id="c-image" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp,image/webp" data-multiple="false" data-preview-id="p-image"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                            <span><button type="button" id="fachoose-image" class="btn btn-primary fachoose" data-input-id="c-image" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                                        </div>
+                                        <span class="msg-box n-right" for="c-image"></span>
+                                    </div>
+                                    <ul class="row list-inline plupload-preview" id="p-image"></ul>
+                                </div>
+                            </div>
+
+                            <div class="form-group" data-field="images">
+                                <label for="c-images" class="control-label col-xs-12 col-sm-2">{:__('Images')}</label>
+                                <div class="col-xs-12 col-sm-8">
+                                    <div class="input-group">
+                                        <input id="c-images" data-rule="" class="form-control" size="50" name="row[images]" type="text" value="{$row.images}">
+                                        <div class="input-group-addon no-border no-padding">
+                                            <span><button type="button" id="plupload-images" class="btn btn-danger plupload" data-input-id="c-images" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp,image/webp" data-multiple="true" data-preview-id="p-images"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                                            <span><button type="button" id="fachoose-images" class="btn btn-primary fachoose" data-input-id="c-images" data-mimetype="image/*" data-multiple="true"><i class="fa fa-list"></i> {:__('Choose')}</button></span>
+                                        </div>
+                                        <span class="msg-box n-right" for="c-images"></span>
+                                    </div>
+                                    <ul class="row list-inline plupload-preview" id="p-images"></ul>
+                                </div>
+                            </div>
+
+                            <div class="form-group" data-field="status">
+                                <label for="c-status" class="control-label col-xs-12 col-sm-2">{:__('Status')}</label>
+                                <div class="col-xs-12 col-sm-8">
+                                    <select id="c-status" data-rule="" class="form-control selectpicker" name="row[status]">
+                                        <option value="normal" {in name="row.status" value="normal"}selected{/in}>{:__('Normal')}</option>
+                                        <option value="hidden" {in name="row.status" value="hidden"}selected{/in}>{:__('Hidden')}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group" data-field="flag">
+                                <label for="c-flag" class="control-label col-xs-12 col-sm-2">{:__('Flag')}</label>
+                                <div class="col-xs-12 col-sm-8">
+                                    <input id="c-flag" data-rule="" class="form-control" name="row[flag]" type="text" value="{$row.flag}">
+                                </div>
+                            </div>
+
+                            <div class="form-group" data-field="weigh">
+                                <label for="c-weigh" class="control-label col-xs-12 col-sm-2">{:__('Weigh')}</label>
+                                <div class="col-xs-12 col-sm-8">
+                                    <input id="c-weigh" data-rule="number" class="form-control" name="row[weigh]" type="number" value="{$row.weigh}">
+                                </div>
+                            </div>
+
+                            <div class="form-group" data-field="publishtime">
+                                <label for="c-publishtime" class="control-label col-xs-12 col-sm-2">{:__('Publishtime')}</label>
+                                <div class="col-xs-12 col-sm-8">
+                                    <input id="c-publishtime" data-rule="" class="form-control datetimepicker" name="row[publishtime]" type="text" value="{$row.publishtime}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-12">
+            <div class="panel panel-default panel-intro">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{:__('Publish')}</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label for="c-status" class="control-label col-xs-12 col-sm-2">{:__('Status')}</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <select id="c-status" data-rule="" class="form-control selectpicker" name="row[status]">
+                                <option value="normal" {in name="row.status" value="normal"}selected{/in}>{:__('Normal')}</option>
+                                <option value="hidden" {in name="row.status" value="hidden"}selected{/in}>{:__('Hidden')}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="c-publishtime" class="control-label col-xs-12 col-sm-2">{:__('Publishtime')}</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-publishtime" data-rule="" class="form-control datetimepicker" name="row[publishtime]" type="text" value="{$row.publishtime}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="c-weigh" class="control-label col-xs-12 col-sm-2">{:__('Weigh')}</label>
+                        <div class="col-xs-12 col-sm-8">
+                            <input id="c-weigh" data-rule="number" class="form-control" name="row[weigh]" type="number" value="{$row.weigh}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group layer-footer">
+        <div class="row">
+            <div class="col-md-9 col-sm-12">
+                <div class="form-group">
+                    <label class="control-label col-xs-12 col-sm-2"></label>
+                    <div class="col-xs-12 col-sm-8">
+                        <button type="submit" class="btn btn-primary btn-embossed"><i class="fa fa-check"></i> {:__('OK')}</button>
+                        <button type="reset" class="btn btn-default btn-embossed"><i class="fa fa-reply"></i> {:__('Reset')}</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-12">
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,752 @@
+{layout name="common/layout" /}
+
+<!-- SEO结构化数据 - Quiz类型 -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Quiz",
+  "name": "{$__ARCHIVES__.title|htmlentities}",
+  "description": "{$__ARCHIVES__.sub_title|htmlentities}",
+  "url": "{$Think.request.url}",
+  "image": "{$__ARCHIVES__.image|cdnurl}",
+  "author": {
+    "@type": "Organization",
+    "name": "{cms:config name='cms.sitename'/}"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "{cms:config name='cms.sitename'/}",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{$Think.config.cms.sitelogo|cdnurl}"
+    }
+  },
+  "datePublished": "{$__ARCHIVES__.publishtime|date='c',###}",
+  "dateModified": "{$__ARCHIVES__.updatetime|date='c',###}"
+}
+</script>
+
+<style>
+    [v-cloak] {
+        display: none;
+    }
+
+    .selectBtn {
+        width: 100%;
+        margin-top: 24px;
+        padding: 18px;
+        background-color: #f6f6f6;
+        color: #000;
+        display: block;
+        margin-left: 0 !important;
+    }
+
+    .position-relative {
+        position: relative !important;
+    }
+
+    .list-group-radio .form-check-input {
+        position: absolute;
+        right: 16px;
+        top: 12px;
+        z-index: 99;
+    }
+
+    .list-group-radio .list-group-item {
+        cursor: pointer;
+        border-radius: 0.5rem;
+        color: #000;
+        margin-top: 24px;
+
+    }
+
+    .selectItem {
+        font-size: 18px;
+        font-weight: 700;
+    }
+
+    .ptitle {
+        background-color: #E8F6F2;
+        color: #000;
+        /* color: #5DBE9E; */
+        padding: 6px;
+        font-size: 18px;
+        font-weight: 700;
+        width: 100%;
+        margin-bottom: 12px;
+    }
+
+    .radioStyle {
+        width: 100%;
+        margin-top: 20px !important;
+        font-size: 16px;
+        padding: 14px !important;
+        background-color: #f3f3f3 !important;
+        /* background-image: linear-gradient(155deg, #38443B 4.41%, #2E3C33 90.91%); */
+        color: #000 !important;
+        position: relative;
+    }
+
+    .quetItem {
+        padding: 24px;
+        background-color: #f4f4f4;
+        border-radius: 8px;
+        margin-top: 32px;
+    }
+
+    .radioStyle:hover {
+        cursor: pointer;
+    }
+
+    .radioStyle:active {
+        background-color: #B9FFBD !important;
+        color: #000 !important;
+    }
+
+    .download-num span {
+        font-size: 18px;
+    }
+
+    /* SEO优化样式 */
+    .test-detail-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 15px;
+    }
+
+    /* 面包屑导航 */
+    .breadcrumb-seo {
+        margin-bottom: 20px;
+    }
+
+    .breadcrumb-seo .breadcrumb {
+        background: transparent;
+        padding: 8px 0;
+        margin: 0;
+        font-size: 13px;
+        display: flex;
+        flex-wrap: wrap;
+        list-style: none;
+    }
+
+    .breadcrumb-seo .breadcrumb-item {
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .breadcrumb-seo .breadcrumb-item + .breadcrumb-item::before {
+        content: "›";
+        padding: 0 8px;
+        color: #adb5bd;
+    }
+
+    .breadcrumb-seo .breadcrumb-item a {
+        color: #6c757d;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+
+    .breadcrumb-seo .breadcrumb-item a:hover {
+        color: #5DBE9E;
+    }
+
+    /* 测试详情卡片 */
+    .test-detail-card {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        margin-bottom: 20px;
+        overflow: hidden;
+    }
+
+    /* 测试标题区 */
+    .test-header {
+        background: linear-gradient(135deg, #f8f9fa 0%, #fff 100%);
+        padding: 25px;
+        border-bottom: 3px solid #5DBE9E;
+    }
+
+    .test-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: #2c3e50;
+        margin: 0 0 15px 0;
+        line-height: 1.3;
+    }
+
+    .test-subtitle {
+        font-size: 16px;
+        color: #2E7D5F;
+        font-weight: 600;
+        padding: 12px 15px;
+        background: #f0fdf9;
+        border-left: 4px solid #5DBE9E;
+        border-radius: 4px;
+        margin-bottom: 15px;
+    }
+
+    .test-subtitle i {
+        margin-right: 8px;
+        opacity: 0.7;
+    }
+
+    .test-meta-info {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        font-size: 14px;
+        color: #6c757d;
+    }
+
+    .test-meta-info .meta-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .test-meta-info .meta-item i {
+        color: #5DBE9E;
+    }
+
+    /* 测试内容区 */
+    .test-content {
+        padding: 25px;
+    }
+
+    /* 提示卡片 */
+    .test-notice-card {
+        background: linear-gradient(135deg, #fff9e6 0%, #fffbf0 100%);
+        border: 2px solid #ffd966;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .test-notice-card p {
+        color: #856404;
+        font-size: 14px;
+        margin: 0;
+        line-height: 1.6;
+    }
+
+    /* 选项卡片图片样式优化 */
+    .selectItem .radioStyle img {
+        width: 100% !important;
+        height: auto !important;
+        max-height: 250px;
+        object-fit: contain !important;
+    }
+
+    /* 移动端适配 */
+    @media (max-width: 767px) {
+        .test-header {
+            padding: 20px 15px;
+        }
+
+        .test-title {
+            font-size: 22px;
+        }
+
+        .test-subtitle {
+            font-size: 14px;
+        }
+
+        .test-meta-info {
+            gap: 12px;
+            font-size: 13px;
+        }
+
+        .test-content {
+            padding: 15px;
+        }
+
+        /* 移动端选项卡片 */
+        .selectItem .radioStyle {
+            width: 100% !important;
+        }
+
+        .selectItem .radioStyle img {
+            max-height: 200px;
+        }
+    }
+
+    /* 广告容器样式优化 */
+    #ad-header-horizontal,
+    #ad-in-article,
+    #ad-feed,
+    #ad-sidebar-top {
+        min-height: 100px;
+        transition: min-height 0.3s ease;
+    }
+    
+    #ad-header-horizontal:empty,
+    #ad-in-article:empty,
+    #ad-feed:empty,
+    #ad-sidebar-top:empty {
+        min-height: 0;
+        margin: 0;
+    }
+</style>
+<div id="app" v-cloak>
+    <div class="container test-detail-container" id="content-container">
+        <!-- SEO优化的面包屑导航 -->
+        <nav aria-label="breadcrumb" class="breadcrumb-seo">
+            <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+                {php}$breadPos = 0;{/php}
+                {cms:breadcrumb id="item"}
+                {php}$breadPos++;{/php}
+                <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <a href="{$item.url}" itemprop="item">
+                        <span itemprop="name">{:__($item.name)}</span>
+                    </a>
+                    <meta itemprop="position" content="{$breadPos}" />
+                </li>
+                {/cms:breadcrumb}
+            </ol>
+        </nav>
+
+        <div class="row">
+            <main class="col-xs-12 col-md-8">
+                <article class="test-detail-card" itemscope itemtype="https://schema.org/Quiz">
+                    <!-- 测试标题区 -->
+                    <header class="test-header">
+                        <h1 class="test-title" itemprop="name" {if $__ARCHIVES__.style}style="{$__ARCHIVES__.style_text}"{/if}>
+                            {cms:archives name="title|htmlentities" /}
+                        </h1>
+                        <div class="test-subtitle" itemprop="description">
+                            <i class="fa fa-quote-left"></i>
+                            {cms:archives name="sub_title|htmlentities" /}
+                        </div>
+                        <div class="test-meta-info">
+                            <span class="meta-item">
+                                <i class="fa fa-eye"></i> {cms:archives name="views" /} 次
+                            </span>
+                            <span class="meta-item">
+                                <i class="fa fa-calendar"></i> {$__ARCHIVES__.publishtime|date='Y-m-d',###}
+                            </span>
+                            <span class="meta-item">
+                                <i class="fa fa-tag"></i> {:__('趣味测试')}
+                            </span>
+                        </div>
+                    </header>
+
+                    <!-- Google AdSense 头部横向广告 -->
+                    <div id="ad-header-horizontal" style="margin: 15px 0;"></div>
+
+                    <div class="test-content">
+                        <div class="">
+                            <div class="ptitle">{:__('测：')}{cms:archives name="sub_title|htmlentities" /}</div>
+                            <!-- S 正文 -->
+                            <!-- <div style="color: #000;font-weight: 700;margin: 16px;" v-if="productInfo && productInfo.back_type==3"
+                                v-html="productInfo.content"></div> -->
+                            <div>
+                                <p>
+                                    {cms:archives name="content" /}
+                                </p>
+                            </div>
+
+                            <!-- Google AdSense 文章内嵌广告 -->
+                            <div id="ad-in-article" style="margin: 20px 0 15px 0;"></div>
+
+                            <div>
+                                <img src="{cms:archives name='image|cdnurl'}" 
+                                     alt="{cms:archives name='title|htmlentities'} - 心理测试题图片"
+                                     title="{cms:archives name='title|htmlentities'}"
+                                     itemprop="image"
+                                     width="1280"
+                                     height="670"
+                                     fetchpriority="high"
+                                     loading="eager"
+                                     style="max-width: 100%; height: auto; border-radius: 8px;">
+
+                            <div  style="background-color: #E8F6F2;padding: 8px; font-weight: 700;margin-top: 16px;color: #000;">
+                                {:__('问题：')}{cms:archives name="title" /}
+                            </div>
+
+                            {if $check_data['code']==3}
+                            <div class="paybtn btn2 u-flex-2"><a
+                                    href="{:url('index/user/login')}">{:__('超出游客次数，请登录增加测试次数')}</a></div>
+                            {elseif $check_data['code']==0}
+                            <div class="paytxt u-flex-2">{:__('今日已经做过该测试了，请明天再重试哦')}</div>
+                            {elseif $check_data['code']!==4}
+                                
+                                <div v-if="loading" class="text-center" style="padding: 20px;">
+                                    <p>{:__('加载中...')}</p>
+                                </div>
+                             
+                                <div class="u-flex u-flex-between u-flex-wrap selectItem"
+                                    v-if="!loading && productInfo && productInfo.back_type==1">
+                                    <div class="radioStyle u-flex" v-for="item in quesList"
+                                        @click="getExamResult(item)">
+                                        <div>{{item.mark}}.</div>
+                                        <div>{{item.title}}</div>
+                                    </div>
+                                </div>
+                                <div class="u-flex u-flex-between u-flex-wrap selectItem"
+                                    v-if="!loading && productInfo && productInfo.back_type==0">
+                                    <div class="radioStyle" style="width: 48%!important;" v-for="item in quesList"
+                                        @click="getExamResult(item)">
+                                        <div>{{item.mark}}.</div>
+                                        <!-- <img class="" :src="item.full_cover" style="width:100%!important;"> -->
+                                    </div>
+                                </div>
+                                <div class="u-flex u-flex-between u-flex-wrap selectItem"
+                                    v-if="!loading && productInfo && productInfo.back_type==2">
+                                    <div class="radioStyle" v-for="item in quesList" @click="getExamResult(item)">
+                                        <div class="u-flex u-m-b-20">
+                                            <div>{{item.mark}}.</div>
+                                            <div class="ml-2">{{item.title}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- back_type==3 答案选择类型 -->
+                                <div class="u-flex u-flex-between u-flex-wrap selectItem"
+                                    v-if="!loading && productInfo && productInfo.back_type==3">
+                                    <div class="radioStyle" v-for="item in quesList" @click="selectItem(item)" 
+                                         :style="getItemStyle(item)"
+                                         @mouseover="!selectedItem && ($event.target.style.borderColor='#5DBE9E')"
+                                         @mouseout="!selectedItem && ($event.target.style.borderColor='#e9ecef')">
+                                        <div class="u-flex u-m-b-10">
+                                            <div style="font-weight: bold; color: #2E7D5F; margin-right: 10px;">{{item.mark}}.</div>
+                                            <div style="font-weight: bold; color: #333;">{{item.title}}</div>
+                                            <div v-if="selectedItem && selectedItem.id === item.id" style="margin-left: auto; color: #5DBE9E; font-size: 18px;">
+                                                ✓
+                                            </div>
+                                        </div>
+                                        <img v-if="item.cover" :src="item.cover" :alt="item.title" width="270" height="350" style="max-width:100%; height: auto; max-height: 200px; object-fit: contain; border-radius: 5px; margin-top: 10px;">
+                                    </div>
+                                </div>
+                                
+                                <!-- 确认按钮 -->
+                                <div v-if="selectedItem" class="text-center" style="margin-top: 20px;">
+                                    <button @click="submitAnswer" 
+                                            style="background: #5DBE9E; color: white; border: none; padding: 12px 30px; border-radius: 25px; font-size: 16px; cursor: pointer; box-shadow: 0 4px 15px rgba(93, 190, 158, 0.3);">
+                                        {:__('确认选择')}
+                                    </button>
+                            </div>
+                            {/if}
+                            </div>
+                            <!-- E 正文 -->
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </article>
+
+                <div class="test-notice-card">
+                    <div class="notice-content">
+                        <div class="download-num counter-box">
+                            <p>{:__('注：趣味型测试仅供娱乐参考，不可作为临床诊断依据。')}</p>
+                        </div>
+                        <div class="media-btn u-flex u-flex-between" v-if="!isMobile">
+                            <!-- 暂时注释掉游客次数限制检查
+                            {if $check_data['code']==3}
+                            <div class="paybtn btn2 u-flex-2"><a
+                                    href="{:url('index/user/login')}">{:__('超出游客次数，请登录增加测试次数')}</a></div>
+                            {elseif $check_data['code']==0}
+                            <div class="paytxt u-flex-2">{:__('今日已经做过该测试了，请明天再重试哦')}</div>
+                            {/if}
+                            -->
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <aside class="col-xs-12 col-md-4">
+                <div class="panel">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">{:__('相关推荐')}</h3>
+                        </div>
+                        <div class="panel-body">
+                        <div class="row">
+                            {cms:arclist id="item" type="son" channel="25" limit="6"}
+                            <div class="col-xs-12 col-sm-6 product-item">
+                                {include file="common/item_funtest" /}
+                            </div>
+                            {/cms:arclist}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Google AdSense 信息流广告 -->
+                <div id="ad-feed" style="margin: 15px 0 10px 0;"></div>
+
+                <!-- Google AdSense 侧边栏广告 (autorelaxed) -->
+                <div id="ad-sidebar-top" style="margin: 10px 0 15px 0;"></div>
+
+                {include file="common/authorinfo" /}
+                {include file="common/sidebar" /}
+            </aside>
+        </div>
+        <div class="row">
+            <main class="col-xs-12 col-md-8">
+                <div>
+                    {if $config.iscomment && config('fastadmin.usercenter')}
+                    <div class="panel panel-default" id="comments">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">{:__('评论列表')}
+                                <small>{:__('共有')} <span>{cms:archives name="comments" /}</span> {:__('条评论')}</small>
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <!--@formatter:off-->
+                            {if $__ARCHIVES__.iscomment}
+                            {include file="common/comment" type="archives" aid="__ARCHIVES__.eid"}
+                            {else/}
+                            <div class="text-muted text-center">{:__('评论功能已关闭')}</div>
+                            {/if}
+                            <!--@formatter:on-->
+                        </div>
+                    </div>
+                    {/if}
+                </div>
+            </main>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="__ADDON__/js/vue.js"></script>
+<script type="text/javascript" src="__ADDON__/js/vue-index.js"></script>
+
+<script>
+    var token = "<?php echo $token?>";
+    var currentDomain = window.location.host;
+    
+    // 忽略 Office 标签（从 Word 复制粘贴产生的标签）
+    Vue.config.ignoredElements = ['o:p'];
+    
+    new Vue({
+        el: '#app',
+        data: {
+            qid: '',
+            count: 100,
+            is_continue: '',
+            quesList: [],
+            productInfo: null,
+            isMobile: false,
+            loading: true,
+            selectedItem: null
+        },
+        mounted() {
+            this.isMobile = window.innerWidth <= 992;
+            window.addEventListener('resize', () => {
+                this.isMobile = window.innerWidth <= 992;
+            });
+            
+            var url = window.location.href;
+            const parsedUrl = new URL(url);
+            const pathnameParts = parsedUrl.pathname.split("/");
+            const filename = pathnameParts[pathnameParts.length - 1];
+            this.qid = filename.split(".")[0];
+            this.getQuestions()
+            
+            // 动态插入 Google AdSense 广告
+            this.initAds();
+        },
+        methods: {
+            initAds() {
+                // 等待 AdSense 脚本加载
+                const waitForAdSense = (callback, maxAttempts = 50) => {
+                    let attempts = 0;
+                    const checkAdSense = () => {
+                        if (window.adsbygoogle || attempts >= maxAttempts) {
+                            callback();
+                        } else {
+                            attempts++;
+                            setTimeout(checkAdSense, 200);
+                        }
+                    };
+                    checkAdSense();
+                };
+                
+                // 创建广告的辅助函数
+                const createAd = (container, config) => {
+                    if (!container) return;
+                    
+                    // 创建 ins 元素
+                    const ins = document.createElement('ins');
+                    ins.className = 'adsbygoogle';
+                    ins.style.display = 'block';
+                    
+                    // 设置广告属性
+                    Object.keys(config).forEach(key => {
+                        ins.setAttribute(key, config[key]);
+                    });
+                    
+                    container.appendChild(ins);
+                    
+                    // 延迟执行广告加载
+                    setTimeout(() => {
+                        try {
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                        } catch (e) {
+                            // 静默处理错误
+                        }
+                    }, 100);
+                };
+                
+                // 等待 AdSense 加载完成后创建广告
+                waitForAdSense(() => {
+                    // 头部横向广告
+                    createAd(document.getElementById('ad-header-horizontal'), {
+                        'data-ad-client': 'ca-pub-9195262048954682',
+                        'data-ad-slot': '7906059149',
+                        'data-ad-format': 'auto',
+                        'data-full-width-responsive': 'true'
+                    });
+                    
+                    // 文章内嵌广告
+                    createAd(document.getElementById('ad-in-article'), {
+                        'style': 'display:block; text-align:center;',
+                        'data-ad-layout': 'in-article',
+                        'data-ad-format': 'fluid',
+                        'data-ad-client': 'ca-pub-9195262048954682',
+                        'data-ad-slot': '5294962935'
+                    });
+                    
+                    // 信息流广告
+                    createAd(document.getElementById('ad-feed'), {
+                        'data-ad-format': 'fluid',
+                        'data-ad-layout-key': '-6t+ed+2i-1n-4w',
+                        'data-ad-client': 'ca-pub-9195262048954682',
+                        'data-ad-slot': '3120669155'
+                    });
+                    
+                    // 侧边栏广告 (autorelaxed 格式)
+                    createAd(document.getElementById('ad-sidebar-top'), {
+                        'data-ad-client': 'ca-pub-9195262048954682',
+                        'data-ad-slot': '2901144473',
+                        'data-ad-format': 'autorelaxed'
+                    });
+                });
+            },
+            // 获取当前语言设置
+            getCurrentLanguage() {
+                // 优先从URL参数获取
+                const urlParams = new URLSearchParams(window.location.search);
+                const urlLang = urlParams.get('lg');
+                if (urlLang) {
+                    return urlLang;
+                }
+                
+                // 从cookie获取
+                const cookieLang = this.getCookie('frontend_language');
+                if (cookieLang) {
+                    return cookieLang;
+                }
+                
+                // 默认返回中文
+                return 'zh-cn';
+            },
+            
+            // 获取Cookie的辅助函数
+            getCookie(name) {
+                const value = "; " + document.cookie;
+                const parts = value.split("; " + name + "=");
+                if (parts.length === 2) return parts.pop().split(";").shift();
+            },
+            
+            getQuestions() {
+                const params = new URLSearchParams();
+                params.append('aid', this.qid);
+                // 添加语言参数
+                const currentLang = this.getCurrentLanguage();
+                if (currentLang) {
+                    params.append('lang', currentLang);
+                }
+                // params.append('token',token);
+                
+                fetch('/addons/cms/psychometry/getQuestions?',
+                    {
+                        method: 'POST',
+                        body: params,
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data && data.data) {
+                            // 检查是否是custom类型测试（back_type == 3）
+                            if (data.data.exam_info && data.data.exam_info.back_type == 3) {
+                                // custom类型测试：question_data直接是选项数组
+                                const options = data.data.question_data;
+                                this.quesList = options || [];
+                            } else {
+                                // 普通测试：question_data是题目数组
+                                this.quesList = data.data.question_data || [];
+                            }
+                            
+                            this.productInfo = data.data.exam_info || null
+                            this.loading = false
+                        } else {
+                            this.loading = false
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching data:', error);
+                        this.loading = false
+                    });
+            },
+            selectItem(item) {
+                this.selectedItem = item;
+            },
+            getItemStyle(item) {
+                const baseStyle = "width: 48%; margin-bottom: 15px; padding: 15px; border: 2px solid #e9ecef; border-radius: 10px; cursor: pointer; transition: all 0.3s ease; display: flex; flex-direction: column;";
+                if (this.selectedItem && this.selectedItem.id === item.id) {
+                    return baseStyle + " border-color: #5DBE9E; background-color: #f0f9f5; box-shadow: 0 4px 15px rgba(93, 190, 158, 0.2);";
+                }
+                return baseStyle;
+            },
+            submitAnswer() {
+                if (this.selectedItem) {
+                    this.getExamResult(this.selectedItem);
+                }
+            },
+            getExamResult(item) {
+                const params = new URLSearchParams();
+                params.append('aid', this.qid);
+                params.append('token', token);
+                
+                // 构造答案数据
+                const answerData = [{
+                    qid: item.id,
+                    question_id: item.id,
+                    answer: item.mark
+                }];
+                
+                params.append('answer_data', JSON.stringify(answerData));
+                params.append('answer_mark', item.mark);
+
+                fetch('/addons/cms/psychometry/getExamResult?',
+                    {
+                        method: 'POST',
+                        body: params,
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.code == 1) {
+                            // Redirect to the result page based on test type
+                            const testType = data.data.test_type || productInfo.test_type || 'custom';
+                            const resultPage = getResultPage(testType);
+                            // 使用完整的URL，包含端口号
+                            const baseUrl = window.location.protocol + '//' + window.location.host;
+                            window.location.href = baseUrl + resultPage + '?answer_id=' + data.data.answer_id;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching data:', error);
+                    });
+            }
+        }
+    });
+    
+    // 根据测试类型获取对应的结果页面
+    function getResultPage(testType) {
+        const resultPages = {
+            'mbti': '/p/results_mbti.html',
+            'score': '/p/results_score.html',
+            'dimension': '/p/results_dimension.html',
+            'custom': '/p/results_custom.html',
+            'nine_type': '/p/results_nine_type.html',
+            'multiple_type': '/p/results_multiple.html'
+        };
+        return resultPages[testType] || '/p/ceshiye.html'; // 默认使用原来的页面
+    }
+</script>
