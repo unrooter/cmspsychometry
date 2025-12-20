@@ -8,136 +8,137 @@
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_ID"
      crossorigin="anonymous"></script>
 
-<article class="test-result-page" itemscope itemtype="https://schema.org/TestResult">
- 
-    <!-- 面包屑导航 - SEO优化 -->
-    <nav class="breadcrumb-nav" aria-label="Breadcrumb">
-        <div class="container">
-            <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
-                <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                    <a href="/" itemprop="item"><span itemprop="name">首页</span></a>
-                    <meta itemprop="position" content="1" />
-                </li>
-                <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                    <a href="/tests" itemprop="item"><span itemprop="name">心理测试</span></a>
-                    <meta itemprop="position" content="2" />
-                </li>
-                <li class="breadcrumb-item active" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                    <span itemprop="name">测试结果</span>
-                    <meta itemprop="position" content="3" />
-                </li>
-            </ol>
-        </div>
-    </nav>
-    
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="test-result">
-                    <!-- 测试标题 -->
-                    <header class="test-header">
-                        <div class="header-icon">🎯</div>
-                        <h1 id="test-title" itemprop="headline">测试结果</h1>
-                        <p id="test-subtitle" class="subtitle-text" itemprop="description">感谢您完成测试，以下是您的详细分析报告</p>
-                    </header>
-                    <!-- 测试信息 - 折叠式 -->
-                    <section class="test-info" id="test-info">
-                        <div class="info-toggle" onclick="toggleTestInfo()">
-                            <h2 id="info-header-title">测试信息</h2>
-                            <span class="toggle-icon" id="test-info-icon">▼</span>
-                        </div>
-                        <div class="info-content collapsed" id="info-content">
-                            <!-- 测试信息将在这里显示 -->
-                        </div>
-                    </section>
-                    
-                    <!-- Google AdSense 顶部横幅广告 -->
-                    <div class="ad-container ad-banner-top">
-                        <ins class="adsbygoogle"
-                             style="display:block"
-                             data-ad-client="ca-pub-9195262048954682"
-                             data-ad-slot="2969657271"
-                             data-ad-format="auto"
-                             data-full-width-responsive="true"></ins>
-                        <script>
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                        </script>
-                    </div>
-                    
-                    
-                    <!-- 主导类型显示 -->
-                    <section class="score-section">
-                        <div class="score-card">
-                            <div class="score-info-full">
-                                <div class="score-description" id="score-description">Loading...</div>
-                                <div class="score-level" id="score-level">Evaluating...</div>
-                            </div>
-                        </div>
-                    </section>
-                    
-                    <!-- 雷达图展示 -->
-                    <section class="radar-section">
-                        <h2 id="radar-header-title">维度得分分布</h2>
-                        <div class="radar-container">
-                            <canvas id="dimensionRadarChart"></canvas>
-                        </div>
-                        <!-- 维度图例 -->
-                        <div class="dimension-legend" id="dimension-legend">
-                            <!-- 图例将在这里显示 -->
-                        </div>
-                    </section>
+<article class="min-h-screen bg-gray-50 py-6" itemscope itemtype="https://schema.org/TestResult">
 
-                    <!-- 维度分析 -->
-                    <section class="analysis-section">
-                        <h2 id="analysis-header-title">详细分析报告</h2>
-                        <div id="analysis-content">
-                            <!-- 分析内容将在这里显示 -->
-                        </div>
-                    </section>
-                    
-                    <!-- 建议和指导 -->
-                    <section class="suggestions-section" id="suggestions-section">
-                        <h2 id="suggestions-header-title">建议和指导</h2>
-                        <div class="suggestions-content" id="suggestions-content">
-                            <!-- 建议内容将在这里显示 -->
-                        </div>
-                    </section>
-                    
-                    <!-- Google AdSense 中间广告 -->
-                    <div class="ad-container ad-banner-middle">
-                        <ins class="adsbygoogle"
-                             style="display:block; text-align:center;"
-                             data-ad-layout="in-article"
-                             data-ad-format="fluid"
-                             data-ad-client="ca-pub-9195262048954682"
-                             data-ad-slot="5294962935"></ins>
-                        <script>
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                        </script>
-                    </div>
-                    
-                    <!-- 相关测试推荐 - SEO和用户体验优化 -->
-                    <section class="related-tests-section">
-                        <h2><i class="fas fa-tasks"></i> <span id="related-tests-title">相关心理测试推荐</span></h2>
-                        <div id="related-tests-content" class="related-tests-grid">
-                            <!-- 相关测试将在这里显示 -->
-                        </div>
-                    </section>
-                    
-                    <!-- 热门文章推荐 -->
-                    <section class="popular-articles-section">
-                        <h2><i class="fas fa-fire"></i> <span id="popular-articles-title">热门心理学文章</span></h2>
-                        <div id="popular-articles-content" class="popular-articles-grid">
-                            <!-- 热门文章将在这里显示 -->
-                        </div>
-                    </section>
+    <!-- 面包屑导航 - SEO优化 -->
+    <nav class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8" aria-label="Breadcrumb">
+        <ol class="flex flex-wrap items-center gap-x-2 gap-y-1 rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-600 shadow-sm" itemscope itemtype="https://schema.org/BreadcrumbList">
+            <li class="inline-flex items-center" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                <a href="/" class="hover:text-gray-900" itemprop="item"><span itemprop="name">首页</span></a>
+                <meta itemprop="position" content="1" />
+            </li>
+            <li class="inline-flex items-center" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                <span class="px-1 text-gray-400">›</span>
+                <a href="/tests" class="hover:text-gray-900" itemprop="item"><span itemprop="name">心理测试</span></a>
+                <meta itemprop="position" content="2" />
+            </li>
+            <li class="inline-flex items-center" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                <span class="px-1 text-gray-400">›</span>
+                <span class="font-semibold text-gray-900" itemprop="name">测试结果</span>
+                <meta itemprop="position" content="3" />
+            </li>
+        </ol>
+    </nav>
+
+    <div class="mx-auto mt-6 max-w-5xl px-4 sm:px-6 lg:px-8">
+        <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-200 sm:p-8">
+            <!-- 测试标题 -->
+            <header class="rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-700 px-6 py-8 text-center text-white shadow-sm">
+                <div class="text-3xl" aria-hidden="true">🎯</div>
+                <h1 id="test-title" class="mt-3 text-2xl font-bold sm:text-3xl" itemprop="headline">测试结果</h1>
+                <p id="test-subtitle" class="mt-2 text-sm opacity-95 sm:text-base" itemprop="description">感谢您完成测试，以下是您的详细分析报告</p>
+            </header>
+
+            <!-- 测试信息 - 折叠式 -->
+            <section class="mt-6 overflow-hidden rounded-2xl border border-gray-200 bg-gray-50" id="test-info">
+                <button type="button" class="flex w-full items-center justify-between gap-3 px-5 py-4 text-left" onclick="toggleTestInfo()">
+                    <h2 class="text-base font-semibold text-gray-900" id="info-header-title">测试信息</h2>
+                    <span class="text-sm font-semibold text-gray-500" id="test-info-icon">▼</span>
+                </button>
+                <div class="hidden px-5 pb-5" id="info-content">
+                    <!-- 测试信息将在这里显示 -->
                 </div>
+            </section>
+
+            <!-- Google AdSense 顶部横幅广告 -->
+            <div class="mx-auto my-8 max-w-3xl text-center">
+                <ins class="adsbygoogle block"
+                     data-ad-client="ca-pub-9195262048954682"
+                     data-ad-slot="2969657271"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
             </div>
+
+            <!-- 主导类型显示 -->
+            <section class="mt-6">
+                <div class="rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 p-6 text-white shadow-sm">
+                    <div class="text-center">
+                        <div class="text-base font-semibold sm:text-lg" id="score-description">Loading...</div>
+                        <div class="mt-2 text-sm opacity-90" id="score-level">Evaluating...</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 雷达图展示 -->
+            <section class="radar-section mt-8">
+                <h2 class="text-center text-lg font-semibold text-gray-900 sm:text-2xl" id="radar-header-title">维度得分分布</h2>
+                <div class="mt-5 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm sm:p-6">
+                    <div class="mx-auto max-w-3xl">
+                        <canvas id="dimensionRadarChart"></canvas>
+                    </div>
+                    <div class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3" id="dimension-legend">
+                        <!-- 图例将在这里显示 -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- 维度分析 -->
+            <section class="mt-8">
+                <h2 class="text-center text-lg font-semibold text-gray-900 sm:text-2xl" id="analysis-header-title">详细分析报告</h2>
+                <div class="mt-5 rounded-2xl border border-gray-200 bg-white p-5 text-gray-700 shadow-sm" id="analysis-content">
+                    <!-- 分析内容将在这里显示 -->
+                </div>
+            </section>
+
+            <!-- 建议和指导 -->
+            <section class="mt-8" id="suggestions-section">
+                <h2 class="text-center text-lg font-semibold text-gray-900 sm:text-2xl" id="suggestions-header-title">建议和指导</h2>
+                <div class="mt-5 rounded-2xl border border-gray-200 bg-white p-5 text-gray-700 shadow-sm" id="suggestions-content">
+                    <!-- 建议内容将在这里显示 -->
+                </div>
+            </section>
+
+            <!-- Google AdSense 中间广告 -->
+            <div class="mx-auto my-10 max-w-3xl text-center">
+                <ins class="adsbygoogle block"
+                     data-ad-layout="in-article"
+                     data-ad-format="fluid"
+                     data-ad-client="ca-pub-9195262048954682"
+                     data-ad-slot="5294962935"></ins>
+                <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+
+            <!-- 相关测试推荐 - SEO和用户体验优化 -->
+            <section class="related-tests-section mt-10">
+                <h2 class="flex items-center justify-center gap-2 text-lg font-semibold text-gray-900 sm:text-2xl">
+                    <i class="fas fa-tasks" aria-hidden="true"></i>
+                    <span id="related-tests-title">相关心理测试推荐</span>
+                </h2>
+                <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" id="related-tests-content">
+                    <!-- 相关测试将在这里显示 -->
+                </div>
+            </section>
+
+            <!-- 热门文章推荐 -->
+            <section class="popular-articles-section mt-10">
+                <h2 class="flex items-center justify-center gap-2 text-lg font-semibold text-gray-900 sm:text-2xl">
+                    <i class="fas fa-fire" aria-hidden="true"></i>
+                    <span id="popular-articles-title">热门心理学文章</span>
+                </h2>
+                <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" id="popular-articles-content">
+                    <!-- 热门文章将在这里显示 -->
+                </div>
+            </section>
         </div>
     </div>
 </article>
 
-<style>
+<script type="text/plain">
 /* 深色顶部区域 */
 .top-dark-bar {
     background: #2c3e50;
@@ -729,16 +730,16 @@
 }
 
 .dim-body {
-    max-height: 2000px;
+    max-height: 0;
     overflow: hidden;
     transition: max-height 0.4s ease, padding 0.4s ease;
-    padding: 25px;
+    padding: 0 25px;
     background: #f8f9fa;
 }
 
-.dim-body.collapsed {
-    max-height: 0;
-    padding: 0 25px;
+.dim-body.expanded {
+    max-height: 2000px;
+    padding: 25px;
 }
 
 .dim-cover {
@@ -1329,7 +1330,8 @@
     max-height: 0;
     padding: 0 25px;
 }
-</style>
+
+</script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -1338,7 +1340,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const answer_id = urlParams.get('answer_id');
     
     if (!answer_id) {
-        document.getElementById('analysis-content').innerHTML = '<div class="alert alert-danger">未找到测试结果</div>';
+        document.getElementById('analysis-content').innerHTML = '<div class="rounded-2xl border border-red-200 bg-red-50 p-5 text-center text-sm font-medium text-red-700">未找到测试结果</div>';
         return;
     }
     
@@ -1358,12 +1360,12 @@ document.addEventListener('DOMContentLoaded', function() {
         if (data.code === 1) {
             displayDimensionResult(data.data);
         } else {
-            document.getElementById('analysis-content').innerHTML = '<div class="alert alert-danger">获取结果失败：' + data.msg + '</div>';
+            document.getElementById('analysis-content').innerHTML = '<div class="rounded-2xl border border-red-200 bg-red-50 p-5 text-center text-sm font-medium text-red-700">获取结果失败：' + data.msg + '</div>';
         }
     })
     .catch(error => {
         console.error('Error:', error);
-        document.getElementById('analysis-content').innerHTML = '<div class="alert alert-danger">网络错误，请稍后重试</div>';
+        document.getElementById('analysis-content').innerHTML = '<div class="rounded-2xl border border-red-200 bg-red-50 p-5 text-center text-sm font-medium text-red-700">网络错误，请稍后重试</div>';
     });
 });
 
@@ -1677,12 +1679,12 @@ function displayDimensionScores(data) {
         createRadarChart(dimensionArray);
         createLegend(dimensionArray);
         if (radarSection) {
-            radarSection.style.display = 'block';
+            radarSection.classList.remove('hidden');
         }
     } else {
         // 维度数量少于3，隐藏雷达图区域
         if (radarSection) {
-            radarSection.style.display = 'none';
+            radarSection.classList.add('hidden');
         }
         console.log('维度数量少于3个，不适合显示雷达图');
     }
@@ -1712,7 +1714,7 @@ function createLegend(dimensionArray) {
     dimensionArray.forEach((dim, index) => {
         const color = colorPalette[index % colorPalette.length];
         // 主导标记：前3名显示排名，表示主导类型
-        const rankBadge = index < 3 ? `<span style="color: ${color}; font-weight: 700; margin-right: 4px;">#${index + 1}</span>` : '';
+        const rankBadge = index < 3 ? `<span class="mr-1 font-semibold" data-color="${color}">#${index + 1}</span>` : '';
         // 优先使用 title（完整名称），其次 name，最后 key
         let displayName = dim.title || dim.name || dim.key;
         
@@ -1722,17 +1724,23 @@ function createLegend(dimensionArray) {
         }
         
         html += `
-            <div class="legend-item">
-                <div class="legend-color" style="background-color: ${color};"></div>
-                <div class="legend-info">
-                    <div class="legend-name">${rankBadge}${displayName}</div>
-                    <div class="legend-score">${dim.score}${scoreUnit}</div>
+            <div class="flex items-center gap-3 rounded-xl border border-gray-200 bg-white px-4 py-3 shadow-sm">
+                <span class="h-3 w-3 rounded-full" data-color="${color}"></span>
+                <div class="min-w-0">
+                    <div class="truncate text-sm font-semibold text-gray-900">${rankBadge}${displayName}</div>
+                    <div class="mt-0.5 text-xs font-medium text-gray-500">${dim.score}${scoreUnit}</div>
                 </div>
             </div>
         `;
     });
     
     legendContainer.innerHTML = html;
+    legendContainer.querySelectorAll('[data-color]').forEach(el => {
+        el.style.color = el.dataset.color;
+        if (el.classList.contains('h-3')) {
+            el.style.backgroundColor = el.dataset.color;
+        }
+    });
 }
 
 function displayTestInfo(data, isEnglish) {
@@ -1759,21 +1767,24 @@ function displayTestInfo(data, isEnglish) {
             dimensionTest: '维度测试'
         };
         
-        infoHtml += '<p><strong>' + labels.testName + '</strong>' + (data.a_info.title || (isEnglish ? 'Dimension Test' : '维度测试')) + '</p>';
-        
+        const testTitle = data.a_info.title || (isEnglish ? 'Dimension Test' : '维度测试');
+
         // 优先使用sub_title，如果没有则使用description
         let description = data.a_info.sub_title || data.a_info.description || '';
-        if (description) {
-            infoHtml += '<p><strong>' + labels.description + '</strong>' + description + '</p>';
+        if (!description) {
+            description = isEnglish ? '-' : '暂无说明';
         }
-        
-        infoHtml += '<p><strong>' + labels.questionCount + '</strong>' + (data.test_info?.question_count || 0) + labels.questions + '</p>';
-        
-        // 使用后端返回的max_possible_score
+
+        const questionCount = data.test_info?.question_count || 0;
         const maxScore = data.analyse?.max_possible_score || data.test_info?.question_count || 15;
-        infoHtml += '<p><strong>' + labels.maxScore + '</strong>' + maxScore + labels.points + '</p>';
-        
-        infoHtml += '<p><strong>' + labels.testType + '</strong>' + labels.dimensionTest + '</p>';
+
+        infoHtml += '<div class="divide-y divide-gray-200 overflow-hidden rounded-xl border border-gray-200 bg-white">';
+        infoHtml += '<div class="flex items-center justify-between gap-4 px-4 py-3 text-sm"><span class="font-semibold text-gray-700">' + labels.testName.replace(/[:：]\s*$/, '') + '</span><span class="text-gray-600">' + testTitle + '</span></div>';
+        infoHtml += '<div class="flex items-center justify-between gap-4 px-4 py-3 text-sm"><span class="font-semibold text-gray-700">' + labels.description.replace(/[:：]\s*$/, '') + '</span><span class="text-gray-600">' + description + '</span></div>';
+        infoHtml += '<div class="flex items-center justify-between gap-4 px-4 py-3 text-sm"><span class="font-semibold text-gray-700">' + labels.questionCount.replace(/[:：]\s*$/, '') + '</span><span class="text-gray-600">' + questionCount + labels.questions + '</span></div>';
+        infoHtml += '<div class="flex items-center justify-between gap-4 px-4 py-3 text-sm"><span class="font-semibold text-gray-700">' + labels.maxScore.replace(/[:：]\s*$/, '') + '</span><span class="text-gray-600">' + maxScore + labels.points + '</span></div>';
+        infoHtml += '<div class="flex items-center justify-between gap-4 px-4 py-3 text-sm"><span class="font-semibold text-gray-700">' + labels.testType.replace(/[:：]\s*$/, '') + '</span><span class="text-gray-600">' + labels.dimensionTest + '</span></div>';
+        infoHtml += '</div>';
     }
     
     document.getElementById('info-content').innerHTML = infoHtml;
@@ -1806,8 +1817,8 @@ function displayAnalysis(data) {
                 
                 // 提取图片（如果有）
                 const coverImage = dim.cover ? `
-                    <div class="dim-cover">
-                        <img src="${dim.cover}" alt="${dim.name}">
+                    <div class="mb-4 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+                        <img src="${dim.cover}" alt="${dim.name}" class="h-auto w-full" loading="lazy">
                     </div>
                 ` : '';
                 
@@ -1823,18 +1834,18 @@ function displayAnalysis(data) {
                 const scoreUnit = window.i18nTexts?.score || '分';
                 
                 analysisHtml += `
-                    <div class="dimension-item">
-                        <div class="dim-header" onclick="toggleDimensionContent(this)">
-                            <div class="dim-title-content">
-                                <span class="dim-key">${dim.key}</span>
-                                <span class="dim-name">${displayTitle}</span>
-                                <span class="dim-score">${dim.score}${scoreUnit}</span>
+                    <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+                        <button type="button" class="flex w-full items-center justify-between gap-4 bg-gradient-to-br from-emerald-500 to-emerald-700 px-5 py-4 text-left text-white" onclick="toggleDimensionContent(this)">
+                            <div class="flex min-w-0 items-center gap-3">
+                                <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-white/20 text-sm font-bold">${dim.key}</span>
+                                <span class="truncate text-base font-semibold">${displayTitle}</span>
+                                <span class="ml-2 inline-flex shrink-0 items-center rounded-full bg-white/20 px-2 py-0.5 text-xs font-semibold">${dim.score}${scoreUnit}</span>
                             </div>
-                            <i class="fas fa-chevron-down dim-toggle"></i>
-                        </div>
-                        <div class="dim-body">
+                            <i class="fas fa-chevron-down dim-toggle transition-transform"></i>
+                        </button>
+                        <div class="dim-body hidden bg-gray-50 px-5 py-5">
                             ${coverImage}
-                            <div class="dim-content">${analysisContent}</div>
+                            <div class="prose prose-sm max-w-none text-gray-700">${analysisContent}</div>
                         </div>
                     </div>
                 `;
@@ -1849,10 +1860,12 @@ function displayAnalysis(data) {
     
     // 降级：如果没有 dimensions 结构，显示提示
     analysisHtml = `
-        <div style="text-align: center; padding: 40px 20px; color: #7f8c8d;">
-            <i class="fas fa-chart-bar" style="font-size: 3rem; margin-bottom: 20px; color: #bdc3c7;"></i>
-            <p style="font-size: 1.1rem;">详细分析内容正在准备中...</p>
-            <p style="margin-top: 10px;">请参考上方雷达图和图例了解您的各维度得分</p>
+        <div class="rounded-2xl border border-gray-200 bg-gray-50 p-8 text-center text-gray-600">
+            <div class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-white text-gray-400 shadow-sm">
+                <i class="fas fa-chart-bar" aria-hidden="true"></i>
+            </div>
+            <p class="text-sm font-semibold text-gray-700">详细分析内容正在准备中...</p>
+            <p class="mt-2 text-sm">请参考上方雷达图和图例了解您的各维度得分</p>
         </div>
     `;
     
@@ -1923,13 +1936,13 @@ function loadRelatedTests() {
                 displayRelatedTests(data.data, isEnglish);
             } else {
                 // 如果API不存在或没有数据，隐藏该区域
-                document.querySelector('.related-tests-section').style.display = 'none';
+                document.querySelector('.related-tests-section')?.classList.add('hidden');
             }
         })
         .catch(error => {
             console.log('加载相关测试:', error);
             // API不存在时隐藏该区域
-            document.querySelector('.related-tests-section').style.display = 'none';
+            document.querySelector('.related-tests-section')?.classList.add('hidden');
         });
 }
 
@@ -1946,17 +1959,19 @@ function displayRelatedTests(tests, isEnglish) {
         const imageUrl = test.image || test.cover || '';
         
         html += `
-            <a href="${url}" class="related-test-card" title="${title}">
-                ${imageUrl ? `<img src="${imageUrl}" alt="${title}" class="test-card-image" loading="lazy">` : '<div class="test-card-image"></div>'}
-                <div class="test-card-content">
-                    <h3 class="test-card-title">${title}</h3>
-                    <p class="test-card-desc">${description}</p>
-                    <div class="test-card-meta">
-                        <span class="test-card-questions">
-                            <i class="fas fa-question-circle"></i>
+            <a href="${url}" class="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md" title="${title}">
+                <div class="aspect-[16/9] bg-gradient-to-br from-indigo-500 to-purple-600">
+                    ${imageUrl ? `<img src="${imageUrl}" alt="${title}" class="h-full w-full object-cover" loading="lazy">` : ''}
+                </div>
+                <div class="p-4">
+                    <h3 class="text-sm font-semibold text-gray-900">${title}</h3>
+                    <p class="mt-2 text-sm text-gray-600">${description}</p>
+                    <div class="mt-4 flex items-center justify-between text-xs text-gray-500">
+                        <span class="inline-flex items-center gap-1">
+                            <i class="fas fa-question-circle" aria-hidden="true"></i>
                             ${questionCount} ${isEnglish ? 'questions' : '题'}
                         </span>
-                        <span class="test-card-btn">${isEnglish ? 'Take Test' : '开始测试'}</span>
+                        <span class="inline-flex items-center rounded-full bg-emerald-600 px-3 py-1 text-xs font-semibold text-white">${isEnglish ? 'Take Test' : '开始测试'}</span>
                     </div>
                 </div>
             </a>
@@ -1982,13 +1997,13 @@ function loadPopularArticles() {
                 displayPopularArticles(data.data, isEnglish);
             } else {
                 // 如果API不存在或没有数据，隐藏该区域
-                document.querySelector('.popular-articles-section').style.display = 'none';
+                document.querySelector('.popular-articles-section')?.classList.add('hidden');
             }
         })
         .catch(error => {
             console.log('加载热门文章:', error);
             // API不存在时隐藏该区域
-            document.querySelector('.popular-articles-section').style.display = 'none';
+            document.querySelector('.popular-articles-section')?.classList.add('hidden');
         });
 }
 
@@ -2006,18 +2021,20 @@ function displayPopularArticles(articles, isEnglish) {
         const publishTime = article.publish_time || article.createtime || '';
         
         html += `
-            <a href="${url}" class="article-card" title="${title}">
-                ${imageUrl ? `<img src="${imageUrl}" alt="${title}" class="article-card-image" loading="lazy">` : '<div class="article-card-image"></div>'}
-                <div class="article-card-content">
-                    <h3 class="article-card-title">${title}</h3>
-                    <p class="article-card-excerpt">${description}</p>
-                    <div class="article-card-meta">
-                        <span class="article-card-views">
-                            <i class="fas fa-eye"></i>
+            <a href="${url}" class="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md" title="${title}">
+                <div class="aspect-[16/9] bg-gradient-to-br from-rose-500 to-orange-500">
+                    ${imageUrl ? `<img src="${imageUrl}" alt="${title}" class="h-full w-full object-cover" loading="lazy">` : ''}
+                </div>
+                <div class="p-4">
+                    <h3 class="text-sm font-semibold text-gray-900">${title}</h3>
+                    <p class="mt-2 text-sm text-gray-600">${description}</p>
+                    <div class="mt-4 flex items-center justify-between text-xs text-gray-500">
+                        <span class="inline-flex items-center gap-1">
+                            <i class="fas fa-eye" aria-hidden="true"></i>
                             ${views.toLocaleString()}
                         </span>
-                        <span class="article-card-date">
-                            <i class="far fa-clock"></i>
+                        <span class="inline-flex items-center gap-1">
+                            <i class="far fa-clock" aria-hidden="true"></i>
                             ${formatDate(publishTime, isEnglish)}
                         </span>
                     </div>
@@ -2059,14 +2076,17 @@ function toggleTestInfo() {
     const content = document.getElementById('info-content');
     const icon = document.getElementById('test-info-icon');
     
-    if (content.classList.contains('collapsed')) {
-        content.classList.remove('collapsed');
-        content.classList.add('expanded');
-        icon.classList.add('expanded');
+    if (!content || !icon) {
+        console.error('无法找到测试信息元素');
+        return;
+    }
+
+    if (content.classList.contains('hidden')) {
+        content.classList.remove('hidden');
+        icon.textContent = '▲';
     } else {
-        content.classList.remove('expanded');
-        content.classList.add('collapsed');
-        icon.classList.remove('expanded');
+        content.classList.add('hidden');
+        icon.textContent = '▼';
     }
 }
 
@@ -2075,14 +2095,17 @@ function toggleSection(sectionName) {
     const content = document.getElementById(sectionName + '-content');
     const icon = document.getElementById(sectionName + '-icon');
     
-    if (content.classList.contains('collapsed')) {
-        content.classList.remove('collapsed');
-        content.classList.add('expanded');
-        icon.classList.add('expanded');
+    if (!content || !icon) {
+        console.error('无法找到折叠元素', sectionName);
+        return;
+    }
+
+    if (content.classList.contains('hidden')) {
+        content.classList.remove('hidden');
+        icon.classList.add('rotate-180');
     } else {
-        content.classList.remove('expanded');
-        content.classList.add('collapsed');
-        icon.classList.remove('expanded');
+        content.classList.add('hidden');
+        icon.classList.remove('rotate-180');
     }
 }
 
@@ -2091,12 +2114,17 @@ function toggleDimensionContent(header) {
     const dimBody = header.nextElementSibling;
     const toggleIcon = header.querySelector('.dim-toggle');
     
-    if (dimBody.classList.contains('collapsed')) {
-        dimBody.classList.remove('collapsed');
-        toggleIcon.classList.remove('rotated');
+    if (!dimBody || !toggleIcon) {
+        console.error('无法找到维度折叠元素');
+        return;
+    }
+
+    if (dimBody.classList.contains('hidden')) {
+        dimBody.classList.remove('hidden');
+        toggleIcon.classList.add('rotate-180');
     } else {
-        dimBody.classList.add('collapsed');
-        toggleIcon.classList.add('rotated');
+        dimBody.classList.add('hidden');
+        toggleIcon.classList.remove('rotate-180');
     }
 }
 

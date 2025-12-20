@@ -1,32 +1,32 @@
-<div class="entry-meta">
-    <ul>
-        <!-- S 归档 -->
-        <li>{:__('本文分类')}：<a href="{cms:channel name='url' /}">{:__($__CHANNEL__['name'])}</a></li>
-        <li>{:__('本文标签')}：
-        {volist name="$__ARCHIVES__.taglist" id="tag"}<a href="{$tag.url}" class="tag" rel="tag">{:__($tag['name'])}</a>{/volist}
-        {empty name="$__ARCHIVES__.taglist"}{:__('无')}{/empty}
-        </li>
-        <li>{:__('浏览次数')}：<span>{cms:archives name="views" /}</span> {:__('次浏览')}</li>
-        <li>{:__('发布日期')}：{cms:archives name="publishtime|datetime" /}</li>
-        <li>{:__('本文链接')}：<a href="{cms:archives name='fullurl' /}">{cms:archives name="fullurl" /}</a></li>
-        <!-- S 归档 -->
-    </ul>
+<div class="rounded-lg border border-gray-200 bg-white p-4 text-sm text-gray-700 shadow-sm">
+     <ul class="space-y-2">
+         <!-- S 归档 -->
+         <li>{:__('本文分类')}：<a href="{cms:channel name='url' /}" class="font-medium text-emerald-700 hover:text-emerald-800">{:__($__CHANNEL__['name'])}</a></li>
+         <li>{:__('本文标签')}：
+         {volist name="$__ARCHIVES__.taglist" id="tag"}<a href="{$tag.url}" class="mr-2 inline-flex items-center rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-700 hover:bg-gray-200" rel="tag">{:__($tag['name'])}</a>{/volist}
+         {empty name="$__ARCHIVES__.taglist"}{:__('无')}{/empty}
+         </li>
+         <li>{:__('浏览次数')}：<span class="font-medium">{cms:archives name="views" /}</span> {:__('次浏览')}</li>
+         <li>{:__('发布日期')}：{cms:archives name="publishtime|datetime" /}</li>
+         <li class="break-all">{:__('本文链接')}：<a href="{cms:archives name='fullurl' /}" class="text-emerald-700 hover:text-emerald-800">{cms:archives name="fullurl" /}</a></li>
+         <!-- S 归档 -->
+     </ul>
 
-    <ul class="article-prevnext">
-        <!-- S 上一篇下一篇 -->
-        {cms:prevnext id="prev" type="prev" archives="__ARCHIVES__.id" channel="__CHANNEL__.id"}
-        <li>
-            <span>{:__('上一篇')} &gt;</span>
-            <a href="{$prev.url}">{$prev.title|htmlentities}</a>
-        </li>
-        {/cms:prevnext}
+     <ul class="mt-4 grid gap-2 sm:grid-cols-2">
+         <!-- S 上一篇下一篇 -->
+         {cms:prevnext id="prev" type="prev" archives="__ARCHIVES__.id" channel="__CHANNEL__.id"}
+         <li class="rounded-md bg-gray-50 px-3 py-2">
+             <span class="text-gray-500">{:__('上一篇')} &gt;</span>
+             <a href="{$prev.url}" class="ml-1 font-medium text-gray-900 hover:text-emerald-700">{$prev.title|htmlentities}</a>
+         </li>
+         {/cms:prevnext}
 
-        {cms:prevnext id="next" type="next" archives="__ARCHIVES__.id" channel="__CHANNEL__.id"}
-        <li>
-            <span>{:__('下一篇')} &gt;</span>
-            <a href="{$next.url}">{$next.title|htmlentities}</a>
-        </li>
-        {/cms:prevnext}
-        <!-- E 上一篇下一篇 -->
-    </ul>
-</div>
+         {cms:prevnext id="next" type="next" archives="__ARCHIVES__.id" channel="__CHANNEL__.id"}
+         <li class="rounded-md bg-gray-50 px-3 py-2">
+             <span class="text-gray-500">{:__('下一篇')} &gt;</span>
+             <a href="{$next.url}" class="ml-1 font-medium text-gray-900 hover:text-emerald-700">{$next.title|htmlentities}</a>
+         </li>
+         {/cms:prevnext}
+         <!-- E 上一篇下一篇 -->
+     </ul>
+ </div>

@@ -1,9 +1,8 @@
 {layout name="common/layout" /}
-<article class="test-result-page" itemscope itemtype="https://schema.org/Article">
+<article class="min-h-screen bg-gray-50 py-6" itemscope itemtype="https://schema.org/Article">
     <!-- 谷歌广告位 - 顶部横幅（展示广告）-->
-    <div class="ad-container ad-banner-top">
-        <ins class="adsbygoogle"
-             style="display:block"
+    <div class="mx-auto my-6 max-w-3xl px-4 text-center sm:px-6 lg:px-8">
+        <ins class="adsbygoogle block"
              data-ad-client="ca-pub-9195262048954682"
              data-ad-slot="2969657271"
              data-ad-format="auto"
@@ -13,76 +12,71 @@
         </script>
     </div>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="test-result">
-                    <!-- 测试标题 -->
-                    <header class="test-header">
-                        <h1 id="test-title" itemprop="headline">九型人格测试结果</h1>
-                        <p id="test-subtitle" itemprop="description">测试结果仅供参考，具体请咨询专业指导</p>
-                        <meta itemprop="author" content="心理测试平台">
-                        <meta itemprop="datePublished" content="">
-                        <meta itemprop="dateModified" content="">
-                    </header>
-                    
-                    <!-- 测试信息 - 折叠式 -->
-                    <section class="test-info" id="test-info">
-                        <div class="info-toggle" onclick="toggleTestInfo()">
-                            <h2>测试信息</h2>
-                            <span class="toggle-icon" id="test-info-icon">▼</span>
-                        </div>
-                        <div class="info-content collapsed" id="info-content">
-                            <!-- 测试信息将在这里显示 -->
-                        </div>
-                    </section>
-                    
-                    <!-- 主要性格类型显示 -->
-                    <section class="score-section">
-                        <div class="score-card">
-                            <div class="score-circle">
-                                <div class="score-number" id="main-type">分析中...</div>
-                                <div class="score-label">主要性格</div>
-                            </div>
-                            <div class="score-info">
-                                <div class="score-description" id="type-description">正在分析您的性格类型...</div>
-                                <div class="score-level" id="type-percentage">计算中...</div>
-                            </div>
-                        </div>
-                    </section>
-                    
-                    <!-- 各类型分数显示 -->
-                    <section class="dimension-scores-section" id="dimension-scores-section" itemscope itemtype="https://schema.org/ItemList">
-                        <h2 itemprop="name">九型人格各类型得分详情</h2>
-                        <div class="dimension-grid" id="dimension-grid" itemprop="itemListElement">
-                            <!-- 类型分数将在这里显示 -->
-                        </div>
-                    </section>
-                    
-                    <!-- 结果分析 -->
-                    <section class="analysis-section" id="analysis-section" itemscope itemtype="https://schema.org/Article">
-                        <h2 itemprop="headline">详细分析报告</h2>
-                        <div class="analysis-content" id="analysis-content" itemprop="articleBody">
-                            <!-- 分析内容将在这里显示 -->
-                        </div>
-                    </section>
-                    
-                    <!-- 建议和指导 -->
-                    <section class="suggestions-section" id="suggestions-section">
-                        <h2>建议和指导</h2>
-                        <div class="suggestions-content" id="suggestions-content">
-                            <!-- 建议内容将在这里显示 -->
-                        </div>
-                    </section>
+    <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+        <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-200 sm:p-8">
+            <!-- 测试标题 -->
+            <header class="border-b border-gray-100 pb-6 text-center">
+                <h1 id="test-title" class="text-2xl font-bold text-gray-900 sm:text-3xl" itemprop="headline">九型人格测试结果</h1>
+                <p id="test-subtitle" class="mt-2 text-sm text-gray-600 sm:text-base" itemprop="description">测试结果仅供参考，具体请咨询专业指导</p>
+                <meta itemprop="author" content="心理测试平台">
+                <meta itemprop="datePublished" content="">
+                <meta itemprop="dateModified" content="">
+            </header>
+
+            <!-- 测试信息 - 折叠式 -->
+            <section class="mt-6 overflow-hidden rounded-2xl border border-gray-200 bg-gray-50" id="test-info">
+                <button type="button" class="flex w-full items-center justify-between gap-3 px-5 py-4 text-left" onclick="toggleTestInfo()">
+                    <h2 class="text-base font-semibold text-gray-900">测试信息</h2>
+                    <span class="text-sm font-semibold text-gray-500" id="test-info-icon">▼</span>
+                </button>
+                <div class="hidden px-5 pb-5" id="info-content">
+                    <!-- 测试信息将在这里显示 -->
                 </div>
-            </div>
+            </section>
+
+            <!-- 主要性格类型显示 -->
+            <section class="mt-6">
+                <div class="rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 p-6 text-white shadow-sm sm:flex sm:items-center sm:gap-6">
+                    <div class="mx-auto flex h-28 w-28 flex-col items-center justify-center rounded-full bg-white/20 ring-2 ring-white/20 sm:mx-0">
+                        <div class="text-3xl font-bold" id="main-type">分析中...</div>
+                        <div class="mt-1 text-sm font-semibold opacity-90">主要性格</div>
+                    </div>
+                    <div class="mt-4 text-center sm:mt-0 sm:text-left">
+                        <div class="text-base font-semibold sm:text-lg" id="type-description">正在分析您的性格类型...</div>
+                        <div class="mt-2 text-sm opacity-90" id="type-percentage">计算中...</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 各类型分数显示 -->
+            <section class="mt-8" id="dimension-scores-section" itemscope itemtype="https://schema.org/ItemList">
+                <h2 class="text-center text-lg font-semibold text-gray-900 sm:text-2xl" itemprop="name">九型人格各类型得分详情</h2>
+                <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" id="dimension-grid" itemprop="itemListElement">
+                    <!-- 类型分数将在这里显示 -->
+                </div>
+            </section>
+
+            <!-- 结果分析 -->
+            <section class="mt-8" id="analysis-section" itemscope itemtype="https://schema.org/Article">
+                <h2 class="text-center text-lg font-semibold text-gray-900 sm:text-2xl" itemprop="headline">详细分析报告</h2>
+                <div class="prose prose-sm mt-5 max-w-none rounded-2xl border border-gray-200 bg-white p-5 text-gray-700 shadow-sm" id="analysis-content" itemprop="articleBody">
+                    <!-- 分析内容将在这里显示 -->
+                </div>
+            </section>
+
+            <!-- 建议和指导 -->
+            <section class="mt-8" id="suggestions-section">
+                <h2 class="text-center text-lg font-semibold text-gray-900 sm:text-2xl">建议和指导</h2>
+                <div class="prose prose-sm mt-5 max-w-none rounded-2xl border border-gray-200 bg-white p-5 text-gray-700 shadow-sm" id="suggestions-content">
+                    <!-- 建议内容将在这里显示 -->
+                </div>
+            </section>
         </div>
     </div>
 
     <!-- 谷歌广告位 - 中间内容（文章内嵌广告）-->
-    <div class="ad-container ad-banner-middle">
-        <ins class="adsbygoogle"
-             style="display:block; text-align:center;"
+    <div class="mx-auto my-10 max-w-3xl px-4 text-center sm:px-6 lg:px-8">
+        <ins class="adsbygoogle block"
              data-ad-layout="in-article"
              data-ad-format="fluid"
              data-ad-client="ca-pub-9195262048954682"
@@ -92,885 +86,6 @@
         </script>
     </div>
 </article>
-
-<style>
-/* 谷歌广告位样式 */
-.ad-container {
-    margin: 20px auto;
-    max-width: 900px;
-    text-align: center;
-}
-
-.ad-banner-top {
-    margin-bottom: 30px;
-}
-
-.ad-banner-middle {
-    margin: 40px auto;
-}
-
-.ad-placeholder {
-    background: #f8f9fa;
-    border: 2px dashed #dee2e6;
-    border-radius: 8px;
-    padding: 20px;
-    min-height: 90px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #6c757d;
-    font-size: 14px;
-}
-
-/* 整体容器 */
-.test-result-page {
-    background: #f8f9fa;
-    min-height: 100vh;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-.test-result {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 20px;
-    background: #fff;
-    border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-}
-
-/* 测试标题 */
-.test-header {
-    text-align: center;
-    margin-bottom: 40px;
-    padding-bottom: 20px;
-    border-bottom: 2px solid #f5f5f5;
-}
-
-.test-header h1 {
-    color: #2c3e50;
-    font-size: 2.2rem;
-    font-weight: 700;
-    margin-bottom: 10px;
-    line-height: 1.2;
-}
-
-.test-header p {
-    color: #7f8c8d;
-    font-size: 1.1rem;
-    margin: 0;
-}
-
-/* 测试信息折叠区域 */
-.test-info {
-    background: #f8f9fa;
-    border-radius: 12px;
-    margin-bottom: 30px;
-    overflow: hidden;
-    border: 1px solid #e9ecef;
-}
-
-.info-toggle {
-    padding: 20px 25px;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: background-color 0.3s ease;
-    background: #fff;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-}
-
-.info-toggle:hover {
-    background-color: #f8f9fa;
-}
-
-.info-toggle h2 {
-    margin: 0;
-    font-size: 1.2rem;
-    color: #495057;
-    font-weight: 600;
-}
-
-.toggle-icon {
-    font-size: 1rem;
-    color: #6c757d;
-    transition: transform 0.3s ease;
-}
-
-.info-content {
-    padding: 0 25px;
-    max-height: 0;
-    overflow: hidden;
-    transition: all 0.3s ease;
-    background: #f8f9fa;
-}
-
-.info-content.expanded {
-    max-height: 500px;
-    padding: 20px 25px;
-}
-
-.info-content.collapsed {
-    max-height: 0;
-    padding: 0 25px;
-}
-
-.info-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 12px 0;
-    border-bottom: 1px solid #e9ecef;
-}
-
-.info-item:last-child {
-    border-bottom: none;
-}
-
-.info-label {
-    font-weight: 600;
-    color: #495057;
-}
-
-.info-value {
-    color: #6c757d;
-}
-
-/* 性格类型显示区域 */
-.score-section {
-    margin-bottom: 40px;
-}
-
-.score-card {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 20px;
-    padding: 40px;
-    color: white;
-    display: flex;
-    align-items: center;
-    gap: 40px;
-    box-shadow: 0 8px 30px rgba(102, 126, 234, 0.3);
-}
-
-.score-circle {
-    flex-shrink: 0;
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    backdrop-filter: blur(10px);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-}
-
-.score-number {
-    font-size: 2.5rem;
-    font-weight: 700;
-    line-height: 1;
-    margin-bottom: 5px;
-}
-
-.score-label {
-    font-size: 1rem;
-    opacity: 0.9;
-    font-weight: 500;
-}
-
-.score-info {
-    flex: 1;
-}
-
-.score-description {
-    font-size: 1.3rem;
-    font-weight: 600;
-    margin-bottom: 10px;
-    line-height: 1.3;
-}
-
-.score-level {
-    font-size: 1rem;
-    opacity: 0.9;
-    font-weight: 500;
-}
-
-/* 各类型分数显示区域 */
-.dimension-scores-section {
-    margin-bottom: 40px;
-}
-
-.dimension-scores-section h2 {
-    color: #2c3e50;
-    font-size: 1.8rem;
-    font-weight: 700;
-    margin-bottom: 30px;
-    text-align: center;
-    position: relative;
-}
-
-.dimension-scores-section h2::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 3px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 2px;
-}
-
-.dimension-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    margin-top: 30px;
-}
-
-.dimension-item {
-    background: #fff;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-    text-align: center;
-    transition: all 0.3s ease;
-    border-left: 4px solid #667eea;
-    position: relative;
-    overflow: hidden;
-    min-height: 140px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.dimension-item::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-
-/* 九型人格各类型颜色 */
-.dimension-item.type-1 {
-    border-left-color: #e74c3c;
-}
-
-.dimension-item.type-1::before {
-    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-}
-
-.dimension-item.type-2 {
-    border-left-color: #3498db;
-}
-
-.dimension-item.type-2::before {
-    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-}
-
-.dimension-item.type-3 {
-    border-left-color: #f39c12;
-}
-
-.dimension-item.type-3::before {
-    background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
-}
-
-.dimension-item.type-4 {
-    border-left-color: #9b59b6;
-}
-
-.dimension-item.type-4::before {
-    background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
-}
-
-.dimension-item.type-5 {
-    border-left-color: #34495e;
-}
-
-.dimension-item.type-5::before {
-    background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
-}
-
-.dimension-item.type-6 {
-    border-left-color: #1abc9c;
-}
-
-.dimension-item.type-6::before {
-    background: linear-gradient(135deg, #1abc9c 0%, #16a085 100%);
-}
-
-.dimension-item.type-7 {
-    border-left-color: #e67e22;
-}
-
-.dimension-item.type-7::before {
-    background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);
-}
-
-.dimension-item.type-8 {
-    border-left-color: #e91e63;
-}
-
-.dimension-item.type-8::before {
-    background: linear-gradient(135deg, #e91e63 0%, #c2185b 100%);
-}
-
-.dimension-item.type-9 {
-    border-left-color: #27ae60;
-}
-
-.dimension-item.type-9::before {
-    background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
-}
-
-.dimension-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-}
-
-.dimension-item.highest {
-    transform: scale(1.05);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-    border-left-width: 6px;
-}
-
-.dimension-item.highest::before {
-    height: 4px;
-}
-
-.dimension-item.highest .dimension-label {
-    font-weight: 700;
-    color: #1a1a1a;
-}
-
-.dimension-item.highest .dimension-value {
-    font-size: 2.2rem;
-}
-
-.highest-badge {
-    position: absolute;
-    top: -8px;
-    right: -8px;
-    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-    color: white;
-    font-size: 0.7rem;
-    font-weight: 600;
-    padding: 4px 8px;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
-    z-index: 10;
-}
-
-.dimension-label {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: #2c3e50;
-    margin-bottom: 8px;
-    line-height: 1.2;
-}
-
-.dimension-value {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #667eea;
-    margin-bottom: 8px;
-    line-height: 1;
-}
-
-.dimension-item.type-1 .dimension-value {
-    color: #e74c3c;
-}
-
-.dimension-item.type-2 .dimension-value {
-    color: #3498db;
-}
-
-.dimension-item.type-3 .dimension-value {
-    color: #f39c12;
-}
-
-.dimension-item.type-4 .dimension-value {
-    color: #9b59b6;
-}
-
-.dimension-item.type-5 .dimension-value {
-    color: #34495e;
-}
-
-.dimension-item.type-6 .dimension-value {
-    color: #1abc9c;
-}
-
-.dimension-item.type-7 .dimension-value {
-    color: #e67e22;
-}
-
-.dimension-item.type-8 .dimension-value {
-    color: #e91e63;
-}
-
-.dimension-item.type-9 .dimension-value {
-    color: #27ae60;
-}
-
-.dimension-bar {
-    width: 100%;
-    height: 6px;
-    background: #e9ecef;
-    border-radius: 3px;
-    overflow: hidden;
-    margin-bottom: 8px;
-    position: relative;
-}
-
-.dimension-bar-fill {
-    height: 100%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 3px;
-    transition: width 0.3s ease;
-    position: relative;
-}
-
-.dimension-bar-fill::after {
-    content: '';
-    position: absolute;
-    right: -6px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 12px;
-    height: 12px;
-    background: inherit;
-    border-radius: 50%;
-    border: 2px solid #fff;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-}
-
-.dimension-item.type-1 .dimension-bar-fill {
-    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-}
-
-.dimension-item.type-2 .dimension-bar-fill {
-    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-}
-
-.dimension-item.type-3 .dimension-bar-fill {
-    background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
-}
-
-.dimension-item.type-4 .dimension-bar-fill {
-    background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
-}
-
-.dimension-item.type-5 .dimension-bar-fill {
-    background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
-}
-
-.dimension-item.type-6 .dimension-bar-fill {
-    background: linear-gradient(135deg, #1abc9c 0%, #16a085 100%);
-}
-
-.dimension-item.type-7 .dimension-bar-fill {
-    background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);
-}
-
-.dimension-item.type-8 .dimension-bar-fill {
-    background: linear-gradient(135deg, #e91e63 0%, #c2185b 100%);
-}
-
-.dimension-item.type-9 .dimension-bar-fill {
-    background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
-}
-
-.dimension-percentage {
-    font-size: 0.8rem;
-    color: #6c757d;
-    font-weight: 500;
-    margin-top: 4px;
-}
-
-/* 分析区域 */
-.analysis-section {
-    margin-bottom: 40px;
-}
-
-.analysis-section h2 {
-    color: #2c3e50;
-    font-size: 1.8rem;
-    font-weight: 700;
-    margin-bottom: 30px;
-    text-align: center;
-    position: relative;
-}
-
-.analysis-section h2::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 3px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 2px;
-}
-
-.analysis-content {
-    background: #fff;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    line-height: 1.8;
-    color: #555;
-}
-
-.analysis-content h4 {
-    color: #2c3e50;
-    font-size: 1.3rem;
-    font-weight: 700;
-    margin-top: 25px;
-    margin-bottom: 15px;
-    padding-left: 15px;
-    border-left: 4px solid #667eea;
-}
-
-.analysis-content p {
-    margin-bottom: 20px;
-    text-align: justify;
-}
-
-/* 建议区域 */
-.suggestions-section {
-    margin-bottom: 40px;
-}
-
-.suggestions-section h2 {
-    color: #2c3e50;
-    font-size: 1.8rem;
-    font-weight: 700;
-    margin-bottom: 30px;
-    text-align: center;
-    position: relative;
-}
-
-.suggestions-section h2::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 3px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 2px;
-}
-
-.suggestions-content {
-    background: #fff;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    line-height: 1.8;
-    color: #555;
-}
-
-.suggestions-content h4 {
-    color: #2c3e50;
-    font-size: 1.3rem;
-    font-weight: 700;
-    margin-top: 25px;
-    margin-bottom: 15px;
-    padding-left: 15px;
-    border-left: 4px solid #667eea;
-}
-
-.suggestions-content p {
-    margin-bottom: 20px;
-    text-align: justify;
-}
-
-/* 响应式设计 */
-@media (max-width: 768px) {
-    .test-result {
-        padding: 15px;
-        margin: 10px;
-        border-radius: 12px;
-    }
-    
-    .test-header {
-        margin-bottom: 30px;
-        padding-bottom: 15px;
-    }
-    
-    .test-header h1 {
-        font-size: 1.8rem;
-        line-height: 1.3;
-    }
-    
-    .test-header p {
-        font-size: 1rem;
-        margin-top: 8px;
-    }
-    
-    .score-card {
-        flex-direction: column;
-        gap: 25px;
-        padding: 25px 20px;
-        text-align: center;
-        border-radius: 15px;
-    }
-    
-    .score-circle {
-        width: 120px;
-        height: 120px;
-    }
-    
-    .score-number {
-        font-size: 2rem;
-    }
-    
-    .score-description {
-        font-size: 1.1rem;
-        text-align: center;
-    }
-    
-    .score-level {
-        font-size: 0.9rem;
-        text-align: center;
-    }
-    
-    .dimension-scores-section {
-        margin-bottom: 30px;
-    }
-    
-    .dimension-scores-section h2 {
-        font-size: 1.5rem;
-        margin-bottom: 25px;
-    }
-    
-    .dimension-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-        margin-top: 20px;
-    }
-    
-    .dimension-item {
-        min-height: 110px;
-        padding: 12px;
-        border-radius: 10px;
-    }
-    
-    .dimension-value {
-        font-size: 1.8rem;
-    }
-    
-    .dimension-item.highest .dimension-value {
-        font-size: 2rem;
-    }
-    
-    .highest-badge {
-        font-size: 0.6rem;
-        padding: 3px 6px;
-        top: -6px;
-        right: -6px;
-    }
-    
-    .dimension-label {
-        font-size: 1rem;
-        margin-bottom: 12px;
-    }
-    
-    .dimension-value {
-        font-size: 2rem;
-        margin-bottom: 12px;
-    }
-    
-    .dimension-bar {
-        height: 6px;
-        margin-bottom: 8px;
-    }
-    
-    .dimension-percentage {
-        font-size: 0.85rem;
-    }
-    
-    .analysis-section,
-    .suggestions-section {
-        margin-bottom: 30px;
-    }
-    
-    .analysis-section h2,
-    .suggestions-section h2 {
-        font-size: 1.5rem;
-        margin-bottom: 25px;
-    }
-    
-    .analysis-content,
-    .suggestions-content {
-        padding: 20px;
-        border-radius: 12px;
-    }
-    
-    .analysis-content h4,
-    .suggestions-content h4 {
-        font-size: 1.2rem;
-        margin-top: 20px;
-        margin-bottom: 12px;
-        padding-left: 12px;
-    }
-    
-    .analysis-content p,
-    .suggestions-content p {
-        font-size: 0.95rem;
-        line-height: 1.7;
-        margin-bottom: 15px;
-    }
-    
-    .info-toggle {
-        padding: 15px 20px;
-    }
-    
-    .info-content.expanded {
-        padding: 15px 20px;
-    }
-    
-    .info-item {
-        padding: 10px 0;
-        font-size: 0.9rem;
-    }
-    
-    .ad-container {
-        margin: 15px auto;
-    }
-    
-    .ad-placeholder {
-        padding: 15px;
-        min-height: 80px;
-        font-size: 12px;
-    }
-}
-
-@media (max-width: 480px) {
-    .test-result {
-        padding: 12px;
-        margin: 8px;
-    }
-    
-    .test-header h1 {
-        font-size: 1.6rem;
-    }
-    
-    .test-header p {
-        font-size: 0.95rem;
-    }
-    
-    .score-card {
-        padding: 20px 15px;
-        gap: 20px;
-    }
-    
-    .score-circle {
-        width: 100px;
-        height: 100px;
-    }
-    
-    .score-number {
-        font-size: 1.8rem;
-    }
-    
-    .score-description {
-        font-size: 1rem;
-    }
-    
-    .dimension-grid {
-        grid-template-columns: 1fr;
-        gap: 12px;
-    }
-    
-    .dimension-item {
-        padding: 18px 15px;
-    }
-    
-    .dimension-value {
-        font-size: 1.8rem;
-    }
-    
-    .analysis-content,
-    .suggestions-content {
-        padding: 15px;
-    }
-    
-    .analysis-content h4,
-    .suggestions-content h4 {
-        font-size: 1.1rem;
-        padding-left: 10px;
-    }
-    
-    .analysis-content p,
-    .suggestions-content p {
-        font-size: 0.9rem;
-        line-height: 1.6;
-    }
-}
-
-@media (max-width: 360px) {
-    .test-result {
-        padding: 10px;
-        margin: 5px;
-    }
-    
-    .test-header h1 {
-        font-size: 1.4rem;
-    }
-    
-    .score-card {
-        padding: 15px 12px;
-    }
-    
-    .score-circle {
-        width: 90px;
-        height: 90px;
-    }
-    
-    .score-number {
-        font-size: 1.6rem;
-    }
-    
-    .dimension-item {
-        padding: 15px 12px;
-    }
-    
-    .dimension-value {
-        font-size: 1.6rem;
-    }
-}
-
-/* 超小屏幕优化 */
-@media (max-width: 480px) {
-    .dimension-grid {
-        grid-template-columns: 1fr;
-        gap: 10px;
-    }
-    
-    .dimension-item {
-        min-height: 100px;
-        padding: 10px;
-    }
-    
-    .dimension-value {
-        font-size: 1.6rem;
-    }
-    
-    .dimension-item.highest .dimension-value {
-        font-size: 1.8rem;
-    }
-}
-</style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -1054,24 +169,11 @@ function displayTestInfo(data) {
     
     let html = '';
     if (data.a_info) {
-        html += '<div class="info-item">';
-        html += '<span class="info-label">测试名称</span>';
-        html += '<span class="info-value">' + (data.a_info.title || '未知测试') + '</span>';
-        html += '</div>';
-        
-        html += '<div class="info-item">';
-        html += '<span class="info-label">测试说明</span>';
-        html += '<span class="info-value">' + (data.a_info.sub_title || '暂无说明') + '</span>';
-        html += '</div>';
-        
-        html += '<div class="info-item">';
-        html += '<span class="info-label">题目数量</span>';
-        html += '<span class="info-value">' + (data.test_info.question_count || 0) + '题</span>';
-        html += '</div>';
-        
-        html += '<div class="info-item">';
-        html += '<span class="info-label">满分</span>';
-        html += '<span class="info-value">' + (data.test_info.question_count || 0) + '分</span>';
+        html += '<div class="divide-y divide-gray-200 overflow-hidden rounded-xl border border-gray-200 bg-white">';
+        html += '<div class="flex items-center justify-between gap-4 px-4 py-3 text-sm"><span class="font-semibold text-gray-700">测试名称</span><span class="text-gray-600">' + (data.a_info.title || '未知测试') + '</span></div>';
+        html += '<div class="flex items-center justify-between gap-4 px-4 py-3 text-sm"><span class="font-semibold text-gray-700">测试说明</span><span class="text-gray-600">' + (data.a_info.sub_title || '暂无说明') + '</span></div>';
+        html += '<div class="flex items-center justify-between gap-4 px-4 py-3 text-sm"><span class="font-semibold text-gray-700">题目数量</span><span class="text-gray-600">' + (data.test_info.question_count || 0) + '题</span></div>';
+        html += '<div class="flex items-center justify-between gap-4 px-4 py-3 text-sm"><span class="font-semibold text-gray-700">满分</span><span class="text-gray-600">' + (data.test_info.question_count || 0) + '分</span></div>';
         html += '</div>';
     }
     
@@ -1120,15 +222,15 @@ function displayTypeScores(data) {
     
     const dimensionGrid = document.getElementById('dimension-grid');
     const typeNames = {
-        '1': '完美主义者',
-        '2': '助人者',
-        '3': '成就者',
-        '4': '艺术家',
-        '5': '思想家',
-        '6': '忠诚者',
-        '7': '享乐主义者',
-        '8': '挑战者',
-        '9': '和平者'
+        '1': { name: '完美主义者', border: 'border-red-500', text: 'text-red-600', bar: 'from-red-500 to-red-700' },
+        '2': { name: '助人者', border: 'border-sky-500', text: 'text-sky-600', bar: 'from-sky-500 to-sky-700' },
+        '3': { name: '成就者', border: 'border-amber-500', text: 'text-amber-600', bar: 'from-amber-500 to-amber-700' },
+        '4': { name: '艺术家', border: 'border-purple-500', text: 'text-purple-600', bar: 'from-purple-500 to-purple-700' },
+        '5': { name: '思想家', border: 'border-slate-500', text: 'text-slate-600', bar: 'from-slate-500 to-slate-700' },
+        '6': { name: '忠诚者', border: 'border-teal-500', text: 'text-teal-600', bar: 'from-teal-500 to-teal-700' },
+        '7': { name: '享乐主义者', border: 'border-orange-500', text: 'text-orange-600', bar: 'from-orange-500 to-orange-700' },
+        '8': { name: '挑战者', border: 'border-pink-500', text: 'text-pink-600', bar: 'from-pink-500 to-pink-700' },
+        '9': { name: '和平者', border: 'border-emerald-500', text: 'text-emerald-600', bar: 'from-emerald-500 to-emerald-700' }
     };
     
     // 计算总分用于百分比计算
@@ -1145,25 +247,28 @@ function displayTypeScores(data) {
     
     let html = '';
     for (const [type, score] of Object.entries(data.stat_data)) {
-        const typeName = typeNames[type] || '未知';
+        const typeInfo = typeNames[type] || { name: '未知', border: 'border-gray-300', text: 'text-gray-700', bar: 'from-gray-400 to-gray-600' };
         const percentage = totalScore > 0 ? Math.round((score / totalScore) * 100) : 0;
         const isHighest = score === maxScore;
         
         html += `
-            <div class="dimension-item type-${type} ${isHighest ? 'highest' : ''}" itemprop="item" itemscope itemtype="https://schema.org/ListItem">
+            <div class="relative rounded-2xl border ${typeInfo.border} bg-white p-5 shadow-sm" itemprop="item" itemscope itemtype="https://schema.org/ListItem">
                 <meta itemprop="position" content="${type}">
-                ${isHighest ? '<div class="highest-badge">最高分</div>' : ''}
-                <div class="dimension-label" itemprop="name">${type}型 - ${typeName}</div>
-                <div class="dimension-value" itemprop="value">${score}</div>
-                <div class="dimension-bar">
-                    <div class="dimension-bar-fill" style="width: ${percentage}%" aria-label="${typeName}得分${score}分，占比${percentage}%"></div>
+                ${isHighest ? '<div class="absolute -right-2 -top-2 rounded-full bg-gradient-to-r from-rose-500 to-orange-500 px-2 py-1 text-[10px] font-semibold text-white shadow-sm">最高分</div>' : ''}
+                <div class="text-sm font-semibold text-gray-900" itemprop="name">${type}型 - ${typeInfo.name}</div>
+                <div class="mt-2 text-3xl font-bold ${typeInfo.text}" itemprop="value">${score}</div>
+                <div class="mt-3 h-2 w-full overflow-hidden rounded-full bg-gray-200">
+                    <div class="h-full rounded-full bg-gradient-to-r ${typeInfo.bar}" data-width="${percentage}" aria-label="${typeInfo.name}得分${score}分，占比${percentage}%"></div>
                 </div>
-                <div class="dimension-percentage">${percentage}%</div>
+                <div class="mt-2 text-xs font-medium text-gray-500">${percentage}%</div>
             </div>
         `;
     }
     
     dimensionGrid.innerHTML = html;
+    dimensionGrid.querySelectorAll('[data-width]').forEach(el => {
+        el.style.width = el.dataset.width + '%';
+    });
 }
 
 function displayAnalysis(data) {
@@ -1195,9 +300,8 @@ function toggleTestInfo() {
         return;
     }
     
-    if (content.classList.contains('collapsed')) {
-        content.classList.remove('collapsed');
-        content.classList.add('expanded');
+    if (content.classList.contains('hidden')) {
+        content.classList.remove('hidden');
         icon.textContent = '▲';
         
         // 移动端滚动到展开的内容
@@ -1210,8 +314,7 @@ function toggleTestInfo() {
             }, 100);
         }
     } else {
-        content.classList.remove('expanded');
-        content.classList.add('collapsed');
+        content.classList.add('hidden');
         icon.textContent = '▼';
     }
 }

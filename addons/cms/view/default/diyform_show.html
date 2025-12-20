@@ -1,118 +1,95 @@
 {layout name="common/layout" /}
-<style>
-    .titleline {
-        font-weight: 600;
-    }
+ <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" id="content-container">
 
-    .grayline {
-        padding: 15px;
-        background: #f3f3f3;
-        margin-bottom: 10px;
-    }
+     <nav aria-label="breadcrumb" class="mt-6">
+         <ol class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-gray-600">
+             <!-- S 面包屑导航 -->
+             {cms:breadcrumb id="item"}
+             <li class="inline-flex items-center">
+                 <a class="hover:text-emerald-600" href="{$item.url}">{:__($item.name)}</a>
+             </li>
+             {/cms:breadcrumb}
+             <!-- E 面包屑导航 -->
+             <li class="inline-flex items-center text-gray-400" aria-hidden="true">/</li>
+             <li class="inline-flex items-center text-gray-700">{:__('详情')}</li>
+         </ol>
+     </nav>
 
-    .grayline > p {
-        color: #909399;
-        margin: 0;
-    }
-</style>
-<div class="container" id="content-container">
+     <main class="mt-4">
+         <section aria-label="{:__('详情')}">
+             <div class="rounded-lg border border-gray-200 bg-white shadow-sm">
+                 <div class="border-b border-gray-100 px-4 py-3">
+                     <h1 class="text-base font-semibold text-gray-900">{:__('详情')}</h1>
+                 </div>
 
-    <div class="row">
+                 <div class="space-y-4 p-4">
+                     <div class="space-y-4">
+                         <!--@formatter:off-->
+                         {foreach name="fieldsList" id="item"}
+                             {php}if(in_array($item['name'], ['id', 'user_id', 'createtime', 'updatetime', 'memo', 'status']) || !isset($__DIYDATA__[$item['name']])) continue;{/php}
+                             <div class="space-y-2">
+                                 <div class="text-sm font-semibold text-gray-900">{$item.title|htmlentities}：</div>
+                                 <div class="rounded-md bg-gray-50 p-3 text-sm leading-7 text-gray-700">
+                                     {if in_array($item['type'],['file', 'files', 'image', 'images'])}
+                                         {php}$files = array_filter(explode(',', $__DIYDATA__[$item['name']]));{/php}
 
-        <main class="col-xs-12">
+                                         {if in_array($item['type'],['image', 'images'])}
+                                             <div class="grid grid-cols-2 gap-2 sm:grid-cols-4 md:grid-cols-6">
+                                                 {foreach name="files" id="file"}
+                                                     <a href="{$file|cdnurl}" target="_blank" class="group block aspect-[4/3] overflow-hidden rounded-md bg-gray-100">
+                                                         <img src="{$file|cdnurl}" alt="" loading="lazy" class="h-full w-full object-cover transition duration-300 group-hover:scale-105">
+                                                     </a>
+                                                 {/foreach}
+                                             </div>
+                                         {else/}
+                                             <div class="flex flex-wrap gap-2">
+                                                 {foreach name="files" id="file"}
+                                                 <a href="{:htmlentities(cdnurl($file))}" class="inline-flex items-center rounded-md bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-emerald-700" target="_blank"><i class="fa fa-download mr-2" aria-hidden="true"></i>{:__('点击下载')}</a>
+                                                 {/foreach}
+                                             </div>
+                                         {/if}
+                                     {elseif in_array($item['type'],['selectpage', 'selectpages'])}
+                                         {:htmlentities($__DIYDATA__[$item['name'].'_value']??'')}
+                                     {elseif in_array($item['type'],['radio', 'checkbox', 'select', 'selects'])}
+                                         {:htmlentities($__DIYDATA__[$item['name'].'_text']??'')}
+                                     {else/}
+                                         {:htmlentities($__DIYDATA__[$item['name']])}
+                                     {/if}
+                                 </div>
+                             </div>
+                         {/foreach}
+                         <!--@formatter:on-->
+                     </div>
 
-            <div class="panel panel-default article-content">
-                <div class="panel-heading">
-                    <ol class="breadcrumb">
-                        <!-- S 面包屑导航 -->
-                        {cms:breadcrumb id="item"}
-                        <li><a href="{$item.url}">{:__($item.name)}</a></li>
-                        {/cms:breadcrumb}
-                        <li>详情</li>
-                        <!-- E 面包屑导航 -->
-                    </ol>
-                </div>
-                <div class="panel-body">
-                    <div class="article-metas">
-                        <!--@formatter:off-->
-                        {foreach name="fieldsList" id="item"}
-                            {php}if(in_array($item['name'], ['id', 'user_id', 'createtime', 'updatetime', 'memo', 'status']) || !isset($__DIYDATA__[$item['name']])) continue;{/php}
-                            <div class="itemline">
-                                <div class="titleline"><p>{$item.title|htmlentities}：</p></div>
-                                <div class="grayline">
-                                    {if in_array($item['type'],['file', 'files', 'image', 'images'])}
-                                        {php}$files = array_filter(explode(',', $__DIYDATA__[$item['name']]));{/php}
+                     <div class="grid gap-4 md:grid-cols-2">
+                         <div class="space-y-2">
+                             <div class="text-sm font-semibold text-gray-900">{:__('添加时间')}：</div>
+                             <div class="rounded-md bg-gray-50 p-3 text-sm text-gray-700">{$__DIYDATA__.createtime|datetime}</div>
+                         </div>
 
-                                        {if in_array($item['type'],['image', 'images'])}
-                                            <div class="related-article mb-2">
-                                                <div class="row mt-2">
-                                                    {foreach name="files" id="file"}
-                                                            <div class="col-xs-6 col-sm-3 col-md-2">
-                                                                <div class="embed-responsive embed-responsive-4by3 img-zoom">
-                                                                    <a href="{$file|cdnurl}" target="_blank"><img src="{$file|cdnurl}" alt=""></a>
-                                                                </div>
-                                                            </div>
-                                                    {/foreach}
-                                                </div>
-                                            </div>
-                                        {else/}
-                                            <p>
-                                                {foreach name="files" id="file"}
-                                                <a href="{:htmlentities(cdnurl($file))}" class="btn btn-xs btn-primary" target="_blank"><i class="fa fa-download"></i> 点击下载</a>
-                                                {/foreach}
-                                            </p>
-                                        {/if}
-                                    {elseif in_array($item['type'],['selectpage', 'selectpages'])}
-                                        <p>{:htmlentities($__DIYDATA__[$item['name'].'_value']??'')}</p>
-                                    {elseif in_array($item['type'],['radio', 'checkbox', 'select', 'selects'])}
-                                        <p>{:htmlentities($__DIYDATA__[$item['name'].'_text']??'')}</p>
-                                    {else/}
-                                        <p>{:htmlentities($__DIYDATA__[$item['name']])}</p>
-                                    {/if}
-                                </div>
-                            </div>
-                        {/foreach}
-                        <!--@formatter:on-->
-                        <div>
-                            <div class="titleline"><p>添加时间：</p></div>
-                            <div class="grayline">
-                                <p>{$__DIYDATA__.createtime|datetime}</p>
-                            </div>
-                        </div>
+                         <div class="space-y-2">
+                             <div class="text-sm font-semibold text-gray-900">{:__('状态')}：</div>
+                             <div class="rounded-md bg-gray-50 p-3 text-sm text-gray-700">{$__DIYDATA__.status_text}</div>
+                         </div>
+                     </div>
 
-                        <div>
-                            <div class="titleline"><p>状态：</p></div>
-                            <div class="grayline">
-                                <p>{$__DIYDATA__.status_text}</p>
-                            </div>
-                        </div>
-                        {if $user && $user.id==$__DIYDATA__.user_id && $__DIYDATA__.status=='rejected'}
-                        <div>
-                            <div class="titleline"><p>拒绝原因：</p></div>
-                            <div class="grayline">
-                                <p class="text-danger">{$__DIYDATA__.memo}</p>
-                            </div>
-                        </div>
-                        {/if}
+                     {if $user && $user.id==$__DIYDATA__.user_id && $__DIYDATA__.status=='rejected'}
+                     <div class="space-y-2">
+                         <div class="text-sm font-semibold text-gray-900">{:__('拒绝原因')}：</div>
+                         <div class="rounded-md bg-red-50 p-3 text-sm text-red-700">{$__DIYDATA__.memo}</div>
+                     </div>
+                     {/if}
 
-                        <div class="mt-2">
-                            <div class="titleline"></div>
-                            <div>
-                                <p>
-                                    {if $user && $user.id==$__DIYDATA__.user_id && $__DIYFORM__.isedit}
-                                    <a href="{$__DIYFORM__.posturl}?id={$__DIYDATA__.id}" class="btn btn-primary"><i class="fa fa-pencil"></i> 修改</a>
-                                    {/if}
-                                    <a href="{$__DIYFORM__.url}" class="btn btn-default"><i class="fa fa-reply"></i> 返回</a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-
-        </main>
-
-    </div>
-</div>
+                     <div class="pt-2">
+                         <div class="flex flex-wrap gap-3">
+                             {if $user && $user.id==$__DIYDATA__.user_id && $__DIYFORM__.isedit}
+                             <a href="{$__DIYFORM__.posturl}?id={$__DIYDATA__.id}" class="inline-flex items-center rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700"><i class="fa fa-pencil mr-2" aria-hidden="true"></i>{:__('修改')}</a>
+                             {/if}
+                             <a href="{$__DIYFORM__.url}" class="inline-flex items-center rounded-md border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50"><i class="fa fa-reply mr-2" aria-hidden="true"></i>{:__('返回')}</a>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </section>
+     </main>
+ </div>

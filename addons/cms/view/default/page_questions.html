@@ -1,250 +1,69 @@
 {layout name="common/layout" /}
-<style>
-  [v-cloak] {
-    display: none;
-  }
-  .isShowCharts{
-    width: 375px;
-    height: 180px;
-  }
-  .charts {
-    width: 320px;
-    height: 280px;
-    margin: 0 auto;
-    background-color: #fff;
-  }
-  .entry-box .media-extend{
-    margin-top: 10px;
-  }
-  .alert{
-    margin-bottom: 0;
-  }
-  /* .backInfo p{
-    color: #fff!important;
-  } */
-  .panel-body.payment-options {
-  font-family: Arial, sans-serif;
-}
+ <div id="app" class="hidden">
+   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" id="content-container">
+     <div class="mt-6 grid gap-6 lg:grid-cols-12">
+       <main class="space-y-6 lg:col-span-8">
+         <section class="rounded-lg border border-gray-200 bg-white shadow-sm">
+           <div class="p-4">
+             <div class="flex items-start gap-4">
+               <div class="w-24 shrink-0">
+                 <div class="aspect-[1/1] overflow-hidden rounded-lg bg-gray-100">
+                   <img :src="examInfo.image" alt="" loading="lazy" class="h-full w-full object-cover">
+                 </div>
+               </div>
+               <div class="min-w-0 flex-1">
+                 <h2 class="text-lg font-bold text-gray-900">{{examInfo.title}}</h2>
+                 <div class="mt-2 text-sm leading-6 text-gray-600">{{examInfo.intro}}</div>
+                 <div class="mt-3" v-if="isGet">
+                   <button type="button" class="inline-flex items-center rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700" @click="toBack">重新测试</button>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </section>
 
-.payment-section {
-  margin-bottom: 30px;
-}
-
-.payment-section h2 {
-  color: #0E2D31;
-  padding-bottom: 10px;
-  /* margin-bottom: 20px; */
-}
-
-/* VIP购买样式 */
-.section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  border-bottom: 1px solid #e0e0e0;
-
-}
-
-.vip-info {
-  font-size: 16px;
-  color: #e74c3c;
-    font-weight: 700;
-}
-
-.vip-tier {
-  margin-bottom: 25px;
-}
-
-.vip-tier h3 {
-  color: #0E2D31;
-  margin-bottom: 15px;
-}
-
-.price-options {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-}
-
-.price-option {
-  flex: 1;
-  min-width: 200px;
-  background-color: #f8f8f8;
-  border-radius: 8px;
-  padding: 15px;
-  text-align: center;
-  text-decoration: none;
-  color: #333;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-}
-
-.price-option:hover {
-  background-color: #ffffff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  transform: translateY(-2px);
-}
-
-.price-title {
-  font-weight: bold;
-  margin-bottom: 10px;
-  color: #0E2D31;
-}
-
-.price-value {
-  font-size: 24px;
-  color: #e74c3c;
-  margin-bottom: 10px;
-}
-
-.price-subtext {
-  font-size: 14px;
-  color: #777;
-}
-
-/* 余额支付样式 */
-.balance-info {
-  font-size: 16px;
-  color: #e74c3c;
-    font-weight: 700;
-}
-
-.balance-pay-btn {
-  width: 100%;
-  text-align: center;
-  display: inline-block;
-  background-color: #0E2D31;
-  color: #fff;
-  padding: 10px 20px;
-  border-radius: 5px;
-  text-decoration: none;
-  margin-bottom: 15px;
-  transition: background-color 0.3s ease;
-}
-
-.balance-pay-btn:hover {
-  background-color: #1a4c53;
-}
-
-.balance-insufficient {
-  color: #e74c3c;
-  margin-bottom: 15px;
-}
-
-.recharge-options h3 {
-  margin-bottom: 15px;
-  color: #0E2D31;
-}
-
-.recharge-amount {
-  display: inline-block;
-  min-width: 100px;
-  background-color: #f0f0f0;
-  color: #0E2D31;
-  font-weight: bold;
-  padding: 8px 16px;
-  margin: 5px;
-  border-radius: 25px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 16px;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.recharge-amount:hover {
-  background-color: #0E2D31;
-  color: #ffffff;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-}
-
-.recharge-amount:active {
-  transform: translateY(0);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-}
-
-.recharge-amounts {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  /* gap: 10px; */
-  margin-top: 15px;
-}
-</style>
-<div id="app" v-cloak>
-  <div class="container" id="content-container">
-    <div class="row">
-      <div class="col-xs-12 col-md-9">
-        <div class="panel panel-default">
-          <div class="panel-body">
-            <div class="media entry-box">
-              <div class="media-left">
-                <div style="width:120px;height:120px;">
-                  <div class="embed-responsive embed-responsive-square">
-                    <img class="embed-responsive-image" :src="examInfo.image">
-                  </div>
-                </div>
-              </div>
-              <div class="media-body">
-                <h2 class="media-heading">{{examInfo.title}}</h2>
-
-                <div class="media-content" style="color: #777;font-size: 12px;">
-                  {{examInfo.intro}}
-                </div>
-                <div class="media-extend" v-if="isGet">
-                  <div class="btn btn-success btn-download-now" @click="toBack"></i>重新测试</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- 已移除付费验证，允许免费测试 -->
-          </div>
-        </div>
-
-
-        <div class="panel panel-default" v-if="isGet">
-
-          <div class="panel-heading h3">测试结果</div>
-          <div class="panel-body">
-            <div class="test-wrap">
-              <div class="question-wrap">
-                <div v-if="examInfo.channel_id == 25">
-                  <div class="text-center">
-                    <h3 class="fontWeight ml-2" style="color: #5DBE9E;font-size: 20px;font-weight: 700;">{{resultInfo.intro}}</h3>
-                    <div class="m2">您的选择:</div>
-                    <div class="fontWeight ml-2" style="font-size: 20px;font-weight: 700;" v-if="resultInfo.title">{{resultInfo.title}}</div>
-                        <div class="fontWeight">
-                          <img :src="resultInfo.full_cover" alt="" style="width: 40%;">
+         <section class="rounded-lg border border-gray-200 bg-white shadow-sm" v-if="isGet">
+           <div class="border-b border-gray-100 px-4 py-3">
+             <h3 class="text-base font-semibold text-gray-900">测试结果</h3>
+           </div>
+           <div class="p-4">
+             <div>
+               <div>
+                 <div v-if="examInfo.channel_id == 25">
+                 <div class="text-center">
+                    <h3 class="ml-2 text-xl font-bold text-emerald-600">{{resultInfo.intro}}</h3>
+                    <div class="mt-2 text-sm text-gray-600">您的选择:</div>
+                    <div class="ml-2 text-xl font-bold text-gray-900" v-if="resultInfo.title">{{resultInfo.title}}</div>
+                    <div class="mt-4">
+                      <img :src="resultInfo.full_cover" alt="" class="mx-auto w-2/5 max-w-full">
                     </div>
                   </div>
-                   <div class="m-2" v-html="resultInfo.content"></div>
+                  <div class="mt-4" v-html="resultInfo.content"></div>
                 </div>
 
                 <div class="text-center" v-if="examInfo.channel_id !== 25">
                   <!-- 测试结果标题 -->
-                  <div class="test-result-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 15px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-                    <h2 style="font-size: 36px; font-weight: bold; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+                  <div class="mb-8 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 p-8 text-white shadow-lg">
+                    <h2 class="mb-2 text-3xl font-bold drop-shadow-sm">
                       {{getTestResultTitle()}}
                     </h2>
-                    <p style="font-size: 18px; margin: 0; opacity: 0.9;">{{getTestResultSubtitle()}}</p>
+                    <p class="text-lg opacity-90">{{getTestResultSubtitle()}}</p>
                   </div>
 
                   <!-- 维度分数展示 -->
-                  <div class="dimensions-display" style="margin-bottom: 30px;" v-if="allInfo.stat_data && Object.keys(allInfo.stat_data).length > 0">
-                    <h4 style="color: #333; margin-bottom: 20px; font-size: 20px;">{{getDimensionsTitle()}}</h4>
-                    <div class="row">
-                      <div class="col-md-6" v-for="(value, key) in allInfo.stat_data" :key="key" style="margin-bottom: 15px;">
-                        <div class="dimension-item" style="background: #f8f9fa; padding: 15px; border-radius: 10px; border-left: 4px solid #5DBE9E;">
-                          <div class="dimension-name" style="font-weight: bold; font-size: 16px; color: #333; margin-bottom: 5px;">
+                  <div class="mb-8" v-if="allInfo.stat_data && Object.keys(allInfo.stat_data).length > 0">
+                    <h4 class="mb-5 text-lg font-semibold text-gray-900">{{getDimensionsTitle()}}</h4>
+                    <div class="grid gap-4 sm:grid-cols-2">
+                      <div class="min-w-0" v-for="(value, key) in allInfo.stat_data" :key="key">
+                        <div class="rounded-xl border-l-4 border-emerald-500 bg-gray-50 p-4">
+                          <div class="mb-1 text-sm font-semibold text-gray-900">
                             {{getDimensionDisplayName(key)}} {{allInfo.test_info && allInfo.test_info.test_type === 'mbti' ? '(' + key + ')' : ''}}
                           </div>
-                          <div class="dimension-score" style="font-size: 24px; font-weight: bold; color: #2E7D5F;">
+                          <div class="text-2xl font-bold text-emerald-700">
                             {{value}} 分
                           </div>
-                          <div class="dimension-bar" style="background: #e9ecef; height: 8px; border-radius: 4px; margin-top: 8px; overflow: hidden;">
-                            <div :style="'background: linear-gradient(90deg, #5DBE9E, #28a745); height: 100%; width: ' + getDimensionPercentage(value) + '%; transition: width 0.8s ease;'"></div>
+                          <div class="mt-2 h-2 overflow-hidden rounded bg-gray-200">
+                            <div class="h-full bg-gradient-to-r from-emerald-500 to-green-500 transition-all duration-700" :style="{ width: getDimensionPercentage(value) + '%' }"></div>
                           </div>
                         </div>
                       </div>
@@ -252,125 +71,125 @@
                   </div>
 
                   <!-- 动态测试结果内容 -->
-                  <div class="dynamic-test-result" style="background: #fff; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 30px;" v-if="allInfo.answer_info">
+                  <div class="mb-8 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-100" v-if="allInfo.answer_info">
                     <!-- 测试结果标题 -->
-                    <h4 style="color: #333; margin-bottom: 20px; font-size: 20px;">
+                    <h4 class="mb-5 text-lg font-semibold text-gray-900">
                       {{allInfo.answer_info.title || '测试结果解析'}}
                     </h4>
                     
                     <!-- 主要结果展示 -->
-                    <div v-if="allInfo.answer_info.mbti_type || allInfo.answer_info.type" style="text-align: center; margin-bottom: 25px;">
-                      <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 15px; display: inline-block; min-width: 200px;">
-                        <div style="font-size: 32px; font-weight: bold; margin-bottom: 5px;">
+                    <div v-if="allInfo.answer_info.mbti_type || allInfo.answer_info.type" class="mb-6 text-center">
+                      <div class="inline-block min-w-[200px] rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 px-6 py-5 text-white">
+                        <div class="mb-1 text-3xl font-bold">
                           {{allInfo.answer_info.mbti_type || allInfo.answer_info.type}}
                         </div>
-                        <div style="font-size: 16px; opacity: 0.9;">您的测试结果</div>
+                        <div class="text-sm opacity-90">您的测试结果</div>
                       </div>
                     </div>
                     
                     <!-- MBTI详细内容 -->
                     <div v-if="allInfo.answer_info.mbti_content">
                       <!-- 简介 -->
-                      <div v-if="allInfo.answer_info.mbti_content.intro" style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
-                        <h5 style="color: #5DBE9E; margin-bottom: 10px;">类型简介</h5>
-                        <div style="color: #666; line-height: 1.6;">{{allInfo.answer_info.mbti_content.intro}}</div>
+                      <div v-if="allInfo.answer_info.mbti_content.intro" class="mb-5 rounded-xl bg-gray-50 p-5 text-left">
+                        <h5 class="mb-2 text-base font-semibold text-emerald-600">类型简介</h5>
+                        <div class="text-sm leading-6 text-gray-600">{{allInfo.answer_info.mbti_content.intro}}</div>
                       </div>
                       
                       <!-- 详细内容 -->
-                      <div v-if="allInfo.answer_info.mbti_content.content" style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
-                        <h5 style="color: #5DBE9E; margin-bottom: 10px;">性格特征</h5>
-                        <div style="color: #666; line-height: 1.6;" v-html="allInfo.answer_info.mbti_content.content"></div>
+                      <div v-if="allInfo.answer_info.mbti_content.content" class="mb-5 rounded-xl bg-gray-50 p-5 text-left">
+                        <h5 class="mb-2 text-base font-semibold text-emerald-600">性格特征</h5>
+                        <div class="text-sm leading-6 text-gray-600" v-html="allInfo.answer_info.mbti_content.content"></div>
                       </div>
                       
                       <!-- 分析内容 -->
-                      <div v-if="allInfo.answer_info.mbti_content.analysis" style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
-                        <h5 style="color: #5DBE9E; margin-bottom: 10px;">深度分析</h5>
-                        <div style="color: #666; line-height: 1.6;" v-html="allInfo.answer_info.mbti_content.analysis"></div>
+                      <div v-if="allInfo.answer_info.mbti_content.analysis" class="mb-5 rounded-xl bg-gray-50 p-5 text-left">
+                        <h5 class="mb-2 text-base font-semibold text-emerald-600">深度分析</h5>
+                        <div class="text-sm leading-6 text-gray-600" v-html="allInfo.answer_info.mbti_content.analysis"></div>
                       </div>
                       
                       <!-- 建议 -->
-                      <div v-if="allInfo.answer_info.mbti_content.suggestion" style="background: #e8f5e8; padding: 20px; border-radius: 10px; border-left: 4px solid #5DBE9E;">
-                        <h5 style="color: #5DBE9E; margin-bottom: 10px;">发展建议</h5>
-                        <div style="color: #666; line-height: 1.6;" v-html="allInfo.answer_info.mbti_content.suggestion"></div>
+                      <div v-if="allInfo.answer_info.mbti_content.suggestion" class="rounded-xl border-l-4 border-emerald-500 bg-emerald-50 p-5 text-left">
+                        <h5 class="mb-2 text-base font-semibold text-emerald-600">发展建议</h5>
+                        <div class="text-sm leading-6 text-gray-600" v-html="allInfo.answer_info.mbti_content.suggestion"></div>
                       </div>
                       
                       <!-- 封面图片 -->
-                      <div v-if="allInfo.answer_info.mbti_content.cover" style="text-align: center; margin-top: 20px;">
-                        <img :src="allInfo.answer_info.mbti_content.cover" style="max-width: 100%; max-height: 300px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                      <div v-if="allInfo.answer_info.mbti_content.cover" class="mt-5 text-center">
+                        <img :src="allInfo.answer_info.mbti_content.cover" class="mx-auto max-h-72 w-full max-w-full rounded-xl object-contain shadow">
                       </div>
                     </div>
                     
                     <!-- 自定义测试的选择分析 -->
-                    <div v-if="allInfo.answer_info.selected_options && allInfo.answer_info.selected_options.length > 0" style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-top: 20px;">
-                      <h5 style="color: #333; margin-bottom: 15px;">您的选择分析</h5>
-                      <div v-for="(option, index) in allInfo.answer_info.selected_options" :key="index" style="margin-bottom: 20px; text-align: left; border-bottom: 1px solid #e9ecef; padding-bottom: 15px;">
-                        <div style="display: flex; align-items: center; margin-bottom: 10px;">
-                          <div style="background: #5DBE9E; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 15px;">
+                    <div v-if="allInfo.answer_info.selected_options && allInfo.answer_info.selected_options.length > 0" class="mt-5 rounded-xl bg-gray-50 p-5 text-left">
+                      <h5 class="mb-4 text-base font-semibold text-gray-900">您的选择分析</h5>
+                      <div v-for="(option, index) in allInfo.answer_info.selected_options" :key="index" class="mb-5 border-b border-gray-200 pb-4 last:mb-0 last:border-b-0 last:pb-0">
+                        <div class="mb-2 flex items-center">
+                          <div class="mr-4 flex h-8 w-8 items-center justify-center rounded-full bg-emerald-500 text-sm font-bold text-white">
                             {{option.option_key}}
                           </div>
-                          <div style="font-weight: bold; color: #333; font-size: 16px;">{{option.option_title}}</div>
+                          <div class="text-sm font-semibold text-gray-900">{{option.option_title}}</div>
                         </div>
-                        <div v-if="option.option_intro" style="color: #666; font-size: 14px; line-height: 1.6; margin-left: 45px;">
+                        <div v-if="option.option_intro" class="ml-12 text-sm leading-6 text-gray-600">
                           {{option.option_intro}}
                         </div>
-                        <div v-if="option.option_cover" style="margin-left: 45px; margin-top: 10px;">
-                          <img :src="option.option_cover" style="max-width: 200px; max-height: 150px; border-radius: 8px; object-fit: cover;">
+                        <div v-if="option.option_cover" class="ml-12 mt-2">
+                          <img :src="option.option_cover" class="max-h-40 w-full max-w-[200px] rounded-lg object-cover">
                         </div>
                       </div>
                     </div>
                     
                     <!-- 通用结果内容 -->
-                    <div v-if="!allInfo.answer_info.mbti_content && !allInfo.answer_info.selected_options" style="text-align: center; padding: 20px;">
-                      <div style="font-size: 18px; color: #5DBE9E; margin-bottom: 20px; font-weight: bold;">
+                    <div v-if="!allInfo.answer_info.mbti_content && !allInfo.answer_info.selected_options" class="p-5 text-center">
+                      <div class="mb-5 text-lg font-bold text-emerald-600">
                         {{allInfo.result || '测试完成'}}
                       </div>
-                      <div style="color: #666; font-size: 16px; line-height: 1.8;">
+                      <div class="text-base leading-7 text-gray-600">
                         感谢您参与测试！您的选择已经记录。
                       </div>
                     </div>
                   </div>
 
                   <!-- 测试总结 -->
-                  <div class="test-summary" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 25px; border-radius: 15px; margin-bottom: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                    <h4 style="color: white; margin-bottom: 15px; font-size: 20px;">测试总结</h4>
-                    <div class="row">
-                      <div class="col-md-4 text-center">
-                        <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px; margin-bottom: 10px;">
-                          <div style="font-size: 24px; font-weight: bold;">{{allInfo.max_score}}</div>
-                          <div style="font-size: 14px; opacity: 0.9;">总题数</div>
+                  <div class="mb-8 rounded-2xl bg-gradient-to-br from-fuchsia-400 to-rose-500 p-6 text-white shadow">
+                    <h4 class="mb-4 text-lg font-semibold text-white">测试总结</h4>
+                    <div class="grid gap-4 sm:grid-cols-3">
+                      <div class="text-center">
+                        <div class="rounded-xl bg-white/20 p-4">
+                          <div class="text-2xl font-bold">{{allInfo.max_score}}</div>
+                          <div class="text-sm opacity-90">总题数</div>
                         </div>
                       </div>
-                      <div class="col-md-4 text-center">
-                        <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px; margin-bottom: 10px;">
-                          <div style="font-size: 24px; font-weight: bold;">{{resultInfo.mbti_type || resultInfo.type}}</div>
-                          <div style="font-size: 14px; opacity: 0.9;">性格类型</div>
+                      <div class="text-center">
+                        <div class="rounded-xl bg-white/20 p-4">
+                          <div class="text-2xl font-bold">{{resultInfo.mbti_type || resultInfo.type}}</div>
+                          <div class="text-sm opacity-90">性格类型</div>
                         </div>
                       </div>
-                      <div class="col-md-4 text-center">
-                        <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px; margin-bottom: 10px;">
-                          <div style="font-size: 24px; font-weight: bold;">{{Math.round((allInfo.max_score - Object.values(allInfo.stat_data).reduce((a,b) => a+b, 0)) / allInfo.max_score * 100)}}%</div>
-                          <div style="font-size: 14px; opacity: 0.9;">完成度</div>
+                      <div class="text-center">
+                        <div class="rounded-xl bg-white/20 p-4">
+                          <div class="text-2xl font-bold">{{Math.round((allInfo.max_score - Object.values(allInfo.stat_data).reduce((a,b) => a+b, 0)) / allInfo.max_score * 100)}}%</div>
+                          <div class="text-sm opacity-90">完成度</div>
                         </div>
                       </div>
                     </div>
                   </div>
 
                   <!-- 个人建议 -->
-                  <div class="personal-advice" style="background: #fff; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 30px; border-left: 5px solid #5DBE9E;">
-                    <h4 style="color: #333; margin-bottom: 20px; font-size: 20px;">个人发展建议</h4>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
-                          <h6 style="color: #5DBE9E; font-weight: bold; margin-bottom: 8px;">优势发挥</h6>
-                          <p style="color: #666; font-size: 14px; margin: 0; line-height: 1.5;">
+                  <div class="mb-8 rounded-2xl border-l-4 border-emerald-500 bg-white p-6 shadow-sm ring-1 ring-gray-100">
+                    <h4 class="mb-5 text-lg font-semibold text-gray-900">个人发展建议</h4>
+                    <div class="grid gap-4 sm:grid-cols-2">
+                      <div>
+                        <div class="rounded-xl bg-gray-50 p-4">
+                          <h6 class="mb-2 text-sm font-semibold text-emerald-600">优势发挥</h6>
+                          <p class="m-0 text-sm leading-6 text-gray-600">
                             基于您的性格类型，建议在{{allInfo.stat_data.E > allInfo.stat_data.I ? '社交互动' : '独立思考'}}和{{allInfo.stat_data.N > allInfo.stat_data.S ? '创新思维' : '细节处理'}}方面发挥优势。
                           </p>
                         </div>
                       </div>
-                      <div class="col-md-6">
-                        <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
-                          <h6 style="color: #5DBE9E; font-weight: bold; margin-bottom: 8px;">成长方向</h6>
-                          <p style="color: #666; font-size: 14px; margin: 0; line-height: 1.5;">
+                      <div>
+                        <div class="rounded-xl bg-gray-50 p-4">
+                          <h6 class="mb-2 text-sm font-semibold text-emerald-600">成长方向</h6>
+                          <p class="m-0 text-sm leading-6 text-gray-600">
                             可以尝试在{{allInfo.stat_data.I > allInfo.stat_data.E ? '社交沟通' : '深度思考'}}和{{allInfo.stat_data.S > allInfo.stat_data.N ? '宏观规划' : '具体执行'}}方面进行提升。
                           </p>
                         </div>
@@ -379,19 +198,21 @@
                   </div>
 
                     <!-- Table -->
-                    <table class="table" v-if="answerbackInfo.length>1">
-                      <thead>
-                        <tr>
-                          <th style="text-align: center;" v-for="item in answerbackInfo">{{item.title}}</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td v-for="item in answerbackInfo">{{item.score}}</td>
-                        </tr>
-                        <!-- 可以添加更多的行 -->
-                      </tbody>
-                    </table>
+                    <div class="overflow-hidden rounded-lg border border-gray-200" v-if="answerbackInfo.length>1">
+                      <table class="min-w-full divide-y divide-gray-200 text-sm text-gray-700">
+                        <thead class="bg-gray-50">
+                          <tr>
+                            <th class="px-3 py-2 text-center font-semibold" v-for="item in answerbackInfo">{{item.title}}</th>
+                          </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100 bg-white">
+                          <tr>
+                            <td class="px-3 py-2 text-center" v-for="item in answerbackInfo">{{item.score}}</td>
+                          </tr>
+                          <!-- 可以添加更多的行 -->
+                        </tbody>
+                      </table>
+                    </div>
 
                     <!-- 通用长形图表 -->
                 
@@ -401,89 +222,62 @@
                   
 
                   <!-- <el-tag class="m-4" type="danger" size="medium">图表显示</el-tag> -->
-                  <div style="margin: 0 auto;text-align: center; background-color: #fff;padding: 36px 18px 18px 18px;">
+                  <div class="mx-auto rounded-lg bg-white px-4 py-9 shadow-sm ring-1 ring-gray-100">
                     <div class="text-left" v-if="allInfo.show_type == 'common'">
-                      <div class="item mb-3" v-for="item in allInfo.stat_data">
-                        <div class="mb-1 u-font-sm">
-                          <div class="fontWeight mb-3" style="color: #C9408E;">{{item.name}} | <span style="color: #C9408E;font-weight: 700;">(得分:{{item.score}})</span></div>
+                      <div class="mb-4" v-for="item in allInfo.stat_data">
+                        <div class="mb-1 text-sm">
+                          <div class="mb-3 font-semibold text-fuchsia-700">{{item.name}} | <span class="font-bold">(得分:{{item.score}})</span></div>
                           <el-progress :text-inside="true" :stroke-width="26" :percentage="item.score_rate" status="warning"></el-progress>
                         </div>
                       </div>
                     </div>
-                      <canvas id="columnCharts" class="charts" v-if="allInfo.show_type !== 'common'"></canvas>
+                      <canvas id="columnCharts" class="h-64 w-full" v-if="allInfo.show_type !== 'common'"></canvas>
                   </div>
                 </div>
                
                 <div>
-                  <div class="text-left backInfo mt-4" v-for="item in answerbackInfo">
-                    <div v-if="item.score" class="fontWeight mb-2" style="color: #5DBE9E; font-size: 24px;">{{item.title}}——你的分值:{{item.score}}</div>
-                    <div class="" v-html="item.content"></div>
+                  <div class="mt-6 space-y-4 text-left" v-for="item in answerbackInfo">
+                    <div v-if="item.score" class="mb-2 text-2xl font-semibold text-emerald-600">{{item.title}}——你的分值:{{item.score}}</div>
+                    <div v-html="item.content"></div>
                   </div>
                 </div>
               </div>
 
-                <!-- <div class="mt-2 fontWeight pb-2" v-html="resultInfo.content"></div> -->
-                <div style="text-align: center;margin-top: 36px;" v-if="examInfo.channel_id == 10">
-                  <el-button style="width: 100%;" @click="toAnalyse">查看该人格的详细报告</el-button>
-                </div>
-            </div>
-<!-- 
-            <div class="test-wrap">
-              <div class="question-wrap">
-                <div class="u-flex">
-                  <el-tag type="danger" size="medium">测试结果:</el-tag>
-                  <div class="fontWeight ml-2" style="color: orangered;font-size: 20px;font-weight: 700;">
-                    {{resultInfo.intro}}</div>
-                </div>
-                <div class="m-2" v-html="resultInfo.content">
+                <div class="mt-9 text-center" v-if="examInfo.channel_id == 10">
+                  <el-button class="w-full" @click="toAnalyse">查看该人格的详细报告</el-button>
                 </div>
               </div>
-            </div> -->
-          </div>
-        </div>
-        
-      </div>
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <!-- <div class="article-donate">
-            <button type="button" class="btn btn-danger btn-lg"><i class="fa fa-thumbs-up"></i> 赞同结果</button>
-            <i class="el-icon-s-operation" style="font-weight: 700;font-size: 16px;color: black;"></i>
-            <button type="button" class="btn btn-primary btn-lg"><i class="fa fa-thumbs-down"></i> 不赞同</button>
-          </div> -->
-          <div class="article-pay" style="font-size: 14px!important;">
-            <div class="alert alert-dark" style="padding: 0!important;line-height: 1.75;margin-bottom: 0!important;">
-              <strong>温馨提示：</strong> 测试结果仅供用户自评参考，不可作为临床诊断依据，趣味型测试仅供娱乐。
-              <!-- 当前您处于<b>未登录状态</b>，如需保留测试记录和结果报告请登录后再进行测试。 -->
-              <!-- <b style="text-decoration: underline;color: #18bc9c;">立即登录>></b> -->
-
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </section>
 
-    <div class="col-xs-12 col-md-3">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">{:__('MBTI专区')}</h3>
-        </div>
-        <div class="panel-body p-0">
-            <div class="row">
-                <div class="article-list">
-
-                    {cms:arclist id="item" channel="10" length="8" row="3"}
-                    <div class="col-xs-12 product-item">
-                        {include file="common/item_mbti"}
-                    </div>
-                    {/cms:arclist}
-                </div>
+        <section class="rounded-lg border border-gray-200 bg-white shadow-sm">
+          <div class="p-4 text-sm leading-7 text-gray-700">
+            <div class="rounded-md bg-gray-50 px-4 py-3">
+              <span class="font-semibold">温馨提示：</span> 测试结果仅供用户自评参考，不可作为临床诊断依据，趣味型测试仅供娱乐。
             </div>
-        </div>
-    </div>
+          </div>
+        </section>
+      </main>
+
+      <aside class="space-y-6 lg:col-span-4">
+        <section class="rounded-lg border border-gray-200 bg-white shadow-sm">
+          <div class="border-b border-gray-100 px-4 py-3">
+            <h3 class="text-base font-semibold text-gray-900">{:__('MBTI专区')}</h3>
+          </div>
+          <div class="p-4">
+            <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
+              {cms:arclist id="item" channel="10" length="8" row="3"}
+              <div>
+                {include file="common/item_mbti"}
+              </div>
+              {/cms:arclist}
+            </div>
+          </div>
+        </section>
+      </aside>
     </div>
   </div>
-
-</div>
 </div>
 
 <script type="text/javascript" src="__ADDON__/js/vue.js"></script>
@@ -517,6 +311,7 @@
         }
     },
     mounted() {
+      this.$el.classList.remove('hidden');
       var searchString = window.location.search;
       var params = new URLSearchParams(searchString);
       this.aid = params.get('aid')

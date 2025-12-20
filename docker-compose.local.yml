@@ -1,0 +1,62 @@
+name: cmspsychometry
+
+services:
+  app:
+    image: cmspsychometry-app:latest
+    container_name: cmspsychometry-app
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - /Users/maokeyong/2026/cmspsychometry:/var/www
+      - /Users/maokeyong/2026/cmspsychometry/.env.docker:/var/www/.env:ro
+      - cmspsychometry-runtime:/var/www/runtime
+      - cmspsychometry-uploads:/var/www/public/uploads
+    depends_on:
+      - db
+    networks:
+      - cmspsychometry-network
+
+  nginx:
+    image: nginx:1.25-alpine
+    container_name: cmspsychometry-nginx
+    restart: unless-stopped
+    ports:
+      - "8888:80"
+    volumes:
+      - /Users/maokeyong/2026/cmspsychometry:/var/www:ro
+      - /Users/maokeyong/2026/cmspsychometry/docker/nginx/conf.d/default.local.conf:/etc/nginx/conf.d/default.conf:ro
+      - cmspsychometry-uploads:/var/www/public/uploads
+    depends_on:
+      - app
+    networks:
+      - cmspsychometry-network
+
+  db:
+    image: mysql:8.0
+    container_name: cmspsychometry-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: cmspsychometry
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_PASSWORD: userpassword
+      MYSQL_USER: cmsuser
+    ports:
+      - "33061:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+      - /Users/maokeyong/2026/cmspsychometry/cmspsychometry.sql:/docker-entrypoint-initdb.d/001-init.sql:ro
+    command: --default-authentication-plugin=mysql_native_password
+    networks:
+      - cmspsychometry-network
+
+networks:
+  cmspsychometry-network:
+    driver: bridge
+
+volumes:
+  db-data:
+    driver: local
+  cmspsychometry-runtime:
+    driver: local
+  cmspsychometry-uploads:
+    driver: local

@@ -1,19 +1,21 @@
-    <div class="card" itemscope itemtype="https://schema.org/Quiz">
-        <div class="thumb">
-            <a href="{$item.url}" class="preview-link" aria-label="{$item.title|htmlentities}">
-                <div class="embed-responsive embed-responsive-4by3">
-                    <img src="{$item.image ?: '/assets/addons/cms/img/default.png'}" 
-                         alt="{$item.title|htmlentities} - 心理测试推荐"
-                         title="{$item.title|htmlentities}"
-                         itemprop="image"
-                         loading="lazy"
-                         class="embed-responsive-item">
-                </div>
-            </a>
-            <a href="{$item.url}" class="quickview-link" aria-label="查看{$item.title|htmlentities}详情"><i class="fa fa-search"></i></a>
-            <div class="cetitle">{:__('测：')}{$item.sub_title|htmlentities}</div>
-        </div>
-        <a class="title" href="{$item.url}" {if $item.style}style="{$item.style_text}"{/if}>
-            <h2 itemprop="name">{$item.title|htmlentities}</h2>
+    <div class="group overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition hover:shadow-md" itemscope itemtype="https://schema.org/Quiz">
+        <a href="{$item.url}" class="relative block aspect-[4/3] overflow-hidden bg-gray-100" aria-label="{$item.title|htmlentities}">
+            <img src="{$item.image ?: '/assets/addons/cms/img/default.png'}"
+                 alt="{$item.title|htmlentities} - 心理测试推荐"
+                 title="{$item.title|htmlentities}"
+                 itemprop="image"
+                 loading="lazy"
+                 class="h-full w-full object-cover transition duration-300 group-hover:scale-105">
+            <span class="absolute right-3 top-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-gray-700 shadow" aria-hidden="true">
+                <i class="fa fa-search"></i>
+            </span>
+            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-3">
+                <div class="text-xs font-medium text-white">{:__('测：')}{$item.sub_title|htmlentities}</div>
+            </div>
         </a>
+        <div class="p-3">
+            <a class="block text-sm font-semibold text-gray-900 hover:text-emerald-600" href="{$item.url}" {if $item.style}style="{$item.style_text}"{/if}>
+                <h2 class="leading-6" itemprop="name">{$item.title|htmlentities}</h2>
+            </a>
+        </div>
     </div>

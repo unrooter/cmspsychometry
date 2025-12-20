@@ -1,40 +1,44 @@
 <!--@formatter:off-->
 {if $config['userpage'] && $__ARCHIVES__['user']}
 <!-- S 关于作者 -->
-<div class="panel panel-default about-author no-padding" data-id="{$__ARCHIVES__.user.id}" itemProp="author" itemscope="" itemType="http://schema.org/Person">
+<div class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm" data-id="{$__ARCHIVES__.user.id}" itemProp="author" itemscope="" itemType="http://schema.org/Person">
     <meta itemProp="name" content="{$__ARCHIVES__.user.nickname|htmlentities}"/>
     <meta itemProp="image" content="{$__ARCHIVES__.user.avatar|cdnurl|htmlentities}"/>
     <meta itemProp="url" content="{$__ARCHIVES__.user.url}"/>
-    <div class="panel-body no-padding">
-        <div class="author-card">
-            <div class="author-head" {if $Think.config.cms.default_author_head_img}style="background-image:url('{$Think.config.cms.default_author_head_img|cdnurl}');"{/if}></div>
+    <div>
+        <div class="relative">
+            <div class="h-20 bg-gray-100">
+                {if $Think.config.cms.default_author_head_img}
+                <img src="{$Think.config.cms.default_author_head_img|cdnurl}" alt="" class="h-full w-full object-cover" />
+                {/if}
+            </div>
 
-            <div class="author-avatar">
-                <a href="{$__ARCHIVES__.user.url}">
-                    <img src="{$__ARCHIVES__.user.avatar|cdnurl|htmlentities}">
+            <div class="absolute inset-x-0 -bottom-8 flex justify-center">
+                <a href="{$__ARCHIVES__.user.url}" class="block rounded-full bg-white p-1 shadow">
+                    <img src="{$__ARCHIVES__.user.avatar|cdnurl|htmlentities}" alt="" class="h-16 w-16 rounded-full object-cover" />
                 </a>
             </div>
+        </div>
 
-            <div class="author-basic">
-                <div class="author-nickname">
-                    <a href="{$__ARCHIVES__.user.url}">{$__ARCHIVES__.user.nickname|htmlentities}</a>
-                </div>
-                <span class="text-muted">{$__ARCHIVES__.user.bio|default="这家伙很懒，什么也没写！"|htmlentities}</span>
+        <div class="px-4 pb-4 pt-10 text-center">
+            <div class="text-base font-semibold text-gray-900">
+                <a href="{$__ARCHIVES__.user.url}" class="hover:text-gray-900">{$__ARCHIVES__.user.nickname|htmlentities}</a>
             </div>
+            <div class="mt-1 text-sm text-gray-600">{$__ARCHIVES__.user.bio|default="这家伙很懒，什么也没写！"|htmlentities}</div>
+        </div>
 
-            <div class="row author-statistics">
-                <div class="col-xs-4">
-                    <div class="statistics-text">文章</div>
-                    <div class="statistics-nums"><a href="{:addon_url('cms/user/index',[':id'=>$__ARCHIVES__.user_id],false)}/archives">{$__ARCHIVES__.user.archives|default=0}</a></div>
-                </div>
-                <div class="col-xs-4">
-                    <div class="statistics-text">评论</div>
-                    <div class="statistics-nums"><a href="{:addon_url('cms/user/index',[':id'=>$__ARCHIVES__.user_id],false)}/comment">{$__ARCHIVES__.user.comments|default=0}</a></div>
-                </div>
-                <div class="col-xs-4">
-                    <div class="statistics-text">加入时间</div>
-                    <div class="statistics-nums">{$__ARCHIVES__.user.jointime|default=0|human_date}</div>
-                </div>
+        <div class="grid grid-cols-3 divide-x divide-gray-100 border-t border-gray-100">
+            <div class="px-3 py-3 text-center">
+                <div class="text-xs text-gray-500">文章</div>
+                <div class="mt-1 text-sm font-semibold text-gray-900"><a class="hover:text-emerald-700" href="{:addon_url('cms/user/index',[':id'=>$__ARCHIVES__.user_id],false)}/archives">{$__ARCHIVES__.user.archives|default=0}</a></div>
+            </div>
+            <div class="px-3 py-3 text-center">
+                <div class="text-xs text-gray-500">评论</div>
+                <div class="mt-1 text-sm font-semibold text-gray-900"><a class="hover:text-emerald-700" href="{:addon_url('cms/user/index',[':id'=>$__ARCHIVES__.user_id],false)}/comment">{$__ARCHIVES__.user.comments|default=0}</a></div>
+            </div>
+            <div class="px-3 py-3 text-center">
+                <div class="text-xs text-gray-500">加入时间</div>
+                <div class="mt-1 text-sm font-semibold text-gray-900">{$__ARCHIVES__.user.jointime|default=0|human_date}</div>
             </div>
         </div>
     </div>

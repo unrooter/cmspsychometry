@@ -3,11 +3,11 @@
 {assign name="aid" value="$[aid]" /}
 
 <!-- S 分享 -->
-<div class="social-share text-center mt-2 mb-1" data-initialized="true" data-mode="prepend" data-image="{$image}">
-    <a href="javascript:" class="social-share-icon icon-heart addbookbark" data-type="archives" data-aid="{$aid}" data-action="{:addon_url('cms/ajax/collection')}"></a>
-    <a href="#" class="social-share-icon icon-weibo" target="_blank"></a>
-    <a href="#" class="social-share-icon icon-qq" target="_blank"></a>
-    <a href="#" class="social-share-icon icon-qzone" target="_blank"></a>
-    <a href="javascript:" class="social-share-icon icon-wechat"></a>
+<div class="social-share mt-2 flex flex-wrap justify-center gap-2" data-initialized="true" data-mode="prepend" data-image="{$image}">
+    <a href="javascript:" class="social-share-icon icon-heart addbookbark inline-flex h-9 w-9 items-center justify-center rounded-md border border-gray-200 bg-white text-gray-700 shadow-sm hover:bg-gray-50" data-type="archives" data-aid="{$aid}" data-action="{:addon_url('cms/ajax/collection')}"></a>
+    <a href="#" class="social-share-icon icon-weibo inline-flex h-9 w-9 items-center justify-center rounded-md border border-gray-200 bg-white text-gray-700 shadow-sm hover:bg-gray-50" target="_blank"></a>
+    <a href="#" class="social-share-icon icon-qq inline-flex h-9 w-9 items-center justify-center rounded-md border border-gray-200 bg-white text-gray-700 shadow-sm hover:bg-gray-50" target="_blank"></a>
+    <a href="#" class="social-share-icon icon-qzone inline-flex h-9 w-9 items-center justify-center rounded-md border border-gray-200 bg-white text-gray-700 shadow-sm hover:bg-gray-50" target="_blank"></a>
+    <a href="javascript:" class="social-share-icon icon-wechat inline-flex h-9 w-9 items-center justify-center rounded-md border border-gray-200 bg-white text-gray-700 shadow-sm hover:bg-gray-50"></a>
 </div>
 <!-- E 分享 -->

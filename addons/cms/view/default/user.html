@@ -1,270 +1,110 @@
 {layout name="common/layout" /}
-<style>
-    @keyframes wave-animation {
-        0% {
-            transform: translateX(0) translateZ(0) scaleY(1)
-        }
-        50% {
-            transform: translateX(-25%) translateZ(0) scaleY(0.55)
-        }
-        100% {
-            transform: translateX(-50%) translateZ(0) scaleY(1)
-        }
-    }
+ <div class="relative overflow-hidden bg-gradient-to-br from-indigo-700 via-indigo-800 to-slate-900">
+     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+         <div class="relative py-12 sm:py-16">
+             <div class="pointer-events-none absolute inset-0">
+                 <div class="absolute -left-24 -top-24 h-72 w-72 rounded-full bg-white/10 blur-3xl"></div>
+                 <div class="absolute -bottom-28 -right-28 h-80 w-80 rounded-full bg-emerald-400/20 blur-3xl"></div>
+             </div>
 
-    .wave-wrapper {
-        height: 430px;
-        position: relative;
-    }
+             <div class="relative flex flex-col items-center text-center text-white">
+                 <a href="{:addon_url('cms/user/index',[':id'=>$__USER__['id']],false)}" class="rounded-full bg-white/10 p-1 shadow">
+                     <img src="{$__USER__.avatar|cdnurl|htmlentities}" alt="{$__USER__.nickname|htmlentities}" class="h-28 w-28 rounded-full object-cover ring-4 ring-white/20">
+                 </a>
+                 <h1 class="mt-6 text-2xl font-bold tracking-tight sm:text-3xl">{$__USER__.nickname|htmlentities}</h1>
+                 <p class="mt-2 max-w-2xl text-sm text-white/80 sm:text-base">{$__USER__.bio|default="这家伙很懒，什么也没写"|htmlentities}</p>
+             </div>
 
-    .wave-inner {
-        position: absolute;
-        width: 100%;
-        overflow: hidden;
-        height: 430px;
-        bottom: -1px;
-        background: #374486;
-    }
+             <div class="relative mt-8 grid grid-cols-3 gap-3 rounded-xl bg-white/10 p-4 text-center text-white/90 ring-1 ring-white/10 sm:mx-auto sm:max-w-md">
+                 <a href="{:addon_url('cms/user/index',[':id'=>$__USER__['id']],false)}/archives" class="rounded-lg px-2 py-2 hover:bg-white/10">
+                     <div class="text-xs text-white/70">文章</div>
+                     <div class="mt-1 text-sm font-semibold">{$statistics.archives}</div>
+                 </a>
+                 <a href="{:addon_url('cms/user/index',[':id'=>$__USER__['id']],false)}/comment" class="rounded-lg px-2 py-2 hover:bg-white/10">
+                     <div class="text-xs text-white/70">评论</div>
+                     <div class="mt-1 text-sm font-semibold">{$statistics.comments}</div>
+                 </a>
+                 <div class="rounded-lg px-2 py-2">
+                     <div class="text-xs text-white/70">加入时间</div>
+                     <div class="mt-1 text-sm font-semibold">{$__USER__.jointime|human_date}</div>
+                 </div>
+             </div>
+         </div>
+     </div>
+ </div>
 
-    .wave-bg-top {
-        z-index: 15;
-        opacity: 0.5;
-    }
+ <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" id="content-container">
+     <div class="mt-6 grid gap-6 lg:grid-cols-12">
+         <main class="space-y-6 lg:col-span-8">
+             <section class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
+                 <div class="border-b border-gray-100 px-4 py-3">
+                     <div class="flex flex-wrap items-center justify-between gap-3">
+                         <h2 class="text-base font-semibold text-gray-900">{$title|htmlentities}</h2>
+                         <div class="flex items-center gap-2 text-sm">
+                             <a href="{:addon_url('cms/user/index',[':id'=>$__USER__['id']],false)}/archives" class="rounded-md px-3 py-1.5 font-medium {:$type=='archives'?'bg-emerald-50 text-emerald-700':'text-gray-600 hover:text-gray-900'}">{:$user&&$user['id']==$__USER__.id?'我':'TA'}的文章</a>
+                             <a href="{:addon_url('cms/user/index',[':id'=>$__USER__['id']],false)}/comment" class="rounded-md px-3 py-1.5 font-medium {:$type=='comment'?'bg-emerald-50 text-emerald-700':'text-gray-600 hover:text-gray-900'}">{:$user&&$user['id']==$__USER__.id?'我':'TA'}的评论</a>
+                         </div>
+                     </div>
+                 </div>
 
-    .wave-bg-middle {
-        z-index: 10;
-        opacity: 0.75;
-    }
+                 <div class="p-4 sm:p-6">
+                     {if $type == 'archives'}
+                     <div class="divide-y divide-gray-100">
+                         {volist name="archivesList" id="item"}
+                         {include file="common/item" /}
+                         {/volist}
+                     </div>
 
-    .wave-bg-bottom {
-        z-index: 5;
-    }
+                     {include file="common/pageinfo" /}
+                     {else/}
+                     <div class="space-y-4">
+                         {volist name="commentList" id="item"}
+                         <article class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+                             <div class="flex gap-4">
+                                 <a href="{$item.source.url}" class="group block w-28 shrink-0 overflow-hidden rounded-md bg-gray-100 aspect-[4/3]">
+                                     <img src="{$item.source.image}" alt="" class="h-full w-full object-cover transition duration-300 group-hover:scale-105">
+                                 </a>
 
-    .wave-item {
-        position: absolute;
-        left: 0;
-        width: 200%;
-        height: 430px;
-        background-repeat: repeat no-repeat;
-        background-position: 0 bottom;
-        transform-origin: center bottom;
-    }
+                                 <div class="min-w-0 flex-1">
+                                     <h3 class="text-base font-semibold leading-6 text-gray-900">
+                                         <a href="{$item.source.url}" class="hover:text-emerald-600">{$item.source.title|htmlentities}</a>
+                                     </h3>
+                                     <div class="mt-2 rounded-md bg-gray-50 p-3 text-sm leading-6 text-gray-700">
+                                         <div>{$item.content}</div>
+                                     </div>
+                                     <div class="mt-2 text-xs text-gray-500">
+                                         <span itemprop="date"><i class="fa fa-calendar mr-1"></i> {:date("Y年m月d日", $item['createtime'])}</span>
+                                     </div>
+                                 </div>
+                             </div>
+                         </article>
+                         {/volist}
+                     </div>
 
-    .wave-top {
-        background-size: 50% 100px;
-    }
+                     {include file="common/pageinfo" /}
+                     {/if}
+                 </div>
+             </section>
+         </main>
 
-    .wave-animation .wave-top {
-        animation: wave-animation 3s;
-        -webkit-animation: wave-animation 3s;
-        -webkit-animation-delay: 1s;
-        animation-delay: 1s;
-    }
+         <aside class="space-y-6 lg:col-span-4">
+             <!-- S 会员菜单 -->
+             <section class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
+                 <div class="border-b border-gray-100 px-4 py-3">
+                     <h3 class="text-base font-semibold text-gray-900">会员菜单</h3>
+                 </div>
+                 <div class="p-4">
+                     <div class="space-y-2 text-sm">
+                         <a href="{:addon_url('cms/user/index',[':id'=>$__USER__['id']],false)}/archives" class="block rounded-md px-3 py-2 font-medium {:$type=='archives'?'bg-emerald-50 text-emerald-700':'text-gray-700 hover:bg-gray-50'}">{:$user&&$user['id']==$__USER__.id?'我':'TA'}的文章</a>
+                         <a href="{:addon_url('cms/user/index',[':id'=>$__USER__['id']],false)}/comment" class="block rounded-md px-3 py-2 font-medium {:$type=='comment'?'bg-emerald-50 text-emerald-700':'text-gray-700 hover:bg-gray-50'}">{:$user&&$user['id']==$__USER__.id?'我':'TA'}的评论</a>
+                     </div>
+                 </div>
+             </section>
+             <!-- E 会员菜单 -->
 
-    .wave-middle {
-        background-size: 50% 120px;
-    }
-
-    .wave-animation .wave-middle {
-        animation: wave-animation 10s linear infinite;
-    }
-
-    .wave-bottom {
-        background-size: 50% 100px;
-    }
-
-    .wave-animation .wave-bottom {
-        animation: wave-animation 15s linear infinite;
-    }
-
-    .userinfo {
-        position: absolute;
-        z-index: 99;
-        text-align: center;
-        width: 100%;
-        top: 0;
-        color: #fff;
-    }
-
-    .header-logo {
-        margin-top: 60px;
-        margin-bottom: 20px;
-    }
-
-    .userinfo-avatar {
-        background: rgba(0, 0, 0, 0.12);
-        display: inline-block;
-        position: relative;
-        padding: 20px;
-        border-radius: 50%;
-        min-width: 120px;
-    }
-
-    .userinfo-avatar img {
-        width: 110px;
-        height: 110px;
-    }
-
-    .nav-noborder > li.active > a, .nav-noborder > li.active > a:focus, .nav-noborder > li.active > a:hover {
-        border-color: #fff;
-    }
-
-    .nav-noborder {
-        border-bottom: none;
-    }
-
-    .comment-content {
-        border-radius: 3px;
-        padding: 12px;
-        border: none;
-        background: #fafafa;
-        margin-bottom: 0;
-    }
-
-    .comment-content div {
-        line-height: 20px !important;
-        margin-bottom: 0px;
-        margin-top: 0 !important;
-        font-size: 14px !important;
-        font-weight: 400;
-        color: #777;
-        font-family: 'Source Sans Pro', sans-serif;
-    }
-
-    .statistics-nums {
-        margin-top: 5px;
-        color: #999;
-    }
-
-    .statistics a:hover {
-        text-decoration: none;
-    }
-
-    .statistics a:hover .statistics-nums {
-        color: #374486;
-    }
-</style>
-<div class="wave-wrapper wave-animation">
-    <div class="userinfo">
-        <div class="header-logo">
-            <a href="{:addon_url('cms/user/index',[':id'=>$__USER__['id']],false)}" class="userinfo-avatar">
-                <img class="img-circle" src="{$__USER__.avatar|cdnurl|htmlentities}" alt="{$__USER__.nickname|htmlentities}">
-            </a>
-        </div>
-        <h2 class="">
-            <span><strong>{$__USER__.nickname|htmlentities}</strong></span>
-        </h2>
-        <h5 class="">
-            <span>{$__USER__.bio|default="这家伙很懒，什么也没写"|htmlentities}</span>
-        </h5>
-    </div>
-    <div class="wave-inner wave-bg-top">
-        <div class="wave-item wave-top" style="background-image: url('__ADDON__/img/wave-top.png')"></div>
-    </div>
-    <div class="wave-inner wave-bg-middle">
-        <div class="wave-item wave-middle" style="background-image: url('__ADDON__/img/wave-mid.png')"></div>
-    </div>
-    <div class="wave-inner wave-bg-bottom">
-        <div class="wave-item wave-bottom" style="background-image: url('__ADDON__/img/wave-bot.png')"></div>
-    </div>
-</div>
-
-<div class="container-fluid" style="padding:0px 0 50px 0;background:#fff;">
-    <header class="space-header">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12 col-sm-8 col-md-4 col-md-offset-4">
-                    <div class="row statistics pt-1 text-center" style="border-top:none;">
-                        <div class="col-xs-4">
-
-                            <div class="statistics-text">文章</div>
-                            <a href="{:addon_url('cms/user/index',[':id'=>$__USER__['id']],false)}/archives">
-                                <div class="statistics-nums">{$statistics.archives}</div>
-                            </a>
-                        </div>
-                        <div class="col-xs-4">
-                            <div class="statistics-text">评论</div>
-                            <a href="{:addon_url('cms/user/index',[':id'=>$__USER__['id']],false)}/comment">
-                                <div class="statistics-nums">{$statistics.comments}</div>
-                            </a>
-                        </div>
-                        <div class="col-xs-4">
-                            <div class="statistics-text">加入时间</div>
-                            <div class="statistics-nums">{$__USER__.jointime|human_date}</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-</div>
-
-<div class="container" id="content-container">
-    <div class="row mt-4 mb-4">
-        <div class="col-md-8 col-sm-12">
-            <ul class="nav nav-tabs nav-noborder mb-10 mt-20">
-                <li class="active"><a href="javascript:;">{$title|htmlentities}</a></li>
-            </ul>
-            <div class="tab-inner" style="background:#fff;padding:15px;">
-                {if $type == 'archives'}
-                <div class="article-list">
-                    {volist name="archivesList" id="item"}
-                    {include file="common/item" /}
-                    {/volist}
-                </div>
-
-                {include file="common/pageinfo" /}
-                {else/}
-                <div class="article-list">
-                    {volist name="commentList" id="item"}
-                    <article class="article-item">
-                        <div class="media">
-                            <div class="media-left">
-                                <a href="{$item.source.url}">
-                                    <div class="embed-responsive embed-responsive-4by3 img-zoom">
-                                        <img src="{$item.source.image}">
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="media-body">
-                                <h3 class="article-title">
-                                    <a href="{$item.source.url}" {if isset($item.source.style) && $item.source.style}style="{$item.source.style_text|default=''}" {/if}>{$item.source.title|htmlentities}</a>
-                                </h3>
-                                <div class="comment-content">
-                                    <div>{$item.content}</div>
-                                </div>
-                                <div class="article-tag">
-                                    <span itemprop="date"><i class="fa fa-calendar"></i> {:date("Y年m月d日", $item['createtime'])}</span>
-                                </div>
-                            </div>
-                        </div>
-
-                    </article>
-                    {/volist}
-                </div>
-
-                {include file="common/pageinfo" /}
-
-                {/if}
-            </div>
-        </div>
-        <div class="col-md-4 col-sm-12">
-            <div class="article-sidebar">
-                <!-- S 会员菜单 -->
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <ul class="nav nav-pills nav-stacked space-nav">
-                            <li class="{:$type=='archives'?'active':''}"><a href="{:addon_url('cms/user/index',[':id'=>$__USER__['id']],false)}/archives">{:$user&&$user['id']==$__USER__.id?'我':'TA'}的文章</a></li>
-                            <li class="{:$type=='comment'?'active':''}"><a href="{:addon_url('cms/user/index',[':id'=>$__USER__['id']],false)}/comment">{:$user&&$user['id']==$__USER__.id?'我':'TA'}的评论</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- E 会员菜单 -->
-
-                <div class="panel panel-blockimg">
-                    {cms:block name="sidebarad1" /}
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+             <div class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
+                 {cms:block name="sidebarad1" /}
+             </div>
+         </aside>
+     </div>
+ </div>

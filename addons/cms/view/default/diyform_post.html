@@ -7,149 +7,75 @@
 <link rel="stylesheet" href="__CDN__/assets/libs/fastadmin-selectpage/selectpage.css">
 <link rel="stylesheet" href="__CDN__/assets/libs/bootstrap-select/dist/css/bootstrap-select.min.css">
 
-<style>
-    #post-form .input-group-addon {
-        background: none;
-    }
-
-    #post-form .panel-default {
-        padding: 0;
-    }
-
-    #post-form input.form-control, #post-form textarea.form-control {
-        border-radius: 2px;
-    }
-
-    .faupload-preview li {
-        margin-top: 15px;
-    }
-
-    .input-group > .msg-box.n-right {
-        position: absolute;
-    }
-
-    .layui-layer-confirm {
-        display: none;
-    }
-
-    @media (max-width: 767px) {
-        .n-bootstrap .col-xs-12 > .n-right .msg-wrap {
-            margin-right: 15px;
-        }
-
-        .n-bootstrap .n-right {
-            margin-top: 0;
-            top: -20px;
-            position: absolute;
-            left: 0;
-            text-align: right;
-            width: 100%;
-        }
-
-        .n-bootstrap .n-right .msg-wrap {
-            position: relative;
-        }
-    }
-</style>
-
 {if $Think.get.noframe}
-<style>
-    header, footer, .main-content:after, #back-to-top {
-        display: none !important;
-    }
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const header = document.querySelector('header');
+        const footer = document.querySelector('footer');
+        const backToTop = document.getElementById('back-to-top');
+        const mainContent = document.querySelector('main.main-content');
 
-    body {
-        padding-top: 0 !important;
-    }
+        if (header) header.classList.add('hidden');
+        if (footer) footer.classList.add('hidden');
+        if (backToTop) backToTop.classList.add('hidden');
+        if (mainContent) mainContent.classList.add('pb-0');
 
-    main.main-content {
-        padding-bottom: 0;
-    }
-
-    .article-metas, .article-metas + hr {
-        display: none;
-    }
-
-    #content-container {
-        width: 100%;
-    }
-
-    #content-container > .row > .col-md-12 > .panel-default {
-        margin-bottom: 0;
-    }
-</style>
+        document.body.classList.add('pt-0');
+    });
+</script>
 {/if}
 <!--@formatter:off-->
+<script type="application/json" id="require-config-json">{$jsconfig|json_encode}</script>
 <script type="text/javascript">
     var require = {
-        config: {$jsconfig|json_encode}
+        config: JSON.parse(document.getElementById('require-config-json').textContent)
     };
 </script>
 <!--@formatter:on-->
 
-<div class="container" id="content-container">
-
-    <div class="row">
-
-        <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <section class="article-content">
-                        <div class="article-metas text-center">
-                            <h1 class="metas-title">
-                                {$__DIYFORM__['posttitle']}
-                            </h1>
-                        </div>
-                        <hr>
-                        <div class="py-4">
-                            <!-- S 正文 -->
-
-                            <div class="row">
-                                <div class="col-xs-12 col-md-8 col-md-offset-2">
-                                    <form id="post-form" class="form-horizontal" role="form" data-toggle="validator" method="POST">
-                                        <input type="hidden" name="__diyname__" value="{$__DIYFORM__['diyname']}">
-                                        {:token()}
-
-                                        {cms:diyform name="fieldslist" /}
-
-                                        {if $__DIYFORM__->iscaptcha}
-                                        <div class="form-group">
-                                            <div class="control-label col-xs-12 col-sm-2">验证码</div>
-                                            <div class="col-xs-12 col-sm-8">
-                                                <a href="javascript:" class="hidden" data-event data-url></a>
-                                                <div class="input-group">
-                                                    <input type="text" name="captcha" id="c-captcha" class="form-control" data-rule="required;length({$Think.config.captcha.length})"/>
-                                                    <span class="input-group-btn" style="padding:0;border:none;">
-                                                        <img src="{:captcha_src()}" width="100" height="31" onclick="this.src = '{:captcha_src()}?r=' + Math.random();"/>
-                                                    </span>
-                                                    <span class="msg-box n-right" for="c-captcha"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {/if}
-
-                                        <div class="form-group normal-footer">
-                                            <label class="control-label col-xs-12 col-sm-2"></label>
-                                            <div class="col-xs-12 col-sm-8 text-center">
-                                                <button type="submit" class="btn btn-primary btn-embossed disabled">{:__('OK')}</button>
-                                                <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
-                                            </div>
-                                        </div>
-
-                                    </form>
-                                </div>
-                            </div>
-
-                            <!-- E 正文 -->
-                        </div>
-
-                        <div class="clearfix"></div>
-                    </section>
-                </div>
-            </div>
-
+<div class="mx-auto max-w-3xl px-4 py-6 sm:px-6 lg:px-8" id="content-container">
+    <section class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+        <div class="border-b border-gray-100 px-5 py-4 text-center">
+            <h1 class="text-xl font-bold tracking-tight text-gray-900 sm:text-2xl">
+                {$__DIYFORM__['posttitle']}
+            </h1>
         </div>
-    </div>
+        <div class="px-5 py-6">
+            <!-- S 正文 -->
+
+            <form id="post-form" role="form" data-toggle="validator" method="POST" class="space-y-6">
+                <input type="hidden" name="__diyname__" value="{$__DIYFORM__['diyname']}">
+                {:token()}
+
+                {cms:diyform name="fieldslist" /}
+
+                {if $__DIYFORM__->iscaptcha}
+                <div class="space-y-2 sm:grid sm:grid-cols-12 sm:items-start sm:gap-x-6">
+                    <div class="text-sm font-medium text-gray-700 sm:col-span-3 sm:pt-2">验证码</div>
+                    <div class="sm:col-span-9">
+                        <a href="javascript:" class="hidden" data-event data-url></a>
+                        <div class="relative flex flex-wrap items-stretch gap-2">
+                            <input type="text" name="captcha" id="c-captcha" class="min-w-0 flex-1 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20" data-rule="required;length({$Think.config.captcha.length})"/>
+                            <button type="button" class="overflow-hidden rounded-md border border-gray-200 bg-white shadow-sm" onclick="var img=this.querySelector('img'); if(img){ img.src = '{:captcha_src()}?r=' + Math.random(); }">
+                                <img src="{:captcha_src()}" width="100" height="31" alt="captcha" />
+                            </button>
+                            <span class="msg-box n-right" for="c-captcha"></span>
+                        </div>
+                    </div>
+                </div>
+                {/if}
+
+                <div class="pt-2 text-center">
+                    <div class="inline-flex flex-wrap items-center justify-center gap-3">
+                        <button type="submit" class="disabled inline-flex items-center rounded-md bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700">{:__('OK')}</button>
+                        <button type="reset" class="inline-flex items-center rounded-md border border-gray-300 bg-white px-5 py-2.5 text-sm font-semibold text-gray-700 shadow-sm hover:bg-gray-50">{:__('Reset')}</button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- E 正文 -->
+        </div>
+    </section>
 </div>
 <script data-render="script">
     $(function () {

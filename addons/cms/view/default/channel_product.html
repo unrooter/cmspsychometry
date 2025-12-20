@@ -1,50 +1,52 @@
 {layout name="common/layout" /}
-<div class="container" id="content-container">
-    <h1 class="category-title">
-        {:__($__CHANNEL__.name)}
-        <div class="more pull-right">
-            <ol class="breadcrumb">
-                <!-- S 面包屑导航 -->
-                {cms:breadcrumb id="item"}
-                <li><a href="{$item.url}">{$item.name|htmlentities}</a></li>
-                {/cms:breadcrumb}
-                <!-- E 面包屑导航 -->
-            </ol>
-        </div>
-    </h1>
+ <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" id="content-container">
+     <nav aria-label="breadcrumb" class="mt-6">
+         <ol class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-gray-600">
+             <!-- S 面包屑导航 -->
+             {cms:breadcrumb id="item"}
+             <li class="inline-flex items-center">
+                 <a class="hover:text-emerald-600" href="{$item.url}">{$item.name|htmlentities}</a>
+             </li>
+             {/cms:breadcrumb}
+             <!-- E 面包屑导航 -->
+         </ol>
+     </nav>
 
-    <div class="row mt-2">
-        <main class="col-xs-12">
-            <div class="panel panel-default">
-                <div class="panel-body pt-0">
-                    <div class="channel-list">
-                        <div class="row">
-                            <!-- S 栏目列表 -->
-                            {cms:channellist id="channel" type="son" typeid="$__CHANNEL__.id" paginate="10"}
-                            <div class="col-xs-12">
-                                <h3>{:__($channel.textlink)} <em><a href="{$channel.url}">{:__('More')}</a></em></h3>
-                                <div class="row">
-                                    {cms:arclist id="item" channel="$channel.id" length="8"}
-                                    {include file="common/item_product" /}
-                                    {/cms:arclist}
-                                </div>
-                            </div>
-                            {/cms:channellist}
-                            <!-- E 栏目列表 -->
+     <header class="mt-4 rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
+         <h1 class="text-xl font-bold text-gray-900">{:__($__CHANNEL__.name)}</h1>
+     </header>
 
-                            {if $__LASTLIST__->isEmpty()}
-                            <div class="loadmore loadmore-line loadmore-nodata"><span class="loadmore-tips">{:__('暂无数据')}</span></div>
-                            {/if}
-                        </div>
-                    </div>
+     <main class="mt-6">
+         <div class="space-y-6">
+             <!-- S 栏目列表 -->
+             {cms:channellist id="channel" type="son" typeid="$__CHANNEL__.id" paginate="10"}
+             <section aria-label="{:__($channel.textlink)}">
+                 <div class="rounded-lg border border-gray-200 bg-white shadow-sm">
+                     <div class="flex flex-wrap items-center justify-between gap-3 border-b border-gray-100 px-4 py-3">
+                         <h2 class="text-base font-semibold text-gray-900">{:__($channel.textlink)}</h2>
+                         <a href="{$channel.url}" class="text-sm font-medium text-emerald-700 hover:text-emerald-800">{:__('More')}</a>
+                     </div>
+                     <div class="p-4">
+                         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                             {cms:arclist id="item" channel="$channel.id" length="8"}
+                             {include file="common/item_product" /}
+                             {/cms:arclist}
+                         </div>
+                     </div>
+                 </div>
+             </section>
+             {/cms:channellist}
+             <!-- E 栏目列表 -->
 
-                    <!-- S 分页 -->
-                    <div class="text-center pager">
-                        {cms:pageinfo type="full" /}
-                    </div>
-                    <!-- E 分页 -->
-                </div>
-            </div>
-        </main>
-    </div>
-</div>
+             {if $__LASTLIST__->isEmpty()}
+             <div class="rounded-lg border border-dashed border-gray-300 bg-white p-8 text-center text-sm text-gray-500">{:__('暂无数据')}</div>
+             {/if}
+
+             <!-- S 分页 -->
+             <div class="pt-2">
+                 {cms:pageinfo type="full" /}
+             </div>
+             <!-- E 分页 -->
+         </div>
+     </main>
+ </div>

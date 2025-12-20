@@ -33,7 +33,9 @@ $(function () {
 
     //new LazyLoad({elements_selector: ".lazy"});
 
-    layer.config({focusBtn: false});
+    if (typeof layer !== 'undefined' && layer && typeof layer.config === 'function') {
+        layer.config({focusBtn: false});
+    }
 
     //栏目高亮
     var nav = $("header.header .navbar-nav");
@@ -158,12 +160,12 @@ $(function () {
         $(".reply").on("click", function () {
             $("#pid").val($(this).data("id"));
             $(this).parent().parent().append($("div#postcomment").detach());
-            $("#postcomment h3 a").show();
+            $("#postcomment h3 a").removeClass("hidden");
             $("#commentcontent").focus().val($(this).attr("title"));
         });
         $("#postcomment h3 a").bind("click", function () {
             $("#comment-container").append($("div#postcomment").detach());
-            $(this).hide();
+            $(this).addClass("hidden");
         });
         $(".expandall a").on("click", function () {
             $(this).parent().parent().find("dl.hide").fadeIn();
@@ -359,19 +361,39 @@ $(function () {
         }
     });
 
-    //点击切换
-    $(document).on("click", ".sidebar-toggle", function () {
-        var collapse = $("#navbar-collapse");
-        if (collapse.hasClass("active")) {
+    if (!window.__CMS_TW_OFFCANVAS__) {
+        //点击切换
+        $(document).on("click", ".sidebar-toggle", function () {
+            var collapse = $("#navbar-collapse");
+            var isOpen = collapse.hasClass("active");
             $(".navbar-collapse-bg").remove();
-        } else {
-            $("<div />").addClass("navbar-collapse-bg").insertAfter(collapse).on("click", function () {
-                $(".sidebar-toggle").trigger("click");
-            });
-        }
-        collapse.toggleClass("active");
-        $(this).toggleClass("active");
-    });
+            if (isOpen) {
+                $("body").removeClass("is-open");
+            } else {
+                $("body").addClass("is-open");
+                $("<div />")
+                    .addClass("navbar-collapse-bg")
+                    .insertAfter(collapse)
+                    .on("click", function () {
+                        $(".sidebar-toggle").first().trigger("click");
+                    });
+            }
+            collapse.toggleClass("active");
+            $(this).toggleClass("active");
+        });
+
+        $(document).on("click", "#navbar-collapse a", function () {
+            if ($(window).width() < 768 && $("#navbar-collapse").hasClass("active")) {
+                $(".sidebar-toggle").first().trigger("click");
+            }
+        });
+
+        $(document).on("keydown", function (e) {
+            if ((e.key === "Escape" || e.keyCode === 27) && $("#navbar-collapse").hasClass("active")) {
+                $(".sidebar-toggle").first().trigger("click");
+            }
+        });
+    }
 
     //内容中的图片点击事件
     $(document).on("click", ".article-text img", function () {

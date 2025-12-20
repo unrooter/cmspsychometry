@@ -2,24 +2,24 @@
 {if (config('cms.loadmode')=='paging' && "[loadmode]"!="infinite") || "[loadmode]"=="paging"}
     {/* 普通分页 */ }
     <!-- S 分页栏 -->
-    <div class="text-center pager">
+    <div class="pager mt-8 flex justify-center">
         {:$__PAGELIST__->render(['type' => in_array('[type]',['simple', 'full'])?'[type]':config('cms.pagemode')])}
     </div>
     <!-- E 分页栏 -->
     {if $__PAGELIST__->isEmpty()}
-        <div class="loadmore loadmore-line loadmore-nodata"><span class="loadmore-tips">{:__('暂无数据')}</span></div>
+        <div class="loadmore loadmore-line loadmore-nodata mt-6 text-center text-sm text-gray-500"><span class="loadmore-tips">{:__('暂无数据')}</span></div>
     {/if}
 {else/}
     {/* 无刷新加载下一页 */ }
     {if $__PAGELIST__->isEmpty() || !$__PAGELIST__->hasPages()}
         {if $__PAGELIST__->currentPage()>1 || ($__PAGELIST__->isEmpty() && $__PAGELIST__->currentPage()==1)}
-            <div class="loadmore loadmore-line loadmore-nodata"><span class="loadmore-tips">暂无更多数据</span></div>
+            <div class="loadmore loadmore-line loadmore-nodata mt-6 text-center text-sm text-gray-500"><span class="loadmore-tips">暂无更多数据</span></div>
         {/if}
     {else /}
-        <div class="text-center clearfix">
+        <div class="mt-6 flex justify-center">
             <a href="?{:http_build_query(array_merge(request()->get(), ['page'=>$__PAGELIST__->currentPage()+1]))}"
                data-url="?{:http_build_query(array_merge(request()->get(), ['page'=>'__page__']))}"
-               data-page="{:$__PAGELIST__->currentPage()+1}" class="btn btn-default my-4 px-4 btn-loadmore"
+               data-page="{:$__PAGELIST__->currentPage()+1}" class="btn-loadmore inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-6 py-2 text-sm font-semibold text-gray-700 shadow-sm hover:bg-gray-50 hover:text-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-200"
                data-autoload="{:in_array('[autoload]',['true', 'false'])?'[autoload]':'false'}">
                 加载更多
             </a>

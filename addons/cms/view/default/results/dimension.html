@@ -1,134 +1,130 @@
 {extend name="common/layout" /}
 
 {block name="content"}
-<div class="container" style="max-width: 1200px; margin: 0 auto; padding: 20px;">
-    <div id="app">
+<div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+    <div id="app" class="hidden">
         <!-- 加载状态 -->
-        <div v-if="loading" class="text-center" style="padding: 50px;">
-            <div class="spinner-border text-primary" role="status">
-                <span class="sr-only">加载中...</span>
-            </div>
-            <p class="mt-3">正在加载测试结果...</p>
+        <div v-if="loading" class="flex flex-col items-center justify-center py-16 text-center">
+            <div class="h-10 w-10 animate-spin rounded-full border-4 border-gray-200 border-t-emerald-600" role="status"></div>
+            <p class="mt-4 text-sm text-gray-600">正在加载测试结果...</p>
         </div>
 
         <!-- 错误状态 -->
-        <div v-if="error" class="alert alert-danger text-center" style="margin: 50px 0;">
-            <h4>加载失败</h4>
-            <p>{{error}}</p>
-            <button @click="loadData" class="btn btn-primary">重新加载</button>
+        <div v-if="error" class="my-10 rounded-lg border border-red-200 bg-red-50 p-6 text-center">
+            <h4 class="text-base font-semibold text-red-800">加载失败</h4>
+            <p class="mt-2 text-sm text-red-700">{{error}}</p>
+            <button @click="loadData" class="mt-4 inline-flex items-center rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700">重新加载</button>
         </div>
 
         <!-- 维度结果内容 -->
         <div v-if="!loading && !error && allInfo" class="dimension-result-container">
             <!-- 测试信息头部 -->
-            <div class="test-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px; border-radius: 20px; margin-bottom: 30px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-                <h1 style="font-size: 36px; font-weight: bold; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+            <div class="mb-8 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 p-8 text-center text-white shadow-lg sm:p-10">
+                <h1 class="text-2xl font-bold drop-shadow-sm sm:text-4xl">
                     维度分析结果
                 </h1>
-                <p style="font-size: 18px; margin: 0; opacity: 0.9;">多维度性格特征分析</p>
-                <div v-if="allInfo.a_info" style="margin-top: 15px; font-size: 16px; opacity: 0.8;">
+                <p class="mt-2 text-base opacity-90 sm:text-lg">多维度性格特征分析</p>
+                <div v-if="allInfo.a_info" class="mt-3 text-sm opacity-80 sm:text-base">
                     {{allInfo.a_info.title}}
                 </div>
             </div>
 
             <!-- 维度雷达图 -->
-            <div class="dimension-chart" style="background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 30px;">
-                <h3 style="color: #333; margin-bottom: 25px; font-size: 24px; text-align: center;">维度对比图</h3>
-                <div style="text-align: center;">
-                    <canvas id="dimensionChart" width="400" height="400" style="max-width: 100%; height: auto;"></canvas>
+            <div class="mb-8 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-100 sm:p-8">
+                <h3 class="mb-6 text-center text-lg font-semibold text-gray-900 sm:text-2xl">维度对比图</h3>
+                <div class="mx-auto max-w-2xl">
+                    <canvas id="dimensionChart" class="h-72 w-full"></canvas>
                 </div>
             </div>
 
             <!-- 维度分数详情 -->
-            <div v-if="allInfo.stat_data && Object.keys(allInfo.stat_data).length > 0" class="dimension-scores" style="background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 30px;">
-                <h3 style="color: #333; margin-bottom: 25px; font-size: 24px; text-align: center;">各维度得分</h3>
-                <div class="row">
-                    <div class="col-md-6" v-for="(value, key) in allInfo.stat_data" :key="key" style="margin-bottom: 20px;">
-                        <div class="dimension-item" style="background: #f8f9fa; padding: 20px; border-radius: 12px; border-left: 5px solid #5DBE9E;">
-                            <div class="dimension-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                                <h5 style="color: #333; margin: 0; font-size: 18px;">{{getDimensionName(key)}}</h5>
-                                <span style="font-size: 20px; font-weight: bold; color: #2E7D5F;">{{value}}</span>
+            <div v-if="allInfo.stat_data && Object.keys(allInfo.stat_data).length > 0" class="mb-8 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-100 sm:p-8">
+                <h3 class="mb-6 text-center text-lg font-semibold text-gray-900 sm:text-2xl">各维度得分</h3>
+                <div class="grid gap-4 sm:grid-cols-2">
+                    <div v-for="(value, key) in allInfo.stat_data" :key="key">
+                        <div class="rounded-xl border-l-4 border-emerald-500 bg-gray-50 p-5">
+                            <div class="flex items-center justify-between gap-3">
+                                <h5 class="text-sm font-semibold text-gray-900 sm:text-base">{{getDimensionName(key)}}</h5>
+                                <span class="text-lg font-bold text-emerald-700">{{value}}</span>
                             </div>
-                            <div class="dimension-bar" style="background: #e9ecef; height: 12px; border-radius: 6px; overflow: hidden; position: relative;">
-                                <div :style="'background: linear-gradient(90deg, #5DBE9E, #28a745); height: 100%; width: ' + getDimensionPercentage(value) + '%; transition: width 1s ease;'"></div>
+                            <div class="mt-3 h-3 overflow-hidden rounded-full bg-gray-200">
+                                <div class="h-full bg-gradient-to-r from-emerald-500 to-green-500 transition-all duration-700" :style="{ width: getDimensionPercentage(value) + '%' }"></div>
                             </div>
-                            <div class="dimension-description" style="margin-top: 10px; font-size: 14px; color: #666;">
-                                {{getDimensionDescription(key, value)}}
-                            </div>
+                            <div class="mt-3 text-sm leading-6 text-gray-600">{{getDimensionDescription(key, value)}}</div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- 维度分析 -->
-            <div class="dimension-analysis" style="background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 30px;">
-                <h3 style="color: #333; margin-bottom: 25px; font-size: 24px; text-align: center;">维度分析</h3>
+            <div class="mb-8 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-100 sm:p-8">
+                <h3 class="mb-6 text-center text-lg font-semibold text-gray-900 sm:text-2xl">维度分析</h3>
                 
                 <!-- 最高分维度 -->
-                <div v-if="getHighestDimension()" style="background: #e8f5e8; padding: 25px; border-radius: 12px; border-left: 5px solid #5DBE9E; margin-bottom: 20px;">
-                    <h5 style="color: #5DBE9E; margin-bottom: 15px; font-size: 18px;">最强维度：{{getHighestDimension().name}}</h5>
-                    <div style="color: #666; line-height: 1.8; font-size: 16px;">
+                <div v-if="getHighestDimension()" class="mb-5 rounded-xl border-l-4 border-emerald-500 bg-emerald-50 p-5">
+                    <h5 class="mb-2 text-base font-semibold text-emerald-700">最强维度：{{getHighestDimension().name}}</h5>
+                    <div class="text-sm leading-7 text-gray-700">
                         您在 {{getHighestDimension().name}} 方面表现最为突出，得分为 {{getHighestDimension().value}} 分。
                         {{getDimensionDescription(getHighestDimension().key, getHighestDimension().value)}}
                     </div>
                 </div>
                 
                 <!-- 最低分维度 -->
-                <div v-if="getLowestDimension()" style="background: #fff3cd; padding: 25px; border-radius: 12px; border-left: 5px solid #ffc107; margin-bottom: 20px;">
-                    <h5 style="color: #856404; margin-bottom: 15px; font-size: 18px;">待提升维度：{{getLowestDimension().name}}</h5>
-                    <div style="color: #666; line-height: 1.8; font-size: 16px;">
+                <div v-if="getLowestDimension()" class="mb-5 rounded-xl border-l-4 border-amber-400 bg-amber-50 p-5">
+                    <h5 class="mb-2 text-base font-semibold text-amber-800">待提升维度：{{getLowestDimension().name}}</h5>
+                    <div class="text-sm leading-7 text-gray-700">
                         您在 {{getLowestDimension().name}} 方面还有提升空间，得分为 {{getLowestDimension().value}} 分。
                         建议您在这方面多加练习和关注。
                     </div>
                 </div>
                 
                 <!-- 整体分析 -->
-                <div style="background: #f8f9fa; padding: 25px; border-radius: 12px;">
-                    <h5 style="color: #5DBE9E; margin-bottom: 15px; font-size: 18px;">整体分析</h5>
-                    <div style="color: #666; line-height: 1.8; font-size: 16px;">
+                <div class="rounded-xl bg-gray-50 p-5">
+                    <h5 class="mb-2 text-base font-semibold text-emerald-700">整体分析</h5>
+                    <div class="text-sm leading-7 text-gray-700">
                         {{getOverallAnalysis()}}
                     </div>
                 </div>
             </div>
 
             <!-- 结果解析 -->
-            <div v-if="allInfo.answer_info" class="result-analysis" style="background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 30px;">
-                <h3 style="color: #333; margin-bottom: 25px; font-size: 24px; text-align: center;">结果解析</h3>
+            <div v-if="allInfo.answer_info" class="mb-8 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-100 sm:p-8">
+                <h3 class="mb-6 text-center text-lg font-semibold text-gray-900 sm:text-2xl">结果解析</h3>
                 
                 <!-- 主要结果 -->
-                <div v-if="allInfo.answer_info.title" style="background: #f8f9fa; padding: 25px; border-radius: 12px; margin-bottom: 25px;">
-                    <h5 style="color: #5DBE9E; margin-bottom: 15px; font-size: 18px;">测试结果</h5>
-                    <div style="color: #666; line-height: 1.8; font-size: 16px;">{{allInfo.answer_info.title}}</div>
+                <div v-if="allInfo.answer_info.title" class="mb-6 rounded-xl bg-gray-50 p-5">
+                    <h5 class="mb-2 text-base font-semibold text-emerald-600">测试结果</h5>
+                    <div class="text-sm leading-7 text-gray-600">{{allInfo.answer_info.title}}</div>
                 </div>
                 
                 <!-- 详细分析 -->
-                <div v-if="allInfo.answer_info.content" style="background: #f8f9fa; padding: 25px; border-radius: 12px; margin-bottom: 25px;">
-                    <h5 style="color: #5DBE9E; margin-bottom: 15px; font-size: 18px;">详细分析</h5>
-                    <div style="color: #666; line-height: 1.8; font-size: 16px;" v-html="allInfo.answer_info.content"></div>
+                <div v-if="allInfo.answer_info.content" class="mb-6 rounded-xl bg-gray-50 p-5">
+                    <h5 class="mb-2 text-base font-semibold text-emerald-600">详细分析</h5>
+                    <div class="prose max-w-none text-sm leading-7 text-gray-600" v-html="allInfo.answer_info.content"></div>
                 </div>
                 
                 <!-- 建议 -->
-                <div v-if="allInfo.answer_info.suggestion" style="background: #e8f5e8; padding: 25px; border-radius: 12px; border-left: 5px solid #5DBE9E;">
-                    <h5 style="color: #5DBE9E; margin-bottom: 15px; font-size: 18px;">发展建议</h5>
-                    <div style="color: #666; line-height: 1.8; font-size: 16px;" v-html="allInfo.answer_info.suggestion"></div>
+                <div v-if="allInfo.answer_info.suggestion" class="rounded-xl border-l-4 border-emerald-500 bg-emerald-50 p-5">
+                    <h5 class="mb-2 text-base font-semibold text-emerald-600">发展建议</h5>
+                    <div class="prose max-w-none text-sm leading-7 text-gray-600" v-html="allInfo.answer_info.suggestion"></div>
                 </div>
             </div>
 
             <!-- 测试总结 -->
-            <div class="test-summary" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 30px; border-radius: 15px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                <h3 style="color: white; margin-bottom: 20px; font-size: 24px;">测试总结</h3>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div style="font-size: 32px; font-weight: bold; margin-bottom: 5px;">{{Object.keys(allInfo.stat_data || {}).length}}</div>
-                        <div style="font-size: 16px; opacity: 0.9;">分析维度</div>
+            <div class="rounded-2xl bg-gradient-to-br from-fuchsia-400 to-rose-500 p-6 text-center text-white shadow sm:p-8">
+                <h3 class="mb-5 text-lg font-semibold text-white sm:text-2xl">测试总结</h3>
+                <div class="grid gap-4 sm:grid-cols-3">
+                    <div class="rounded-xl bg-white/20 p-4">
+                        <div class="text-2xl font-bold sm:text-3xl">{{Object.keys(allInfo.stat_data || {}).length}}</div>
+                        <div class="mt-1 text-sm opacity-90">分析维度</div>
                     </div>
-                    <div class="col-md-4">
-                        <div style="font-size: 32px; font-weight: bold; margin-bottom: 5px;">{{allInfo.max_score || 0}}</div>
-                        <div style="font-size: 16px; opacity: 0.9;">总分数</div>
+                    <div class="rounded-xl bg-white/20 p-4">
+                        <div class="text-2xl font-bold sm:text-3xl">{{allInfo.max_score || 0}}</div>
+                        <div class="mt-1 text-sm opacity-90">总分数</div>
                     </div>
-                    <div class="col-md-4">
-                        <div style="font-size: 32px; font-weight: bold; margin-bottom: 5px;">{{getAverageScore()}}</div>
-                        <div style="font-size: 16px; opacity: 0.9;">平均分</div>
+                    <div class="rounded-xl bg-white/20 p-4">
+                        <div class="text-2xl font-bold sm:text-3xl">{{getAverageScore()}}</div>
+                        <div class="mt-1 text-sm opacity-90">平均分</div>
                     </div>
                 </div>
             </div>
@@ -146,6 +142,7 @@ new Vue({
         allInfo: null
     },
     mounted() {
+        this.$el.classList.remove('hidden');
         this.loadData();
     },
     methods: {

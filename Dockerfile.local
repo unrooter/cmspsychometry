@@ -1,0 +1,31 @@
+FROM php:8.1-fpm-bullseye
+
+RUN set -eux; \
+    apt-get -o Acquire::Retries=5 update; \
+    apt-get install -y --no-install-recommends \
+        git \
+        unzip \
+        curl \
+        libzip-dev \
+        libonig-dev \
+        libxml2-dev \
+        libpng-dev \
+        libjpeg62-turbo-dev \
+        libfreetype6-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j"$(nproc)" \
+        bcmath \
+        gd \
+        pdo_mysql \
+        zip \
+        exif \
+        pcntl \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+WORKDIR /var/www
+
+RUN mkdir -p runtime public/uploads || true
+
+EXPOSE 9000

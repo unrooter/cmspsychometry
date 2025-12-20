@@ -1,85 +1,82 @@
 {layout name="common/layout" /}
-<div class="container" id="content-container">
-
-    <h1 class="category-title">
-        {cms:channel name="name" /}
-        <div class="more pull-right">
-            <ol class="breadcrumb">
-                <!-- S 面包屑导航 -->
-                {cms:breadcrumb id="item"}
-                <li><a href="{$item.url}">{$item.name|htmlentities}</a></li>
-                {/cms:breadcrumb}
-                <!-- E 面包屑导航 -->
-            </ol>
-        </div>
-    </h1>
-    {if $__FILTERLIST__}
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">
-                筛选
-                <div class="more">
-                    <form action="" id="multipleform">
-                        <label for="multiple" class="checkbox-inline">
-                            <input type="checkbox" name="multiple" class="pull-left mt-0" id="multiple" onclick="document.getElementById('multipleform').submit();" value="{:$Think.get.multiple?0:1}" {:$Think.get.multiple?'checked':''}>
-                                                                                                                                                                                                                             多选模式
-                        </label>
-                    </form>
-                </div>
-            </h3>
-        </div>
-        <div class="panel-body">
-            <div class="tabs-wrapper {:$Think.get.multiple?'tabs-multiple':''}">
-                {cms:pagefilter id="filter" exclude=""}
-                <div class="tabs-group">
-                    <div class="title">{$filter.title|htmlentities}:</div>
-                    <ul class="content clearfix">
-                        {volist name="$filter.content" id="item"}
-                        <li class="{$item.active?'active':''}"><a href="{$item.url}">{$item.title|htmlentities}</a></li>
-                        {/volist}
-                    </ul>
-                </div>
-                {/cms:pagefilter}
-                <!-- E 分类列表 -->
-            </div>
-        </div>
-    </div>
-    {/if}
-
-    <div class="row">
-
-        <main class="col-xs-12 col-md-8">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        <span>{:__('列表')}</span>
-                        <!-- <div class="more">
-                            <ul class="list-unstyled list-inline category-order clearfix">
-                                {cms:pageorder id="order"}
-                                <li><a href="{$order.url}" class="{$order.active?'active':''}">{$order.title|htmlentities}</a></li>
-                                {/cms:pageorder}
-                            </ul>
-                        </div> -->
-                    </h3>
-                </div>
-                <div class="panel-body py-0">
-                    <div class="article-list">
-                        <!-- S 列表 -->
-                        {cms:pagelist id="item"}
-                        {include file="common/item_funtest"}
-                        {/cms:pagelist}
-                        <!-- E 列表 -->
-                    </div>
-
-                    <!-- S 分页 -->
-                    {include file="common/pageinfo" /}
-                    <!-- E 分页 -->
-                </div>
-            </div>
-        </main>
-
-        <aside class="col-xs-12 col-md-8">
-            {include file="common/sidebar" /}
-        </aside>
-    </div>
-</div>
+ <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" id="content-container">
+ 
+     <nav aria-label="breadcrumb" class="mt-6">
+         <ol class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-gray-600">
+             <!-- S 面包屑导航 -->
+             {cms:breadcrumb id="item"}
+             <li class="inline-flex items-center">
+                 <a class="hover:text-emerald-600" href="{$item.url}">{$item.name|htmlentities}</a>
+             </li>
+             {/cms:breadcrumb}
+             <!-- E 面包屑导航 -->
+         </ol>
+     </nav>
+ 
+     <header class="mt-4 rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
+         <h1 class="text-xl font-bold text-gray-900">{cms:channel name="name" /}</h1>
+     </header>
+ 
+     {if $__FILTERLIST__}
+     <section class="mt-4" aria-label="{:__('筛选条件')}">
+         <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+             <div class="flex flex-wrap items-center justify-between gap-3">
+                 <h2 class="inline-flex items-center gap-2 text-base font-semibold text-gray-900"><i class="fa fa-filter text-emerald-600" aria-hidden="true"></i>{:__('筛选')}</h2>
+                 <form action="" id="multipleform" class="flex items-center gap-2">
+                     <input type="checkbox" name="multiple" id="multiple"
+                            class="h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-600"
+                            onclick="document.getElementById('multipleform').submit();"
+                            value="{:$Think.get.multiple?0:1}"
+                            {:$Think.get.multiple?'checked':''}>
+                     <label for="multiple" class="text-sm text-gray-700">{:__('多选模式')}</label>
+                 </form>
+             </div>
+ 
+             <div class="mt-4 space-y-4">
+                 {cms:pagefilter id="filter" exclude=""}
+                 <div class="flex flex-wrap items-start gap-3">
+                     <div class="mt-1 w-20 shrink-0 text-sm font-medium text-gray-700">{$filter.title|htmlentities}:</div>
+                     <div class="flex flex-wrap gap-2">
+                         {volist name="$filter.content" id="item"}
+                         <a href="{$item.url}" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600 {$item.active?'bg-emerald-50 text-emerald-700 border-emerald-200':''}">{$item.title|htmlentities}</a>
+                         {/volist}
+                     </div>
+                 </div>
+                 {/cms:pagefilter}
+             </div>
+         </div>
+     </section>
+     {/if}
+ 
+     <div class="mt-6 grid gap-6 lg:grid-cols-12">
+ 
+         <main class="lg:col-span-8">
+             <section aria-label="{:__('列表')}">
+                 <div class="rounded-lg border border-gray-200 bg-white shadow-sm">
+                     <div class="border-b border-gray-100 px-4 py-3">
+                         <h2 class="text-base font-semibold text-gray-900">{:__('列表')}</h2>
+                     </div>
+                     <div class="p-4">
+                         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                             <!-- S 列表 -->
+                             {cms:pagelist id="item"}
+                             {include file="common/item_funtest"}
+                             {/cms:pagelist}
+                             <!-- E 列表 -->
+                         </div>
+ 
+                         <!-- S 分页 -->
+                         <div class="mt-8">
+                             {include file="common/pageinfo" /}
+                         </div>
+                         <!-- E 分页 -->
+                     </div>
+                 </div>
+             </section>
+         </main>
+ 
+         <aside class="lg:col-span-4">
+             {include file="common/sidebar" /}
+         </aside>
+     </div>
+ </div>

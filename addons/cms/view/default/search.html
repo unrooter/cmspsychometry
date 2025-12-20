@@ -1,56 +1,61 @@
 {layout name="common/layout" /}
-<div class="container" id="content-container">
-    <h1 class="category-title">
-        {cms:config name="cms.title"/}
-        <div class="more pull-right">
-            <ol class="breadcrumb">
-                <!-- S 面包屑导航 -->
-                {cms:breadcrumb id="item"}
-                <li><a href="{$item.url}">{$item.name|htmlentities}</a></li>
-                {/cms:breadcrumb}
-                <!-- E 面包屑导航 -->
-                <li>搜索</li>
-            </ol>
-        </div>
-    </h1>
+ <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" id="content-container">
+     <nav aria-label="breadcrumb" class="mt-6">
+         <ol class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-gray-600">
+             <!-- S 面包屑导航 -->
+             {cms:breadcrumb id="item"}
+             <li class="inline-flex items-center">
+                 <a class="hover:text-emerald-600" href="{$item.url}">{$item.name|htmlentities}</a>
+             </li>
+             {/cms:breadcrumb}
+             <!-- E 面包屑导航 -->
+             <li class="inline-flex items-center text-gray-400" aria-hidden="true">/</li>
+             <li class="inline-flex items-center text-gray-700">{:__('搜索')}</li>
+         </ol>
+     </nav>
 
-    <div class="row">
+     <header class="mt-4 rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
+         <div class="flex flex-wrap items-center justify-between gap-3">
+             <h1 class="text-xl font-bold text-gray-900">{:__('搜索')}</h1>
+             <div class="text-sm text-gray-600">{:__('共找到')} <span class="font-semibold text-emerald-700">{:$__PAGELIST__->total()}</span> {:__('条信息')}</div>
+         </div>
+     </header>
 
-        <main class="col-xs-12 col-md-8">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        <span>共找到 <span class="text-danger">{:$__PAGELIST__->total()}</span> 条信息</span>
+     <div class="mt-6 grid gap-6 lg:grid-cols-12">
+         <main class="lg:col-span-8">
+             <section aria-label="{:__('列表')}">
+                 <div class="rounded-lg border border-gray-200 bg-white shadow-sm">
+                     <div class="flex flex-wrap items-center justify-between gap-3 border-b border-gray-100 px-4 py-3">
+                         <h2 class="text-base font-semibold text-gray-900">{:__('列表')}</h2>
+                         <div class="flex flex-wrap gap-2">
+                             <!-- S 排序 -->
+                             {cms:pageorder id="order"}
+                             <a href="{$order.url}" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600 {$order.active?'bg-emerald-50 text-emerald-700 border-emerald-200':''}">{$order.title|htmlentities}</a>
+                             {/cms:pageorder}
+                             <!-- E 排序 -->
+                         </div>
+                     </div>
+                     <div class="p-4">
+                         <div class="divide-y divide-gray-100">
+                             <!-- S 列表 -->
+                             {cms:pagelist id="item"}
+                             {include file="common/item"}
+                             {/cms:pagelist}
+                             <!-- E 列表 -->
+                         </div>
 
-                        <div class="more">
-                            <ul class="list-unstyled list-inline category-order clearfix">
-                                <!-- S 排序 -->
-                                {cms:pageorder id="order"}
-                                <li><a href="{$order.url}" class="{$order.active?'active':''}">{$order.title|htmlentities}</a></li>
-                                {/cms:pageorder}
-                                <!-- E 排序 -->
-                            </ul>
-                        </div>
-                    </h3>
-                </div>
-                <div class="panel-body">
-                    <div class="article-list">
-                        <!-- S 列表 -->
-                        {cms:pagelist id="item"}
-                        {include file="common/item"}
-                        {/cms:pagelist}
-                        <!-- E 列表 -->
-                    </div>
+                         <!-- S 分页 -->
+                         <div class="mt-8">
+                             {include file="common/pageinfo" /}
+                         </div>
+                         <!-- E 分页 -->
+                     </div>
+                 </div>
+             </section>
+         </main>
 
-                    <!-- S 分页 -->
-                    {include file="common/pageinfo" /}
-                    <!-- E 分页 -->
-                </div>
-            </div>
-        </main>
-
-        <aside class="col-xs-12 col-md-4">
-            {include file="common/sidebar" /}
-        </aside>
-    </div>
-</div>
+         <aside class="lg:col-span-4">
+             {include file="common/sidebar" /}
+         </aside>
+     </div>
+ </div>

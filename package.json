@@ -1,0 +1,11 @@
+{
+  "name": "cmspsychometry-frontend",
+  "private": true,
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  },
+  "scripts": {
+    "build:tailwind": "tailwindcss -c tailwind.config.cjs -i ./tailwind.input.css -o ./public/assets/addons/cms/css/tailwind.min.css --minify",
+    "watch:tailwind": "tailwindcss -c tailwind.config.cjs -i ./tailwind.input.css -o ./public/assets/addons/cms/css/tailwind.min.css --watch"
+  }
+}

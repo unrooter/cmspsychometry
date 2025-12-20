@@ -1,250 +1,7 @@
 {layout name="common/layout" /}
-<style>
-    [v-cloak] {
-        display: none;
-    }
-
-
-    .panel-body {
-        padding: 12px;
-    }
-
-    .panel-title {
-        font-size: 18px;
-    }
-
-    .carousel {
-        position: relative;
-    }
-
-    .mark {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 999;
-        background-color: rgba(0, 0, 0, .6);
-    }
-    
-    /* 轮播图图片优化 */
-    .carousel-img {
-        width: 100%;
-        height: 400px;
-        object-fit: cover;
-        display: block;
-    }
-    
-    @media (max-width: 768px) {
-        .carousel-img {
-            height: 250px;
-        }
-    }
-    
-    /* 网站简介区块响应式 */
-    @media (max-width: 768px) {
-        .site-intro {
-            padding: 20px !important;
-        }
-        .site-intro h2 {
-            font-size: 22px !important;
-        }
-        .site-intro p {
-            font-size: 14px !important;
-        }
-    }
-    
-    /* 首页内容优化样式 - 统一绿色主题 */
-    .site-intro {
-        background: linear-gradient(135deg, #5DBE9E 0%, #46c37b 100%);
-        border-radius: 8px;
-        color: white;
-        margin: 20px 0;
-        padding: 30px;
-    }
-    
-    .site-intro h2 {
-        color: white;
-        font-size: 26px;
-        margin-bottom: 15px;
-        font-weight: 600;
-    }
-    
-    .site-intro p {
-        font-size: 15px;
-        line-height: 1.8;
-        opacity: 0.95;
-    }
-    
-    .site-stats {
-        display: flex;
-        gap: 30px;
-        margin-top: 20px;
-    }
-    
-    .site-stats > div {
-        text-align: center;
-    }
-    
-    .site-stats strong {
-        display: block;
-        font-size: 28px;
-        font-weight: 700;
-        margin-bottom: 5px;
-    }
-    
-    .site-stats span {
-        font-size: 14px;
-        opacity: 0.9;
-    }
-    
-    /* 热门测试区块 */
-    .hot-tests-section {
-        border-left: 3px solid #5DBE9E;
-    }
-    
-    .hot-tests-section .panel-heading {
-        background: linear-gradient(to right, #f0fdf4, #ffffff);
-    }
-    
-    .hot-test-item {
-        display: flex;
-        align-items: center;
-        padding: 12px;
-        border: 1px solid #e5e7eb;
-        border-radius: 6px;
-        text-decoration: none;
-        transition: all 0.3s;
-        margin-bottom: 12px;
-    }
-    
-    .hot-test-item:hover {
-        border-color: #5DBE9E;
-        background-color: #f0fdf4;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(93, 190, 158, 0.15);
-    }
-    
-    .hot-test-badge {
-        background: linear-gradient(135deg, #5DBE9E, #46c37b);
-        color: white;
-        width: 28px;
-        height: 28px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 600;
-        font-size: 14px;
-        flex-shrink: 0;
-    }
-    
-    .hot-test-content {
-        flex: 1;
-        margin-left: 12px;
-    }
-    
-    .hot-test-title {
-        color: #333;
-        font-weight: 500;
-        margin-bottom: 4px;
-        font-size: 14px;
-    }
-    
-    .hot-test-views {
-        color: #999;
-        font-size: 12px;
-    }
-    
-    /* FAQ区块 */
-    .faq-item {
-        margin-bottom: 20px;
-        padding-bottom: 20px;
-        border-bottom: 1px solid #e5e7eb;
-    }
-    
-    .faq-item:last-child {
-        border-bottom: none;
-    }
-    
-    .faq-question {
-        font-size: 16px;
-        font-weight: 600;
-        color: #333;
-        margin-bottom: 10px;
-    }
-    
-    .faq-question i {
-        color: #5DBE9E;
-        margin-right: 8px;
-    }
-    
-    .faq-answer {
-        color: #666;
-        line-height: 1.6;
-        font-size: 14px;
-    }
-    
-    /* 测试分类导航 */
-    .test-categories-section {
-        border-top: 3px solid #5DBE9E;
-    }
-    
-    .category-link {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 12px 15px;
-        text-decoration: none;
-        color: #333;
-        transition: all 0.3s;
-    }
-    
-    .category-link:hover {
-        background-color: #f0fdf4;
-        text-decoration: none;
-        color: #5DBE9E;
-    }
-    
-    .category-link:hover .fa-angle-right {
-        color: #5DBE9E;
-        transform: translateX(3px);
-    }
-    
-    .category-icon {
-        color: #5DBE9E;
-        margin-right: 8px;
-    }
-    
-    .category-arrow {
-        color: #ccc;
-        transition: all 0.3s;
-    }
-    
-    /* 响应式 */
-    @media (max-width: 768px) {
-        .site-intro {
-            padding: 20px;
-        }
-        .site-intro h2 {
-            font-size: 20px;
-        }
-        .site-intro p {
-            font-size: 14px;
-        }
-        .site-stats {
-            gap: 20px;
-        }
-        .site-stats strong {
-            font-size: 22px;
-        }
-    }
-
-    
-</style>
-<div class="container" id="content-container">
+<div class="mx-auto max-w-6xl px-4 py-6" id="content-container">
     <!-- 页面主标题 H1 用于SEO -->
-    <header class="page-header" style="border-bottom: none; padding-bottom: 0; margin-bottom: 20px;">
+    <header class="mb-5">
         <h1 class="sr-only">{:__('专业心理测试在线平台 - 趣味性格测评与自我认知')}</h1>
     </header>
     
@@ -261,102 +18,150 @@
       }]
     }
     </script>
-    <div class="row">
-        <div class="col-xs-12 col-md-6" style="background-color: #fff;height: auto;">
-            <div class="panel">
-                    <form class="form-inline navbar-form" action="{:addon_url('cms/search/index')}" method="get">
-                        <div class="form-group has-feedback">
-                            <input class="form-control" name="q"
-                                data-suggestion-url="{:addon_url('cms/search/suggestion')}" type="search"
-                                id="searchinput" value="{$Think.request.q|default=''|htmlentities}" placeholder="{:__('搜索')}">
-                            <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
-                        </div>
-                        {:token('__searchtoken__')}
-                    </form>
-            </div>
+    <div class="grid gap-6 md:grid-cols-2">
+        <div class="space-y-4">
+            <form action="{:addon_url('cms/search/index')}" method="get">
+                <div class="relative">
+                    <input class="h-12 w-full rounded-full border border-gray-200 bg-white pl-12 pr-4 text-sm text-gray-900 placeholder:text-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-100" name="q"
+                           data-suggestion-url="{:addon_url('cms/search/suggestion')}" type="search"
+                           id="searchinput" value="{$Think.request.q|default=''|htmlentities}" placeholder="{:__('搜索')}">
+                    <span class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"><i class="fa fa-search" aria-hidden="true"></i></span>
+                </div>
+                {:token('__searchtoken__')}
+            </form>
             {include file="common/item_tag" /}
         </div>
-        <div class="col-xs-12 col-md-6">
-            <div class="swiper-container index-focus">
-                <div id="index-focus" class="carousel slide carousel-focus" data-ride="carousel">
-                    <ol class="carousel-indicators">
+        <div>
+            <div class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
+                <div id="index-focus" class="relative" aria-label="{:__('焦点图')}">
+                    <ol class="absolute bottom-3 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2" aria-label="{:__('轮播指示器')}">
                         {cms:blocklist id="block" name="indexfocus" row="5"}
-                        <li data-target="#index-focus" data-slide-to="{:$i-1}" class="{if $i==1}active{/if}"></li>
+                        <li>
+                            <button type="button" data-carousel-indicator data-slide-to="{:$i-1}" class="h-2.5 w-2.5 rounded-full bg-white/50 ring-1 ring-white/60 transition hover:bg-white/80 {if $i==1}bg-white{/if}" aria-label="{:__('切换轮播')}" aria-current="{if $i==1}true{else}false{/if}"></button>
+                        </li>
                         {/cms:blocklist}
                     </ol>
-                    <div class="carousel-inner" role="listbox">
+                    <div class="relative overflow-hidden" role="region">
                         {cms:blocklist id="block" name="indexfocus" row="5"}
-                        <div class="item {if $i==1}active{/if}">
-                            <a href="{$block.url}">
-                                <img src="{$block.image}" 
-                                     class="carousel-img" 
-                                     alt="{$block.title|htmlentities} - {:__('心理测试')}" 
+                        <div class="{if $i==1}block{else}hidden{/if}" data-carousel-slide>
+                            <a href="{$block.url}" class="block">
+                                <img src="{$block.image}"
+                                     class="block h-[250px] w-full object-cover md:h-[400px]"
+                                     alt="{$block.title|htmlentities} - {:__('心理测试')}"
                                      {if $i>1}loading="lazy"{/if}
-                                     width="800" 
+                                     width="800"
                                      height="400">
-                                <div class="carousel-caption hidden-xs">
-                                    <h3>{$block.title|htmlentities}</h3>
+                                <div class="absolute bottom-0 left-0 right-0 hidden bg-gradient-to-t from-black/60 to-transparent p-4 text-white md:block">
+                                    <div class="text-base font-semibold">{$block.title|htmlentities}</div>
                                 </div>
                             </a>
                         </div>
                         {/cms:blocklist}
                     </div>
-                    <a class="left carousel-control" href="#index-focus" role="button" data-slide="prev">
-                        <span class="icon-prev fa fa-chevron-left" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="right carousel-control" href="#index-focus" role="button" data-slide="next">
-                        <span class="icon-next fa fa-chevron-right" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- 网站简介区块 -->
-    <section class="site-intro">
-        <div class="row">
-            <div class="col-md-8">
-                <h2>{:__('专业心理测试在线平台')}</h2>
-                <p>{:__('自我孵化心理测试平台是一个集合各种专业的心理估量表以及趣味测试的平台，致力于为用户提供高质量、专业且有趣的在线心理测试服务。通过这些测试，希望你能够在不同的角度更加了解自我。')}</p>
-                <div class="site-stats">
-                    <div>
-                        <strong>120+</strong>
-                        <span>{:__('测试项目')}</span>
+    <section class="mt-8 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+        <div class="grid gap-6 md:grid-cols-12 md:items-center">
+            <div class="md:col-span-8">
+                <h2 class="text-xl font-semibold text-gray-900">{:__('专业心理测试在线平台')}</h2>
+                <p class="mt-3 text-sm leading-7 text-gray-600">{:__('自我孵化心理测试平台是一个集合各种专业的心理估量表以及趣味测试的平台，致力于为用户提供高质量、专业且有趣的在线心理测试服务。通过这些测试，希望你能够在不同的角度更加了解自我。')}</p>
+                <div class="mt-5 grid grid-cols-3 gap-4">
+                    <div class="rounded-lg bg-gray-50 p-3 text-center">
+                        <div class="text-lg font-semibold text-gray-900">120+</div>
+                        <div class="mt-1 text-xs text-gray-600">{:__('测试项目')}</div>
                     </div>
-                    <div>
-                        <strong>1M+</strong>
-                        <span>{:__('累计测试')}</span>
+                    <div class="rounded-lg bg-gray-50 p-3 text-center">
+                        <div class="text-lg font-semibold text-gray-900">1M+</div>
+                        <div class="mt-1 text-xs text-gray-600">{:__('累计测试')}</div>
                     </div>
-                    <div>
-                        <strong>50K+</strong>
-                        <span>{:__('注册用户')}</span>
+                    <div class="rounded-lg bg-gray-50 p-3 text-center">
+                        <div class="text-lg font-semibold text-gray-900">50K+</div>
+                        <div class="mt-1 text-xs text-gray-600">{:__('注册用户')}</div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 hidden-xs u-flex-xy-center">
-                <div style="text-align: center;">
-                    <i class="fa fa-heart" style="font-size: 80px; opacity: 0.3;"></i>
-                    <p style="margin-top: 10px; opacity: 0.9;">{:__('了解自我 成就更好')}</p>
+            <div class="hidden md:flex md:col-span-4 md:justify-center">
+                <div class="text-center">
+                    <i class="fa fa-heart text-[80px] opacity-25"></i>
+                    <p class="mt-3 text-sm text-gray-700">{:__('了解自我 成就更好')}</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <div class="row mt-3">
-        <main class="col-xs-12 col-md-8">
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const root = document.getElementById('index-focus');
+            if (!root) return;
+
+            const slides = Array.from(root.querySelectorAll('[data-carousel-slide]'));
+            const indicators = Array.from(root.querySelectorAll('[data-carousel-indicator]'));
+            if (!slides.length || slides.length !== indicators.length) return;
+
+            let activeIndex = slides.findIndex(s => !s.classList.contains('hidden'));
+            if (activeIndex < 0) activeIndex = 0;
+
+            const setActive = (nextIndex) => {
+                if (nextIndex < 0 || nextIndex >= slides.length) return;
+                slides.forEach((slide, i) => {
+                    if (i === nextIndex) {
+                        slide.classList.remove('hidden');
+                        slide.classList.add('block');
+                    } else {
+                        slide.classList.add('hidden');
+                        slide.classList.remove('block');
+                    }
+                });
+                indicators.forEach((btn, i) => {
+                    if (i === nextIndex) {
+                        btn.classList.add('bg-white');
+                        btn.classList.remove('bg-white/50');
+                        btn.setAttribute('aria-current', 'true');
+                    } else {
+                        btn.classList.remove('bg-white');
+                        btn.classList.add('bg-white/50');
+                        btn.setAttribute('aria-current', 'false');
+                    }
+                });
+                activeIndex = nextIndex;
+            };
+
+            let timer = null;
+            const start = () => {
+                if (timer) clearInterval(timer);
+                timer = setInterval(() => {
+                    setActive((activeIndex + 1) % slides.length);
+                }, 5000);
+            };
+
+            indicators.forEach((btn, i) => {
+                btn.addEventListener('click', function () {
+                    setActive(i);
+                    start();
+                });
+            });
+
+            start();
+        });
+    </script>
+
+    <div class="mt-8 grid gap-6 lg:grid-cols-12">
+        <main class="space-y-6 lg:col-span-8">
             <!-- 热门测试区块 -->
-            <section class="panel panel-default hot-tests-section" aria-labelledby="hot-tests-section">
-                <header class="panel-heading">
-                    <h2 class="panel-title" id="hot-tests-section">
-                        <i class="fa fa-fire"></i> {:__('热门测试')}
+            <section class="rounded-lg border border-gray-200 bg-white shadow-sm" aria-labelledby="hot-tests-section">
+                <header class="border-b border-gray-100 px-4 py-3">
+                    <h2 class="text-base font-semibold text-gray-900" id="hot-tests-section">
+                        <i class="fa fa-fire mr-2 text-emerald-600"></i>{:__('热门测试')}
                     </h2>
                 </header>
-                <div class="panel-body p-0">
-                    <div class="product-list row">
+                <div class="p-4">
+                    <div class="grid grid-cols-2 gap-4 sm:grid-cols-3">
                         {cms:arclist id="item" channel="26,32" orderby="views" orderway="DESC" limit="6"}
-                        <div class="col-xs-6 col-sm-4 col-md-4 product-item">
+                        <div>
                             {include file="common/item_mbti" /}
                         </div>
                         {/cms:arclist}
@@ -364,17 +169,15 @@
                 </div>
             </section>
 
-            <section class="panel panel-default" aria-labelledby="personality-section">
-                <header class="panel-heading">
-                    <h2 class="panel-title" id="personality-section">{:__('趣味人格测试')}</h2>
-                    <div class="more">
-                        <a href="{:addon_url('cms/channel/index', [':id'=>26, ':diyname'=>'quweirenge'])}">{:__('查看更多')}</a>
-                    </div>
+            <section class="rounded-lg border border-gray-200 bg-white shadow-sm" aria-labelledby="personality-section">
+                <header class="flex items-center justify-between border-b border-gray-100 px-4 py-3">
+                    <h2 class="text-base font-semibold text-gray-900" id="personality-section">{:__('趣味人格测试')}</h2>
+                    <a class="text-sm text-emerald-600 hover:text-emerald-700" href="{:addon_url('cms/channel/index', [':id'=>26, ':diyname'=>'quweirenge'])}">{:__('查看更多')}</a>
                 </header>
-                <div class="panel-body p-0">
-                    <div class="product-list row">
+                <div class="p-4">
+                    <div class="grid grid-cols-2 gap-4 sm:grid-cols-3">
                         {cms:arclist id="item" channel="26" length="8" limit="8"}
-                        <div class="col-xs-6 col-sm-4 col-md-4 product-item">
+                        <div>
                             {include file="common/item_mbti" /}
                         </div>
                         {/cms:arclist}
@@ -382,91 +185,77 @@
                 </div>
             </section>
 
-            <section class="panel panel-default" aria-labelledby="fun-test-section">
-                <header class="panel-heading">
-                    <h2 class="panel-title" id="fun-test-section">
-                        <span>{:__('趣味心理测试')}</span>
-                        <div class="more">
-                            <a href="{:addon_url('cms/channel/index', [':id'=>25, ':diyname'=>'quweiceshi'])}">{:__('查看更多')}</a>
-                        </div>
-                    </h2>
+            <section class="rounded-lg border border-gray-200 bg-white shadow-sm" aria-labelledby="fun-test-section">
+                <header class="flex items-center justify-between border-b border-gray-100 px-4 py-3">
+                    <h2 class="text-base font-semibold text-gray-900" id="fun-test-section">{:__('趣味心理测试')}</h2>
+                    <a class="text-sm text-emerald-600 hover:text-emerald-700" href="{:addon_url('cms/channel/index', [':id'=>25, ':diyname'=>'quweiceshi'])}">{:__('查看更多')}</a>
                 </header>
-                <div class="panel-body p-0">
-                    <div class="row">
-                        <div class="article-list">
-                            {cms:arclist type="son" id="item" channel="25" length="8" limit="12"}
-                            <div class="col-xs-6 col-sm-4 col-md-3 product-item">
-                                {include file="common/item_funtest"}
-                            </div>
-                            {/cms:arclist}
+                <div class="p-4">
+                    <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+                        {cms:arclist type="son" id="item" channel="25" length="8" limit="12"}
+                        <div>
+                            {include file="common/item_funtest"}
                         </div>
+                        {/cms:arclist}
                     </div>
-
                 </div>
             </section>
 
-            <!-- FAQ常见问题区块 -->
-            <section class="panel panel-default" aria-labelledby="faq-section" itemscope itemtype="https://schema.org/FAQPage">
-                <header class="panel-heading">
-                    <h2 class="panel-title" id="faq-section">
-                        <i class="fa fa-question-circle"></i> {:__('常见问题')}
+            <section class="rounded-lg border border-gray-200 bg-white shadow-sm" aria-labelledby="faq-section" itemscope itemtype="https://schema.org/FAQPage">
+                <header class="border-b border-gray-100 px-4 py-3">
+                    <h2 class="text-base font-semibold text-gray-900" id="faq-section">
+                        <i class="fa fa-question-circle mr-2 text-emerald-600"></i>{:__('常见问题')}
                     </h2>
                 </header>
-                <div class="panel-body">
-                    <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-                        <h3 class="faq-question" itemprop="name">
-                            <i class="fa fa-check-circle"></i> {:__('心理测试准确吗？')}
-                        </h3>
-                        <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                            <p class="faq-answer" itemprop="text">
-                                {:__('我们的测试基于专业心理学量表和理论编制，经过大量用户验证。测试结果仅供参考，帮助您更好地了解自己，不能作为临床诊断依据。')}
-                            </p>
+                <div class="p-4">
+                    <div class="space-y-4">
+                        <div class="rounded-lg bg-gray-50 p-4" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                            <h3 class="text-sm font-semibold text-gray-900" itemprop="name">
+                                <i class="fa fa-check-circle mr-2 text-emerald-600"></i>{:__('心理测试准确吗？')}
+                            </h3>
+                            <div class="mt-2" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                                <p class="text-sm leading-7 text-gray-600" itemprop="text">{:__('我们的测试基于专业心理学量表和理论编制，经过大量用户验证。测试结果仅供参考，帮助您更好地了解自己，不能作为临床诊断依据。')}</p>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-                        <h3 class="faq-question" itemprop="name">
-                            <i class="fa fa-check-circle"></i> {:__('测试需要多长时间？')}
-                        </h3>
-                        <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                            <p class="faq-answer" itemprop="text">
-                                {:__('大多数测试在5-15分钟内可以完成。我们建议在安静的环境中，按照第一直觉作答，这样结果会更准确。')}
-                            </p>
+                        <div class="rounded-lg bg-gray-50 p-4" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                            <h3 class="text-sm font-semibold text-gray-900" itemprop="name">
+                                <i class="fa fa-check-circle mr-2 text-emerald-600"></i>{:__('测试需要多长时间？')}
+                            </h3>
+                            <div class="mt-2" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                                <p class="text-sm leading-7 text-gray-600" itemprop="text">{:__('大多数测试在5-15分钟内可以完成。我们建议在安静的环境中，按照第一直觉作答，这样结果会更准确。')}</p>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-                        <h3 class="faq-question" itemprop="name">
-                            <i class="fa fa-check-circle"></i> {:__('测试结果会保密吗？')}
-                        </h3>
-                        <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                            <p class="faq-answer" itemprop="text">
-                                {:__('我们严格保护用户隐私，所有测试数据都经过加密处理。您的测试结果仅自己可见，我们不会向第三方透露您的个人信息。')}
-                            </p>
+                        <div class="rounded-lg bg-gray-50 p-4" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                            <h3 class="text-sm font-semibold text-gray-900" itemprop="name">
+                                <i class="fa fa-check-circle mr-2 text-emerald-600"></i>{:__('测试结果会保密吗？')}
+                            </h3>
+                            <div class="mt-2" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                                <p class="text-sm leading-7 text-gray-600" itemprop="text">{:__('我们严格保护用户隐私，所有测试数据都经过加密处理。您的测试结果仅自己可见，我们不会向第三方透露您的个人信息。')}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
         </main>
 
-        <aside class="col-xs-12 col-md-4">
+        <aside class="space-y-6 lg:col-span-4">
             <!-- 测试分类导航 -->
-            <section class="panel panel-default test-categories-section" aria-labelledby="test-categories-section">
-                <header class="panel-heading">
-                    <h2 class="panel-title" id="test-categories-section">
-                        <i class="fa fa-th-large"></i> {:__('测试分类')}
+            <section class="rounded-lg border border-gray-200 bg-white shadow-sm" aria-labelledby="test-categories-section">
+                <header class="border-b border-gray-100 px-4 py-3">
+                    <h2 class="text-base font-semibold text-gray-900" id="test-categories-section">
+                        <i class="fa fa-th-large mr-2 text-emerald-600"></i>{:__('测试分类')}
                     </h2>
                 </header>
-                <div class="panel-body p-0">
-                    <ul class="list-group mb-0">
+                <div class="p-2">
+                    <ul class="divide-y divide-gray-100">
                         {cms:channellist id="cat" type="son" typeid="25,26" condition="1=isnav"}
-                        <li class="list-group-item" style="border-left: none; border-right: none;">
-                            <a href="{$cat.url}" class="category-link">
-                                <span>
-                                    <i class="fa fa-folder-o category-icon"></i>
+                        <li>
+                            <a href="{$cat.url}" class="flex items-center justify-between rounded-md px-3 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600">
+                                <span class="flex items-center gap-2">
+                                    <i class="fa fa-folder-o text-gray-400"></i>
                                     {:__($cat.name)}
                                 </span>
-                                <i class="fa fa-angle-right category-arrow"></i>
+                                <i class="fa fa-angle-right text-gray-400"></i>
                             </a>
                         </li>
                         {/cms:channellist}
@@ -474,37 +263,32 @@
                 </div>
             </section>
 
-            <section class="panel panel-default" aria-labelledby="latest-articles-section">
-                <header class="panel-heading">
-                    <h2 class="panel-title" id="latest-articles-section">{:__('最新文章')}</h2>
+            <section class="rounded-lg border border-gray-200 bg-white shadow-sm" aria-labelledby="latest-articles-section">
+                <header class="border-b border-gray-100 px-4 py-3">
+                    <h2 class="text-base font-semibold text-gray-900" id="latest-articles-section">{:__('最新文章')}</h2>
                 </header>
-                <div class="panel-body">
-                    <div class="row">
+                <div class="p-4">
+                    <div class="space-y-3">
                         {cms:arclist id="item" model="1" limit="10"}
-                        <div class="col-xs-12" style="margin-bottom: 12px;">
-                            <a href="{$item.url}">
-                                <div class="">{$item.title|htmlentities}</div>
-                            </a>
-                        </div>
+                        <a class="block rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600" href="{$item.url}">
+                            {$item.title|htmlentities}
+                        </a>
                         {/cms:arclist}
                     </div>
                 </div>
             </section>
 
-            <section class="panel panel-default" aria-labelledby="self-assessment-section">
-                <header class="panel-heading">
-                    <h2 class="panel-title" id="self-assessment-section">{:__('专业自我测评')}</h2>
+            <section class="rounded-lg border border-gray-200 bg-white shadow-sm" aria-labelledby="self-assessment-section">
+                <header class="border-b border-gray-100 px-4 py-3">
+                    <h2 class="text-base font-semibold text-gray-900" id="self-assessment-section">{:__('专业自我测评')}</h2>
                 </header>
-                <div class="panel-body p-0">
-                    <div class="row">
-                        <div class="article-list">
-
-                            {cms:arclist id="item" channel="9" length="8" row="3"}
-                            <div class="col-xs-12 product-item">
-                                {include file="common/item_protest"}
-                            </div>
-                            {/cms:arclist}
+                <div class="p-4">
+                    <div class="space-y-4">
+                        {cms:arclist id="item" channel="9" length="8" row="3"}
+                        <div>
+                            {include file="common/item_protest"}
                         </div>
+                        {/cms:arclist}
                     </div>
                 </div>
             </section>

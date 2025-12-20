@@ -1,249 +1,131 @@
 {layout name="common/layout" /}
 
-<style>
-    html, body {
-    }
-
-    .form-search label {
-        font-weight: normal;
-        margin-right: 5px;
-    }
-
-    .result-list {
-        margin: 0;
-    }
-
-    .result-list dd {
-        margin-bottom: 20px;
-        /*border-bottom:1px solid #f3f3f3;*/
-    }
-
-    .result-list dd:last-child {
-        margin-bottom: 0;
-    }
-
-    .result-list dd .description {
-        font-size: 14px;
-        color: #666;
-        line-height: 24px;
-    }
-
-    .result-list dd .extra, .result-list dd a {
-        font-size: 13px;
-        color: green;
-        margin-top: 5px;
-    }
-
-    .result-list dd .extra span {
-        margin-right: 5px;
-    }
-
-    .result-list dd .extra strong {
-        font-weight: 400;
-        margin-right: 1px;
-    }
-
-    .result-list h4 {
-        font-weight: 400;
-        font-size: 16px;
-        margin-bottom: 3px;
-        line-height: 1.54;
-    }
-
-    .result-list em {
-        color: #c00;
-        font-style: normal;
-    }
-
-    .result-list . field-info {
-
-    }
-
-    .search-suggestion {
-        background-color: #F5F5F5;
-        padding: 10px;
-        margin-bottom: 15px;
-    }
-
-    .search-links {
-        margin-top: 25px;
-    }
-
-    .search-links a {
-        margin-right: 5px;
-    }
-
-    .autocomplete-searchmenu .autocomplete-suggestion {
-        padding: 5px 12px;
-    }
-</style>
-<div class="container">
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <div class="p-3">
-                        <form class="form-search pt-2" id="search-form" method="get">
-                            <input type="hidden" name="order" value="{$order|htmlentities}">
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-6" id="q-input">
-                                    <div class="input-group">
-                                        <input type="search" class="search-query form-control" name="q" title="输入任意关键词皆可搜索" value="<?php echo htmlspecialchars($q); ?>">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-primary ml-2" type="submit" style="border-radius:2px;padding:6px 30px;">搜索</button>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 mt-2">
-                                    <label><input type="radio" name="fulltext" value="0" {:$fulltext?'':'checked'} /> 标题</label>
-                                    <label>
-                                        <input type="radio" name="fulltext" value="1" {:$fulltext?'checked':''} /> 全文
-                                    </label>
-                                    <label>
-                                        <input type="checkbox" name="fuzzy" value="1" {:$fuzzy?'checked':''} /> 模糊搜索
-                                    </label>
-                                    {if false}
-                                    <label>
-                                        <input type="checkbox" name="synonyms" value="1" {:$synonyms?'checked':''} /> 同义词
-                                    </label>
-                                    {/if}
-                                    <span class="dropdown">
-                                        <span class="dropdown-toggle" data-toggle="dropdown" href="javascript:">
-                                            {:isset($orderList[$order])?$orderList[$order]:$orderList['relevance']} <span class="caret"></span>
-                                        </span>
-                                        <ul class="dropdown-menu orderlist">
-                                            {foreach name="orderList" id="item"}
-                                            <li role="presentation"><a role="menuitem" tabindex="-1" data-value="{$key}" href="javascript:">{$item|htmlentities}</a></li>
-                                            {/foreach}
-                                        </ul>
-                                    </span>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="container">
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <!-- 开始搜索 -->
-                    <?php if (!empty($q)): ?>
-                    <div class="">
-
-                        <div class="span12">
-                            <!-- 搜索状态 -->
-                            <p class="result text-muted">为您找到约 <?php echo number_format($count); ?> 条结果，搜索耗时：<?php printf('%.4f', $search_cost); ?>秒</p>
-
-                            <!-- 搜索建议 -->
-                            <?php if (count($corrected) > 0): ?>
-                            <div class="search-suggestion">
-                                您是不是要找：
-                                <?php foreach ($corrected as $word): ?>
-                                <span><a href="<?php echo '?q=' . urlencode($word); ?>" class="text-danger"><?php echo htmlentities($word); ?></a></span>
-                                <?php endforeach; ?>
-                            </div>
-                            <?php endif; ?>
-
-                            <!-- 未找到结果 -->
-                            <?php if ($count === 0 && empty($error)): ?>
-                            <div class="search-not-found">
-                                <p>找不到和 {$q|htmlspecialchars} 相符的内容或信息。</p>
-                                <p>建议您：</p>
-                                <ul class="list-unstyled">
-                                    <li>1.请检查输入字词有无错误。</li>
-                                    <li>2.请换用另外的查询字词。</li>
-                                    <li>3.请改用较短、较为常见的字词。</li>
-                                </ul>
-                            </div>
-                            <?php endif; ?>
-
-                            <!-- 查询结果 -->
-                            <dl class="result-list">
-                                <?php foreach ($docs as $doc): ?>
-                                <dt>
-                                    <h4>
-                                        <a href="{$doc['url']}" class="primary-link" target="_blank">
-                                            <?php echo $highlight(htmlspecialchars($doc['title'])); ?>
-                                        </a>
-                                    </h4>
-                                </dt>
-                                <dd>
-                                    <div class="description"><?php echo $fulltext ? $highlight(htmlspecialchars($doc['content'])) : htmlspecialchars($doc['content']); ?></div>
-                                    <div class="extra">
-                                        {if $doc['type']=="question"}
-                                        <span class="tag tag-xs">问题</span>
-                                        <span><strong>发布于</strong>{$doc.createtime|human_date}</span>
-                                        <span>{$doc['comments']} 人回答</span>
-                                        {elseif $doc['type']=="article" /}
-                                        <span class="tag tag-xs tag-danger">文章</span>
-                                        <span><strong>发布于</strong>{$doc.createtime|human_date}</span>
-                                        <span>{$doc['views']} 次浏览</span>
-                                        <span>{$doc['comments']} 次评论</span>
-                                        {/if}
-                                    </div>
-                                </dd>
-                                <?php endforeach; ?>
-                            </dl>
-
-                            <!-- 分页 -->
-                            <?php if (!empty($pager)): ?>
-                            <div class="pager mb-0" style="text-align:left;">
-                                <ul class="pagination">
-                                    <?php echo $pager; ?>
-                                </ul>
-                            </div>
-                            <?php endif; ?>
-
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="rounded-lg border border-gray-200 bg-white shadow-sm">
+        <div class="p-4">
+            <form class="pt-2" id="search-form" method="get">
+                <input type="hidden" name="order" value="{$order|htmlentities}">
+                <div class="grid gap-4 md:grid-cols-12">
+                    <div class="md:col-span-6" id="q-input">
+                        <div class="flex gap-2">
+                            <input type="search" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200" name="q" title="输入任意关键词皆可搜索" value="<?php echo htmlspecialchars($q); ?>">
+                            <button class="inline-flex items-center justify-center rounded-md bg-emerald-600 px-6 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700" type="submit">搜索</button>
                         </div>
                     </div>
-                    <?php endif; ?>
-                    <!-- 结束搜索 -->
-
-
+                    <div class="md:col-span-6">
+                        <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-gray-700">
+                            <label class="inline-flex items-center gap-2"><input class="h-4 w-4" type="radio" name="fulltext" value="0" {:$fulltext?'':'checked'} /> 标题</label>
+                            <label class="inline-flex items-center gap-2"><input class="h-4 w-4" type="radio" name="fulltext" value="1" {:$fulltext?'checked':''} /> 全文</label>
+                            <label class="inline-flex items-center gap-2"><input class="h-4 w-4" type="checkbox" name="fuzzy" value="1" {:$fuzzy?'checked':''} /> 模糊搜索</label>
+                            {if false}
+                            <label class="inline-flex items-center gap-2"><input class="h-4 w-4" type="checkbox" name="synonyms" value="1" {:$synonyms?'checked':''} /> 同义词</label>
+                            {/if}
+                            <div class="relative">
+                                <button type="button" class="inline-flex items-center gap-2 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 shadow-sm hover:bg-gray-50" data-dropdown-toggle="orderlist">
+                                    {:isset($orderList[$order])?$orderList[$order]:$orderList['relevance']}
+                                    <span class="text-gray-400">▾</span>
+                                </button>
+                                <ul class="orderlist absolute right-0 z-30 mt-2 hidden w-44 overflow-hidden rounded-md border border-gray-200 bg-white shadow-lg" data-dropdown-menu="orderlist">
+                                    {foreach name="orderList" id="item"}
+                                    <li role="presentation"><a class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-50" role="menuitem" tabindex="-1" data-value="{$key}" href="javascript:">{$item|htmlentities}</a></li>
+                                    {/foreach}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>
 
-<!-- 热门搜索 -->
-<?php if (count($hot) > 0 && false): ?>
-<div class="container">
-    <div class="search-links">
-        <h4>热门搜索</h4>
-        <p>
-            <?php foreach($hot as $word => $freq): ?>
-            <span><a href="<?php echo '?q=' . urlencode($word); ?>" class="primary-link"><?php echo htmlentities($word); ?></a></span>
-            <?php endforeach; ?>
-        </p>
+<div class="mx-auto mt-6 max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="rounded-lg border border-gray-200 bg-white shadow-sm">
+        <div class="p-4">
+            <!-- 开始搜索 -->
+            <?php if (!empty($q)): ?>
+            <div class="xunsearch-results">
+                <!-- 搜索状态 -->
+                <p class="text-sm text-gray-600">为您找到约 <?php echo number_format($count); ?> 条结果，搜索耗时：<?php printf('%.4f', $search_cost); ?>秒</p>
+
+                <!-- 搜索建议 -->
+                <?php if (count($corrected) > 0): ?>
+                <div class="mt-4 rounded-lg bg-gray-50 p-3 text-sm text-gray-700">
+                    您是不是要找：
+                    <?php foreach ($corrected as $word): ?>
+                    <span class="mr-2"><a href="<?php echo '?q=' . urlencode($word); ?>" class="text-rose-600 hover:text-rose-700"><?php echo htmlentities($word); ?></a></span>
+                    <?php endforeach; ?>
+                </div>
+                <?php endif; ?>
+
+                <!-- 未找到结果 -->
+                <?php if ($count === 0 && empty($error)): ?>
+                <div class="mt-4 rounded-lg border border-dashed border-gray-300 bg-white p-4 text-sm text-gray-700">
+                    <p>找不到和 {$q|htmlspecialchars} 相符的内容或信息。</p>
+                    <p class="mt-2">建议您：</p>
+                    <ul class="mt-2 space-y-1">
+                        <li>1.请检查输入字词有无错误。</li>
+                        <li>2.请换用另外的查询字词。</li>
+                        <li>3.请改用较短、较为常见的字词。</li>
+                    </ul>
+                </div>
+                <?php endif; ?>
+
+                <!-- 查询结果 -->
+                <dl class="mt-4 space-y-5">
+                    <?php foreach ($docs as $doc): ?>
+                    <div class="rounded-lg border border-gray-100 p-4 hover:bg-gray-50">
+                        <dt>
+                            <h4 class="text-base font-semibold text-gray-900">
+                                <a href="{$doc['url']}" class="text-emerald-700 hover:text-emerald-800" target="_blank">
+                                    <?php echo $highlight(htmlspecialchars($doc['title'])); ?>
+                                </a>
+                            </h4>
+                        </dt>
+                        <dd class="mt-2">
+                            <div class="text-sm leading-7 text-gray-600"><?php echo $fulltext ? $highlight(htmlspecialchars($doc['content'])) : htmlspecialchars($doc['content']); ?></div>
+                            <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-gray-600">
+                                {if $doc['type']=="question"}
+                                <span class="inline-flex items-center rounded-full bg-gray-100 px-2 py-0.5 font-medium text-gray-700">问题</span>
+                                <span><strong class="font-semibold">发布于</strong>{$doc.createtime|human_date}</span>
+                                <span>{$doc['comments']} 人回答</span>
+                                {elseif $doc['type']=="article" /}
+                                <span class="inline-flex items-center rounded-full bg-rose-50 px-2 py-0.5 font-medium text-rose-700">文章</span>
+                                <span><strong class="font-semibold">发布于</strong>{$doc.createtime|human_date}</span>
+                                <span>{$doc['views']} 次浏览</span>
+                                <span>{$doc['comments']} 次评论</span>
+                                {/if}
+                            </div>
+                        </dd>
+                    </div>
+                    <?php endforeach; ?>
+                </dl>
+
+                <!-- 分页 -->
+                <?php if (!empty($pager)): ?>
+                <div class="mt-6">
+                    <ul class="pagination flex flex-wrap gap-2">
+                        <?php echo $pager; ?>
+                    </ul>
+                </div>
+                <?php endif; ?>
+            </div>
+            <?php endif; ?>
+            <!-- 结束搜索 -->
+        </div>
     </div>
 </div>
-<?php endif; ?>
 
 <!-- 相关搜索 -->
 <?php if (count($related) > 0): ?>
-<div class="container">
-
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <div class="search-links">
-                        <h4>相关搜索</h4>
-                        <p>
-                            <?php foreach ($related as $word): ?>
-                            <span><a href="<?php echo '?q=' . urlencode($word); ?>"><?php echo htmlentities($word); ?></a></span>
-                            <?php endforeach; ?>
-                        </p>
-                    </div>
-                </div>
+<div class="mx-auto mt-6 max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="rounded-lg border border-gray-200 bg-white shadow-sm">
+        <div class="p-4">
+            <h4 class="text-base font-semibold text-gray-900">相关搜索</h4>
+            <div class="mt-3 flex flex-wrap gap-2">
+                <?php foreach ($related as $word): ?>
+                <a class="inline-flex items-center rounded-full border border-gray-200 bg-white px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600" href="<?php echo '?q=' . urlencode($word); ?>"><?php echo htmlentities($word); ?></a>
+                <?php endforeach; ?>
             </div>
         </div>
     </div>
@@ -256,7 +138,7 @@
         var search = $("input[name='q']", form);
         search.autoComplete({
             minChars: 1,
-            menuClass: 'autocomplete-searchmenu',
+            menuClass: 'autocomplete-searchmenu z-30 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-lg',
             header: '',
             footer: '',
             source: function (term, response) {
@@ -287,5 +169,34 @@
             $("input[name=order]", form).val($(this).data("value"));
             form.trigger("submit");
         });
+
+        try {
+            // 高亮词（<em>）统一 Tailwind 化
+            document.querySelectorAll('.xunsearch-results em').forEach(function (el) {
+                el.classList.add('text-rose-600', 'not-italic', 'font-semibold');
+            });
+
+            // 分页统一 Tailwind 化（兼容 pager 输出的 li/a/span 结构）
+            document.querySelectorAll('.pagination > li > a, .pagination > li > span').forEach(function (el) {
+                el.classList.add('inline-flex', 'min-w-9', 'items-center', 'justify-center', 'rounded-lg', 'border', 'border-gray-300', 'bg-white', 'px-3', 'py-2', 'text-sm', 'text-gray-700', 'shadow-sm');
+            });
+            document.querySelectorAll('.pagination > li > a').forEach(function (el) {
+                el.classList.add('hover:bg-gray-50');
+            });
+            document.querySelectorAll('.pagination > li.active > span, .pagination > li.active > a').forEach(function (el) {
+                el.classList.add('bg-emerald-600', 'border-emerald-600', 'text-white');
+            });
+            document.querySelectorAll('.pagination > li.disabled > span, .pagination > li.disabled > a').forEach(function (el) {
+                el.classList.add('opacity-60');
+            });
+
+            // autocomplete 条目补齐 Tailwind 交互（插件动态插入，使用观察者）
+            var observer = new MutationObserver(function () {
+                document.querySelectorAll('.autocomplete-searchmenu .autocomplete-suggestion').forEach(function (node) {
+                    node.classList.add('cursor-pointer', 'px-3', 'py-2', 'text-sm', 'text-gray-700', 'hover:bg-gray-50');
+                });
+            });
+            observer.observe(document.body, { childList: true, subtree: true });
+        } catch (e) {}
     });
 </script>

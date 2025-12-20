@@ -1,16 +1,14 @@
-<div class="card procard">
-    <a href="{$item.url}" class="thumb">
-        <div class="promark">
-            <h2>{$item.title|htmlentities}｜共{$item.question_num|htmlentities}题</h2>
+<div class="group overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition hover:shadow-md">
+    <a href="{$item.url}" class="relative block overflow-hidden bg-gray-100">
+        <div class="absolute left-3 top-3 z-10 rounded-md bg-white/95 px-2 py-1 text-xs font-medium text-gray-900 shadow">
+            {$item.title|htmlentities}｜共{$item.question_num|htmlentities}题
         </div>
-        <div class="preview-link">
-            <div class="embed-responsive embed-responsive-4by1">
-                <img src="{$item.image}" alt="">
-            </div>
+        <div class="aspect-[4/1] overflow-hidden">
+            <img class="h-full w-full object-cover transition duration-300 group-hover:scale-105" src="{$item.image}" alt="{$item.title|htmlentities}">
         </div>
     </a>
-    <div style="padding: 6px 6px 12px 6px;">
-        <div class="sub_title">{$item.sub_title|htmlentities}</div>
+    <div class="p-3">
+        <div class="text-xs leading-6 text-gray-600">{$item.sub_title|htmlentities}</div>
         <!-- <div class="u-flex u-flex-between">
             <div class="smalltxt">共{$item.question_num|htmlentities}题</div>
             <div class="pricetxt">¥{$item.price}</div>

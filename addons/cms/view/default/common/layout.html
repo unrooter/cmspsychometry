@@ -31,25 +31,25 @@
     <link rel="dns-prefetch" href="//api.nbmgkj.com">
     <!-- 内联最小关键CSS，防止FOUC -->
     <style>
-    body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;font-size:14px;line-height:1.42857143;color:#333;background-color:#fff;opacity:0;transition:opacity 0.3s ease-in}
+    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif;opacity:0;transition:opacity 0.3s ease-in}
     body.loaded{opacity:1}
-    .container{margin-right:auto;margin-left:auto;padding-left:15px;padding-right:15px}
-    .navbar{position:relative;min-height:50px;margin-bottom:20px;border:1px solid transparent}
-    .navbar-fixed-top{position:fixed;right:0;left:0;z-index:9999;top:0}
-    @media(min-width:768px){.container{width:750px}}
-    @media(min-width:992px){.container{width:970px}}
-    @media(min-width:1200px){.container{width:1170px}}
     
     /* 页面加载动画 */
     #page-loader{position:fixed;top:0;left:0;width:100%;height:100%;background:#fff;z-index:99999;display:flex;align-items:center;justify-content:center;transition:opacity 0.3s ease-out,visibility 0.3s ease-out}
     #page-loader.hidden{opacity:0;visibility:hidden}
     .loader-spinner{width:50px;height:50px;border:4px solid #f3f3f3;border-top:4px solid #5CB89F;border-radius:50%;animation:spin 0.8s linear infinite}
     @keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+
+    /* 移动端菜单（配合 .active class 切换） */
+    #navbar-collapse{transform:translateX(-100%);transition:transform 0.25s ease;width:16rem;z-index:50;overflow-y:auto;-webkit-overflow-scrolling:touch}
+    #navbar-collapse.active{transform:translateX(0)}
+    body.is-open{overflow:hidden}
+    .navbar-collapse-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:40}
     </style>
-    
-    <!-- 完整Bootstrap CSS异步加载 -->
-    <link rel="preload" href="__CDN__/assets/css/bootstrap.css?v={$site.version}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="__CDN__/assets/css/bootstrap.css?v={$site.version}"></noscript>
+
+    {php}$__twver = @filemtime(ROOT_PATH . 'public/assets/addons/cms/css/tailwind.min.css');{/php}
+    <link rel="stylesheet" href="__ADDON__/css/tailwind.min.css?v={$__twver ?: $site.version}">
+    <noscript><link rel="stylesheet" href="__ADDON__/css/tailwind.min.css?v={$__twver ?: $site.version}"></noscript>
     
     <!-- 字体预加载（防止CLS布局偏移） -->
     <link rel="preload" href="__CDN__/assets/libs/font-awesome/fonts/fontawesome-webfont.woff2?v=4.7.0" as="font" type="font/woff2" crossorigin>
@@ -61,25 +61,14 @@
     <link rel="modulepreload" href="__CDN__/assets/libs/jquery/dist/jquery.min.js?v={$site.version}">
     
     <!-- 非关键CSS延迟加载 -->
-    <link rel="preload" href="__CDN__/assets/libs/font-awesome/css/font-awesome.min.css?v={$site.version}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="__CDN__/assets/libs/fastadmin-layer/dist/theme/default/layer.css?v={$site.version}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="__ADDON__/css/swiper.min.css?v={$site.version}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="__ADDON__/css/share.min.css?v={$site.version}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="__ADDON__/css/iconfont.css?v={$site.version}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="__ADDON__/css/common.css?v={$site.version}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="__ADDON__/css/vue-css.css?v={$site.version}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="__CDN__/assets/libs/font-awesome/css/font-awesome.min.css?v={$site.version}">
+    <link rel="stylesheet" href="__ADDON__/css/iconfont.css?v={$site.version}">
+    <link rel="stylesheet" href="__ADDON__/css/swiper.min.css?v={$site.version}">
     
     <!-- 降级方案（无JS时正常加载） -->
     <noscript>
         <link rel="stylesheet" media="screen" href="__CDN__/assets/libs/font-awesome/css/font-awesome.min.css?v={$site.version}"/>
-        <link rel="stylesheet" media="screen" href="__CDN__/assets/libs/fastadmin-layer/dist/theme/default/layer.css?v={$site.version}"/>
-        <link rel="stylesheet" media="screen" href="__ADDON__/css/swiper.min.css?v={$site.version}">
-        <link rel="stylesheet" media="screen" href="__ADDON__/css/share.min.css?v={$site.version}">
         <link rel="stylesheet" media="screen" href="__ADDON__/css/iconfont.css?v={$site.version}">
-        <link rel="stylesheet" media="screen" href="__ADDON__/css/common.css?v={$site.version}"/>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-        <link rel="stylesheet" media="screen" href="__ADDON__/css/vue-css.css?v={$site.version}"/>
     </noscript>
 
     <!-- <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css"> -->
@@ -172,65 +161,6 @@
     {/if}
 
     {__STYLE__}
-    
-    <!-- 多语言切换样式 -->
-    <style>
-    .lang-switch {
-        position: relative;
-        padding: 8px 15px;
-        display: block;
-        color: #333;
-        text-decoration: none;
-        transition: all 0.3s ease;
-    }
-    
-    .lang-switch:hover {
-        background-color: #f5f5f5;
-        color: #5DBE9E;
-        text-decoration: none;
-    }
-    
-    .lang-switch.active {
-        background-color: #5DBE9E;
-        color: white;
-        font-weight: bold;
-    }
-    
-    .lang-switch.active:hover {
-        background-color: #4a9d7e;
-        color: white;
-    }
-    
-    .lang-switch i {
-        margin-right: 8px;
-        width: 16px;
-        text-align: center;
-    }
-    
-    #current-lang-text {
-        margin-left: 5px;
-    }
-    
-    .navbar-userinfo .dropdown-menu {
-        min-width: 120px;
-    }
-    
-    /* 移动端优化 */
-    @media (max-width: 768px) {
-        .lang-switch {
-            padding: 10px 15px;
-            font-size: 14px;
-        }
-        
-        #current-lang-text {
-            display: none;
-        }
-        
-        .navbar-userinfo .dropdown-toggle {
-            padding: 8px 12px;
-        }
-    }
-    </style>
 
     <!--[if lt IE 9]>
     <script src="__CDN__/libs/html5shiv.js"></script>
@@ -275,291 +205,40 @@
     }
     </script>
 </head>
-<style>
-    /* 性能优化：确保文本在字体加载时可见 */
-    * {
-        font-display: swap !important;
-    }
-    
-    /* SEO优化的布局样式 */
-    header {
-        position: relative;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        background: #fff;
-        z-index: 9998;
-    }
-    
-    /* 防止导航折叠导致布局偏移 */
-    .navbar-collapse {
-        transition: height 0.35s ease;
-    }
-    
-    @media (min-width: 768px) {
-        .navbar-collapse {
-            height: auto !important;
-        }
-    }
-    
-    .navbar-brand {
-        padding: 5px 15px;
-        transition: all 0.3s ease;
-        display: block;
-        min-height: 80px;
-    }
-    
-    .navbar-brand img {
-        width: 70px;
-        height: 70px;
-        display: block;
-    }
-    
-    .navbar-brand:hover {
-        transform: scale(1.05);
-    }
-    
-    /* 优化导航样式 */
-    .navbar-nav > li > a {
-        transition: all 0.3s ease;
-        font-weight: 500;
-        padding: 15px 18px;
-    }
-    
-    .navbar-nav > li > a:hover {
-        color: #5DBE9E;
-        background-color: rgba(93, 190, 158, 0.1);
-    }
-    
-    .navbar-nav > li.active > a {
-        color: #5DBE9E;
-        font-weight: 600;
-        border-bottom: 2px solid #5DBE9E;
-    }
-    
-    /* 优化搜索框 */
-    .form-search {
-        position: relative;
-    }
-    
-    .form-search input {
-        border-radius: 20px;
-        padding-left: 40px;
-        border: 1px solid #e0e0e0;
-        transition: all 0.3s ease;
-    }
-    
-    .form-search input:focus {
-        border-color: #5DBE9E;
-        box-shadow: 0 0 0 3px rgba(93, 190, 158, 0.1);
-        outline: none;
-    }
-    
-    .search-icon {
-        position: absolute;
-        left: 12px;
-        top: 50%;
-        transform: translateY(-50%);
-        pointer-events: none;
-    }
-    
-    .search-icon::before {
-        content: "\f002";
-        font-family: FontAwesome;
-        color: #999;
-    }
-    
-    /* 主内容区域 */
-    .main-content {
-        min-height: calc(100vh - 300px);
-        position: relative;
-        z-index: 1;
-    }
-    
-    /* 优化Footer */
-    #footer {
-        background: #5CB89F;
-        color: #fff;
-        padding: 40px 0 20px;
-        margin-top: 60px;
-    }
-    
-    .footer-inner {
-        padding: 0 15px;
-    }
-    
-    .footer-logo a {
-        color: #fff;
-        font-size: 24px;
-        transition: all 0.3s ease;
-    }
-    
-    .footer-logo a:hover {
-        color: #5DBE9E;
-        transform: scale(1.1);
-    }
-    
-    .footer-logo p {
-        color: rgba(255,255,255,0.9);
-        font-size: 14px;
-        line-height: 1.8;
-        max-width: 600px;
-    }
-    
-    #footer .list-inline a {
-        color: rgba(255,255,255,0.9);
-        padding: 0 15px;
-        transition: all 0.3s ease;
-    }
-    
-    #footer .list-inline a:hover {
-        color: #5DBE9E;
-        text-decoration: none;
-    }
-    
-    /* 返回顶部按钮 */
-    #back-to-top {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        width: 50px;
-        height: 50px;
-        background: #5DBE9E;
-        color: #fff;
-        border-radius: 50%;
-        text-align: center;
-        line-height: 50px;
-        font-size: 20px;
-        cursor: pointer;
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 12px rgba(93, 190, 158, 0.4);
-        z-index: 999;
-    }
-    
-    #back-to-top.show {
-        opacity: 1;
-        visibility: visible;
-    }
-    
-    #back-to-top:hover {
-        background: #4a9d7e;
-        transform: translateY(-5px);
-        box-shadow: 0 6px 20px rgba(93, 190, 158, 0.5);
-    }
-    
-    /* 移动端优化 */
-    @media (max-width: 768px) {
-        
-        .navbar-nav > li > a {
-            padding: 12px 15px;
-        }
-        
-        #footer {
-            padding: 30px 0 15px;
-        }
-        
-        .footer-logo {
-            margin-bottom: 20px;
-            float: none !important;
-        }
-        
-        .footer-inner .u-flex {
-            flex-direction: column;
-        }
-        
-        #back-to-top {
-            bottom: 20px;
-            right: 20px;
-            width: 45px;
-            height: 45px;
-            line-height: 45px;
-        }
-    }
-    
-    /* 面包屑优化 */
-    .breadcrumb {
-        background: transparent;
-        padding: 8px 0;
-        margin-bottom: 20px;
-        border-radius: 0;
-        border-bottom: 1px solid #e8e8e8;
-    }
-    
-    .breadcrumb > li + li:before {
-        content: "/\00a0";
-        color: #ccc;
-    }
-    
-    .breadcrumb a {
-        color: #666;
-        transition: color 0.3s ease;
-    }
-    
-    .breadcrumb a:hover {
-        color: #5DBE9E;
-        text-decoration: none;
-    }
-    
-    /* 用户头像优化 */
-    .avatar-img img {
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        transition: all 0.3s ease;
-    }
-    
-    .avatar-img:hover img {
-        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        transform: scale(1.05);
-    }
-    
-    /* 下拉菜单优化 */
-    .dropdown-menu {
-        border-radius: 8px;
-        box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-        border: none;
-        margin-top: 5px;
-        z-index: 1050 !important;
-        position: absolute;
-    }
-    
-    .dropdown-menu > li > a {
-        padding: 10px 20px;
-        transition: all 0.3s ease;
-    }
-    
-    .dropdown-menu > li > a:hover {
-        background-color: rgba(93, 190, 158, 0.1);
-        color: #5DBE9E;
-    }
-</style>
-<body class="group-page skin-white">
+<body class="min-h-screen bg-white text-gray-900">
 
 <!-- 页面加载动画 -->
 <div id="page-loader">
     <div class="loader-spinner"></div>
 </div>
 
-<header class="header">
+<header class="sticky top-0 z-50 bg-white shadow">
     <!-- S 导航 -->
-    <nav class="navbar navbar-default navbar-white navbar-fixed-top transparent" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle sidebar-toggle">
+    <nav role="navigation">
+        <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+            <div class="flex items-center">
+                <button type="button" class="sidebar-toggle mr-3 inline-flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-700 shadow-sm active:scale-[0.98] md:hidden" aria-label="Toggle navigation">
                     <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
+                    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
                 </button>
-                <a class="navbar-brand" href="{cms:config name='cms.indexurl'/}" title="{cms:config name='cms.sitename'/} - {:__('返回首页')}"><img src="{$Think.config.cms.sitelogo|default='/assets/addons/cms/img/logo.png'|cdnurl}" alt="{cms:config name='cms.sitename'/} - {:__('专业心理测试在线平台')}" width="70" height="70" loading="eager" style="max-width: 70px; height: auto;"></a>
+                <a class="inline-flex items-center" href="{cms:config name='cms.indexurl'/}" title="{cms:config name='cms.sitename'/} - {:__('返回首页')}">
+                    <img class="h-10 w-10" src="{$Think.config.cms.sitelogo|default='/assets/addons/cms/img/logo.png'|cdnurl}" alt="{cms:config name='cms.sitename'/} - {:__('专业心理测试在线平台')}" width="40" height="40" loading="eager">
+                    <span class="ml-2 hidden text-sm font-semibold text-gray-900 sm:block">{cms:config name="cms.sitename"/}</span>
+                </a>
             </div>
 
-            <div class="collapse navbar-collapse" id="navbar-collapse">
-                <ul class="nav navbar-nav" data-current="{$__CHANNEL__.id|default=0}">
+            <div class="hidden items-center md:flex">
+                <ul class="flex items-center" data-current="{$__CHANNEL__.id|default=0}">
                     {cms:channellist id="nav" type="top" condition="1=isnav"}
-                    <li class="{if $nav.has_child}dropdown{/if} {if $nav->is_active} active{/if}">
-                        <a href="{$nav.url}" {if $nav.has_child} data-toggle="dropdown" {/if}>{:__($nav.name)}{if $nav.has_nav_child} <b class="caret"></b>{/if}</a>
-                        <ul class="dropdown-menu {if !$nav.has_nav_child}hidden{/if}" role="menu">
+                    <li class="relative group mr-5 {if $nav->is_active}font-semibold text-emerald-600{/if}">
+                        <a class="text-sm text-gray-700 hover:text-emerald-600" href="{$nav.url}">{:__($nav.name)}{if $nav.has_nav_child} <i class="fa fa-caret-down ml-1" aria-hidden="true"></i>{/if}</a>
+                        <ul class="{if !$nav.has_nav_child}hidden{else}hidden group-hover:block{/if} absolute left-0 top-full z-50 mt-2 min-w-[10rem] rounded-md border border-gray-100 bg-white py-2 shadow-lg" role="menu">
                             {cms:channellist id="sub" type="son" typeid="nav['id']" condition="1=isnav"}
-                            <li><a href="{$sub.url}">{:__($sub.name)}</a></li>
+                            <li><a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600" href="{$sub.url}">{:__($sub.name)}</a></li>
                             {/cms:channellist}
                         </ul>
                     </li>
@@ -567,110 +246,128 @@
                     {//cms:nav maxlevel="4" cache="86400" /}
                 </ul>
 
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <form class="form-inline navbar-form" action="{:addon_url('cms/search/index')}" method="get">
-                            <div class="form-search hidden-sm">
-                                <input class="form-control" name="q" data-suggestion-url="{:addon_url('cms/search/suggestion')}" type="search" id="searchinput" value="{$Think.request.q|default=''|htmlentities}" placeholder="{:__('搜索心理测试、文章...')}" aria-label="搜索" autocomplete="off">
-                                <div class="search-icon"></div>
-                            </div>
-                            {:token('__searchtoken__')}
-                        </form>
-                    </li>
-                    <li class="dropdown navbar-userinfo">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-label="{:__('切换语言')}" role="button" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-globe"></i> 
-                            <span id="current-lang-text">{if $Think.cookie.frontend_language == 'en'}English{else}中文{/if}</span>
-                            <b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="?lang=zh-cn" onclick="switchLanguage('zh-cn'); return false;" class="lang-switch {if $Think.cookie.frontend_language == 'zh-cn'}active{/if}">
-                                <i class="fa fa-flag"></i> 中文
-                            </a></li>
-                            <li><a href="?lang=en" onclick="switchLanguage('en'); return false;" class="lang-switch {if $Think.cookie.frontend_language == 'en'}active{/if}">
-                                <i class="fa fa-flag"></i> English
-                            </a></li>
-                        </ul>
-                    </li>
+                <form class="ml-6 hidden md:block" action="{:addon_url('cms/search/index')}" method="get">
+                    <div class="relative">
+                        <input class="h-10 w-64 rounded-full border border-gray-200 bg-white pl-10 pr-4 text-sm text-gray-900 placeholder:text-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-100" name="q" data-suggestion-url="{:addon_url('cms/search/suggestion')}" type="search" id="searchinput" value="{$Think.request.q|default=''|htmlentities}" placeholder="{:__('搜索心理测试、文章...')}" aria-label="搜索" autocomplete="off">
+                        <span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"><i class="fa fa-search" aria-hidden="true"></i></span>
+                    </div>
+                    {:token('__searchtoken__')}
+                </form>
+
+                <div class="relative ml-6">
+                    <button type="button" class="inline-flex items-center gap-2 rounded-md px-2 py-2 text-sm text-gray-700 hover:bg-gray-50" aria-label="{:__('切换语言')}" data-dropdown-toggle="lang">
+                        <i class="fa fa-globe" aria-hidden="true"></i>
+                        <span>{if $Think.cookie.frontend_language == 'en'}English{else}中文{/if}</span>
+                    </button>
+                    <div class="absolute right-0 top-full z-50 hidden min-w-[10rem] rounded-md border border-gray-100 bg-white py-2 shadow-lg" data-dropdown-menu="lang">
+                        <a href="?lang=zh-cn" onclick="switchLanguage('zh-cn'); return false;" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600 {if $Think.cookie.frontend_language == 'zh-cn'}font-semibold text-emerald-600{/if}"><i class="fa fa-flag mr-2" aria-hidden="true"></i>中文</a>
+                        <a href="?lang=en" onclick="switchLanguage('en'); return false;" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600 {if $Think.cookie.frontend_language == 'en'}font-semibold text-emerald-600{/if}"><i class="fa fa-flag mr-2" aria-hidden="true"></i>English</a>
+                    </div>
+                </div>
+
+                <div class="ml-6">
                     {if config('fastadmin.usercenter')}
-                    <li class="dropdown navbar-userinfo">
+                    <div class="relative">
                         {if $user}
-                        <a href="{:url('index/user/index')}" class="dropdown-toggle" data-toggle="dropdown">
-                            <span class="avatar-img pull-left"><img src="{$user.avatar|cdnurl|htmlentities}" style="width:27px;height:27px;border-radius:50%;" alt="{$user.nickname|htmlentities} - {:__('用户头像')}"></span>
-                            <span class="visible-xs pull-left ml-2 pt-1">{$user.nickname|htmlentities} <b class="caret"></b></span>
+                        <a class="inline-flex items-center gap-2 rounded-full border border-gray-200 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50" href="{:url('index/user/index')}" data-dropdown-toggle="user">
+                            <img class="h-7 w-7 rounded-full" src="{$user.avatar|cdnurl|htmlentities}" alt="{$user.nickname|htmlentities} - {:__('用户头像')}">
+                            <span class="hidden sm:inline">{$user.nickname|htmlentities}</span>
                         </a>
                         {else /}
-                        <a href="{:url('index/user/index')}" class="dropdown-toggle" data-toggle="dropdown">{:__('会员')}<span class="hidden-sm">{:__('中心')}</span> <b class="caret"></b></a>
+                        <a class="inline-flex items-center rounded-md border border-gray-200 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50" href="{:url('index/user/index')}" data-dropdown-toggle="user">{:__('会员')}{:__('中心')}</a>
                         {/if}
-                        <ul class="dropdown-menu">
-
+                        <div class="absolute right-0 top-full z-50 mt-2 hidden min-w-[12rem] rounded-md border border-gray-100 bg-white py-2 shadow-lg" data-dropdown-menu="user">
                             {if $user}
-                            <li><a href="{:url('index/user/index')}"><i class="fa fa-user fa-fw"></i> {:__('会员中心')}</a></li>
+                            <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600" href="{:url('index/user/index')}"><i class="fa fa-user mr-2" aria-hidden="true"></i>{:__('会员中心')}</a>
                             {php}$sidenav = array_filter(explode(',', config('cms.usersidenav')));{/php}
                             {if in_array('myorder', $sidenav)}
                            <!-- <li><a href="{:url('index/vip/viplist')}"><i class="fa fa-shopping-bag fa-fw"></i> 开通VIP</a></li> -->
                             {/if}
                             {if in_array('mycomment', $sidenav)}
-                            <li><a href="{:url('index/cms.answer/index')}"><i class="fa fa-comments fa-fw"></i> 测试记录</a></li>
+                            <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600" href="{:url('index/cms.answer/index')}"><i class="fa fa-comments mr-2" aria-hidden="true"></i>测试记录</a>
                             {/if}
                             {if in_array('mycollection', $sidenav)}
                             <!-- <li><a href="{:url('index/cms.collection/index')}"><i class="fa fa-bookmark fa-fw"></i> 我的收藏</a></li> -->
                             {/if}
-                            <li><a href="javascript:localStorage.removeItem('email_token'); window.location.href='{:url('index/user/logout')}';"><i class="fa fa-sign-out fa-fw"></i> 退出</a></li>
+                            <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600" href="javascript:localStorage.removeItem('email_token'); window.location.href='{:url('index/user/logout')}';"><i class="fa fa-sign-out mr-2" aria-hidden="true"></i>退出</a>
                             {else /}
-                            <li><a href="{:url('index/user/login')}"><i class="fa fa-sign-in fa-fw"></i> {:__('登录')}</a></li>
-                            <li><a href="{:url('index/user/register')}"><i class="fa fa-user-o fa-fw"></i> {:__('注册')}</a></li>
+                            <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600" href="{:url('index/user/login')}"><i class="fa fa-sign-in mr-2" aria-hidden="true"></i>{:__('登录')}</a>
+                            <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600" href="{:url('index/user/register')}"><i class="fa fa-user-o mr-2" aria-hidden="true"></i>{:__('注册')}</a>
                             {/if}
-                        </ul>
-                    </li>
+                        </div>
+                    </div>
                     {/if}
-                </ul>
+                </div>
             </div>
 
+            <div class="fixed inset-y-0 left-0 z-50 w-64 bg-white p-4 shadow-xl md:hidden" id="navbar-collapse">
+                <div class="mb-4 flex items-center justify-between">
+                    <span class="text-sm font-semibold text-gray-900">{cms:config name="cms.sitename"/}</span>
+                    <button type="button" class="sidebar-toggle inline-flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-700 shadow-sm active:scale-[0.98]" aria-label="Close navigation">
+                        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+                <form class="mb-4" action="{:addon_url('cms/search/index')}" method="get">
+                    <div class="relative">
+                        <input class="h-10 w-full rounded-full border border-gray-200 bg-white pl-10 pr-4 text-sm text-gray-900 placeholder:text-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-100" name="q" data-suggestion-url="{:addon_url('cms/search/suggestion')}" type="search" value="{$Think.request.q|default=''|htmlentities}" placeholder="{:__('搜索心理测试、文章...')}" aria-label="搜索" autocomplete="off">
+                        <span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"><i class="fa fa-search" aria-hidden="true"></i></span>
+                    </div>
+                    {:token('__searchtoken__')}
+                </form>
+                <ul class="space-y-2" data-current="{$__CHANNEL__.id|default=0}">
+                    {cms:channellist id="nav" type="top" condition="1=isnav"}
+                    <li>
+                        <a class="block rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600 {if $nav->is_active}font-semibold text-emerald-600{/if}" href="{$nav.url}">{:__($nav.name)}</a>
+                        <ul class="{if !$nav.has_nav_child}hidden{/if} mt-1 space-y-1 pl-3" role="menu">
+                            {cms:channellist id="sub" type="son" typeid="nav['id']" condition="1=isnav"}
+                            <li><a class="block rounded-md px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-emerald-600" href="{$sub.url}">{:__($sub.name)}</a></li>
+                            {/cms:channellist}
+                        </ul>
+                    </li>
+                    {/cms:channellist}
+                </ul>
+            </div>
         </div>
     </nav>
     <!-- E 导航 -->
 </header>
 
-<main class="main-content">
+<main class="min-h-[60vh]">
     {__CONTENT__}
 </main>
 
 <footer itemscope itemtype="https://schema.org/WPFooter">
-    <div id="footer">
-        <div class="container">
-            <div class="footer-inner">
-                <div class="row">
-                    <div class="col-xs-12 col-md-6">
-                        <div class="footer-logo">
-                            <div class="u-flex">
-                                <a href="{:addon_url('cms/index/index')}" title="{cms:config name='cms.sitename'/}" aria-label="返回首页"><i class="fa fa-bookmark fa-2x"></i></a>
-                                <div class="ml-3">
-                                    <h3 style="color: #fff; font-size: 18px; margin-top: 0;">{cms:config name="cms.sitename"/}</h3>
-                                    <p>
-                                        {:__('自我孵化心理测试平台是一个集合各种专业的心理估量表以及趣味测试的平台，致力于为用户提供高质量、专业且有趣的在线心理测试服务。通过这些测试，希望你能够在不同的角度更加了解自我。')}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+    <div class="mt-12 bg-emerald-600 text-white">
+        <div class="mx-auto max-w-6xl px-4 py-10">
+            <div class="grid gap-8 md:grid-cols-2">
+                <div class="flex gap-4">
+                    <a class="text-white" href="{:addon_url('cms/index/index')}" title="{cms:config name='cms.sitename'/}" aria-label="返回首页"><i class="fa fa-bookmark fa-2x" aria-hidden="true"></i></a>
+                    <div>
+                        <h3 class="text-lg font-semibold">{cms:config name="cms.sitename"/}</h3>
+                        <p class="mt-2 text-sm leading-7 text-white/90">
+                            {:__('自我孵化心理测试平台是一个集合各种专业的心理估量表以及趣味测试的平台，致力于为用户提供高质量、专业且有趣的在线心理测试服务。通过这些测试，希望你能够在不同的角度更加了解自我。')}
+                        </p>
                     </div>
-                    <div class="col-xs-12 col-md-6">
-                        <div style="text-align: right; padding-top: 20px;">
-                            <nav aria-label="footer navigation">
-                                <ul class="list-unstyled list-inline" style="margin-bottom: 20px;">
-                                    <li><a href="{:addon_url('cms/page/index', [':diyname'=>'aboutus'])}" title="关于我们">关于我们</a></li>
-                                    <li><a href="{:addon_url('cms/page/index', [':diyname'=>'agreement'])}" title="用户协议">用户协议</a></li>
-                                    {if config('fastadmin.usercenter')}
-                                    <li><a href="{:url('index/user/index')}" title="会员中心">会员中心</a></li>
-                                    {/if}
-                                    <li><a href="{:addon_url('cms/search/index')}" title="搜索">搜索</a></li>
-                                </ul>
-                            </nav>
-                            <div style="color: rgba(255,255,255,0.8); font-size: 14px;">
-                                <p style="margin: 5px 0;">Copyright&nbsp;©&nbsp;{:date("Y")} All rights reserved</p>
-                                <p style="margin: 5px 0;">{cms:config name="cms.sitename"/}</p>
+                </div>
+                <div class="md:text-right">
+                    <nav aria-label="footer navigation">
+                        <div class="flex flex-wrap gap-x-6 gap-y-2 md:justify-end">
+                            <a class="text-sm text-white/90 hover:text-white" href="{:addon_url('cms/page/index', [':diyname'=>'aboutus'])}" title="关于我们">关于我们</a>
+                            <a class="text-sm text-white/90 hover:text-white" href="{:addon_url('cms/page/index', [':diyname'=>'agreement'])}" title="用户协议">用户协议</a>
+                            {if config('fastadmin.usercenter')}
+                            <a class="text-sm text-white/90 hover:text-white" href="{:url('index/user/index')}" title="会员中心">会员中心</a>
+                            {/if}
+                            <a class="text-sm text-white/90 hover:text-white" href="{:addon_url('cms/search/index')}" title="搜索">搜索</a>
+                        </div>
+                    </nav>
+                    <div class="mt-5 text-sm text-white/80">
+                                <p class="my-1">Copyright&nbsp;©&nbsp;{:date("Y")} All rights reserved</p>
+                                <p class="my-1">{cms:config name="cms.sitename"/}</p>
                                 {if $site.beian}
-                                <p style="margin: 5px 0;"><a href="https://beian.miit.gov.cn" target="_blank" rel="noopener noreferrer" style="color: rgba(255,255,255,0.8);">{$site.beian|htmlentities}</a></p>
+                                <p class="my-1"><a href="https://beian.miit.gov.cn" target="_blank" rel="noopener noreferrer" class="text-white/80 hover:text-white">{$site.beian|htmlentities}</a></p>
                                 {/if}
                             </div>
                         </div>
@@ -689,8 +386,131 @@
 
 <!-- 关键JS：同步加载 -->
 <script src="__CDN__/assets/libs/jquery/dist/jquery.min.js?v={$site.version}"></script>
-<script src="__CDN__/assets/libs/bootstrap/dist/js/bootstrap.min.js?v={$site.version}"></script>
+<script>window.__CMS_TW_OFFCANVAS__ = true;</script>
 <script src="__ADDON__/js/common.js?v={$site.version}"></script>
+
+<script>
+(function () {
+    function closest(el, selector) {
+        while (el && el.nodeType === 1) {
+            if (el.matches(selector)) return el;
+            el = el.parentElement;
+        }
+        return null;
+    }
+
+    var lastTouchTime = 0;
+
+    function getCollapse() {
+        return document.getElementById('navbar-collapse');
+    }
+
+    function removeBackdrop() {
+        var bg = document.querySelector('.navbar-collapse-bg');
+        if (bg && bg.parentNode) bg.parentNode.removeChild(bg);
+    }
+
+    function openMenu() {
+        var collapse = getCollapse();
+        if (!collapse) return;
+        document.body.classList.add('is-open');
+        collapse.classList.add('active');
+        removeBackdrop();
+        var bg = document.createElement('div');
+        bg.className = 'navbar-collapse-bg';
+        bg.addEventListener('click', function () {
+            closeMenu();
+        });
+        collapse.insertAdjacentElement('afterend', bg);
+    }
+
+    function closeMenu() {
+        var collapse = getCollapse();
+        document.body.classList.remove('is-open');
+        if (collapse) collapse.classList.remove('active');
+        removeBackdrop();
+    }
+
+    function handleToggleEvent(e) {
+        if (e.type === 'touchend') {
+            lastTouchTime = Date.now();
+        }
+        if (e.type === 'click' && lastTouchTime && Date.now() - lastTouchTime < 600) {
+            return;
+        }
+        var btn = closest(e.target, '.sidebar-toggle');
+        if (!btn) return;
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        var collapse = getCollapse();
+        if (!collapse) return;
+        if (collapse.classList.contains('active')) {
+            closeMenu();
+        } else {
+            openMenu();
+        }
+    }
+
+    document.addEventListener('click', handleToggleEvent, true);
+    document.addEventListener('touchend', handleToggleEvent, true);
+
+    document.addEventListener('click', function (e) {
+        var a = closest(e.target, '#navbar-collapse a');
+        if (!a) return;
+        if (window.innerWidth < 768) closeMenu();
+    }, true);
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' || e.keyCode === 27) {
+            var collapse = getCollapse();
+            if (collapse && collapse.classList.contains('active')) {
+                closeMenu();
+            }
+        }
+    }, true);
+})();
+</script>
+
+<script>
+(function () {
+    function closest(el, selector) {
+        while (el && el.nodeType === 1) {
+            if (el.matches(selector)) return el;
+            el = el.parentElement;
+        }
+        return null;
+    }
+
+    function hideAll() {
+        document.querySelectorAll('[data-dropdown-menu]').forEach(function (m) {
+            m.classList.add('hidden');
+        });
+    }
+
+    document.addEventListener('click', function (e) {
+        var toggle = closest(e.target, '[data-dropdown-toggle]');
+        if (toggle) {
+            e.preventDefault();
+            e.stopPropagation();
+            var id = toggle.getAttribute('data-dropdown-toggle');
+            if (!id) return;
+            var menu = document.querySelector('[data-dropdown-menu="' + id + '"]');
+            if (!menu) return;
+            var isHidden = menu.classList.contains('hidden');
+            hideAll();
+            if (isHidden) menu.classList.remove('hidden');
+            return;
+        }
+        hideAll();
+    }, true);
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' || e.keyCode === 27) {
+            hideAll();
+        }
+    }, true);
+})();
+</script>
 
 <!-- 非关键JS：延迟加载 -->
 <script defer src="__CDN__/assets/libs/fastadmin-layer/dist/layer.js?v={$site.version}"></script>
@@ -826,6 +646,13 @@ document.addEventListener('DOMContentLoaded', function() {
 (function() {
     // 立即添加loaded类开始淡入
     document.body.classList.add('loaded');
+
+    try {
+        document.querySelectorAll('[data-css]').forEach(function (el) {
+            var cssText = el.getAttribute('data-css');
+            if (cssText) el.style.cssText = cssText;
+        });
+    } catch (e) {}
     
     // 等待DOM完全加载
     if (document.readyState === 'complete' || document.readyState === 'interactive') {

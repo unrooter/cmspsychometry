@@ -1,32 +1,22 @@
-<div class="col-sm-4 col-md-3 product-item">
-    <div class="card">
-        <div class="thumb">
-            <a href="{$item.url}" class="preview-link">
-                <div class="embed-responsive embed-responsive-4by3">
-                    <img src="{$item.image}" alt="">
-                </div>
-            </a>
-            <a href="{$item.url}" class="quickview-link"><i class="fa fa-search"></i></a>
-        </div>
-        <div class="title">
-            <h2><a href="{$item.url}" {if $item.style}style="{$item.style_text}"{/if}>{$item.title|htmlentities}</a></h2>
-        </div>
-        <div class="operate">
-            <div class="pull-left text-gray">
-                <div class="mt-1">
-                    <span class="">
-                        <i class="fa fa-eye"></i> {$item.views}
-                    </span>
-                    <span class="ml-2">
-                        <i class="fa fa-comments"></i> {$item.comments}
-                    </span>
-                </div>
+<article class="group overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition hover:shadow-md">
+    <a href="{$item.url}" class="relative block aspect-[4/3] overflow-hidden bg-gray-100" aria-label="{$item.title|htmlentities}">
+        <img src="{$item.image ?: '/assets/addons/cms/img/default.png'}" alt="{$item.title|htmlentities}" loading="lazy" class="h-full w-full object-cover transition duration-300 group-hover:scale-105">
+        <span class="absolute right-3 top-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-gray-700 shadow" aria-hidden="true">
+            <i class="fa fa-search"></i>
+        </span>
+    </a>
+
+    <div class="space-y-3 p-3">
+        <h3 class="text-sm font-semibold leading-6 text-gray-900">
+            <a href="{$item.url}" class="hover:text-emerald-600" {if $item.style}style="{$item.style_text}"{/if}>{$item.title|htmlentities}</a>
+        </h3>
+
+        <div class="flex flex-wrap items-center justify-between gap-2 text-xs text-gray-500">
+            <div class="flex items-center gap-3">
+                <span title="浏览次数"><i class="fa fa-eye mr-1" aria-hidden="true"></i>{$item.views}</span>
+                <span title="评论数"><i class="fa fa-comments mr-1" aria-hidden="true"></i>{$item.comments}</span>
             </div>
-            <div class="pull-right">
-                <a href="{$item.url}" class="btn btn-primary detail">{:__('View detail')}</a>
-            </div>
-            <div class="clearfix"></div>
+            <a href="{$item.url}" class="inline-flex items-center rounded-md bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-emerald-700">{:__('View detail')}</a>
         </div>
     </div>
-
-</div>
+</article>

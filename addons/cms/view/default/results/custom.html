@@ -1,65 +1,57 @@
 {extend name="common/layout" /}
 
 {block name="content"}
-<div class="container" style="max-width: 1200px; margin: 0 auto; padding: 20px;">
-    <div id="app">
+<div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+    <div id="app" class="hidden">
         <!-- 加载状态 -->
-        <div v-if="loading" class="text-center" style="padding: 50px;">
-            <div class="spinner-border text-primary" role="status">
-                <span class="sr-only">加载中...</span>
-            </div>
-            <p class="mt-3">正在加载测试结果...</p>
+        <div v-if="loading" class="flex flex-col items-center justify-center py-16 text-center">
+            <div class="h-10 w-10 animate-spin rounded-full border-4 border-gray-200 border-t-emerald-600" role="status"></div>
+            <p class="mt-4 text-sm text-gray-600">正在加载测试结果...</p>
         </div>
 
         <!-- 错误状态 -->
-        <div v-if="error" class="alert alert-danger text-center" style="margin: 50px 0;">
-            <h4>加载失败</h4>
-            <p>{{error}}</p>
-            <button @click="loadData" class="btn btn-primary">重新加载</button>
+        <div v-if="error" class="my-10 rounded-lg border border-red-200 bg-red-50 p-6 text-center">
+            <h4 class="text-base font-semibold text-red-800">加载失败</h4>
+            <p class="mt-2 text-sm text-red-700">{{error}}</p>
+            <button @click="loadData" class="mt-4 inline-flex items-center rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700">重新加载</button>
         </div>
 
         <!-- 自定义结果内容 -->
         <div v-if="!loading && !error && allInfo" class="custom-result-container">
             <!-- 测试信息头部 -->
-            <div class="test-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px; border-radius: 20px; margin-bottom: 30px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-                <h1 style="font-size: 36px; font-weight: bold; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+            <div class="mb-8 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 p-8 text-center text-white shadow-lg sm:p-10">
+                <h1 class="text-2xl font-bold drop-shadow-sm sm:text-4xl">
                     测试结果
                 </h1>
-                <p style="font-size: 18px; margin: 0; opacity: 0.9;">根据您的选择进行分析</p>
-                <div v-if="allInfo.a_info" style="margin-top: 15px; font-size: 16px; opacity: 0.8;">
+                <p class="mt-2 text-base opacity-90 sm:text-lg">根据您的选择进行分析</p>
+                <div v-if="allInfo.a_info" class="mt-3 text-sm opacity-80 sm:text-base">
                     {{allInfo.a_info.title}}
                 </div>
             </div>
 
             <!-- 选择分析 -->
-            <div v-if="allInfo.answer_info && allInfo.answer_info.selected_options && allInfo.answer_info.selected_options.length > 0" class="selection-analysis" style="background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 30px;">
-                <h3 style="color: #333; margin-bottom: 25px; font-size: 24px; text-align: center;">您的选择分析</h3>
-                <div class="row">
-                    <div class="col-md-6" v-for="(option, index) in allInfo.answer_info.selected_options" :key="index" style="margin-bottom: 25px;">
-                        <div class="option-card" style="background: #f8f9fa; padding: 25px; border-radius: 15px; border-left: 5px solid #5DBE9E; height: 100%;">
-                            <!-- 选项标识 -->
-                            <div class="option-header" style="display: flex; align-items: center; margin-bottom: 15px;">
-                                <div style="background: #5DBE9E; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 15px; font-size: 18px;">
+            <div v-if="allInfo.answer_info && allInfo.answer_info.selected_options && allInfo.answer_info.selected_options.length > 0" class="mb-8 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-100 sm:p-8">
+                <h3 class="mb-6 text-center text-lg font-semibold text-gray-900 sm:text-2xl">您的选择分析</h3>
+                <div class="grid gap-4 sm:grid-cols-2">
+                    <div v-for="(option, index) in allInfo.answer_info.selected_options" :key="index" class="h-full">
+                        <div class="h-full rounded-xl border-l-4 border-emerald-500 bg-gray-50 p-5">
+                            <div class="mb-4 flex items-center gap-3">
+                                <div class="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500 text-base font-bold text-white">
                                     {{option.option_key || (index + 1)}}
                                 </div>
-                                <h5 style="color: #333; margin: 0; font-size: 18px; flex: 1;">{{option.option_title}}</h5>
+                                <h5 class="min-w-0 flex-1 text-sm font-semibold text-gray-900 sm:text-base">{{option.option_title}}</h5>
                             </div>
-                            
-                            <!-- 选项图片 -->
-                            <div v-if="option.option_cover" style="text-align: center; margin-bottom: 15px;">
-                                <img :src="option.option_cover" style="max-width: 100%; max-height: 200px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+
+                            <div v-if="option.option_cover" class="mb-4">
+                                <img :src="option.option_cover" alt="" class="mx-auto max-h-52 w-full rounded-xl object-contain shadow">
                             </div>
-                            
-                            <!-- 选项介绍 -->
-                            <div v-if="option.option_intro" style="color: #666; line-height: 1.6; font-size: 14px;">
+
+                            <div v-if="option.option_intro" class="text-sm leading-6 text-gray-600">
                                 {{option.option_intro}}
                             </div>
-                            
-                            <!-- 分数显示 -->
-                            <div v-if="option.score" style="margin-top: 15px; text-align: right;">
-                                <span style="background: #5DBE9E; color: white; padding: 5px 15px; border-radius: 20px; font-size: 14px; font-weight: bold;">
-                                    {{option.score}} 分
-                                </span>
+
+                            <div v-if="option.score" class="mt-4 text-right">
+                                <span class="inline-flex items-center rounded-full bg-emerald-600 px-3 py-1 text-xs font-semibold text-white">{{option.score}} 分</span>
                             </div>
                         </div>
                     </div>
@@ -67,54 +59,54 @@
             </div>
 
             <!-- 结果解析 -->
-            <div v-if="allInfo.answer_info" class="result-analysis" style="background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 30px;">
-                <h3 style="color: #333; margin-bottom: 25px; font-size: 24px; text-align: center;">结果解析</h3>
+            <div v-if="allInfo.answer_info" class="mb-8 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-100 sm:p-8">
+                <h3 class="mb-6 text-center text-lg font-semibold text-gray-900 sm:text-2xl">结果解析</h3>
                 
                 <!-- 主要结果 -->
-                <div v-if="allInfo.answer_info.title" style="background: #f8f9fa; padding: 25px; border-radius: 12px; margin-bottom: 25px;">
-                    <h5 style="color: #5DBE9E; margin-bottom: 15px; font-size: 18px;">测试结果</h5>
-                    <div style="color: #666; line-height: 1.8; font-size: 16px;">{{allInfo.answer_info.title}}</div>
+                <div v-if="allInfo.answer_info.title" class="mb-6 rounded-xl bg-gray-50 p-5">
+                    <h5 class="mb-2 text-base font-semibold text-emerald-600">测试结果</h5>
+                    <div class="text-sm leading-7 text-gray-600">{{allInfo.answer_info.title}}</div>
                 </div>
                 
                 <!-- 详细分析 -->
-                <div v-if="allInfo.answer_info.content" style="background: #f8f9fa; padding: 25px; border-radius: 12px; margin-bottom: 25px;">
-                    <h5 style="color: #5DBE9E; margin-bottom: 15px; font-size: 18px;">详细分析</h5>
-                    <div style="color: #666; line-height: 1.8; font-size: 16px;" v-html="allInfo.answer_info.content"></div>
+                <div v-if="allInfo.answer_info.content" class="mb-6 rounded-xl bg-gray-50 p-5">
+                    <h5 class="mb-2 text-base font-semibold text-emerald-600">详细分析</h5>
+                    <div class="prose max-w-none text-sm leading-7 text-gray-600" v-html="allInfo.answer_info.content"></div>
                 </div>
                 
                 <!-- 建议 -->
-                <div v-if="allInfo.answer_info.suggestion" style="background: #e8f5e8; padding: 25px; border-radius: 12px; border-left: 5px solid #5DBE9E;">
-                    <h5 style="color: #5DBE9E; margin-bottom: 15px; font-size: 18px;">建议</h5>
-                    <div style="color: #666; line-height: 1.8; font-size: 16px;" v-html="allInfo.answer_info.suggestion"></div>
+                <div v-if="allInfo.answer_info.suggestion" class="rounded-xl border-l-4 border-emerald-500 bg-emerald-50 p-5">
+                    <h5 class="mb-2 text-base font-semibold text-emerald-600">建议</h5>
+                    <div class="prose max-w-none text-sm leading-7 text-gray-600" v-html="allInfo.answer_info.suggestion"></div>
                 </div>
             </div>
 
             <!-- 通用结果内容 -->
-            <div v-if="!allInfo.answer_info || !allInfo.answer_info.selected_options" class="general-result" style="background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 30px; text-align: center;">
-                <h3 style="color: #333; margin-bottom: 25px; font-size: 24px;">测试完成</h3>
-                <div style="color: #666; line-height: 1.8; font-size: 16px; margin-bottom: 20px;">
+            <div v-if="!allInfo.answer_info || !allInfo.answer_info.selected_options" class="mb-8 rounded-2xl bg-white p-6 text-center shadow-sm ring-1 ring-gray-100 sm:p-8">
+                <h3 class="mb-5 text-lg font-semibold text-gray-900 sm:text-2xl">测试完成</h3>
+                <div class="mb-5 text-sm leading-7 text-gray-600 sm:text-base">
                     感谢您参与测试！您的选择已经记录，我们会根据您的偏好为您提供更个性化的内容。
                 </div>
-                <div v-if="allInfo.result" style="background: #f8f9fa; padding: 20px; border-radius: 10px; display: inline-block;">
-                    <strong style="color: #5DBE9E;">{{allInfo.result}}</strong>
+                <div v-if="allInfo.result" class="inline-block rounded-xl bg-gray-50 px-5 py-4">
+                    <strong class="text-emerald-600">{{allInfo.result}}</strong>
                 </div>
             </div>
 
             <!-- 测试总结 -->
-            <div class="test-summary" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 30px; border-radius: 15px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                <h3 style="color: white; margin-bottom: 20px; font-size: 24px;">测试总结</h3>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div style="font-size: 32px; font-weight: bold; margin-bottom: 5px;">{{allInfo.answer_info && allInfo.answer_info.selected_options ? allInfo.answer_info.selected_options.length : 0}}</div>
-                        <div style="font-size: 16px; opacity: 0.9;">选择项目</div>
+            <div class="rounded-2xl bg-gradient-to-br from-fuchsia-400 to-rose-500 p-6 text-center text-white shadow sm:p-8">
+                <h3 class="mb-5 text-lg font-semibold text-white sm:text-2xl">测试总结</h3>
+                <div class="grid gap-4 sm:grid-cols-3">
+                    <div class="rounded-xl bg-white/20 p-4">
+                        <div class="text-2xl font-bold sm:text-3xl">{{allInfo.answer_info && allInfo.answer_info.selected_options ? allInfo.answer_info.selected_options.length : 0}}</div>
+                        <div class="mt-1 text-sm opacity-90">选择项目</div>
                     </div>
-                    <div class="col-md-4">
-                        <div style="font-size: 32px; font-weight: bold; margin-bottom: 5px;">{{allInfo.max_score || 0}}</div>
-                        <div style="font-size: 16px; opacity: 0.9;">总分数</div>
+                    <div class="rounded-xl bg-white/20 p-4">
+                        <div class="text-2xl font-bold sm:text-3xl">{{allInfo.max_score || 0}}</div>
+                        <div class="mt-1 text-sm opacity-90">总分数</div>
                     </div>
-                    <div class="col-md-4">
-                        <div style="font-size: 32px; font-weight: bold; margin-bottom: 5px;">100%</div>
-                        <div style="font-size: 16px; opacity: 0.9;">完成度</div>
+                    <div class="rounded-xl bg-white/20 p-4">
+                        <div class="text-2xl font-bold sm:text-3xl">100%</div>
+                        <div class="mt-1 text-sm opacity-90">完成度</div>
                     </div>
                 </div>
             </div>
@@ -131,6 +123,7 @@ new Vue({
         allInfo: null
     },
     mounted() {
+        this.$el.classList.remove('hidden');
         this.loadData();
     },
     methods: {

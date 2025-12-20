@@ -1,16 +1,16 @@
-<div class="panel panel-default">
-    <nav class="main-nav panel-body">
+<div class="rounded-lg border border-gray-200 bg-white p-4">
+    <nav class="space-y-4">
         {cms:channellist id="nav" type="top" condition="1=isnav"}
         {php}$subCount = 0;{/php}
         {cms:channellist id="sub" type="son" typeid="nav['id']"}
         {php}$subCount++;{/php}
         {/cms:channellist}
         {if $subCount > 1}
-        <div class="nav-item">
-            <span class="nav-link">{:__($nav.name)}</span>
-            <div class="sub-nav">
+        <div>
+            <div class="text-sm font-semibold text-gray-900">{:__($nav.name)}</div>
+            <div class="mt-2 flex flex-wrap gap-2">
                 {cms:channellist id="sub" type="son" typeid="nav['id']"}
-                <a href="{$sub.url}" class="sub-link">{:__($sub.name)}</a>
+                <a href="{$sub.url}" class="inline-flex items-center rounded-full border border-gray-200 bg-white px-3 py-1 text-xs text-gray-700 hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-700">{:__($sub.name)}</a>
                 {/cms:channellist}
             </div>
         </div>
