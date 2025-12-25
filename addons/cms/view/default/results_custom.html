@@ -1,9 +1,5 @@
 {layout name="common/layout" /}
 
-<!-- Google AdSense 脚本 - 确保加载 -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9195262048954682"
-     crossorigin="anonymous"></script>
-
 <!-- SEO结构化数据 - 测试结果页 -->
 <script type="application/ld+json" id="result-schema">
 {
@@ -20,24 +16,40 @@
 }
 </script>
 
-<div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+<style data-render="style">
+ .oh-result-page{background:transparent}
+ .oh-result-hero{border-radius:16px;background:#111;color:#fff;padding:22px 18px 18px;text-align:center;box-shadow:0 20px 55px rgba(0,0,0,0.14)}
+ @media (min-width:640px){.oh-result-hero{padding:28px 24px 22px}}
+ .oh-result-badge{display:inline-flex;align-items:center;gap:8px;border-radius:999px;background:rgba(250,204,21,0.18);color:#facc15;padding:6px 12px;font-size:12px;font-weight:900;letter-spacing:0.16em}
+ .oh-result-title{margin-top:12px;font-size:24px;font-weight:900;color:#fff}
+ @media (min-width:640px){.oh-result-title{font-size:30px}}
+ .oh-result-subtitle{margin-top:10px;font-size:13px;line-height:1.7;color:rgba(255,255,255,0.82)}
+ .oh-result-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:12px;padding:10px 14px;font-size:13px;font-weight:900;letter-spacing:0.12em;user-select:none;white-space:nowrap}
+ .oh-result-btn-primary{background:#facc15;border:1px solid #facc15;color:#111;box-shadow:0 12px 26px rgba(250,204,21,0.22)}
+ .oh-result-btn-primary:hover{background:#fbbf24;border-color:#fbbf24}
+ .oh-result-btn-ghost{background:#fff;border:1px solid rgba(0,0,0,0.12);color:rgba(0,0,0,0.78)}
+ .oh-result-btn-ghost:hover{background:rgba(0,0,0,0.035)}
+</style>
+
+<div class="oh-result-page">
+<div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
     <!-- SEO优化的面包屑导航 -->
-    <nav aria-label="breadcrumb" class="mb-6 rounded-xl border border-gray-200 bg-white px-4 py-3 shadow-sm">
-        <ol class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-gray-500" itemscope itemtype="https://schema.org/BreadcrumbList">
+    <nav aria-label="breadcrumb" class="mb-6">
+        <ol class="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs text-gray-500" itemscope itemtype="https://schema.org/BreadcrumbList">
             <li class="inline-flex items-center" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                <a href="/" itemprop="item" class="hover:text-emerald-600">
+                <a href="/" itemprop="item" class="no-underline hover:text-black">
                     <span itemprop="name">{:__('首页')}</span>
                 </a>
                 <meta itemprop="position" content="1" />
             </li>
-            <li class="text-gray-300">/</li>
+            <li class="text-gray-300">›</li>
             <li class="inline-flex items-center" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                <a href="/funtest" itemprop="item" class="hover:text-emerald-600">
+                <a href="/funtest" itemprop="item" class="no-underline hover:text-black">
                     <span itemprop="name">{:__('趣味测试')}</span>
                 </a>
                 <meta itemprop="position" content="2" />
             </li>
-            <li class="text-gray-300">/</li>
+            <li class="text-gray-300">›</li>
             <li class="inline-flex items-center font-medium text-gray-900" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
                 <span itemprop="name">{:__('测试结果')}</span>
                 <meta itemprop="position" content="3" />
@@ -47,30 +59,34 @@
 
     <main class="mx-auto max-w-3xl" role="main" itemscope itemtype="https://schema.org/Quiz">
         <!-- 结果头部 -->
-        <header class="rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-700 px-6 py-8 text-center text-white shadow-sm" role="banner">
-            <h1 id="test-title" class="text-2xl font-bold sm:text-3xl" itemprop="name">{:__('测试结果')}</h1>
-            <p id="test-subtitle" class="mt-2 text-sm opacity-95 sm:text-base" itemprop="description">{:__('基于您的选择，我们为您提供了个性化的分析结果')}</p>
+        <header class="oh-result-hero" role="banner">
+            <span class="oh-result-badge"><span aria-hidden="true">✦</span><span>RESULT</span></span>
+            <h1 id="test-title" class="oh-result-title" itemprop="name">{:__('测试结果')}</h1>
+            <p id="test-subtitle" class="oh-result-subtitle" itemprop="description">{:__('基于您的选择，我们为您提供了个性化的分析结果')}</p>
         </header>
-        <!-- Google AdSense 顶部广告 -->
-        <div class="my-8 min-h-[90px] text-center" id="ad-banner-top"></div>
+
+        <div id="result-loading" class="mt-8 ui-card">
+            <div class="ui-card-body text-center">
+                <div class="mx-auto h-10 w-10 animate-spin rounded-full border-4 border-gray-200 border-t-black"></div>
+                <p class="mt-3 text-sm text-gray-600">正在生成结果...</p>
+            </div>
+        </div>
 
         <!-- 测试问题 -->
-        <section id="question-section" class="mt-8 rounded-2xl border border-gray-200 bg-gray-50 p-6 shadow-sm" role="region" aria-label="{:__('测试问题')}">
-            <h2 class="mb-4 text-lg font-semibold text-gray-900" itemprop="headline">{:__('测试问题')}</h2>
-            <div id="question-content" class="prose prose-sm max-w-none text-gray-700" itemprop="text">
-                <!-- 题目内容将在这里显示 -->
+        <section id="question-section" class="mt-8 ui-card" role="region" aria-label="{:__('测试问题')}">
+            <div class="ui-card-body">
+                <h2 class="mb-4 text-lg font-semibold text-gray-900" itemprop="headline">{:__('测试问题')}</h2>
+                <div id="question-content" class="prose prose-sm max-w-none text-gray-700" itemprop="text"><!-- 题目内容将在这里显示 --></div>
             </div>
         </section>
 
         <!-- 您的选择与分析 -->
-        <section id="result-section" class="mt-8 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm" role="region" aria-label="{:__('测试结果')}">
-            <h2 class="mb-4 text-lg font-semibold text-gray-900" itemprop="headline">{:__('您的选择与分析')}</h2>
-            <div id="options-grid" class="space-y-4" itemprop="articleBody">
-                <!-- 选中的选项将在这里显示 -->
+        <section id="result-section" class="mt-8 ui-card" role="region" aria-label="{:__('测试结果')}">
+            <div class="ui-card-body">
+                <h2 class="mb-4 text-lg font-semibold text-gray-900" itemprop="headline">{:__('您的选择与分析')}</h2>
+                <div id="options-grid" class="space-y-4" itemprop="articleBody"><!-- 选中的选项将在这里显示 --></div>
             </div>
         </section>
-        <!-- Google AdSense 中间广告 -->
-        <div class="my-8 min-h-[90px] text-center" id="ad-banner-middle"></div>
         
         <!-- 相关测试推荐 -->
         <section class="mt-10">
@@ -82,7 +98,7 @@
                     <p class="mt-2 line-clamp-3 text-sm leading-6 text-gray-600">{$item.description|htmlentities|default=$item.intro}</p>
                     <div class="mt-4 flex items-center justify-between gap-3 border-t border-gray-100 pt-3 text-sm">
                         <span class="text-gray-500">{$item.views} 次测试</span>
-                        <span class="inline-flex items-center rounded-full bg-emerald-600 px-3 py-1 text-xs font-semibold text-white">开始测试 →</span>
+                        <span class="inline-flex items-center rounded-full bg-black px-3 py-1 text-xs font-semibold text-white">开始测试 →</span>
                     </div>
                 </a>
                 {/cms:arclist}
@@ -106,15 +122,19 @@
         </section>
 
         <!-- 操作按钮区 -->
-        <footer class="mt-10 flex items-center justify-center gap-3 rounded-2xl border border-gray-200 bg-gray-50 p-5">
-            <button type="button" onclick="goBack()" class="inline-flex items-center justify-center gap-2 rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm hover:bg-gray-50">
-                <i class="fa fa-arrow-left"></i> {:__('返回测试')}
-            </button>
-            <a href="/quweiceshi.html" class="inline-flex items-center justify-center gap-2 rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700">
-                <i class="fa fa-list"></i> {:__('浏览更多')}
-            </a>
+        <footer class="mt-10 ui-card">
+            <div class="ui-card-body flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
+                <button type="button" onclick="goBack()" class="oh-result-btn oh-result-btn-ghost">
+                    <i class="fa fa-arrow-left"></i> {:__('返回测试')}
+                </button>
+                <a href="/quweiceshi.html" class="oh-result-btn oh-result-btn-primary">
+                    <i class="fa fa-list"></i> {:__('浏览更多')}
+                </a>
+            </div>
         </footer>
     </main>
+</div>
+
 </div>
 
 <script>
@@ -160,81 +180,6 @@ function getLocalizedText(key) {
     return texts[key] || key;
 }
 
-// 初始化广告（简化版本，模仿list_funtest）
-function initAds() {
-    console.log('[AdSense] initAds called');
-    
-    const waitForAdSense = (callback, maxAttempts = 50) => {
-        let attempts = 0;
-        const checkAdSense = () => {
-            console.log('[AdSense] Checking... attempts:', attempts, 'adsbygoogle:', !!window.adsbygoogle);
-            if (window.adsbygoogle || attempts >= maxAttempts) {
-                console.log('[AdSense] Wait complete. adsbygoogle ready:', !!window.adsbygoogle);
-                callback();
-            } else {
-                attempts++;
-                setTimeout(checkAdSense, 200);
-            }
-        };
-        checkAdSense();
-    };
-    
-    const createAd = (container, config) => {
-        console.log('[AdSense] createAd called for container:', container);
-        
-        if (!container) {
-            console.error('[AdSense] Container not found!');
-            return;
-        }
-        
-        // 检查是否已存在
-        if (container.querySelector('.adsbygoogle')) {
-            console.log('[AdSense] Ad already exists in container');
-            return;
-        }
-        
-        console.log('[AdSense] Creating ins element...');
-        const ins = document.createElement('ins');
-        ins.className = 'adsbygoogle';
-        ins.style.display = 'block';
-        Object.keys(config).forEach(key => {
-            ins.setAttribute(key, config[key]);
-        });
-        container.appendChild(ins);
-        console.log('[AdSense] Ins element added to container');
-        
-        setTimeout(() => {
-            try {
-                console.log('[AdSense] Pushing ad...');
-                (adsbygoogle = window.adsbygoogle || []).push({});
-                console.log('[AdSense] Ad pushed successfully');
-            } catch (e) {
-                console.error('[AdSense] Push error:', e);
-            }
-        }, 100);
-    };
-    
-    waitForAdSense(() => {
-        console.log('[AdSense] Starting to create ads...');
-        
-        createAd(document.getElementById('ad-banner-top'), {
-            'data-ad-client': 'ca-pub-9195262048954682',
-            'data-ad-slot': '7906059149',
-            'data-ad-format': 'auto',
-            'data-full-width-responsive': 'true'
-        });
-        
-        createAd(document.getElementById('ad-banner-middle'), {
-            'data-ad-client': 'ca-pub-9195262048954682',
-            'data-ad-slot': '5294962935',
-            'data-ad-format': 'fluid',
-            'data-ad-layout': 'in-article'
-        });
-        
-        console.log('[AdSense] All ads created');
-    });
-}
-
 // 更新页面语言
 function updatePageLanguage() {
     const lang = getCurrentLanguage();
@@ -248,9 +193,21 @@ function updatePageLanguage() {
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('[Page] DOMContentLoaded triggered');
-    
-    // 立即初始化广告
-    initAds();
+
+    function setResultLoadingVisible(visible) {
+        const el = document.getElementById('result-loading');
+        if (!el) return;
+        try {
+            const fromSubmit = sessionStorage.getItem('cms_result_generating') === '1';
+            const msgEl = el.querySelector('p');
+            if (msgEl) msgEl.textContent = fromSubmit ? '正在生成结果...' : '正在加载结果...';
+            if (!visible && fromSubmit) {
+                sessionStorage.removeItem('cms_result_generating');
+                sessionStorage.removeItem('cms_result_generating_at');
+            }
+        } catch (e) {}
+        el.style.display = visible ? '' : 'none';
+    }
     
     // 更新页面语言
     updatePageLanguage();
@@ -258,8 +215,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // 获取URL参数
     const urlParams = new URLSearchParams(window.location.search);
     const answer_id = urlParams.get('answer_id');
+
+    setResultLoadingVisible(true);
     
     if (!answer_id) {
+        setResultLoadingVisible(false);
         document.getElementById('options-grid').innerHTML = '<div class="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">' + getLocalizedText('unavailable') + '</div>';
         return;
     }
@@ -277,6 +237,7 @@ document.addEventListener('DOMContentLoaded', function() {
     })
     .then(response => response.json())
     .then(data => {
+        setResultLoadingVisible(false);
         if (data.code === 1) {
             displayCustomResult(data.data);
         } else {
@@ -284,6 +245,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     })
     .catch(error => {
+        setResultLoadingVisible(false);
         console.error('Error:', error);
         document.getElementById('options-grid').innerHTML = '<div class="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">网络错误，请稍后重试</div>';
     });
@@ -354,11 +316,6 @@ function displaySelectedOptions(answerData) {
     
     if (answerData.length === 0) {
         optionsGrid.innerHTML = '<div class="rounded-2xl border border-dashed border-gray-300 bg-gray-50 p-8 text-center text-sm text-gray-500">暂无选择信息</div>';
-        // 内容加载完成，初始化广告
-        setTimeout(() => {
-            console.log('[AdSense] Content loaded, initializing ads');
-            initAds();
-        }, 500);
         return;
     }
     
@@ -384,7 +341,7 @@ function displaySelectedOptions(answerData) {
         html += `
             <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm" itemscope itemtype="https://schema.org/Answer">
                 <div class="text-base font-semibold text-gray-900" itemprop="name">${title}</div>
-                ${intro ? '<div class="mt-3 rounded-xl border-l-4 border-emerald-500 bg-gray-50 p-4 text-sm leading-6 text-gray-600" itemprop="description">' + intro + '</div>' : ''}
+                ${intro ? '<div class="mt-3 rounded-xl border-l-4 border-black bg-gray-50 p-4 text-sm leading-6 text-gray-600" itemprop="description">' + intro + '</div>' : ''}
                 ${cover ? '<img src="' + cover + '" alt="' + title + ' - ' + getLocalizedText('option-image') + '" title="' + title + '" itemprop="image" class="mt-4 max-h-80 w-full rounded-xl object-cover" loading="lazy">' : ''}
                 ${content ? '<div class="prose prose-sm mt-4 max-w-none text-gray-700" itemprop="text">' + content + '</div>' : ''}
             </div>

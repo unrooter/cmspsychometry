@@ -33,45 +33,57 @@
         font-size: 14px;
     }
 </style>
-<div class="container mt-20">
-    <div id="content-container">
-        <div class="row">
-            <div class="col-md-3">
-                {include file="common/sidenav" /}
-            </div>
-            <div class="col-md-9">
-                <div class="panel panel-default panel-user">
-                    <div class="panel-body">
-                        <div class="panel-post">
-                            <h2 class="page-header">{:__('我发表的评论')}</h2>
+<div id="content-container" class="ucenter-page mx-auto max-w-7xl px-4 py-8 md:px-6 md:py-10">
+    <div class="grid grid-cols-1 gap-6 lg:grid-cols-12">
+        <div class="lg:col-span-3">
+            {include file="common/sidenav" /}
+        </div>
+        <div class="lg:col-span-9">
+            <section class="ui-card border border-black/10 bg-white/70">
+                <div class="px-5 py-5 sm:px-6 sm:py-6">
+                    <div class="mb-6 border-b border-black/10 pb-4">
+                        <div class="flex items-center justify-between gap-3">
+                            <h2 class="m-0 text-lg font-extrabold tracking-[0.02em] text-black">{:__('我发表的评论')}</h2>
+                            <div class="flex items-center gap-2">
+                            </div>
                         </div>
 
-                        {volist name='commentList' id='item'}
-                        <div class="row">
-                            <div class="col-md-3 text-center">
-                                <a href="{$item.source.url|default='javascript:'}" target="_blank" class="img-thumb">
-                                    <div class="embed-responsive embed-responsive-4by3 img-zoom">
-                                        <img src="{$item.source.image|default=''}" class="embed-responsive-item" onerror="this.src='__CDN__/assets/addons/cms/img/noimage.jpg';this.onerror=null;">
+                        <div class="mt-4 ucenter-tabs md:hidden">
+                            <a href="{:url('cms.answer/index')}" class="ucenter-tab {:check_nav_active('cms.answer/index','ucenter-tab-active')}">{:__('我的测试记录')}</a>
+                            <a href="{:url('cms.answer/fun')}" class="ucenter-tab {:check_nav_active('cms.answer/fun','ucenter-tab-active')}">{:__('趣味测试记录')}</a>
+                            <a href="{:url('cms.comment/index')}" class="ucenter-tab {:check_nav_active('cms.comment/index','ucenter-tab-active')}">{:__('我发表的评论')}</a>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                    {volist name='commentList' id='item'}
+                        <article class="border border-black/10 bg-white/70 p-4">
+                            <div class="flex flex-col gap-4 sm:flex-row sm:items-start">
+                                <a class="block shrink-0" href="{$item.source.url|default='javascript:'}" target="_blank">
+                                    <div class="h-24 w-32 overflow-hidden border border-black/10 bg-black/5">
+                                        <img src="{$item.source.image|default=''}" class="h-full w-full object-cover" onerror="this.src='__CDN__/assets/addons/cms/img/noimage.jpg';this.onerror=null;" alt="">
                                     </div>
                                 </a>
+                                <div class="min-w-0 flex-1">
+                                    <h3 class="m-0 text-sm font-extrabold tracking-[0.01em]">
+                                        <a class="text-black no-underline hover:text-black" href="{$item.source.url|default='javascript:'}" target="_blank">{$item.source.title|default='未知文档'|htmlentities}</a>
+                                    </h3>
+                                    <div class="mt-3 border border-black/10 bg-black/5 p-3 text-sm leading-7 text-black/80">
+                                        {$item.content|htmlentities}
+                                    </div>
+                                    <div class="mt-3 text-xs text-black/60">{:__('发表于')} {$item.createtime|datetime}</div>
+                                </div>
                             </div>
-                            <div class="col-md-9">
-                                <h4>
-                                    <a href="{$item.source.url|default='javascript:'}" target="_blank">{$item.source.title|default='未知文档'|htmlentities}</a>
-                                </h4>
-                                <p class="comment-content">{$item.content|htmlentities}</p>
-                                <p class="text-light">{:__('发表于')} {$item.createtime|datetime}</p>
-                            </div>
-                        </div>
-                        <hr>
-                        {/volist}
-                        {if $commentList->total()==0}
-                        <div class="text-center text-muted" style="padding: 40px 0;">{:__('No records found')}</div>
-                        {/if}
-                        <div class="pager">{$commentList->render()}</div>
+                        </article>
+                    {/volist}
                     </div>
+
+                    {if $commentList->total()==0}
+                    <div class="py-10 text-center text-sm text-black/60">{:__('No records found')}</div>
+                    {/if}
+                    <div class="pager mt-6">{$commentList->render()}</div>
                 </div>
-            </div>
+            </section>
         </div>
     </div>
 </div>

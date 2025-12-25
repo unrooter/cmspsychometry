@@ -1,30 +1,37 @@
 {layout name="common/layout" /}
- <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" id="content-container">
+ <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8" id="content-container">
  
-     <nav aria-label="breadcrumb" class="mt-6">
-         <ol class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-gray-600">
-             <!-- S 面包屑导航 -->
-             {cms:breadcrumb id="item"}
-             <li class="inline-flex items-center">
-                 <a class="hover:text-emerald-600" href="{$item.url}">{$item.name|htmlentities}</a>
-             </li>
-             {/cms:breadcrumb}
-             <!-- E 面包屑导航 -->
-         </ol>
-     </nav>
- 
-     <header class="mt-4 rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
-         <h1 class="text-xl font-bold text-gray-900">{cms:channel name="name" /}</h1>
-     </header>
+     <nav aria-label="breadcrumb" class="mb-6">
+        <ol class="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs text-gray-500" itemscope itemtype="https://schema.org/BreadcrumbList">
+            <!-- S 面包屑导航 -->
+            {php}$breadPos = 0;{/php}
+            {cms:breadcrumb id="item"}
+            {php}$breadPos++;{/php}
+            <li class="inline-flex items-center" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                {if $breadPos>1}<span class="mx-1 text-gray-300">›</span>{/if}
+                <a class="no-underline hover:text-black" href="{$item.url}" itemprop="item"><span itemprop="name">{$item.name|htmlentities}</span></a>
+                <meta itemprop="position" content="{$breadPos}" />
+            </li>
+            {/cms:breadcrumb}
+            <!-- E 面包屑导航 -->
+        </ol>
+    </nav>
+
+    <header class="ui-card">
+        <div class="ui-card-body">
+            <h1 class="text-lg font-semibold tracking-tight text-gray-900">{cms:channel name="name" /}</h1>
+        </div>
+    </header>
  
      {if $__FILTERLIST__}
-     <section class="mt-4" aria-label="{:__('筛选条件')}">
-         <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
-             <div class="flex flex-wrap items-center justify-between gap-3">
-                 <h2 class="inline-flex items-center gap-2 text-base font-semibold text-gray-900"><i class="fa fa-filter text-emerald-600" aria-hidden="true"></i>{:__('筛选')}</h2>
-                 <form action="" id="multipleform" class="flex items-center gap-2">
-                     <input type="checkbox" name="multiple" id="multiple"
-                            class="h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-600"
+    <section class="mt-4" aria-label="{:__('筛选条件')}">
+        <div class="ui-card">
+            <div class="ui-card-body">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+                <h2 class="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-gray-900"><i class="fa fa-filter text-black/60" aria-hidden="true"></i>{:__('筛选')}</h2>
+                <form action="" id="multipleform" class="flex items-center gap-2">
+                    <input type="checkbox" name="multiple" id="multiple"
+                           class="h-4 w-4 rounded border-gray-300 text-gray-600 focus:ring-gray-600"
                             onclick="document.getElementById('multipleform').submit();"
                             value="{:$Think.get.multiple?0:1}"
                             {:$Think.get.multiple?'checked':''}>
@@ -38,30 +45,31 @@
                      <div class="mt-1 w-20 shrink-0 text-sm font-medium text-gray-700">{$filter.title|htmlentities}:</div>
                      <div class="flex flex-wrap gap-2">
                          {volist name="$filter.content" id="item"}
-                         <a href="{$item.url}" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600 {$item.active?'bg-emerald-50 text-emerald-700 border-emerald-200':''}">{$item.title|htmlentities}</a>
-                         {/volist}
-                     </div>
-                 </div>
-                 {/cms:pagefilter}
-             </div>
-         </div>
-     </section>
-     {/if}
+                        <a href="{$item.url}" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs tracking-[0.14em] text-gray-800/90 hover:bg-gray-50 hover:text-black no-underline {$item.active?'bg-gray-50 text-gray-900 border-gray-200':''}">{$item.title|htmlentities}</a>
+                        {/volist}
+                    </div>
+                </div>
+                {/cms:pagefilter}
+            </div>
+            </div>
+        </div>
+    </section>
+    {/if}
  
      <div class="mt-6 grid gap-6 lg:grid-cols-12">
  
          <main class="lg:col-span-8">
              <section aria-label="{:__('列表')}">
-                 <div class="rounded-lg border border-gray-200 bg-white shadow-sm">
-                     <div class="border-b border-gray-100 px-4 py-3">
-                         <h2 class="text-base font-semibold text-gray-900">{:__('列表')}</h2>
-                     </div>
-                     <div class="p-4">
-                         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                             <!-- S 列表 -->
-                             {cms:pagelist id="item"}
-                             {include file="common/item_funtest"}
-                             {/cms:pagelist}
+                <div class="ui-card">
+                    <div class="ui-card-header">
+                        <h2 class="text-base font-semibold text-gray-900">{:__('列表')}</h2>
+                    </div>
+                    <div class="ui-card-body">
+                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                            <!-- S 列表 -->
+                            {cms:pagelist id="item"}
+                            {include file="common/item_funtest"}
+                            {/cms:pagelist}
                              <!-- E 列表 -->
                          </div>
  

@@ -1,0 +1,199 @@
+<link rel="stylesheet" href="__ADDONCMS__/css/tailwind.min.css?v={$site.version}">
+
+<style>
+    html,
+    body {
+        width: 100%;
+        max-width: none !important;
+    }
+
+    body {
+        margin: 0;
+        background: #f7f7f7;
+        color: #111;
+        font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+    }
+
+    @media (min-width: 768px) {
+        .hidden.md\:flex { display: flex !important; }
+        .hidden.md\:block { display: block !important; }
+        .md\:hidden { display: none !important; }
+    }
+
+    /* 移动端菜单（配合 .active class 切换） */
+    #navbar-collapse{position:fixed;top:0;bottom:0;left:0;height:100dvh;max-height:100dvh;width:min(16rem,86vw) !important;max-width:86vw;transform:translateX(-110%);transition:transform 0.25s ease;z-index:50;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:env(safe-area-inset-bottom);overscroll-behavior:contain;visibility:hidden;pointer-events:none;will-change:transform}
+    #navbar-collapse.active{transform:translateX(0);visibility:visible;pointer-events:auto}
+    body.is-open{overflow:hidden}
+    .navbar-collapse-bg{position:fixed;inset:0;height:100dvh;background:rgba(0,0,0,.5);z-index:40}
+
+    .auth-page, .auth-page * {
+        box-sizing: border-box;
+    }
+
+    .auth-page .auth-form-wrap {
+        width: 100%;
+        max-width: 420px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .auth-page .form-group {
+        margin-bottom: 14px;
+    }
+
+    .auth-page .help-block,
+    .auth-page .msg-box {
+        font-size: 12px;
+        line-height: 1.5;
+        color: rgba(0,0,0,0.55);
+    }
+
+    .auth-page .form-control {
+        width: 100%;
+        height: 44px;
+        padding: 10px 12px;
+        border-radius: 0;
+        border: 1px solid rgba(0,0,0,0.12);
+        background: #fff;
+        color: #111;
+        outline: none;
+        box-shadow: none;
+        font-size: 14px;
+    }
+
+    .auth-page .form-control:focus {
+        border-color: rgba(0,0,0,0.35);
+        box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.25);
+    }
+
+    .auth-page .auth-tabs{display:flex;gap:10px}
+    .auth-page .auth-tab{display:inline-flex;align-items:center;justify-content:center;height:34px;padding:0 12px;border-radius:0;border:1px solid transparent;background:transparent;color:rgba(0,0,0,0.55);font-size:12px;font-weight:800;letter-spacing:0.18em;text-decoration:none;user-select:none;-webkit-tap-highlight-color:transparent}
+    .auth-page .auth-tab:hover{color:#111}
+    .auth-page .auth-tab-active{color:#111;border-color:rgba(0,0,0,0.14);background:#fff;box-shadow: inset 0 -2px 0 #111}
+
+    .auth-page .mnav-auth{display:flex;flex-direction:column;gap:10px}
+    .auth-page .mnav-auth-btn{display:inline-flex;align-items:center;justify-content:center;width:100%;height:40px;padding:0 14px;border-radius:0;border:1px solid rgba(0,0,0,0.12);font-size:12px;font-weight:700;letter-spacing:0.14em;text-decoration:none;user-select:none;-webkit-tap-highlight-color:transparent}
+    .auth-page .mnav-auth-btn:active{transform:scale(0.98)}
+    .auth-page .mnav-auth-login{background:#fff;color:#111}
+    .auth-page .mnav-auth-register{background:#111;color:#fff;border-color:#111}
+
+    .mnav-auth{display:flex;gap:10px}
+    .mnav-auth-btn{display:inline-flex;align-items:center;justify-content:center;flex:1 1 0;height:40px;padding:0 14px;border-radius:0;border:1px solid rgba(0,0,0,0.12);font-size:12px;font-weight:700;letter-spacing:0.14em;text-decoration:none;user-select:none;-webkit-tap-highlight-color:transparent}
+    .mnav-auth-btn:active{transform:scale(0.98)}
+    .mnav-auth-login{background:#fff !important;color:#111 !important}
+    .mnav-auth-register{background:#111 !important;color:#fff !important;border-color:#111 !important}
+
+    .auth-page .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        height: 44px;
+        padding: 0 14px;
+        border-radius: 0;
+        border: 1px solid transparent;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        cursor: pointer;
+        text-decoration: none;
+        user-select: none;
+    }
+
+    .auth-page .btn-block {
+        width: 100%;
+    }
+
+    .auth-page .input-group {
+        display: flex;
+        align-items: stretch;
+        width: 100%;
+    }
+
+    .auth-page .input-group .form-control {
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    .auth-page .input-group-btn {
+        flex: 0 0 auto;
+        display: flex;
+    }
+
+    .auth-page .input-group-btn .btn {
+        height: 44px;
+        white-space: nowrap;
+    }
+
+    .auth-page .btn.btn-primary,
+    .auth-page .btn.btn-info {
+        background: #000;
+        border-color: #000;
+        color: #fff;
+    }
+
+    .auth-page .btn.btn-primary:hover,
+    .auth-page .btn.btn-info:hover,
+    .auth-page .btn.btn-primary:focus,
+    .auth-page .btn.btn-info:focus {
+        background: rgba(0,0,0,0.9);
+        border-color: rgba(0,0,0,0.9);
+        color: #fff;
+    }
+
+    .auth-page .btn.btn-default {
+        background: transparent;
+        border-color: rgba(0,0,0,0.12);
+        color: #111;
+    }
+
+    .auth-page .btn.btn-default:hover,
+    .auth-page .btn.btn-default:focus {
+        background: rgba(0,0,0,0.04);
+        border-color: rgba(0,0,0,0.16);
+        color: #000;
+    }
+
+    .auth-page .btn-lg {
+        height: 44px;
+    }
+
+    .auth-page .form-horizontal .control-label {
+        display: block;
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        color: #111;
+        margin-bottom: 6px;
+    }
+
+    .auth-page .form-horizontal .col-xs-12,
+    .auth-page .form-horizontal .col-sm-3,
+    .auth-page .form-horizontal .col-sm-8 {
+        width: 100%;
+        float: none;
+    }
+
+    .auth-page .form-horizontal .form-group {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .auth-page .checkbox input[type="checkbox"] {
+        margin-right: 6px;
+    }
+
+    .auth-page .ui-card {
+        background: rgba(255,255,255,0.7);
+        border: 1px solid rgba(0,0,0,0.08);
+        box-shadow: 0 20px 50px rgba(0,0,0,0.06);
+        border-radius: 0;
+        overflow: hidden;
+    }
+
+    .auth-page .no-border {
+        border-radius: 0;
+    }
+</style>

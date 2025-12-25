@@ -1,46 +1,65 @@
 {layout name="common/layout" /}
-<article class="min-h-screen bg-gray-50 py-6">
-    <!-- 谷歌广告位 - 顶部横幅（展示广告）-->
-    <div class="mx-auto my-6 max-w-3xl px-4 text-center sm:px-6 lg:px-8">
-        <ins class="adsbygoogle block"
-             data-ad-client="ca-pub-9195262048954682"
-             data-ad-slot="2969657271"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-    </div>
 
-    <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-        <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-200 sm:p-8">
+<style data-render="style">
+ .oh-result-page{background:transparent}
+ .oh-result-wrap{max-width:48rem;margin:0 auto;padding:0 16px}
+ @media (min-width:640px){.oh-result-wrap{padding:0 24px}}
+ .oh-result-hero{border-radius:16px;background:#111;color:#fff;padding:22px 18px 18px;text-align:center;box-shadow:0 20px 55px rgba(0,0,0,0.14)}
+ @media (min-width:640px){.oh-result-hero{padding:28px 24px 22px}}
+ .oh-result-badge{display:inline-flex;align-items:center;gap:8px;border-radius:999px;background:rgba(250,204,21,0.18);color:#facc15;padding:6px 12px;font-size:12px;font-weight:900;letter-spacing:0.16em}
+ .oh-result-title{margin-top:12px;font-size:24px;font-weight:900;color:#fff}
+ @media (min-width:640px){.oh-result-title{font-size:30px}}
+ .oh-result-subtitle{margin-top:10px;font-size:13px;line-height:1.7;color:rgba(255,255,255,0.82)}
+ .oh-result-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:12px;padding:10px 14px;font-size:13px;font-weight:900;letter-spacing:0.12em;user-select:none;white-space:nowrap}
+ .oh-result-btn-primary{background:#facc15;border:1px solid #facc15;color:#111;box-shadow:0 12px 26px rgba(250,204,21,0.22)}
+ .oh-result-btn-primary:hover{background:#fbbf24;border-color:#fbbf24}
+ .oh-result-btn-ghost{background:#fff;border:1px solid rgba(0,0,0,0.12);color:rgba(0,0,0,0.78)}
+ .oh-result-btn-ghost:hover{background:rgba(0,0,0,0.035)}
+</style>
+
+<article class="min-h-screen bg-gray-50 py-10">
+    <div class="oh-result-page">
+    <div class="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
+        <div class="ui-card">
+            <div class="ui-card-body">
             <!-- 测试标题 -->
-            <header class="border-b border-gray-100 pb-6 text-center">
-                <h1 id="test-title" class="text-2xl font-bold text-gray-900 sm:text-3xl">贝克抑郁量表（BDI-SF）</h1>
+            <header class="oh-result-hero">
+                <span class="oh-result-badge"><span aria-hidden="true">✦</span><span>RESULT</span></span>
+                <h1 id="test-title" class="oh-result-title">贝克抑郁量表（BDI-SF）</h1>
                 <!-- <p id="test-subtitle">测试结果仅供参考，具体请咨询专业指导</p> -->
+                <p class="oh-result-subtitle">测试结果仅供参考，如需专业指导，请咨询相关领域的专家。</p>
             </header>
 
+            <div id="result-loading" class="mt-6 ui-card">
+                <div class="ui-card-body text-center">
+                    <div class="mx-auto h-10 w-10 animate-spin rounded-full border-4 border-gray-200 border-t-black"></div>
+                    <p class="mt-3 text-sm text-gray-600">正在生成结果...</p>
+                </div>
+            </div>
+
             <!-- 测试信息 - 折叠式 -->
-            <section class="mt-6 overflow-hidden rounded-2xl border border-gray-200 bg-gray-50" id="test-info">
-                <button type="button" class="flex w-full items-center justify-between gap-3 px-5 py-4 text-left" onclick="toggleTestInfo()">
+            <section class="mt-6 ui-card" id="test-info">
+                <div class="ui-card-header flex w-full items-center justify-between gap-3 text-left">
                     <h2 class="text-base font-semibold text-gray-900" id="info-header-title">测试信息</h2>
-                    <span class="text-sm font-semibold text-gray-500" id="test-info-icon">▼</span>
-                </button>
-                <div class="hidden px-5 pb-5" id="info-content">
+                    <span class="text-sm font-semibold text-gray-500" id="test-info-icon">▲</span>
+                </div>
+                <div class="ui-card-body" id="info-content">
                     <!-- 测试信息将在这里显示 -->
                 </div>
             </section>
 
             <!-- 分数显示 -->
             <section class="mt-6">
-                <div class="rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 p-6 text-white shadow-sm sm:flex sm:items-center sm:gap-6">
-                    <div class="mx-auto flex h-28 w-28 flex-col items-center justify-center rounded-full bg-white/20 ring-2 ring-white/20 sm:mx-0">
+                <div class="ui-card text-black" style="background:#FDE047;">
+                    <div class="ui-card-body sm:flex sm:items-center sm:gap-6">
+                    <div class="mx-auto flex h-28 w-28 flex-col items-center justify-center rounded-full sm:mx-0" style="background:rgba(0,0,0,0.08);">
                         <div class="text-3xl font-bold" id="total-score">0</div>
-                        <div class="mt-1 text-sm font-semibold opacity-90" id="score-label">总分</div>
+                        <div class="mt-1 text-sm font-semibold text-gray-800" id="score-label">总分</div>
                     </div>
                     <div class="mt-4 text-center sm:mt-0 sm:text-left">
                         <div class="text-base font-semibold sm:text-lg" id="score-description">Loading...</div>
-                        <div class="mt-2 text-sm opacity-90" id="score-level">Evaluating...</div>
+                        <div class="mt-2 text-sm text-gray-800" id="score-level">Evaluating...</div>
+                    </div>
                     </div>
                 </div>
             </section>
@@ -48,41 +67,49 @@
             <!-- 结果分析 -->
             <section class="mt-8" id="analysis-section">
                 <h2 class="text-center text-lg font-semibold text-gray-900 sm:text-2xl" id="analysis-header-title">详细分析报告</h2>
-                <div class="prose prose-sm mt-5 max-w-none rounded-2xl border border-gray-200 bg-white p-5 text-gray-700 shadow-sm" id="analysis-content">
-                    <!-- 分析内容将在这里显示 -->
+                <div class="mt-5 ui-card">
+                    <div class="ui-card-body prose prose-sm max-w-none text-gray-700" id="analysis-content"><!-- 分析内容将在这里显示 --></div>
                 </div>
             </section>
 
             <!-- 建议和指导 -->
             <section class="mt-8" id="suggestions-section">
                 <h2 class="text-center text-lg font-semibold text-gray-900 sm:text-2xl" id="suggestions-header-title">建议和指导</h2>
-                <div class="prose prose-sm mt-5 max-w-none rounded-2xl border border-gray-200 bg-white p-5 text-gray-700 shadow-sm" id="suggestions-content">
-                    <!-- 建议内容将在这里显示 -->
+                <div class="mt-5 ui-card">
+                    <div class="ui-card-body prose prose-sm max-w-none text-gray-700" id="suggestions-content"><!-- 建议内容将在这里显示 --></div>
                 </div>
             </section>
+            </div>
         </div>
     </div>
-
-    <!-- 谷歌广告位 - 中间内容（文章内嵌广告）-->
-    <div class="mx-auto my-10 max-w-3xl px-4 text-center sm:px-6 lg:px-8">
-        <ins class="adsbygoogle block"
-             data-ad-layout="in-article"
-             data-ad-format="fluid"
-             data-ad-client="ca-pub-9195262048954682"
-             data-ad-slot="5294962935"></ins>
-        <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
     </div>
 </article>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    function setResultLoadingVisible(visible) {
+        const el = document.getElementById('result-loading');
+        if (!el) return;
+        try {
+            const fromSubmit = sessionStorage.getItem('cms_result_generating') === '1';
+            const msgEl = el.querySelector('p');
+            if (msgEl) msgEl.textContent = fromSubmit ? '正在生成结果...' : '正在加载结果...';
+            if (!visible && fromSubmit) {
+                sessionStorage.removeItem('cms_result_generating');
+                sessionStorage.removeItem('cms_result_generating_at');
+            }
+        } catch (e) {}
+        el.style.display = visible ? '' : 'none';
+    }
+
     // 获取URL参数
     const urlParams = new URLSearchParams(window.location.search);
     const answer_id = urlParams.get('answer_id');
+
+    setResultLoadingVisible(true);
     
     if (!answer_id) {
+        setResultLoadingVisible(false);
         document.getElementById('score-description').textContent = '未找到测试结果';
         document.getElementById('score-level').textContent = '';
         return;
@@ -101,6 +128,7 @@ document.addEventListener('DOMContentLoaded', function() {
     })
     .then(response => response.json())
     .then(data => {
+        setResultLoadingVisible(false);
         if (data.code === 1) {
             displayScoreResult(data.data);
         } else {
@@ -109,6 +137,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     })
     .catch(error => {
+        setResultLoadingVisible(false);
         console.error('Error:', error);
         document.getElementById('score-description').textContent = '网络错误，请稍后重试';
         document.getElementById('score-level').textContent = '';
@@ -292,12 +321,12 @@ function displayTestInfo(data, isEnglish) {
         const maxScorePerQuestion = 1;
         const theoreticalMaxScore = questionCount * maxScorePerQuestion;
 
-        infoHtml += '<div class="divide-y divide-gray-200 overflow-hidden rounded-xl border border-gray-200 bg-white">';
-        infoHtml += '<div class="flex items-center justify-between gap-4 px-4 py-3 text-sm"><span class="font-semibold text-gray-700">' + t.testName.replace(/[:：]\s*$/, '') + '</span><span class="text-gray-600">' + testTitle + '</span></div>';
-        infoHtml += '<div class="flex items-center justify-between gap-4 px-4 py-3 text-sm"><span class="font-semibold text-gray-700">' + t.testDescription.replace(/[:：]\s*$/, '') + '</span><span class="text-gray-600">' + description + '</span></div>';
-        infoHtml += '<div class="flex items-center justify-between gap-4 px-4 py-3 text-sm"><span class="font-semibold text-gray-700">' + t.questionCount.replace(/[:：]\s*$/, '') + '</span><span class="text-gray-600">' + questionCount + t.questions + '</span></div>';
-        infoHtml += '<div class="flex items-center justify-between gap-4 px-4 py-3 text-sm"><span class="font-semibold text-gray-700">' + t.maxScore.replace(/[:：]\s*$/, '') + '</span><span class="text-gray-600">' + theoreticalMaxScore + t.score + '</span></div>';
-        infoHtml += '<div class="flex items-center justify-between gap-4 px-4 py-3 text-sm"><span class="font-semibold text-gray-700">' + t.testType.replace(/[:：]\s*$/, '') + '</span><span class="text-gray-600">' + t.scoreTest + '</span></div>';
+        infoHtml += '<div class="grid" style="row-gap:10px;">';
+        infoHtml += '<div style="display:flex;gap:14px;align-items:flex-start;"><span class="font-semibold text-gray-700" style="flex:0 0 92px;white-space:nowrap;">' + t.testName.replace(/[:：]\s*$/, '') + '</span><span class="text-gray-600" style="flex:1;min-width:0;">' + testTitle + '</span></div>';
+        infoHtml += '<div style="display:flex;gap:14px;align-items:flex-start;"><span class="font-semibold text-gray-700" style="flex:0 0 92px;white-space:nowrap;">' + t.testDescription.replace(/[:：]\s*$/, '') + '</span><span class="text-gray-600" style="flex:1;min-width:0;line-height:1.65;">' + description + '</span></div>';
+        infoHtml += '<div style="display:flex;gap:14px;align-items:flex-start;"><span class="font-semibold text-gray-700" style="flex:0 0 92px;white-space:nowrap;">' + t.questionCount.replace(/[:：]\s*$/, '') + '</span><span class="text-gray-600" style="flex:1;min-width:0;">' + questionCount + t.questions + '</span></div>';
+        infoHtml += '<div style="display:flex;gap:14px;align-items:flex-start;"><span class="font-semibold text-gray-700" style="flex:0 0 92px;white-space:nowrap;">' + t.maxScore.replace(/[:：]\s*$/, '') + '</span><span class="text-gray-600" style="flex:1;min-width:0;">' + theoreticalMaxScore + t.score + '</span></div>';
+        infoHtml += '<div style="display:flex;gap:14px;align-items:flex-start;"><span class="font-semibold text-gray-700" style="flex:0 0 92px;white-space:nowrap;">' + t.testType.replace(/[:：]\s*$/, '') + '</span><span class="text-gray-600" style="flex:1;min-width:0;">' + t.scoreTest + '</span></div>';
         infoHtml += '</div>';
     }
     

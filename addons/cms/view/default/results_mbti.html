@@ -14,60 +14,80 @@
 }
 </script>
 
-<main class="bg-gray-50 py-6" role="main">
+<style data-render="style">
+ .oh-result-page{background:transparent}
+ .oh-result-hero{border-radius:16px;background:#111;color:#fff;box-shadow:0 20px 55px rgba(0,0,0,0.14)}
+ .oh-result-badge{display:inline-flex;align-items:center;gap:8px;border-radius:999px;background:rgba(250,204,21,0.18);color:#facc15;padding:6px 12px;font-size:12px;font-weight:900;letter-spacing:0.16em}
+ .oh-result-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:12px;padding:10px 14px;font-size:13px;font-weight:900;letter-spacing:0.12em;user-select:none;white-space:nowrap}
+ .oh-result-btn-primary{background:#facc15;border:1px solid #facc15;color:#111;box-shadow:0 12px 26px rgba(250,204,21,0.22)}
+ .oh-result-btn-primary:hover{background:#fbbf24;border-color:#fbbf24}
+</style>
+
+<main class="min-h-screen py-10" role="main">
+    <div class="oh-result-page">
     <div id="app" class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <!-- 加载状态 -->
-        <div v-if="loading" class="rounded-2xl border border-gray-200 bg-white p-10 text-center shadow-sm">
-            <div class="mx-auto h-10 w-10 animate-spin rounded-full border-4 border-gray-200 border-t-emerald-600"></div>
-            <p class="mt-4 text-sm text-gray-600">{{t.loading}}</p>
+        <div v-if="loading" class="ui-card">
+            <div class="ui-card-body p-10 text-center">
+                <div class="mx-auto h-10 w-10 animate-spin rounded-full border-4 border-gray-200 border-t-black"></div>
+                <p class="mt-4 text-sm text-gray-600">{{t.loading}}</p>
+            </div>
         </div>
 
         <!-- 错误状态 -->
-        <div v-if="error" class="rounded-2xl border border-rose-200 bg-rose-50 p-8 text-center text-rose-900 shadow-sm">
-            <h3 class="text-base font-semibold">{{t.loadFailed}}</h3>
-            <p class="mt-2 text-sm text-rose-800">{{error}}</p>
-            <button @click="loadData" class="mt-4 inline-flex items-center rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700">{{t.retry}}</button>
+        <div v-if="error" class="ui-card border border-rose-200 bg-rose-50 text-center text-rose-900">
+            <div class="ui-card-body p-8">
+                <h3 class="text-base font-semibold">{{t.loadFailed}}</h3>
+                <p class="mt-2 text-sm text-rose-800">{{error}}</p>
+                <button @click="loadData" class="mt-4 oh-result-btn oh-result-btn-primary">{{t.retry}}</button>
+            </div>
         </div>
 
         <!-- MBTI结果内容 -->
         <article v-if="!loading && !error && allInfo" class="space-y-6" itemscope itemtype="https://schema.org/Article">
             <!-- 测试结果头部 -->
-            <header class="rounded-2xl bg-gradient-to-br from-emerald-600 to-emerald-700 p-8 text-center text-white shadow-sm">
-                <span class="inline-flex items-center rounded-full bg-white/20 px-4 py-1 text-xs font-semibold">{{t.testComplete}}</span>
-                <h1 class="mt-4 text-4xl font-extrabold tracking-[0.35em]" itemprop="headline">{{allInfo.answer_info.mbti_type || 'MBTI'}}</h1>
-                <p class="mt-3 text-base font-semibold" v-if="allInfo.answer_info.mbti_content" itemprop="name">
-                    {{allInfo.answer_info.mbti_content.title}}
-                </p>
-                <p class="mt-2 text-sm leading-6 text-white/90" v-if="allInfo.answer_info.mbti_content && allInfo.answer_info.mbti_content.intro" itemprop="description">
-                    {{allInfo.answer_info.mbti_content.intro}}
-                </p>
+            <header class="ui-card oh-result-hero">
+                <div class="ui-card-body p-8 text-center">
+                    <span class="oh-result-badge"><span aria-hidden="true">✦</span><span>{{t.testComplete}}</span></span>
+                    <h1 class="mt-4 text-4xl font-extrabold tracking-[0.35em]" itemprop="headline">{{allInfo.answer_info.mbti_type || 'MBTI'}}</h1>
+                    <p class="mt-3 text-base font-semibold" v-if="allInfo.answer_info.mbti_content" itemprop="name">
+                        {{allInfo.answer_info.mbti_content.title}}
+                    </p>
+                    <p class="mt-2 text-sm leading-6 text-white/90" v-if="allInfo.answer_info.mbti_content && allInfo.answer_info.mbti_content.intro" itemprop="description">
+                        {{allInfo.answer_info.mbti_content.intro}}
+                    </p>
+                </div>
             </header>
 
             <!-- 维度分数展示 -->
-            <section v-if="allInfo.stat_data" :aria-label="t.dimensionAnalysis" class="overflow-hidden rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-                <h2 class="mb-4 text-lg font-semibold text-gray-900">{{t.dimensionAnalysis}}</h2>
-                <div class="grid gap-4 sm:grid-cols-2" role="list">
-                    <div v-for="dimension in dimensionPairs" :key="dimension.key" class="rounded-xl border border-gray-200 bg-gray-50 p-4" role="listitem">
-                        <div class="mb-3 text-sm font-semibold text-gray-900">{{dimension.name}}</div>
+            <section v-if="allInfo.stat_data" :aria-label="t.dimensionAnalysis" class="ui-card">
+                <div class="ui-card-header">
+                    <h2 class="text-base font-semibold text-gray-900">{{t.dimensionAnalysis}}</h2>
+                </div>
+                <div class="ui-card-body">
+                    <div class="grid gap-4 sm:grid-cols-2" role="list">
+                        <div v-for="dimension in dimensionPairs" :key="dimension.key" class="border border-gray-200 bg-gray-50 p-4" role="listitem">
+                            <div class="mb-3 text-sm font-semibold text-gray-900">{{dimension.name}}</div>
 
-                        <div class="space-y-2">
-                            <div class="flex items-center gap-2">
-                                <span class="w-6 text-sm font-bold text-gray-900">{{dimension.left.key}}</span>
-                                <div class="h-6 flex-1 overflow-hidden rounded-full bg-white ring-1 ring-gray-200">
-                                    <div class="flex h-full items-center justify-end rounded-full bg-emerald-600 pr-2 transition-all duration-700" :style="{width: dimension.left.percentage + '%'}">
-                                        <span class="text-xs font-bold text-white">{{dimension.left.value}}</span>
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-6 text-sm font-bold text-gray-900">{{dimension.left.key}}</span>
+                                    <div class="h-6 flex-1 overflow-hidden rounded-full bg-white ring-1 ring-gray-200">
+                                        <div class="flex h-full items-center justify-end rounded-full bg-black pr-2 transition-all duration-700" :style="{width: dimension.left.percentage + '%'}">
+                                            <span class="text-xs font-bold text-white">{{dimension.left.value}}</span>
+                                        </div>
                                     </div>
+                                    <span class="w-12 text-right text-xs font-semibold text-gray-600">{{dimension.left.percentage}}%</span>
                                 </div>
-                                <span class="w-12 text-right text-xs font-semibold text-gray-600">{{dimension.left.percentage}}%</span>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <span class="w-6 text-sm font-bold text-gray-900">{{dimension.right.key}}</span>
-                                <div class="h-6 flex-1 overflow-hidden rounded-full bg-white ring-1 ring-gray-200">
-                                    <div class="flex h-full items-center justify-end rounded-full bg-emerald-600 pr-2 transition-all duration-700" :style="{width: dimension.right.percentage + '%'}">
-                                        <span class="text-xs font-bold text-white">{{dimension.right.value}}</span>
+                                <div class="flex items-center gap-2">
+                                    <span class="w-6 text-sm font-bold text-gray-900">{{dimension.right.key}}</span>
+                                    <div class="h-6 flex-1 overflow-hidden rounded-full bg-white ring-1 ring-gray-200">
+                                        <div class="flex h-full items-center justify-end rounded-full bg-black pr-2 transition-all duration-700" :style="{width: dimension.right.percentage + '%'}">
+                                            <span class="text-xs font-bold text-white">{{dimension.right.value}}</span>
+                                        </div>
                                     </div>
+                                    <span class="w-12 text-right text-xs font-semibold text-gray-600">{{dimension.right.percentage}}%</span>
                                 </div>
-                                <span class="w-12 text-right text-xs font-semibold text-gray-600">{{dimension.right.percentage}}%</span>
                             </div>
                         </div>
                     </div>
@@ -75,31 +95,48 @@
             </section>
 
             <!-- MBTI详细解析 -->
-            <section v-if="allInfo.answer_info.mbti_content && allInfo.answer_info.mbti_content.content" class="overflow-hidden rounded-2xl border border-gray-200 bg-white p-6 shadow-sm" itemprop="articleBody">
-                <h2 class="mb-4 text-lg font-semibold text-gray-900">{{t.characterAnalysis}}</h2>
-                <div class="prose max-w-none prose-p:leading-7" v-html="allInfo.answer_info.mbti_content.content"></div>
+            <section v-if="allInfo.answer_info.mbti_content && allInfo.answer_info.mbti_content.content" class="ui-card" itemprop="articleBody">
+                <div class="ui-card-header">
+                    <h2 class="text-base font-semibold text-gray-900">{{t.characterAnalysis}}</h2>
+                </div>
+                <div class="ui-card-body">
+                    <div class="prose max-w-none prose-p:leading-7" v-html="allInfo.answer_info.mbti_content.content"></div>
+                </div>
             </section>
             
             <!-- 深度分析 -->
-            <section v-if="allInfo.answer_info.mbti_content && allInfo.answer_info.mbti_content.analysis" class="overflow-hidden rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-                <h2 class="mb-4 text-lg font-semibold text-gray-900">{{t.deepAnalysis}}</h2>
-                <div class="prose max-w-none prose-p:leading-7" v-html="allInfo.answer_info.mbti_content.analysis"></div>
+            <section v-if="allInfo.answer_info.mbti_content && allInfo.answer_info.mbti_content.analysis" class="ui-card">
+                <div class="ui-card-header">
+                    <h2 class="text-base font-semibold text-gray-900">{{t.deepAnalysis}}</h2>
+                </div>
+                <div class="ui-card-body">
+                    <div class="prose max-w-none prose-p:leading-7" v-html="allInfo.answer_info.mbti_content.analysis"></div>
+                </div>
             </section>
             
             <!-- 发展建议 -->
-            <section v-if="allInfo.answer_info.mbti_content && allInfo.answer_info.mbti_content.suggestion" class="overflow-hidden rounded-2xl border border-gray-200 bg-emerald-50 p-6 shadow-sm">
-                <h2 class="mb-4 text-lg font-semibold text-gray-900">{{t.developmentSuggestion}}</h2>
-                <div class="prose max-w-none prose-p:leading-7" v-html="allInfo.answer_info.mbti_content.suggestion"></div>
+            <section v-if="allInfo.answer_info.mbti_content && allInfo.answer_info.mbti_content.suggestion" class="ui-card bg-gray-50">
+                <div class="ui-card-header">
+                    <h2 class="text-base font-semibold text-gray-900">{{t.developmentSuggestion}}</h2>
+                </div>
+                <div class="ui-card-body">
+                    <div class="prose max-w-none prose-p:leading-7" v-html="allInfo.answer_info.mbti_content.suggestion"></div>
+                </div>
             </section>
 
             <!-- 详细MBTI分析报告 -->
-            <section v-if="allInfo.analyse && allInfo.analyse.content" class="overflow-hidden rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-                <h2 class="mb-4 text-lg font-semibold text-gray-900">{{allInfo.analyse.title || t.detailedReport}}</h2>
-                <div class="prose max-w-none prose-p:leading-7" v-html="allInfo.analyse.content"></div>
+            <section v-if="allInfo.analyse && allInfo.analyse.content" class="ui-card">
+                <div class="ui-card-header">
+                    <h2 class="text-base font-semibold text-gray-900">{{allInfo.analyse.title || t.detailedReport}}</h2>
+                </div>
+                <div class="ui-card-body">
+                    <div class="prose max-w-none prose-p:leading-7" v-html="allInfo.analyse.content"></div>
+                </div>
             </section>
 
 
         </article>
+    </div>
     </div>
 </main>
 
@@ -113,7 +150,7 @@
     max-width: 100%;
     margin: 0 auto;
     padding: 12px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    font-family: inherit;
     line-height: 1.6;
     color: #2c3e50;
     background: #f5f7fa;
@@ -138,7 +175,7 @@
     width: 40px;
     height: 40px;
     border: 4px solid #f3f3f3;
-    border-top: 4px solid #5DBE9E;
+    border-top: 4px solid #111827;
     border-radius: 50%;
     animation: spin 1s linear infinite;
     margin: 0 auto 20px;
@@ -160,7 +197,7 @@
 }
 
 .retry-btn {
-    background: #5DBE9E;
+    background: #111827;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -176,7 +213,7 @@
 
 /* 头部区域 */
 .result-header {
-    background: #5DBE9E;
+    background: #111827;
     color: white;
     padding: 25px 18px;
     text-align: center;
@@ -224,7 +261,7 @@
     font-weight: 600;
     text-align: left;
     padding-left: 10px;
-    border-left: 3px solid #5DBE9E;
+    border-left: 3px solid #111827;
     /* 确保h2标签可见 */
     display: block;
     visibility: visible;
@@ -285,7 +322,7 @@
 
 .bar-fill {
     height: 100%;
-    background: #5DBE9E;
+    background: #111827;
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -351,7 +388,7 @@
 
 .content-body li::before {
     content: '✓';
-    color: #5DBE9E;
+    color: #111827;
     font-weight: bold;
     font-size: 1.1rem;
     position: absolute;
@@ -387,7 +424,7 @@
 /* 优化黄色背景标题 */
 .content-body span[style*="background: rgb(255, 255, 0)"],
 .content-body b[style*="background-color: rgb(255, 255, 0)"] {
-    background: #5DBE9E !important;
+    background: #111827 !important;
     color: white !important;
     padding: 8px 16px !important;
     border-radius: 6px !important;
@@ -399,7 +436,7 @@
 
 /* 优化蓝色背景标题 */
 .content-body span[style*="background: rgb(0, 0, 255)"] {
-    background: #5DBE9E !important;
+    background: #111827 !important;
     color: white !important;
     padding: 8px 16px !important;
     border-radius: 6px !important;
@@ -500,7 +537,7 @@
     }
     
     .result-header {
-        background: #5DBE9E;
+        background: #111827;
         box-shadow: none;
     }
     

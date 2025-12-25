@@ -1,23 +1,26 @@
 {layout name="common/layout" /}
- <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" id="content-container">
+ <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8" id="content-container">
 
-     <header class="mt-6 rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
+     <header class="ui-card">
+         <div class="ui-card-body">
          <div class="flex flex-wrap items-center justify-between gap-3">
              <h1 class="text-xl font-bold text-gray-900">{$__DIYFORM__.name|htmlentities}</h1>
-             <a href="{$__DIYFORM__.posturl}" class="inline-flex items-center rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700">
+             <a href="{$__DIYFORM__.posturl}" class="inline-flex items-center rounded-md bg-black px-4 py-2 text-sm font-semibold text-white hover:bg-black/90 no-underline">
                  <i class="fa fa-pencil mr-2" aria-hidden="true"></i>{$__DIYFORM__.posttitle|htmlentities}
              </a>
+         </div>
          </div>
      </header>
 
      {if $__FILTERLIST__}
      <section class="mt-4" aria-label="{:__('筛选条件')}">
-         <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+         <div class="ui-card">
+             <div class="ui-card-body">
              <div class="flex flex-wrap items-center justify-between gap-3">
-                 <h2 class="inline-flex items-center gap-2 text-base font-semibold text-gray-900"><i class="fa fa-filter text-emerald-600" aria-hidden="true"></i>{:__('筛选')}</h2>
+                 <h2 class="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-gray-900"><i class="fa fa-filter text-black/60" aria-hidden="true"></i>{:__('筛选')}</h2>
                  <form action="" id="multipleform" class="flex items-center gap-2">
                      <input type="checkbox" name="multiple" id="multiple"
-                            class="h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-600"
+                            class="h-4 w-4 rounded border-gray-300 text-gray-900 focus:ring-black/10"
                             onclick="document.getElementById('multipleform').submit();"
                             value="{:$Think.get.multiple?0:1}"
                             {:$Think.get.multiple?'checked':''}>
@@ -31,11 +34,12 @@
                      <div class="mt-1 w-20 shrink-0 text-sm font-medium text-gray-700">{$filter.title|htmlentities}:</div>
                      <div class="flex flex-wrap gap-2">
                          {volist name="$filter.content" id="item"}
-                         <a href="{$item.url}" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600 {$item.active?'bg-emerald-50 text-emerald-700 border-emerald-200':''}">{$item.title|htmlentities}</a>
+                         <a href="{$item.url}" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 hover:text-black no-underline {$item.active?'bg-gray-50 text-black border-gray-200':''}">{$item.title|htmlentities}</a>
                          {/volist}
                      </div>
                  </div>
                  {/cms:pagefilter}
+             </div>
              </div>
          </div>
      </section>
@@ -43,18 +47,18 @@
 
      <main class="mt-6">
          <section aria-label="{:__('列表')}">
-             <div class="rounded-lg border border-gray-200 bg-white shadow-sm">
-                 <div class="flex flex-wrap items-center justify-between gap-3 border-b border-gray-100 px-4 py-3">
+             <div class="ui-card">
+                 <div class="ui-card-header flex flex-wrap items-center justify-between gap-3">
                      <h2 class="text-base font-semibold text-gray-900">{:__('列表')}</h2>
                      <div class="flex flex-wrap gap-2">
                          <!-- S 排序 -->
                          {cms:pageorder id="order"}
-                         <a href="{$order.url}" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600 {$order.active?'bg-emerald-50 text-emerald-700 border-emerald-200':''}">{$order.title|htmlentities}</a>
+                         <a href="{$order.url}" class="ui-pill text-sm {$order.active?'ui-pill-active':''}">{$order.title|htmlentities}</a>
                          {/cms:pageorder}
                          <!-- E 排序 -->
                      </div>
                  </div>
-                 <div class="p-4">
+                 <div class="ui-card-body">
                      <div class="divide-y divide-gray-100">
                          <!-- S 列表 -->
                          {cms:pagelist id="item"}
@@ -62,10 +66,10 @@
                              <div class="space-y-2">
                                  <h3 class="text-base font-semibold text-gray-900">
                                      {if $item.status!='normal'}<span class="mr-2 inline-flex items-center rounded-full bg-red-50 px-2 py-0.5 text-xs font-semibold text-red-700">{$item.status_text}</span>{/if}
-                                     <a href="{$item.url}" class="hover:text-emerald-600">{:$item.title??($item.name??'无')}</a>
+                                     <a href="{$item.url}" class="no-underline hover:text-black">{:$item.title??($item.name??'无')}</a>
                                  </h3>
 
-                                 <div class="text-sm leading-7 text-gray-600">
+                                 <div class="oh-clamp-2 text-sm leading-7 text-gray-600">
                                      {$item.content|default=''}
                                  </div>
 
@@ -75,7 +79,7 @@
                                  <div class="grid grid-cols-2 gap-2 pt-1 sm:grid-cols-4 md:grid-cols-6">
                                      {foreach name="imageList" id="image"}
                                      <a href="{$image}" target="_blank" class="group block aspect-[4/3] overflow-hidden rounded-md bg-gray-100">
-                                         <img src="{$image}" alt="" loading="lazy" class="h-full w-full object-cover transition duration-300 group-hover:scale-105">
+                                         <img src="{$image}" alt="" loading="lazy" class="h-full w-full object-cover transition duration-300 group-hover:scale-105" onerror="this.onerror=null;this.src='/assets/addons/cms/img/default.png'">
                                      </a>
                                      {/foreach}
                                  </div>

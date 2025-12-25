@@ -27,15 +27,34 @@
 }
 </script>
 
+<style data-render="style">
+ .oh-mbti-head{display:flex;flex-direction:column;gap:16px}
+ @media (min-width: 768px){.oh-mbti-head{flex-direction:row;align-items:flex-start;justify-content:space-between}}
+ .oh-mbti-cta{display:inline-flex;align-items:center;justify-content:center;border-radius:12px;border:1px solid #facc15;background:#facc15;padding:12px 18px;font-size:13px;font-weight:900;letter-spacing:0.14em;color:#111;box-shadow:0 12px 28px rgba(250,204,21,0.28), 0 10px 26px rgba(0,0,0,0.10);user-select:none;white-space:nowrap}
+ .oh-mbti-cta:hover{background:#fbbf24;border-color:#fbbf24}
+ @media (max-width: 767px){.oh-mbti-cta{width:100%}}
+ .oh-test-shell{background:rgba(0,0,0,0.035);padding:14px;border-radius:16px}
+ @media (min-width: 768px){.oh-test-shell{padding:22px}}
+ .oh-test-card{background:#fff;box-shadow:0 18px 45px rgba(0,0,0,0.06);border-radius:16px}
+ .oh-test-top{display:flex;flex-direction:column;align-items:stretch;justify-content:space-between;gap:12px}
+ @media (min-width: 640px){.oh-test-top{flex-direction:row;align-items:center}}
+ .oh-test-hint{font-size:12px;line-height:1.5;color:rgba(0,0,0,0.55);margin-top:4px}
+ .oh-mbti-mask{position:fixed;inset:0;z-index:9999;background:rgba(255,255,255,0.88);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:24px}
+ .oh-mbti-mask-card{width:min(380px, 100%);background:#111;color:#fff;border-radius:16px;padding:18px 18px 16px;text-align:center;box-shadow:0 22px 60px rgba(0,0,0,0.22)}
+ .oh-mbti-spin{display:inline-block;width:22px;height:22px;border-radius:999px;border:2px solid rgba(255,255,255,0.35);border-top-color:#facc15;animation:oh-mbti-spin 0.8s linear infinite}
+ @keyframes oh-mbti-spin{to{transform:rotate(360deg)}}
+</style>
 
-<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" id="content-container">
-    <nav aria-label="breadcrumb" class="mt-6">
-        <ol class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-gray-600" itemscope itemtype="https://schema.org/BreadcrumbList">
+
+<div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8" id="content-container">
+    <nav aria-label="breadcrumb" class="mb-6">
+        <ol class="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs text-gray-500" itemscope itemtype="https://schema.org/BreadcrumbList">
             {php}$breadPos = 0;{/php}
             {cms:breadcrumb id="item"}
             {php}$breadPos++;{/php}
             <li class="inline-flex items-center" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                <a class="hover:text-emerald-600" href="{$item.url}" itemprop="item">
+                {if $breadPos>1}<span class="mx-1 text-gray-300">›</span>{/if}
+                <a class="no-underline hover:text-black" href="{$item.url}" itemprop="item">
                     <span itemprop="name">{:__($item.name)}</span>
                 </a>
                 <meta itemprop="position" content="{$breadPos}" />
@@ -44,46 +63,63 @@
         </ol>
     </nav>
 
-    <header class="mt-4 rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
-        <h1 class="text-xl font-bold text-gray-900" itemprop="headline">{cms:archives name="title|htmlentities" /}</h1>
-        {if $__ARCHIVES__.sub_title}
-        <p class="mt-2 text-sm leading-7 text-gray-600" itemprop="description">{$__ARCHIVES__.sub_title|htmlentities}</p>
-        {/if}
-        <div class="mt-3 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-gray-600">
-            <span class="inline-flex items-center gap-2">
-                <i class="fa fa-eye text-emerald-600" aria-hidden="true"></i>
-                <span>{cms:archives name="views" /} {:__('阅读')}</span>
-            </span>
-            <span class="inline-flex items-center gap-2">
-                <i class="fa fa-calendar text-emerald-600" aria-hidden="true"></i>
-                <span>{$__ARCHIVES__.publishtime|date="Y-m-d",###}</span>
-            </span>
-            <span class="inline-flex items-center gap-2">
-                <i class="fa fa-folder-o text-emerald-600" aria-hidden="true"></i>
-                <span>{$__CHANNEL__.name}</span>
-            </span>
+    <header class="ui-card">
+        <div class="ui-card-body">
+        <div class="oh-mbti-head">
+            <div class="min-w-0">
+                <h1 class="text-xl font-semibold tracking-tight text-gray-900" itemprop="headline">{cms:archives name="title|htmlentities" /}</h1>
+                {if $__ARCHIVES__.sub_title}
+                <p class="mt-2 text-sm leading-7 text-gray-600" itemprop="description">{$__ARCHIVES__.sub_title|htmlentities}</p>
+                {/if}
+                <div class="mt-3 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-gray-600">
+                    <span class="inline-flex items-center gap-2">
+                        <i class="fa fa-eye text-black/60" aria-hidden="true"></i>
+                        <span>{cms:archives name="views" /} {:__('阅读')}</span>
+                    </span>
+                    <span class="inline-flex items-center gap-2">
+                        <i class="fa fa-calendar text-black/60" aria-hidden="true"></i>
+                        <span>{$__ARCHIVES__.publishtime|date="Y-m-d",###}</span>
+                    </span>
+                    <span class="inline-flex items-center gap-2">
+                        <i class="fa fa-folder-o text-black/60" aria-hidden="true"></i>
+                        <span>{$__CHANNEL__.name}</span>
+                    </span>
+                </div>
+            </div>
+            <div class="shrink-0">
+                <button type="button" class="oh-mbti-cta" onclick="if (window.__MBTI_APP__ && window.__MBTI_APP__.toTest) { window.__MBTI_APP__.toTest(); } else { window.location.search='?question=1'; }">
+                    <i class="fa fa-play-circle mr-2" aria-hidden="true"></i> {:__('立即测试')}
+                </button>
+            </div>
+        </div>
         </div>
     </header>
 
-    <div id="ad-header-horizontal" class="my-4 min-h-[90px]"></div>
-
     <div id="app" v-cloak class="hidden">
-        <div class="grid gap-6 lg:grid-cols-12">
+        <div v-if="isSubmitting" class="oh-mbti-mask" role="status" aria-live="polite" aria-label="{:__('报告生成中')}">
+            <div class="oh-mbti-mask-card">
+                <div class="flex items-center justify-center gap-3" style="gap:12px;">
+                    <span class="oh-mbti-spin" aria-hidden="true"></span>
+                    <div class="text-base font-semibold">{:__('报告生成中')}</div>
+                </div>
+                <div class="mt-2 text-sm" style="color:rgba(255,255,255,0.78);">{:__('正在分析你的答案，请稍候…')}</div>
+            </div>
+        </div>
+        <div class="mt-6 grid gap-6 lg:grid-cols-12">
             <main class="lg:col-span-8">
-                <section class="rounded-lg border border-gray-200 bg-white shadow-sm" id="ceshi">
-                    <div class="p-4">
+                <section class="ui-card" id="ceshi">
+                    <div class="ui-card-body">
                         <div id="introSection" class="space-y-4" :class="isShow ? 'hidden' : ''">
                             <div class="text-sm leading-7 text-gray-700">
                                 {cms:archives name="content" /}
                             </div>
-                            <div id="ad-in-article" class="my-4 min-h-[100px]"></div>
                             {if isset($check_data) && $check_data['code']==0}
                             <div class="rounded-md border border-amber-200 bg-amber-50 p-4 text-center text-sm font-medium text-amber-800">
                                 <i class="fa fa-info-circle mr-2" aria-hidden="true"></i> {:__("今日已经做过该测试了，请明天再重试哦")}
                             </div>
                             {else}
                             <div class="py-6 text-center">
-                                <button type="button" class="inline-flex items-center rounded-md bg-gradient-to-r from-emerald-500 to-emerald-600 px-10 py-4 text-base font-semibold text-white shadow hover:from-emerald-600 hover:to-emerald-700" @click="toTest">
+                                <button type="button" class="inline-flex items-center rounded-md bg-black px-10 py-4 text-base font-semibold text-white shadow hover:bg-black/90" @click="toTest">
                                     <i class="fa fa-play-circle mr-2" aria-hidden="true"></i> {:__('立即测试')}
                                 </button>
                             </div>
@@ -91,19 +127,33 @@
                         </div>
 
                         <div id="testSection" class="mt-6" :class="isShow ? '' : 'hidden'">
-                            <div class="sticky top-0 z-10 rounded-lg bg-white/95 p-4 shadow-sm backdrop-blur">
-                                <div class="h-2 overflow-hidden rounded-full bg-gray-200">
-                                    <div class="h-full bg-gradient-to-r from-emerald-500 to-emerald-600 transition-all duration-500" :style="{width: progressPercentage + '%'}"></div>
-                                </div>
-                                <div class="mt-2 text-center text-sm font-semibold text-gray-700">
-                                    <i class="fa fa-check-circle mr-2 text-emerald-600" aria-hidden="true"></i>
-                                    {:__("已完成")} {{answer_data.length}} / {{quesInfo.count}} {:__("题")} ({{progressPercentage}}%)
-                                </div>
-                            </div>
+                            <div class="oh-test-shell">
+                                <div class="oh-test-card p-4 md:p-6">
+                                    <div class="oh-test-top">
+                                        <div>
+                                            <div class="text-xs font-semibold tracking-[0.18em] text-gray-900">
+                                                <i class="fa fa-pencil-square-o mr-2 text-black/60" aria-hidden="true"></i>{:__('开始答题')}
+                                            </div>
+                                            <div class="oh-test-hint">{:__('请选择最符合你的选项，系统会自动进入下一题')}</div>
+                                        </div>
+                                        <button type="button" class="inline-flex items-center justify-center rounded-none border border-black/10 bg-white px-4 py-2 text-xs font-semibold tracking-[0.12em] text-gray-800/90 hover:bg-gray-50" @click="restartTest">
+                                            <i class="fa fa-refresh mr-2" aria-hidden="true"></i>{:__('重新开始')}
+                                        </button>
+                                    </div>
 
-                            <div class="mt-4 text-center">
+                                    <div class="mt-5 rounded-none bg-black/5 p-4">
+                                        <div class="h-2 overflow-hidden rounded-full bg-white">
+                                            <div class="h-full bg-black transition-all duration-500" :style="{width: progressPercentage + '%'}"></div>
+                                        </div>
+                                        <div class="mt-2 text-center text-sm font-semibold text-gray-700">
+                                            <i class="fa fa-check-circle mr-2 text-black/60" aria-hidden="true"></i>
+                                            {:__("已完成")} {{answer_data.length}} / {{quesInfo.count}} {:__("题")} ({{progressPercentage}}%)
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-6 text-center">
                                 <div v-for="(question, index) in quesList" :key="index" :class="currentIndex === index ? 'block' : 'hidden'">
-                                    <div class="border-b-4 border-dashed border-gray-300 p-2">
+                                    <div class="rounded-none bg-white p-5 shadow-sm">
                                         <div class="text-sm font-medium text-gray-600">
                                             <i class="fa fa-question-circle mr-2" aria-hidden="true"></i>{:__("第")}{{index+1}}{:__("题")}
                                         </div>
@@ -112,47 +162,48 @@
 
                                     <div class="w-full">
                                         <div v-for="option in question.selectdata" class="mt-4 flex" @click="currentChange(option, index)">
-                                            <div class="relative w-full rounded-lg border-2 p-4 text-left text-base font-semibold transition"
+                                            <div class="relative w-full rounded-none border p-4 text-left text-base font-semibold transition"
                                                  :class="[
-                                                     option.current == 1 ? 'border-emerald-600 bg-emerald-600 text-white' : 'border-transparent bg-gray-100 text-gray-900 hover:bg-gray-200 hover:translate-x-1 hover:border-emerald-500',
+                                                     option.current == 1 ? 'border-black bg-black/5 text-gray-900' : 'border-black/10 bg-white text-gray-900 hover:bg-black/5',
                                                      isProcessing ? 'opacity-60 pointer-events-none' : ''
                                                  ]">
                                                 {{option.value}}
-                                                <span v-if="option.current == 1" class="absolute right-4 top-1/2 -translate-y-1/2 text-white">✔</span>
+                                                <span v-if="option.current == 1" class="absolute right-4 top-1/2 -translate-y-1/2 text-black">✔</span>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="mt-4 flex items-center justify-between gap-3">
-                                        <button type="button" class="inline-flex items-center rounded-md bg-gray-100 px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-200" @click="toReturn">{:__("上一题")}</button>
+                                    <div class="mt-6 flex items-center justify-between gap-3">
+                                        <button type="button" class="inline-flex items-center rounded-none bg-white px-4 py-2 text-sm font-semibold text-gray-800/90 shadow-sm hover:bg-black/5" @click="toReturn">{:__("上一题")}</button>
                                         <div class="text-sm text-gray-700">
                                             {:__("第")} <span class="text-lg font-bold text-gray-900">{{index+1}}</span> / {{quesInfo.count}} {:__("题")}
                                         </div>
                                     </div>
                                 </div>
 
-                                <button type="button" class="mt-6 w-full rounded-lg bg-gradient-to-r from-emerald-500 to-emerald-600 py-4 text-center text-base font-bold tracking-wide text-white shadow hover:from-emerald-600 hover:to-emerald-700"
+                                <button type="button" class="mt-8 w-full rounded-none bg-black py-4 text-center text-base font-bold tracking-wide text-white shadow hover:bg-black/90"
                                         v-show="isSubmit" @click="getExamResult()" :class="isSubmitting ? 'opacity-60 pointer-events-none' : ''">
                                     <span v-if="!isSubmitting"><i class="fa fa-check-circle mr-2" aria-hidden="true"></i>{:__("已完成做题，确认提交")}</span>
                                     <span v-else><i class="fa fa-spinner fa-spin mr-2" aria-hidden="true"></i>{:__("正在提交中...")}</span>
                                 </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
                         <div class="mt-6 space-y-6">
                             {include file="common/payment" /}
                             {include file="common/donate" /}
-                            {include file="common/share" type="archives" image="__ARCHIVES__.image" aid="__ARCHIVES__.id"}
                             {include file="common/metainfo" /}
                         </div>
                     </div>
                 </section>
 
                 {if $config.iscomment && config('fastadmin.usercenter')}
-                <section class="mt-6 rounded-lg border border-gray-200 bg-white shadow-sm" id="comments">
+                <section class="ui-card mt-6" id="comments">
                     <div class="border-b border-gray-100 px-4 py-3">
                         <h2 class="text-base font-semibold text-gray-900">{:__('Comment list')}
-                            <small class="ml-2 text-sm font-normal text-gray-600">{:__("共有")} <span class="font-semibold text-emerald-700">{cms:archives name="comments" /}</span> {:__("条评论")}</small>
+                            <small class="ml-2 text-sm font-normal text-gray-600">{:__("共有")} <span class="font-semibold text-black">{cms:archives name="comments" /}</span> {:__("条评论")}</small>
                         </h2>
                     </div>
                     <div class="p-4">
@@ -167,32 +218,29 @@
             </main>
 
             <aside class="space-y-6 lg:col-span-4">
-                <section class="rounded-lg border border-gray-200 bg-white shadow-sm" aria-label="{:__('相关推荐')}">
-                    <div class="border-b border-gray-100 px-4 py-3">
-                        <h2 class="text-base font-semibold text-gray-900"><i class="fa fa-lightbulb-o mr-2 text-emerald-600" aria-hidden="true"></i>{:__('相关推荐')}</h2>
-                    </div>
-                    <div class="space-y-3 p-4">
+                <section class="ui-card" aria-label="{:__('相关推荐')}" style="border:1px solid rgba(0,0,0,0.08);">
+                    <div class="ui-card-body" style="padding:14px 14px 12px;">
+                        <div class="pb-2 text-xs font-semibold tracking-[0.18em] text-gray-900"><i class="fa fa-lightbulb-o mr-2 text-black/60" aria-hidden="true"></i>{:__('相关推荐')}</div>
+                        <div class="space-y-2">
                         {cms:arclist id="related" channel="$__CHANNEL__.id" limit="6" orderby="views" orderway="DESC"}
                         {if $related.id != $__ARCHIVES__.id}
-                        <a href="{$related.url}" class="group flex gap-3 rounded-md bg-gray-50 p-3 transition hover:bg-gray-100">
-                            <div class="relative h-20 w-20 shrink-0 overflow-hidden rounded-md bg-white">
-                                <img src="{$related.image ?: '/assets/addons/cms/img/default.png'}" alt="{$related.title|htmlentities} - {:__('MBTI测试')}" loading="lazy" class="h-full w-full object-cover transition duration-300 group-hover:scale-105">
+                        <a href="{$related.url}" class="group flex gap-3 rounded-none bg-transparent transition hover:bg-black/5 no-underline" style="padding:10px 12px;">
+                            <div class="relative h-16 w-16 shrink-0 overflow-hidden rounded-none bg-black/5">
+                                <img src="{$related.image ?: '/assets/addons/cms/img/default.png'}" alt="{$related.title|htmlentities} - {:__('MBTI测试')}" loading="lazy" class="h-full w-full object-cover transition duration-300 group-hover:scale-105" onerror="this.onerror=null;this.src='/assets/addons/cms/img/default.png'">
                                 {if isset($related.tags[0])}
-                                <span class="absolute bottom-1 left-1 right-1 rounded bg-emerald-600/95 px-1.5 py-0.5 text-center text-[10px] font-semibold text-white">{$related.tags.0.title|htmlentities}</span>
+                                <span class="absolute bottom-1 left-1 right-1 bg-black/80 px-1.5 py-0.5 text-center text-[10px] font-semibold text-white">{$related.tags.0.title|htmlentities}</span>
                                 {/if}
                             </div>
                             <div class="min-w-0 flex-1">
                                 <div class="text-sm font-semibold leading-6 text-gray-900 truncate">{$related.title|htmlentities|mb_substr=0,30}</div>
-                                <div class="mt-1 text-xs text-gray-500"><i class="fa fa-eye mr-1 text-emerald-600" aria-hidden="true"></i>{$related.views|default=0}</div>
+                                <div class="mt-0.5 text-xs text-gray-500"><i class="fa fa-eye mr-1 text-black/60" aria-hidden="true"></i>{$related.views|default=0}</div>
                             </div>
                         </a>
                         {/if}
                         {/cms:arclist}
+                        </div>
                     </div>
                 </section>
-
-                <div id="ad-feed" class="my-4 min-h-[100px]"></div>
-                <div id="ad-sidebar-top" class="my-4 min-h-[100px]"></div>
 
                 {include file="common/authorinfo" /}
                 {include file="common/sidebar" /}
@@ -281,6 +329,7 @@
         },
         mounted() {
             this.$el.classList.remove('hidden');
+            window.__MBTI_APP__ = this;
             this.isMobile = window.innerWidth <= 992;
             window.addEventListener('resize', () => {
                 this.isMobile = window.innerWidth <= 992;
@@ -305,6 +354,24 @@
             } else {
                 this.isShow = false;
             }
+
+            if (this.isShow) {
+                this.$nextTick(() => {
+                    const testSection = document.getElementById('testSection');
+                    if (testSection) {
+                        testSection.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                        setTimeout(() => {
+                            window.scrollBy({
+                                top: -80,
+                                behavior: 'smooth'
+                            });
+                        }, 300);
+                    }
+                });
+            }
             
             setTimeout(() => {
                 if (this.quesList.length === 0) {
@@ -312,90 +379,8 @@
                 }
             }, 100);
             window.addEventListener('popstate', this.handlePopState);
-            
-            // 动态插入 Google AdSense 广告
-            this.initAds();
         },
         methods: {
-            initAds() {
-                // 等待 AdSense 脚本加载
-                const waitForAdSense = (callback, maxAttempts = 50) => {
-                    let attempts = 0;
-                    const checkAdSense = () => {
-                        if (window.adsbygoogle || attempts >= maxAttempts) {
-                            callback();
-                        } else {
-                            attempts++;
-                            setTimeout(checkAdSense, 200);
-                        }
-                    };
-                    checkAdSense();
-                };
-                
-                // 创建广告的辅助函数
-                const createAd = (container, config) => {
-                    if (!container) return;
-                    
-                    // 创建 ins 元素
-                    const ins = document.createElement('ins');
-                    ins.className = 'adsbygoogle';
-                    ins.style.display = 'block';
-                    
-                    // 设置广告属性
-                    Object.keys(config).forEach(key => {
-                        ins.setAttribute(key, config[key]);
-                    });
-                    
-                    container.appendChild(ins);
-                    
-                    // 延迟执行广告加载
-                    setTimeout(() => {
-                        try {
-                            (adsbygoogle = window.adsbygoogle || []).push({});
-                        } catch (e) {
-                            // 静默处理错误
-                        }
-                    }, 100);
-                };
-                
-                // 等待 AdSense 加载完成后创建广告
-                waitForAdSense(() => {
-                    // 头部横向广告
-                    createAd(document.getElementById('ad-header-horizontal'), {
-                        'data-ad-client': 'ca-pub-9195262048954682',
-                        'data-ad-slot': '7906059149',
-                        'data-ad-format': 'auto',
-                        'data-full-width-responsive': 'true'
-                    });
-                    
-                    // 文章内嵌广告
-                    createAd(document.getElementById('ad-in-article'), {
-                        'style': 'display:block; text-align:center;',
-                        'data-ad-layout': 'in-article',
-                        'data-ad-format': 'fluid',
-                        'data-ad-client': 'ca-pub-9195262048954682',
-                        'data-ad-slot': '5294962935'
-                    });
-                    
-                    // 信息流广告
-                    createAd(document.getElementById('ad-feed'), {
-                        'data-ad-format': 'fluid',
-                        'data-ad-layout-key': '-6t+ed+2i-1n-4w',
-                        'data-ad-client': 'ca-pub-9195262048954682',
-                        'data-ad-slot': '3120669155'
-                    });
-                    
-                    // 侧边栏广告
-                    const sidebarAd = document.getElementById('ad-sidebar-top');
-                    createAd(sidebarAd, {
-                        'data-ad-client': 'ca-pub-9195262048954682',
-                        'data-ad-slot': '1134419628',
-                        'data-ad-format': 'auto',
-                        'data-full-width-responsive': 'true'
-                    });
-                });
-            },
-            
             getCurrentLanguage() {
                 const urlParams = new URLSearchParams(window.location.search);
                 const urlLang = urlParams.get('lg');
@@ -584,6 +569,10 @@
                             const resultUrl = baseUrl + resultPage + '?answer_id=' + data.data.answer_id;
                             
                             console.log('跳转到结果页：', resultUrl);
+                            try {
+                                sessionStorage.setItem('cms_result_generating', '1');
+                                sessionStorage.setItem('cms_result_generating_at', String(Date.now()));
+                            } catch (e) {}
                             window.location.href = resultUrl;
 
                             history.replaceState(null, '', window.location.pathname);

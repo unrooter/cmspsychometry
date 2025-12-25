@@ -1,5 +1,33 @@
-{layout name="common/layout" /}
-<div class="mx-auto max-w-6xl px-4 py-6" id="content-container">
+ {assign name="bodyClass" value="oharchi-home" /}
+ {layout name="common/layout" /}
+ <style data-render="style">
+ body.oharchi-home .oh-home-catwrap{display:flex;flex-wrap:wrap;gap:8px;min-width:0;max-width:100%}
+ body.oharchi-home .oh-home-catwrap > *{min-width:0;max-width:100%}
+ body.oharchi-home .oh-section-head{display:flex;flex-wrap:wrap;gap:12px;min-width:0;max-width:100%}
+ body.oharchi-home .oh-section-head > *{min-width:0}
+ body.oharchi-home #content-container{max-width:100%;width:100% !important;overflow-x:hidden;box-sizing:border-box !important}
+ body.oharchi-home #content-container{padding-top:32px !important;padding-bottom:44px !important}
+ body.oharchi-home .oh-panel{padding:16px !important}
+ body.oharchi-home .oh-section{padding-top:22px !important}
+ @media (min-width:768px){body.oharchi-home .oh-section{padding-top:26px !important}}
+ body.oharchi-home #content-container *{box-sizing:border-box !important}
+ body.oharchi-home #content-container > *,
+ body.oharchi-home #content-container main,
+ body.oharchi-home #content-container aside,
+ body.oharchi-home #content-container section{max-width:100%;min-width:0}
+ body.oharchi-home #index-focus,
+ body.oharchi-home #index-focus [role="region"]{overflow:hidden;max-width:100%}
+ body.oharchi-home #index-focus [data-carousel-slide]{max-width:100%;width:100%}
+ body.oharchi-home #index-focus img{max-width:100%;width:100%;height:auto}
+ body.oharchi-home .oh-tile,body.oharchi-home .oh-tile-grid,body.oharchi-home .oh-tile-cell{max-width:100%}
+ body.oharchi-home .oh-tile-grid{overflow:hidden}
+ body.oharchi-home .oh-tile-grid > .oh-tile-cell{min-width:0;max-width:100%}
+ body.oharchi-home .oh-tile-grid .ui-card{max-width:100%;min-width:0}
+ body.oharchi-home .oh-tile-grid .ui-card *{min-width:0}
+ body.oharchi-home .oh-tile-media{max-width:100%;overflow:hidden;aspect-ratio:4/3}
+ body.oharchi-home .oh-tile-media img{display:block;max-width:100%;width:100%;height:100%;object-fit:cover}
+ </style>
+<div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8" id="content-container">
     <!-- 页面主标题 H1 用于SEO -->
     <header class="mb-5">
         <h1 class="sr-only">{:__('专业心理测试在线平台 - 趣味性格测评与自我认知')}</h1>
@@ -18,26 +46,48 @@
       }]
     }
     </script>
-    <div class="grid gap-6 md:grid-cols-2">
-        <div class="space-y-4">
-            <form action="{:addon_url('cms/search/index')}" method="get">
-                <div class="relative">
-                    <input class="h-12 w-full rounded-full border border-gray-200 bg-white pl-12 pr-4 text-sm text-gray-900 placeholder:text-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-100" name="q"
-                           data-suggestion-url="{:addon_url('cms/search/suggestion')}" type="search"
-                           id="searchinput" value="{$Think.request.q|default=''|htmlentities}" placeholder="{:__('搜索')}">
-                    <span class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"><i class="fa fa-search" aria-hidden="true"></i></span>
+    <div class="grid gap-8 md:gap-10 lg:grid-cols-12 lg:items-stretch">
+        <div class="space-y-6 lg:col-span-4">
+            <section class="oh-panel h-full flex flex-col" aria-labelledby="intro-section">
+                <h2 class="text-xl font-semibold tracking-tight text-black" id="intro-section">{:__('专业心理测试在线平台')}</h2>
+                <p class="mt-3 text-sm leading-7 text-black/70">{:__('自我孵化心理测试平台是一个集合各种专业的心理估量表以及趣味测试的平台，致力于为用户提供高质量、专业且有趣的在线心理测试服务。通过这些测试，希望你能够在不同的角度更加了解自我。')}</p>
+                <div class="mt-6 grid grid-cols-3 gap-3">
+                    <div class="border border-black/10 px-3 py-2.5 text-center">
+                        <div class="text-lg font-semibold text-gray-900">120+</div>
+                        <div class="mt-1 text-[11px] tracking-[0.18em] text-black/60">{:__('测试项目')}</div>
+                    </div>
+                    <div class="border border-black/10 px-3 py-2.5 text-center">
+                        <div class="text-lg font-semibold text-gray-900">1M+</div>
+                        <div class="mt-1 text-[11px] tracking-[0.18em] text-black/60">{:__('累计测试')}</div>
+                    </div>
+                    <div class="border border-black/10 px-3 py-2.5 text-center">
+                        <div class="text-lg font-semibold text-gray-900">50K+</div>
+                        <div class="mt-1 text-[11px] tracking-[0.18em] text-black/60">{:__('注册用户')}</div>
+                    </div>
                 </div>
-                {:token('__searchtoken__')}
-            </form>
-            {include file="common/item_tag" /}
+
+                <div class="mt-6">
+                    <div class="oh-section-head">
+                        <h3 class="oh-section-title">{:__('测试分类')}</h3>
+                    </div>
+                    <div class="flex flex-wrap gap-2 oh-home-catwrap">
+                        {cms:channellist id="cat" type="son" typeid="25,26" condition="1=isnav"}
+                        <a href="{$cat.url}" class="inline-flex items-center border border-black/10 bg-white/60 text-xs text-black/80 hover:bg-white/80 hover:text-black no-underline" style="padding:6px 10px;">
+                            <span class="oh-clamp-1">{:__($cat.name)}</span>
+                        </a>
+                        {/cms:channellist}
+                    </div>
+                </div>
+            </section>
         </div>
-        <div>
-            <div class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
+
+        <div class="lg:col-span-8">
+            <div class="oh-focus h-full">
                 <div id="index-focus" class="relative" aria-label="{:__('焦点图')}">
-                    <ol class="absolute bottom-3 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2" aria-label="{:__('轮播指示器')}">
+                    <ol class="absolute bottom-3 z-10 flex items-center gap-2" style="left:50%;transform:translateX(-50%);" aria-label="{:__('轮播指示器')}">
                         {cms:blocklist id="block" name="indexfocus" row="5"}
                         <li>
-                            <button type="button" data-carousel-indicator data-slide-to="{:$i-1}" class="h-2.5 w-2.5 rounded-full bg-white/50 ring-1 ring-white/60 transition hover:bg-white/80 {if $i==1}bg-white{/if}" aria-label="{:__('切换轮播')}" aria-current="{if $i==1}true{else}false{/if}"></button>
+                            <button type="button" data-carousel-indicator data-slide-to="{:$i-1}" class="h-2.5 w-2.5 rounded-full bg-black/15 ring-1 ring-black/20 transition hover:bg-black/25 {if $i==1}bg-black/45{/if}" aria-label="{:__('切换轮播')}" aria-current="{if $i==1}true{else}false{/if}"></button>
                         </li>
                         {/cms:blocklist}
                     </ol>
@@ -45,14 +95,15 @@
                         {cms:blocklist id="block" name="indexfocus" row="5"}
                         <div class="{if $i==1}block{else}hidden{/if}" data-carousel-slide>
                             <a href="{$block.url}" class="block">
-                                <img src="{$block.image}"
-                                     class="block h-[250px] w-full object-cover md:h-[400px]"
+                                <img src="{$block.image ?: '/assets/addons/cms/img/default.png'}"
+                                     class="oh-focus-img block w-full object-cover"
                                      alt="{$block.title|htmlentities} - {:__('心理测试')}"
                                      {if $i>1}loading="lazy"{/if}
+                                     onerror="this.onerror=null;this.src='/assets/addons/cms/img/default.png'"
                                      width="800"
-                                     height="400">
-                                <div class="absolute bottom-0 left-0 right-0 hidden bg-gradient-to-t from-black/60 to-transparent p-4 text-white md:block">
-                                    <div class="text-base font-semibold">{$block.title|htmlentities}</div>
+                                     height="420">
+                                <div class="oh-focus-caption absolute bottom-0 left-0 right-0 p-4">
+                                    <div class="oh-clamp-1 text-sm font-semibold">{$block.title|htmlentities}</div>
                                 </div>
                             </a>
                         </div>
@@ -62,36 +113,6 @@
             </div>
         </div>
     </div>
-
-    <!-- 网站简介区块 -->
-    <section class="mt-8 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-        <div class="grid gap-6 md:grid-cols-12 md:items-center">
-            <div class="md:col-span-8">
-                <h2 class="text-xl font-semibold text-gray-900">{:__('专业心理测试在线平台')}</h2>
-                <p class="mt-3 text-sm leading-7 text-gray-600">{:__('自我孵化心理测试平台是一个集合各种专业的心理估量表以及趣味测试的平台，致力于为用户提供高质量、专业且有趣的在线心理测试服务。通过这些测试，希望你能够在不同的角度更加了解自我。')}</p>
-                <div class="mt-5 grid grid-cols-3 gap-4">
-                    <div class="rounded-lg bg-gray-50 p-3 text-center">
-                        <div class="text-lg font-semibold text-gray-900">120+</div>
-                        <div class="mt-1 text-xs text-gray-600">{:__('测试项目')}</div>
-                    </div>
-                    <div class="rounded-lg bg-gray-50 p-3 text-center">
-                        <div class="text-lg font-semibold text-gray-900">1M+</div>
-                        <div class="mt-1 text-xs text-gray-600">{:__('累计测试')}</div>
-                    </div>
-                    <div class="rounded-lg bg-gray-50 p-3 text-center">
-                        <div class="text-lg font-semibold text-gray-900">50K+</div>
-                        <div class="mt-1 text-xs text-gray-600">{:__('注册用户')}</div>
-                    </div>
-                </div>
-            </div>
-            <div class="hidden md:flex md:col-span-4 md:justify-center">
-                <div class="text-center">
-                    <i class="fa fa-heart text-[80px] opacity-25"></i>
-                    <p class="mt-3 text-sm text-gray-700">{:__('了解自我 成就更好')}</p>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -118,12 +139,12 @@
                 });
                 indicators.forEach((btn, i) => {
                     if (i === nextIndex) {
-                        btn.classList.add('bg-white');
-                        btn.classList.remove('bg-white/50');
+                        btn.classList.add('bg-black/45');
+                        btn.classList.remove('bg-black/15');
                         btn.setAttribute('aria-current', 'true');
                     } else {
-                        btn.classList.remove('bg-white');
-                        btn.classList.add('bg-white/50');
+                        btn.classList.remove('bg-black/45');
+                        btn.classList.add('bg-black/15');
                         btn.setAttribute('aria-current', 'false');
                     }
                 });
@@ -149,152 +170,204 @@
         });
     </script>
 
-    <div class="mt-8 grid gap-6 lg:grid-cols-12">
-        <main class="space-y-6 lg:col-span-8">
-            <!-- 热门测试区块 -->
-            <section class="rounded-lg border border-gray-200 bg-white shadow-sm" aria-labelledby="hot-tests-section">
-                <header class="border-b border-gray-100 px-4 py-3">
-                    <h2 class="text-base font-semibold text-gray-900" id="hot-tests-section">
-                        <i class="fa fa-fire mr-2 text-emerald-600"></i>{:__('热门测试')}
-                    </h2>
-                </header>
-                <div class="p-4">
-                    <div class="grid grid-cols-2 gap-4 sm:grid-cols-3">
-                        {cms:arclist id="item" channel="26,32" orderby="views" orderway="DESC" limit="6"}
-                        <div>
-                            {include file="common/item_mbti" /}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            if (!location.search || location.search.indexOf('debug_overflow=1') === -1) return;
+
+            var vw = document.documentElement.clientWidth;
+            var sw = document.documentElement.scrollWidth;
+
+            var offenders = [];
+            var nodes = document.querySelectorAll('body *');
+            for (var i = 0; i < nodes.length; i++) {
+                var el = nodes[i];
+                if (!el.getBoundingClientRect) continue;
+                var r = el.getBoundingClientRect();
+                if (r.width > vw + 1 || r.right > vw + 1) {
+                    offenders.push({
+                        el: el,
+                        w: Math.round(r.width * 100) / 100,
+                        right: Math.round(r.right * 100) / 100
+                    });
+                }
+            }
+
+            offenders.sort(function (a, b) { return b.w - a.w; });
+            var top = offenders.slice(0, 8);
+
+            for (var j = 0; j < top.length; j++) {
+                top[j].el.style.outline = '2px solid #ff0066';
+                top[j].el.style.outlineOffset = '2px';
+            }
+
+            var box = document.createElement('div');
+            box.style.position = 'fixed';
+            box.style.left = '8px';
+            box.style.top = '8px';
+            box.style.zIndex = '99999';
+            box.style.maxWidth = 'calc(100vw - 16px)';
+            box.style.background = 'rgba(0,0,0,0.82)';
+            box.style.color = '#fff';
+            box.style.fontSize = '12px';
+            box.style.lineHeight = '1.45';
+            box.style.padding = '10px 12px';
+            box.style.borderRadius = '0';
+            box.style.fontFamily = 'ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace';
+
+            var html = '';
+            html += '<div><strong>Overflow Debug</strong></div>';
+            html += '<div>clientWidth=' + vw + ' scrollWidth=' + sw + ' delta=' + (sw - vw) + '</div>';
+            html += '<div style="margin-top:6px">Top offenders:</div>';
+            for (var k = 0; k < top.length; k++) {
+                var e = top[k].el;
+                var name = e.tagName.toLowerCase();
+                if (e.id) name += '#' + e.id;
+                if (e.className) name += '.' + String(e.className).trim().split(/\s+/).slice(0, 3).join('.');
+                html += '<div>#' + (k + 1) + ' ' + name + ' w=' + top[k].w + ' right=' + top[k].right + '</div>';
+            }
+            box.innerHTML = html;
+            document.body.appendChild(box);
+
+            console.log('[Overflow Debug] clientWidth=', vw, 'scrollWidth=', sw, 'delta=', (sw - vw));
+            console.log('[Overflow Debug] top offenders=', top.map(function (x) {
+                var e = x.el;
+                return {
+                    tag: e.tagName.toLowerCase(),
+                    id: e.id || '',
+                    cls: (e.className ? String(e.className) : '').slice(0, 120),
+                    w: x.w,
+                    right: x.right
+                };
+            }));
+        });
+    </script>
+
+    <div class="mt-8 md:mt-10 grid gap-8 lg:grid-cols-12">
+        <main class="lg:col-span-8">
+            <section class="pt-0" aria-labelledby="hot-tests-section">
+                <div class="oh-section-head">
+                    <h2 class="oh-section-title" id="hot-tests-section">{:__('热门测试')}</h2>
+                </div>
+                <div class="oh-tile oh-tile-grid" style="gap:16px;">
+                    {cms:arclist id="item" channel="26,32" orderby="views" orderway="DESC" limit="6"}
+                    <div class="oh-tile-cell">
+                        {include file="common/item_mbti" /}
+                    </div>
+                    {/cms:arclist}
+                </div>
+            </section>
+
+            <section class="oh-section" aria-label="Google AdSense">
+                <div class="ui-card">
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-9195262048954682"
+                         data-ad-slot="7272592180"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+            </section>
+
+            <section class="oh-section" aria-labelledby="personality-section">
+                <div class="oh-section-head">
+                    <h2 class="oh-section-title" id="personality-section">{:__('趣味人格测试')}</h2>
+                    <a class="oh-section-link" href="{:addon_url('cms/channel/index', [':id'=>26, ':diyname'=>'quweirenge'])}">{:__('查看更多')}</a>
+                </div>
+                <div class="oh-tile oh-tile-grid" style="gap:16px;">
+                    {cms:arclist id="item" channel="26" length="8" limit="8"}
+                    <div class="oh-tile-cell">
+                        {include file="common/item_mbti" /}
+                    </div>
+                    {/cms:arclist}
+                </div>
+            </section>
+
+            <section class="oh-section" aria-labelledby="fun-test-section">
+                <div class="oh-section-head">
+                    <h2 class="oh-section-title" id="fun-test-section">{:__('趣味心理测试')}</h2>
+                    <a class="oh-section-link" href="{:addon_url('cms/channel/index', [':id'=>25, ':diyname'=>'quweiceshi'])}">{:__('查看更多')}</a>
+                </div>
+                <div class="oh-tile oh-tile-grid" style="gap:16px;">
+                    {cms:arclist type="son" id="item" channel="25" length="8" limit="12"}
+                    <div class="oh-tile-cell">
+                        {include file="common/item_funtest"}
+                    </div>
+                    {/cms:arclist}
+                </div>
+            </section>
+
+            <section class="oh-section" aria-labelledby="faq-section" itemscope itemtype="https://schema.org/FAQPage">
+                <div class="oh-section-head">
+                    <h2 class="oh-section-title" id="faq-section">{:__('常见问题')}</h2>
+                </div>
+                <div class="divide-y divide-black/10">
+                    <div class="py-4" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                        <h3 class="text-sm font-semibold text-black" itemprop="name">{:__('心理测试准确吗？')}</h3>
+                        <div class="mt-2" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                            <p class="text-sm leading-7 text-black/70" itemprop="text">{:__('我们的测试基于专业心理学量表和理论编制，经过大量用户验证。测试结果仅供参考，帮助您更好地了解自己，不能作为临床诊断依据。')}</p>
                         </div>
-                        {/cms:arclist}
+                    </div>
+                    <div class="py-4" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                        <h3 class="text-sm font-semibold text-black" itemprop="name">{:__('测试需要多长时间？')}</h3>
+                        <div class="mt-2" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                            <p class="text-sm leading-7 text-black/70" itemprop="text">{:__('大多数测试在5-15分钟内可以完成。我们建议在安静的环境中，按照第一直觉作答，这样结果会更准确。')}</p>
+                        </div>
+                    </div>
+                    <div class="py-4" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                        <h3 class="text-sm font-semibold text-black" itemprop="name">{:__('测试结果会保密吗？')}</h3>
+                        <div class="mt-2" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                            <p class="text-sm leading-7 text-black/70" itemprop="text">{:__('我们严格保护用户隐私，所有测试数据都经过加密处理。您的测试结果仅自己可见，我们不会向第三方透露您的个人信息。')}</p>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <section class="rounded-lg border border-gray-200 bg-white shadow-sm" aria-labelledby="personality-section">
-                <header class="flex items-center justify-between border-b border-gray-100 px-4 py-3">
-                    <h2 class="text-base font-semibold text-gray-900" id="personality-section">{:__('趣味人格测试')}</h2>
-                    <a class="text-sm text-emerald-600 hover:text-emerald-700" href="{:addon_url('cms/channel/index', [':id'=>26, ':diyname'=>'quweirenge'])}">{:__('查看更多')}</a>
-                </header>
-                <div class="p-4">
-                    <div class="grid grid-cols-2 gap-4 sm:grid-cols-3">
-                        {cms:arclist id="item" channel="26" length="8" limit="8"}
-                        <div>
-                            {include file="common/item_mbti" /}
-                        </div>
-                        {/cms:arclist}
-                    </div>
-                </div>
-            </section>
-
-            <section class="rounded-lg border border-gray-200 bg-white shadow-sm" aria-labelledby="fun-test-section">
-                <header class="flex items-center justify-between border-b border-gray-100 px-4 py-3">
-                    <h2 class="text-base font-semibold text-gray-900" id="fun-test-section">{:__('趣味心理测试')}</h2>
-                    <a class="text-sm text-emerald-600 hover:text-emerald-700" href="{:addon_url('cms/channel/index', [':id'=>25, ':diyname'=>'quweiceshi'])}">{:__('查看更多')}</a>
-                </header>
-                <div class="p-4">
-                    <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-                        {cms:arclist type="son" id="item" channel="25" length="8" limit="12"}
-                        <div>
-                            {include file="common/item_funtest"}
-                        </div>
-                        {/cms:arclist}
-                    </div>
-                </div>
-            </section>
-
-            <section class="rounded-lg border border-gray-200 bg-white shadow-sm" aria-labelledby="faq-section" itemscope itemtype="https://schema.org/FAQPage">
-                <header class="border-b border-gray-100 px-4 py-3">
-                    <h2 class="text-base font-semibold text-gray-900" id="faq-section">
-                        <i class="fa fa-question-circle mr-2 text-emerald-600"></i>{:__('常见问题')}
-                    </h2>
-                </header>
-                <div class="p-4">
-                    <div class="space-y-4">
-                        <div class="rounded-lg bg-gray-50 p-4" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-                            <h3 class="text-sm font-semibold text-gray-900" itemprop="name">
-                                <i class="fa fa-check-circle mr-2 text-emerald-600"></i>{:__('心理测试准确吗？')}
-                            </h3>
-                            <div class="mt-2" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                                <p class="text-sm leading-7 text-gray-600" itemprop="text">{:__('我们的测试基于专业心理学量表和理论编制，经过大量用户验证。测试结果仅供参考，帮助您更好地了解自己，不能作为临床诊断依据。')}</p>
-                            </div>
-                        </div>
-                        <div class="rounded-lg bg-gray-50 p-4" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-                            <h3 class="text-sm font-semibold text-gray-900" itemprop="name">
-                                <i class="fa fa-check-circle mr-2 text-emerald-600"></i>{:__('测试需要多长时间？')}
-                            </h3>
-                            <div class="mt-2" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                                <p class="text-sm leading-7 text-gray-600" itemprop="text">{:__('大多数测试在5-15分钟内可以完成。我们建议在安静的环境中，按照第一直觉作答，这样结果会更准确。')}</p>
-                            </div>
-                        </div>
-                        <div class="rounded-lg bg-gray-50 p-4" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-                            <h3 class="text-sm font-semibold text-gray-900" itemprop="name">
-                                <i class="fa fa-check-circle mr-2 text-emerald-600"></i>{:__('测试结果会保密吗？')}
-                            </h3>
-                            <div class="mt-2" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                                <p class="text-sm leading-7 text-gray-600" itemprop="text">{:__('我们严格保护用户隐私，所有测试数据都经过加密处理。您的测试结果仅自己可见，我们不会向第三方透露您的个人信息。')}</p>
-                            </div>
-                        </div>
-                    </div>
+            <section class="oh-section" aria-label="Google AdSense">
+                <div class="ui-card">
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-9195262048954682"
+                         data-ad-slot="5916112632"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
                 </div>
             </section>
         </main>
 
-        <aside class="space-y-6 lg:col-span-4">
-            <!-- 测试分类导航 -->
-            <section class="rounded-lg border border-gray-200 bg-white shadow-sm" aria-labelledby="test-categories-section">
-                <header class="border-b border-gray-100 px-4 py-3">
-                    <h2 class="text-base font-semibold text-gray-900" id="test-categories-section">
-                        <i class="fa fa-th-large mr-2 text-emerald-600"></i>{:__('测试分类')}
-                    </h2>
-                </header>
-                <div class="p-2">
-                    <ul class="divide-y divide-gray-100">
-                        {cms:channellist id="cat" type="son" typeid="25,26" condition="1=isnav"}
-                        <li>
-                            <a href="{$cat.url}" class="flex items-center justify-between rounded-md px-3 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600">
-                                <span class="flex items-center gap-2">
-                                    <i class="fa fa-folder-o text-gray-400"></i>
-                                    {:__($cat.name)}
-                                </span>
-                                <i class="fa fa-angle-right text-gray-400"></i>
-                            </a>
-                        </li>
-                        {/cms:channellist}
-                    </ul>
+        <aside class="lg:col-span-4">
+            <section class="oh-section" aria-labelledby="latest-articles-section">
+                <div class="oh-section-head">
+                    <h2 class="oh-section-title" id="latest-articles-section">{:__('最新文章')}</h2>
+                </div>
+                <div class="space-y-2">
+                    {cms:arclist id="item" model="1" limit="10"}
+                    <a class="oh-clamp-1 block text-sm text-black/80 hover:text-black no-underline" style="padding:6px 0;" href="{$item.url}">
+                        {$item.title|htmlentities}
+                    </a>
+                    {/cms:arclist}
                 </div>
             </section>
 
-            <section class="rounded-lg border border-gray-200 bg-white shadow-sm" aria-labelledby="latest-articles-section">
-                <header class="border-b border-gray-100 px-4 py-3">
-                    <h2 class="text-base font-semibold text-gray-900" id="latest-articles-section">{:__('最新文章')}</h2>
-                </header>
-                <div class="p-4">
-                    <div class="space-y-3">
-                        {cms:arclist id="item" model="1" limit="10"}
-                        <a class="block rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600" href="{$item.url}">
-                            {$item.title|htmlentities}
-                        </a>
-                        {/cms:arclist}
+            <section class="oh-section" aria-labelledby="self-assessment-section">
+                <div class="oh-section-head">
+                    <h2 class="oh-section-title" id="self-assessment-section">{:__('专业自我测评')}</h2>
+                </div>
+                <div class="oh-tile space-y-4">
+                    {cms:arclist id="item" channel="9" length="8" row="3"}
+                    <div>
+                        {include file="common/item_protest"}
                     </div>
+                    {/cms:arclist}
                 </div>
             </section>
 
-            <section class="rounded-lg border border-gray-200 bg-white shadow-sm" aria-labelledby="self-assessment-section">
-                <header class="border-b border-gray-100 px-4 py-3">
-                    <h2 class="text-base font-semibold text-gray-900" id="self-assessment-section">{:__('专业自我测评')}</h2>
-                </header>
-                <div class="p-4">
-                    <div class="space-y-4">
-                        {cms:arclist id="item" channel="9" length="8" row="3"}
-                        <div>
-                            {include file="common/item_protest"}
-                        </div>
-                        {/cms:arclist}
-                    </div>
-                </div>
-            </section>
-
-            {include file="common/sidebar" /}
-
+            
         </aside>
     </div>
 </div>

@@ -13,7 +13,8 @@ class Index extends Frontend
 
     public function index()
     {
-        return $this->view->fetch();
+        $this->redirect('/addons/cms/index/index', [], 302);
+        return;
     }
 
 }

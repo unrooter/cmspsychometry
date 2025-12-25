@@ -50,59 +50,60 @@
         font-weight: 700;
     }
 </style>
-<div class="container mt-20">
-    <div id="content-container">
-        <div class="row">
-            <div class="col-md-3">
-                {include file="common/sidenav" /}
-            </div>
-            <div class="col-md-9">
-                <div class="panel panel-user">
-                    <div class="panel-body">
-                        <div class="panel-post">
-                            <h2 class="page-header">{:__('My Test Records')}</h2>
+<div id="content-container" class="ucenter-page mx-auto max-w-7xl px-4 py-8 md:px-6 md:py-10">
+    <div class="grid grid-cols-1 gap-6 lg:grid-cols-12">
+        <div class="lg:col-span-3">
+            {include file="common/sidenav" /}
+        </div>
+        <div class="lg:col-span-9">
+            <section class="ui-card border border-black/10 bg-white/70">
+                <div class="px-5 py-5 sm:px-6 sm:py-6">
+                    <div class="mb-6 border-b border-black/10 pb-4">
+                        <div class="flex items-center justify-between gap-3">
+                            <h2 class="m-0 text-lg font-extrabold tracking-[0.02em] text-black">{:__('My Test Records')}</h2>
+                            <div class="flex items-center gap-2">
+                            </div>
                         </div>
-                        <div class="row">
 
-                        {volist name='answerList' id='item'}
-                            <div class="col-md-6">
-                                <div class="mb-2" style="background-color: #f9f9f9;padding: 12px;border-radius: 8px;">
-                                <div class="u-flex">
-                                    <a href="/p/ceshiye.html?aid={$item.product_id}" target="_blank">
-                                        <div class="embed-responsive embed-responsive-4by3 img-zoom" style="width: 90px;">
-                                            <img src="{$item.image}" class="embed-responsive-item"
-                                                onerror="this.src='__CDN__/assets/addons/cms/img/noimage.jpg';this.onerror=null;">
-                                        </div>
-                                    </a>
-                                    <div style="margin-left: 16px;flex: 1;">
-                                        <h4 style="margin: 0 0 8px 0;font-size: 16px;">
-                                            <a href="/p/ceshiye.html?aid={$item.product_id}" target="_blank">
-                                                {$item.title}
-                                            </a>
-                                        </h4>
-                                        <div class="text-muted" style="font-size: 13px;">
-                                            <div>{:__('Test Time')}: {$item.test_time|datetime='Y-m-d H:i'}</div>
-                                        </div>
+                        <div class="mt-4 ucenter-tabs md:hidden">
+                            <a href="{:url('cms.answer/index')}" class="ucenter-tab {:check_nav_active('cms.answer/index','ucenter-tab-active')}">{:__('我的测试记录')}</a>
+                            <a href="{:url('cms.answer/fun')}" class="ucenter-tab {:check_nav_active('cms.answer/fun','ucenter-tab-active')}">{:__('趣味测试记录')}</a>
+                            <a href="{:url('cms.comment/index')}" class="ucenter-tab {:check_nav_active('cms.comment/index','ucenter-tab-active')}">{:__('我发表的评论')}</a>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-3 md:grid-cols-2">
+                    {volist name='answerList' id='item'}
+                        <article class="border border-black/5 bg-white/70 p-3">
+                            <div class="flex gap-3">
+                                <a class="block shrink-0" href="/p/ceshiye.html?aid={$item.product_id}" target="_blank">
+                                    <div class="h-24 w-24 overflow-hidden border border-black/5 bg-black/5">
+                                        <img src="{$item.image}" class="h-full w-full object-cover"
+                                            onerror="this.src='__CDN__/assets/addons/cms/img/noimage.jpg';this.onerror=null;" alt="">
+                                    </div>
+                                </a>
+                                <div class="min-w-0 flex-1">
+                                    <h3 class="m-0 text-sm font-extrabold tracking-[0.01em]">
+                                        <a class="text-black no-underline hover:text-black" href="/p/ceshiye.html?aid={$item.product_id}" target="_blank">{$item.title}</a>
+                                    </h3>
+                                    <div class="mt-1 text-xs text-black/60">
+                                        <div>{:__('Test Time')}: {$item.test_time|datetime='Y-m-d H:i'}</div>
+                                    </div>
+                                    <div class="mt-2 flex justify-end">
+                                        <a class="tw-btn tw-btn-primary tw-btn-sm" href="{$item.result_url}" target="_blank">{:__('View Results')}</a>
                                     </div>
                                 </div>
-                                <div class="mt-2">
-                                    <a class="btn btn-primary btn-sm btn-block" href="{$item.result_url}" target="_blank">
-                                        {:__('View Results')}
-                                    </a>
-                                </div>
                             </div>
-                            </div>
-                        <!-- <hr> -->
-                        {/volist}
+                        </article>
+                    {/volist}
                     </div>
 
-                        {if $answerList->total()==0}
-                        <div class="text-center text-muted" style="padding: 40px 0;">{:__('No records found')}</div>
-                        {/if}
-                        <div class="pager">{$answerList->render()}</div>
-                    </div>
+                    {if $answerList->total()==0}
+                    <div class="py-10 text-center text-sm text-black/60">{:__('No records found')}</div>
+                    {/if}
+                    <div class="pager mt-6">{$answerList->render()}</div>
                 </div>
-            </div>
+            </section>
         </div>
     </div>
 </div>

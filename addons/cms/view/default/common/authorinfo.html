@@ -1,7 +1,7 @@
 <!--@formatter:off-->
 {if $config['userpage'] && $__ARCHIVES__['user']}
 <!-- S 关于作者 -->
-<div class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm" data-id="{$__ARCHIVES__.user.id}" itemProp="author" itemscope="" itemType="http://schema.org/Person">
+<div class="ui-card overflow-hidden" data-id="{$__ARCHIVES__.user.id}" itemProp="author" itemscope="" itemType="http://schema.org/Person">
     <meta itemProp="name" content="{$__ARCHIVES__.user.nickname|htmlentities}"/>
     <meta itemProp="image" content="{$__ARCHIVES__.user.avatar|cdnurl|htmlentities}"/>
     <meta itemProp="url" content="{$__ARCHIVES__.user.url}"/>
@@ -14,7 +14,7 @@
             </div>
 
             <div class="absolute inset-x-0 -bottom-8 flex justify-center">
-                <a href="{$__ARCHIVES__.user.url}" class="block rounded-full bg-white p-1 shadow">
+                <a href="{$__ARCHIVES__.user.url}" class="block rounded-full border border-black/10 bg-white p-1">
                     <img src="{$__ARCHIVES__.user.avatar|cdnurl|htmlentities}" alt="" class="h-16 w-16 rounded-full object-cover" />
                 </a>
             </div>
@@ -30,11 +30,11 @@
         <div class="grid grid-cols-3 divide-x divide-gray-100 border-t border-gray-100">
             <div class="px-3 py-3 text-center">
                 <div class="text-xs text-gray-500">文章</div>
-                <div class="mt-1 text-sm font-semibold text-gray-900"><a class="hover:text-emerald-700" href="{:addon_url('cms/user/index',[':id'=>$__ARCHIVES__.user_id],false)}/archives">{$__ARCHIVES__.user.archives|default=0}</a></div>
+                <div class="mt-1 text-sm font-semibold text-gray-900"><a class="no-underline hover:text-black" href="{:addon_url('cms/user/index',[':id'=>$__ARCHIVES__.user_id],false)}/archives">{$__ARCHIVES__.user.archives|default=0}</a></div>
             </div>
             <div class="px-3 py-3 text-center">
                 <div class="text-xs text-gray-500">评论</div>
-                <div class="mt-1 text-sm font-semibold text-gray-900"><a class="hover:text-emerald-700" href="{:addon_url('cms/user/index',[':id'=>$__ARCHIVES__.user_id],false)}/comment">{$__ARCHIVES__.user.comments|default=0}</a></div>
+                <div class="mt-1 text-sm font-semibold text-gray-900"><a class="no-underline hover:text-black" href="{:addon_url('cms/user/index',[':id'=>$__ARCHIVES__.user_id],false)}/comment">{$__ARCHIVES__.user.comments|default=0}</a></div>
             </div>
             <div class="px-3 py-3 text-center">
                 <div class="text-xs text-gray-500">加入时间</div>

@@ -1,59 +1,64 @@
 {layout name="common/layout" /}
  <div id="app" v-cloak class="hidden">
-     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" id="content-container">
-         <nav aria-label="breadcrumb" class="mt-6">
-             <ol class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-gray-600">
+     <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8" id="content-container">
+         <nav aria-label="breadcrumb" class="mb-6">
+             <ol class="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs text-gray-500" itemscope itemtype="https://schema.org/BreadcrumbList">
+                 {php}$breadPos = 0;{/php}
                  {cms:breadcrumb id="item"}
-                 <li class="inline-flex items-center">
-                     <a class="hover:text-emerald-600" href="{$item.url}">{:__($item.name)}</a>
+                 {php}$breadPos++;{/php}
+                 <li class="inline-flex items-center" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                     {if $breadPos>1}<span class="mx-1 text-gray-300">›</span>{/if}
+                     <a class="no-underline hover:text-black" href="{$item.url}" itemprop="item"><span itemprop="name">{:__($item.name)}</span></a>
+                     <meta itemprop="position" content="{$breadPos}" />
                  </li>
                  {/cms:breadcrumb}
              </ol>
          </nav>
 
          <div class="mt-6 grid gap-6 lg:grid-cols-12">
-             <main class="lg:col-span-8">
-                 <article class="rounded-lg border border-gray-200 bg-white shadow-sm">
-                     <header class="space-y-4 border-b border-gray-100 p-4">
-                         <div class="flex items-start gap-4">
-                             <div class="w-20 shrink-0 sm:w-24">
-                                 <div class="aspect-[1/1] overflow-hidden rounded-lg bg-gray-100">
-                                     <img src="{cms:archives name='image|cdnurl'}" alt="{cms:archives name='title|htmlentities' /}" loading="lazy" class="h-full w-full object-cover">
-                                 </div>
-                             </div>
+            <main class="lg:col-span-8">
+                <article class="ui-card">
+                    <header class="ui-card-header space-y-4">
+                        <div class="flex items-start gap-4">
+                            <div class="w-20 shrink-0 sm:w-24">
+                                <div class="aspect-[1/1] overflow-hidden rounded-lg bg-gray-100">
+                                    <img src="{cms:archives name='image|cdnurl'}" alt="{cms:archives name='title|htmlentities' /}" loading="lazy" class="h-full w-full object-cover">
+                                </div>
+                            </div>
 
-                             <div class="min-w-0 flex-1 space-y-3">
-                                 <h1 class="text-xl font-bold leading-7 text-gray-900" {if $__ARCHIVES__.style}style="{$__ARCHIVES__.style_text}"{/if}>{cms:archives name="title|htmlentities" /}</h1>
-                                 <button type="button" class="inline-flex items-center rounded-md bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-emerald-700" @click="toTest">{:__('立即测试')}</button>
-                             </div>
-                         </div>
+                            <div class="min-w-0 flex-1 space-y-3">
+                                <h1 class="text-xl font-bold leading-7 text-gray-900" {if $__ARCHIVES__.style}data-css="{$__ARCHIVES__.style_text}"{/if}>{cms:archives name="title|htmlentities" /}</h1>
+                                <button type="button" class="ui-btn ui-btn-primary" @click="toTest">{:__('立即测试')}</button>
+                            </div>
+                        </div>
 
-                         <p class="text-sm leading-7 text-gray-600">{cms:archives name="sub_title|htmlentities" /}</p>
-                     </header>
+                        <p class="text-sm leading-7 text-gray-600">{cms:archives name="sub_title|htmlentities" /}</p>
+                    </header>
 
-                     <div class="space-y-6 p-4">
-                         <div class="text-sm leading-7 text-gray-700">
-                             {cms:archives name="content" /}
-                         </div>
+                    <div class="ui-card-body space-y-6">
+                        <div class="prose max-w-none">
+                            {cms:archives name="content" /}
+                        </div>
 
-                         <div>
-                             <button type="button" class="inline-flex w-full items-center justify-center rounded-md bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-emerald-700 sm:w-auto" @click="toTest">{:__('立即测试')}</button>
-                         </div>
-                     </div>
-                 </article>
-             </main>
+                        <div>
+                            <button type="button" class="ui-btn ui-btn-primary w-full sm:w-auto" @click="toTest">{:__('立即测试')}</button>
+                        </div>
+                    </div>
+                </article>
+            </main>
 
-             <aside class="lg:col-span-4">
-                 <section aria-label="{:__('MBTI专区')}" class="rounded-lg border border-gray-200 bg-white shadow-sm">
-                     <div class="border-b border-gray-100 px-4 py-3">
-                         <h2 class="text-base font-semibold text-gray-900">{:__('MBTI专区')}</h2>
-                     </div>
-                     <div class="grid grid-cols-1 gap-4 p-4">
-                         {cms:arclist id="item" channel="10" length="8" row="6"}
-                         {include file="common/item_mbti"}
-                         {/cms:arclist}
-                     </div>
-                 </section>
+            <aside class="lg:col-span-4">
+                <section aria-label="{:__('MBTI专区')}" class="ui-card">
+                    <div class="ui-card-header">
+                        <h2 class="text-base font-semibold text-gray-900">{:__('MBTI专区')}</h2>
+                    </div>
+                    <div class="ui-card-body grid grid-cols-1 gap-4">
+                        {cms:arclist id="item" channel="10" length="8" row="6"}
+                        {include file="common/item_mbti"}
+                        {/cms:arclist}
+                    </div>
+                </section>
+                {include file="common/sidebar" /}
              </aside>
          </div>
      </div>

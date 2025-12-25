@@ -1,4 +1,5 @@
-<div class="rounded-lg border border-gray-200 bg-white p-4">
+<div class="ui-card">
+    <div class="ui-card-body">
     <nav class="space-y-4">
         {cms:channellist id="nav" type="top" condition="1=isnav"}
         {php}$subCount = 0;{/php}
@@ -10,11 +11,12 @@
             <div class="text-sm font-semibold text-gray-900">{:__($nav.name)}</div>
             <div class="mt-2 flex flex-wrap gap-2">
                 {cms:channellist id="sub" type="son" typeid="nav['id']"}
-                <a href="{$sub.url}" class="inline-flex items-center rounded-full border border-gray-200 bg-white px-3 py-1 text-xs text-gray-700 hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-700">{:__($sub.name)}</a>
+                <a href="{$sub.url}" class="inline-flex items-center rounded-full border border-gray-200 bg-white px-3 py-1 text-xs text-gray-700 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-900 no-underline {if $sub->is_active}border-black/10 bg-[var(--ui-accent)] text-black hover:bg-[var(--ui-accent)] hover:text-black{/if}">{:__($sub.name)}</a>
                 {/cms:channellist}
             </div>
         </div>
         {/if}
         {/cms:channellist}
     </nav>
+    </div>
 </div>

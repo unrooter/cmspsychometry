@@ -1,46 +1,44 @@
 {layout name="common/layout" /}
 
-<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" id="content-container">
+<div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8" id="content-container">
 
-    <nav aria-label="breadcrumb" class="mt-6">
-        <ol class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-gray-600">
-            <!-- S 面包屑导航 -->
+    <nav aria-label="breadcrumb" class="mb-6">
+        <ol class="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs text-gray-500" itemscope itemtype="https://schema.org/BreadcrumbList">
+            {php}$breadPos = 0;{/php}
             {cms:breadcrumb id="item"}
-            <li class="inline-flex items-center">
-                <a class="hover:text-emerald-600" href="{$item.url}">{:__($item.name)}</a>
+            {php}$breadPos++;{/php}
+            <li class="inline-flex items-center" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                {if $breadPos>1}<span class="mx-1 text-gray-300">›</span>{/if}
+                <a class="no-underline hover:text-black" href="{$item.url}" itemprop="item"><span itemprop="name">{:__($item.name)}</span></a>
+                <meta itemprop="position" content="{$breadPos}" />
             </li>
             {/cms:breadcrumb}
-            <!-- E 面包屑导航 -->
         </ol>
     </nav>
-
-    <div id="ad-header-horizontal" class="my-4 min-h-[90px]"></div>
 
     <div class="grid gap-6 lg:grid-cols-12">
 
         <main class="lg:col-span-8">
-            <article class="rounded-lg border border-gray-200 bg-white shadow-sm">
-                <div class="border-b border-gray-100 p-4">
-                    <h1 class="text-xl font-bold leading-7 text-gray-900" {if $__ARCHIVES__.style}data-css="{$__ARCHIVES__.style_text}"{/if} id="article-title">{cms:archives name="title|htmlentities" /}</h1>
+            <article class="ui-card">
+                <div class="ui-card-header">
+                    <h1 class="text-lg font-semibold leading-7 tracking-tight text-gray-900" {if $__ARCHIVES__.style}data-css="{$__ARCHIVES__.style_text}"{/if} id="article-title">{cms:archives name="title|htmlentities" /}</h1>
 
-                    <div class="mt-3 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-gray-600">
+                    <div class="mt-3 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs tracking-[0.04em] text-gray-600">
                         {if isset($__ARCHIVES__.author) && $__ARCHIVES__.author}
-                        <span class="inline-flex items-center gap-2"><i class="fa fa-user text-emerald-600" aria-hidden="true"></i>{cms:archives name="author|htmlentities" /}</span>
+                        <span class="inline-flex items-center gap-2"><i class="fa fa-user text-black/60" aria-hidden="true"></i>{cms:archives name="author|htmlentities" /}</span>
                         {/if}
-                        <span class="inline-flex items-center gap-2"><i class="fa fa-eye text-emerald-600" aria-hidden="true"></i>{cms:archives name="views" /} 阅读</span>
-                        <span class="inline-flex items-center gap-2"><i class="fa fa-comments text-emerald-600" aria-hidden="true"></i>{cms:archives name="comments" /} 评论</span>
-                        <span class="inline-flex items-center gap-2"><i class="fa fa-thumbs-o-up text-emerald-600" aria-hidden="true"></i><span class="js-like-num">{cms:archives name="likes" /} 点赞</span></span>
+                        <span class="inline-flex items-center gap-2"><i class="fa fa-eye text-black/60" aria-hidden="true"></i>{cms:archives name="views" /} 阅读</span>
+                        <span class="inline-flex items-center gap-2"><i class="fa fa-comments text-black/60" aria-hidden="true"></i>{cms:archives name="comments" /} 评论</span>
+                        <span class="inline-flex items-center gap-2"><i class="fa fa-thumbs-o-up text-black/60" aria-hidden="true"></i><span class="js-like-num">{cms:archives name="likes" /} 点赞</span></span>
                     </div>
                 </div>
 
-                <div class="space-y-6 p-4">
-                    <div class="text-sm leading-7 text-gray-700">
+                <div class="ui-card-body space-y-6">
+                    <div class="prose">
                         {if $__ARCHIVES__.is_paid_part_of_content || $__ARCHIVES__.ispaid}
                         {cms:archives name="content" /}
                         {/if}
                     </div>
-
-                    <div id="ad-in-article" class="my-4 min-h-[250px]"></div>
 
                     {include file="common/metainfo" /}
                     {include file="common/related" /}
@@ -48,13 +46,13 @@
             </article>
 
             {if $config.iscomment && config('fastadmin.usercenter')}
-            <section class="mt-6 rounded-lg border border-gray-200 bg-white shadow-sm" id="comments">
-                <div class="border-b border-gray-100 px-4 py-3">
-                    <h2 class="text-base font-semibold text-gray-900">{:__('Comment list')}
-                        <small class="ml-2 text-sm font-normal text-gray-600">共有 <span class="font-semibold text-emerald-700">{cms:archives name="comments" /}</span> 条评论</small>
+            <section class="ui-card mt-6" id="comments">
+                <div class="ui-card-header">
+                    <h2 class="text-xs font-semibold tracking-[0.18em] text-gray-900">{:__('Comment list')}
+                        <small class="ml-2 text-xs font-normal tracking-normal text-gray-600">共有 <span class="font-semibold text-black">{cms:archives name="comments" /}</span> 条评论</small>
                     </h2>
                 </div>
-                <div class="p-4">
+                <div class="ui-card-body">
                     {if $__ARCHIVES__.iscomment}
                     {include file="common/comment" type="archives" aid="__ARCHIVES__.eid"}
                     {else/}
@@ -67,18 +65,16 @@
         </main>
 
         <aside class="space-y-6 lg:col-span-4">
-            <section class="rounded-lg border border-gray-200 bg-white shadow-sm" aria-label="专业测评">
-                <div class="border-b border-gray-100 px-4 py-3">
-                    <h2 class="text-base font-semibold text-gray-900">专业测评</h2>
+            <section class="ui-card" aria-label="专业测评">
+                <div class="ui-card-header">
+                    <h2 class="text-xs font-semibold tracking-[0.18em] text-gray-900">专业测评</h2>
                 </div>
-                <div class="grid grid-cols-1 gap-4 p-4">
+                <div class="ui-card-body grid grid-cols-1 gap-4">
                     {cms:arclist id="item" channel="8" length="8" row="3"}
                     {include file="common/item_protest"}
                     {/cms:arclist}
                 </div>
             </section>
-
-            <div id="ad-sidebar" class="my-4 min-h-[250px]"></div>
 
             {include file="common/authorinfo" /}
             {include file="common/sidebar" /}
@@ -86,127 +82,3 @@
     </div>
 </div>
 
-<!-- Google AdSense JavaScript -->
-<script type="text/javascript" src="__ADDON__/js/vue.js"></script>
-<script>
-Vue.config.ignoredElements = ['o:p'];
-
-new Vue({
-    el: '#content-container',
-    mounted() {
-        // 激进优化：立即初始化
-        this.applyDynamicTitleStyle();
-        this.initAds();
-    },
-    methods: {
-        applyDynamicTitleStyle() {
-            const title = document.getElementById('article-title');
-            if (!title) return;
-
-            const cssText = title.getAttribute('data-css');
-            if (!cssText) return;
-
-            try {
-                title.style.cssText = cssText;
-            } catch (e) {
-                console.warn('[Title] Failed to apply dynamic style', e);
-            }
-        },
-        initAds() {
-            console.log('[AdSense] Init starting...', window._adsenseInitialized);
-            
-            if (window._adsenseInitialized) {
-                console.log('[AdSense] Already initialized, skipping');
-                return;
-            }
-            
-            console.log('[AdSense] Starting initialization');
-            
-            // 50ms快速检测
-            const waitForAdSense = (callback, maxAttempts = 100) => {
-                let attempts = 0;
-                const startTime = Date.now();
-                
-                const checkAdSense = () => {
-                    if (window.adsbygoogle && Array.isArray(window.adsbygoogle)) {
-                        const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
-                        console.log(`[AdSense] Script ready in ${elapsed}s`);
-                        callback();
-                    } else if (attempts >= maxAttempts) {
-                        const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
-                        console.log(`[AdSense] Timeout after ${elapsed}s, trying anyway`);
-                        callback();
-                    } else {
-                        attempts++;
-                        setTimeout(checkAdSense, 50);
-                    }
-                };
-                checkAdSense();
-            };
-            
-            const createAd = (containerId, config) => {
-                const container = document.getElementById(containerId);
-                if (!container) {
-                    console.warn('[AdSense] Container not found:', containerId);
-                    return;
-                }
-                
-                const existingAd = container.querySelector('.adsbygoogle');
-                if (existingAd && existingAd.getAttribute('data-adsbygoogle-status') === 'done') {
-                    console.log('[AdSense] Ad already exists:', containerId);
-                    return;
-                }
-                
-                console.log('[AdSense] Creating ad:', containerId);
-                container.innerHTML = '';
-                const ins = document.createElement('ins');
-                ins.className = 'adsbygoogle block';
-                
-                Object.keys(config).forEach(key => {
-                    ins.setAttribute(key, config[key]);
-                });
-                
-                container.appendChild(ins);
-                
-                // 立即push
-                try {
-                    console.log('[AdSense] Pushing ad:', containerId);
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                } catch (e) {
-                    console.error('[AdSense] Push error:', containerId, e);
-                }
-            };
-            
-            waitForAdSense(() => {
-                console.log('[AdSense] Creating all ads...');
-                
-                createAd('ad-header-horizontal', {
-                    'data-ad-client': 'ca-pub-9195262048954682',
-                    'data-ad-slot': '7906059149',
-                    'data-ad-format': 'auto',
-                    'data-full-width-responsive': 'true'
-                });
-                
-                createAd('ad-in-article', {
-                    'data-ad-client': 'ca-pub-9195262048954682',
-                    'data-ad-slot': '5294962935',
-                    'data-ad-format': 'fluid',
-                    'data-ad-layout': 'in-article'
-                });
-                
-                createAd('ad-sidebar', {
-                    'data-ad-client': 'ca-pub-9195262048954682',
-                    'data-ad-slot': '2901144473',
-                    'data-ad-format': 'auto',
-                    'data-full-width-responsive': 'true'
-                });
-                
-                window._adsenseInitialized = true;
-                console.log('[AdSense] ✅ All ads initialized');
-            });
-        }
-    }
-});
-
-console.log('[AdSense] Vue initialized');
-</script>

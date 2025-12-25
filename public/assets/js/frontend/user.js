@@ -18,6 +18,9 @@ define(['jquery', 'bootstrap', 'frontend', 'form', 'template'], function ($, und
                 setTimeout(function () {
                     location.href = ret.url ? ret.url : "/";
                 }, 1000);
+            }, function (data, ret) {
+                Layer.msg(ret && ret.msg ? ret.msg : __('Operation failed'));
+                return false;
             });
 
             //忘记密码

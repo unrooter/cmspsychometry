@@ -1,9 +1,9 @@
 <!-- 面包屑导航组件 - 用于内页 -->
-<nav aria-label="breadcrumb" class="mt-6">
-    <ol class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-gray-600" itemscope itemtype="https://schema.org/BreadcrumbList">
+<nav aria-label="breadcrumb" class="mb-6">
+    <ol class="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs text-gray-500" itemscope itemtype="https://schema.org/BreadcrumbList">
         <!-- 首页链接 -->
         <li class="inline-flex items-center" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-            <a href="{cms:config name='cms.indexurl'/}" class="hover:text-emerald-600" itemprop="item">
+            <a href="{cms:config name='cms.indexurl'/}" class="no-underline hover:text-black" itemprop="item">
                 <span itemprop="name">{:__('首页')}</span>
             </a>
             <meta itemprop="position" content="1" />
@@ -12,8 +12,8 @@
         <!-- 如果有栏目信息 -->
         {if isset($__CHANNEL__) && $__CHANNEL__.id}
         <li class="inline-flex items-center" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-            <span class="px-1 text-gray-400">›</span>
-            <a href="{$__CHANNEL__.url}" class="hover:text-emerald-600" itemprop="item">
+            <span class="mx-1 text-gray-300">›</span>
+            <a href="{$__CHANNEL__.url}" class="no-underline hover:text-black" itemprop="item">
                 <span itemprop="name">{:__($__CHANNEL__.name)}</span>
             </a>
             <meta itemprop="position" content="2" />
@@ -23,7 +23,7 @@
         <!-- 如果有文章/测试标题 -->
         {if isset($__ARCHIVES__) && $__ARCHIVES__.title}
         <li class="inline-flex items-center font-semibold text-gray-900" aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-            <span class="px-1 text-gray-400">›</span>
+            <span class="mx-1 text-gray-300">›</span>
             <span itemprop="name">{$__ARCHIVES__.title|htmlentities}</span>
             <meta itemprop="position" content="{if isset($__CHANNEL__)}3{else}2{/if}" />
         </li>

@@ -11,18 +11,19 @@
 }
 </script>
 
-<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" id="content-container" itemscope itemtype="https://schema.org/CollectionPage">
+<div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8" id="content-container" itemscope itemtype="https://schema.org/CollectionPage">
 
-    <nav aria-label="breadcrumb" class="mt-6">
-        <ol class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-gray-600" itemscope itemtype="https://schema.org/BreadcrumbList">
-            <!-- S 面包屑导航 -->
+    <nav aria-label="breadcrumb" class="mb-6">
+        <ol class="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs text-gray-500" itemscope itemtype="https://schema.org/BreadcrumbList">
+            {php}$breadPos = 0;{/php}
             {cms:breadcrumb id="item"}
+            {php}$breadPos++;{/php}
             <li class="inline-flex items-center" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                <a class="hover:text-emerald-600" href="{$item.url}" itemprop="item"><span itemprop="name">{:__($item.name)}</span></a>
-                <meta itemprop="position" content="{$i}" />
+                {if $breadPos>1}<span class="mx-1 text-gray-300">›</span>{/if}
+                <a class="no-underline hover:text-black" href="{$item.url}" itemprop="item"><span itemprop="name">{:__($item.name)}</span></a>
+                <meta itemprop="position" content="{$breadPos}" />
             </li>
             {/cms:breadcrumb}
-            <!-- E 面包屑导航 -->
         </ol>
     </nav>
 
@@ -32,36 +33,37 @@
     {php}$hasSubChannels = true;{/php}
     {/cms:channellist}
 
-    <header class="mt-4 rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
+    <header class="ui-card mt-4">
+        <div class="ui-card-body">
         <div class="flex flex-wrap items-center gap-3">
-            <h1 class="text-xl font-bold text-gray-900" itemprop="name">{:__($__CHANNEL__.name)}</h1>
+            <h1 class="text-lg font-semibold tracking-tight text-gray-900" itemprop="name">{:__($__CHANNEL__.name)}</h1>
         </div>
 
         {if $__CHANNEL__.description}
-        <div class="mt-3 text-sm leading-7 text-gray-600" itemprop="description">{$__CHANNEL__.description}</div>
+        <div class="mt-3 text-sm leading-7 text-gray-700" itemprop="description">{$__CHANNEL__.description}</div>
         {/if}
 
         {if $hasSubChannels}
         <nav class="mt-4 flex flex-wrap items-center gap-2" aria-label="{:__('栏目分类')}">
-            <span class="inline-flex items-center gap-2 text-sm font-medium text-gray-700"><i class="fa fa-th-large" aria-hidden="true"></i>{:__('栏目分类')}</span>
+            <span class="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.14em] text-gray-800/90"><i class="fa fa-th-large" aria-hidden="true"></i>{:__('栏目分类')}</span>
             {cms:channellist id="subchan" type="son" typeid="$__CHANNEL__.id"}
-            <a href="{$subchan.url}" class="rounded-full border border-gray-200 px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600">{:__($subchan.name)}</a>
+            <a href="{$subchan.url}" class="ui-pill text-xs tracking-[0.14em] {if $subchan.id == $__CHANNEL__.id}ui-pill-active{/if}">{:__($subchan.name)}</a>
             {/cms:channellist}
         </nav>
         {/if}
+        </div>
     </header>
-    
-    <!-- Google AdSense 头部横向广告 -->
-    <div id="ad-list-header" class="my-4 min-h-[90px] text-center"></div>
+
     
     {if $__FILTERLIST__}
     <section class="mt-4" aria-label="{:__('筛选条件')}">
-        <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+        <div class="ui-card">
+            <div class="ui-card-body">
             <div class="flex flex-wrap items-center justify-between gap-3">
-                <h2 class="inline-flex items-center gap-2 text-base font-semibold text-gray-900"><i class="fa fa-filter text-emerald-600" aria-hidden="true"></i>{:__('筛选')}</h2>
+                <h2 class="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-gray-900"><i class="fa fa-filter text-black/60" aria-hidden="true"></i>{:__('筛选')}</h2>
                 <form action="" id="multipleform" class="flex items-center gap-2">
                     <input type="checkbox" name="multiple" id="multiple"
-                           class="h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-600"
+                           class="h-4 w-4 rounded border-gray-300 text-gray-600 focus:ring-gray-600"
                            onclick="document.getElementById('multipleform').submit();"
                            value="{:$Think.get.multiple?0:1}"
                            {:$Think.get.multiple?'checked':''}>
@@ -75,11 +77,12 @@
                     <div class="mt-1 w-20 shrink-0 text-sm font-medium text-gray-700">{$filter.title|htmlentities}:</div>
                     <div class="flex flex-wrap gap-2">
                         {volist name="$filter.content" id="filterItem"}
-                        <a href="{$filterItem.url}" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600 {$filterItem.active?'bg-emerald-50 text-emerald-700 border-emerald-200':''}">{$filterItem.title|htmlentities}</a>
+                        <a href="{$filterItem.url}" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs tracking-[0.14em] text-gray-800/90 hover:bg-gray-50 hover:text-black no-underline {$filterItem.active?'bg-gray-50 text-gray-900 border-gray-200':''}">{$filterItem.title|htmlentities}</a>
                         {/volist}
                     </div>
                 </div>
                 {/cms:pagefilter}
+            </div>
             </div>
         </div>
     </section>
@@ -89,18 +92,18 @@
 
         <main class="lg:col-span-8">
             <section aria-label="{:__('列表')}">
-                <div class="rounded-lg border border-gray-200 bg-white shadow-sm">
-                    <div class="flex flex-wrap items-center justify-between gap-3 border-b border-gray-100 px-4 py-3">
-                        <h2 class="text-base font-semibold text-gray-900">{:__('列表')}</h2>
+                <div class="ui-card">
+                    <div class="ui-card-header flex flex-wrap items-center justify-between gap-3">
+                        <h2 class="text-xs font-semibold tracking-[0.18em] text-gray-900">{:__('列表')}</h2>
                         <div class="flex flex-wrap gap-2">
                             <!-- S 排序 -->
                             {cms:pageorder id="order"}
-                            <a href="{$order.url}" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600 {$order.active?'bg-emerald-50 text-emerald-700 border-emerald-200':''}">{$order.title|htmlentities}</a>
+                            <a href="{$order.url}" class="ui-pill text-xs tracking-[0.14em] {$order.active?'ui-pill-active':''}">{$order.title|htmlentities}</a>
                             {/cms:pageorder}
                             <!-- E 排序 -->
                         </div>
                     </div>
-                    <div class="p-4">
+                    <div class="ui-card-body">
                         <div class="divide-y divide-gray-100" itemscope itemtype="https://schema.org/ItemList">
                             <meta itemprop="name" content="{:__($__CHANNEL__.name)}文章列表" />
                             <!-- S 列表 -->
@@ -149,15 +152,15 @@
             
             {if $showNav}
             <section aria-labelledby="sidebar-nav-title">
-                <div class="rounded-lg border border-gray-200 bg-white shadow-sm">
-                    <h3 class="border-b border-gray-100 px-4 py-3 text-base font-semibold text-gray-900" id="sidebar-nav-title"><i class="fa fa-sitemap mr-2 text-emerald-600" aria-hidden="true"></i>{if $navType == 'sub'}{:__('子栏目')}{else}{:__('相关栏目')}{/if}</h3>
+                <div class="ui-card">
+                    <h3 class="ui-card-header text-xs font-semibold tracking-[0.18em] text-gray-900" id="sidebar-nav-title"><i class="fa fa-sitemap mr-2 text-black/60" aria-hidden="true"></i>{if $navType == 'sub'}{:__('子栏目')}{else}{:__('相关栏目')}{/if}</h3>
                     <nav class="p-2">
                         {cms:channellist id="navItem" type="son" typeid="$navParentId"}
-                        <a href="{$navItem.url}" title="{:__($navItem.name)}" class="flex items-center gap-3 rounded-md px-3 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600 {if $navItem.id == $__CHANNEL__.id}bg-emerald-50 text-emerald-700{/if}">
-                            <i class="fa fa-folder-o text-emerald-600" aria-hidden="true"></i>
+                        <a href="{$navItem.url}" title="{:__($navItem.name)}" class="flex items-center gap-3 rounded-md px-3 py-3 text-sm text-gray-800/90 hover:bg-gray-50 hover:text-black no-underline {if $navItem.id == $__CHANNEL__.id}bg-gray-50 text-gray-900{/if}">
+                            <i class="fa fa-folder-o text-black/60" aria-hidden="true"></i>
                             <span class="min-w-0 flex-1 truncate">{:__($navItem.name)}</span>
                             {if $navItem.id == $__CHANNEL__.id}
-                            <i class="fa fa-check text-emerald-600" aria-hidden="true"></i>
+                            <i class="fa fa-check text-black/70" aria-hidden="true"></i>
                             {else}
                             <i class="fa fa-angle-right text-gray-400" aria-hidden="true"></i>
                             {/if}
@@ -169,21 +172,21 @@
             {/if}
             <!-- 热门文章 -->
             <section aria-labelledby="hot-articles-title">
-                <div class="rounded-lg border border-gray-200 bg-white shadow-sm">
-                    <h3 class="border-b border-gray-100 px-4 py-3 text-base font-semibold text-gray-900" id="hot-articles-title"><i class="fa fa-fire mr-2 text-emerald-600" aria-hidden="true"></i>{:__('热门推荐')}</h3>
-                    <div class="space-y-3 p-4">
+                <div class="ui-card">
+                    <h3 class="ui-card-header text-xs font-semibold tracking-[0.18em] text-gray-900" id="hot-articles-title"><i class="fa fa-fire mr-2 text-black/60" aria-hidden="true"></i>{:__('热门推荐')}</h3>
+                    <div class="space-y-2 p-3">
                         {php}$hotCount = 0;{/php}
                         {cms:arclist id="item" orderby="views" orderway="DESC" limit="6"}
                         {php}$hotCount++;{/php}
-                        <a href="{$item.url}" class="group block overflow-hidden rounded-md border border-gray-200 bg-white shadow-sm transition hover:shadow-md" title="{$item.title|htmlentities}">
-                            <div class="aspect-[4/1] overflow-hidden bg-gray-100">
-                                <img src="{$item.image ?: '/assets/addons/cms/img/default.png'}" alt="{$item.title|htmlentities}" loading="lazy" class="h-full w-full object-cover transition duration-300 group-hover:scale-105">
+                        <a href="{$item.url}" class="group block overflow-hidden border border-black/10 bg-transparent transition hover:bg-black/5 no-underline" title="{$item.title|htmlentities}">
+                            <div class="aspect-[4/1] overflow-hidden bg-black/5">
+                                <img src="{$item.image ?: '/assets/addons/cms/img/default.png'}" alt="{$item.title|htmlentities}" loading="lazy" class="h-full w-full object-cover transition duration-300 group-hover:scale-105" onerror="this.onerror=null;this.src='/assets/addons/cms/img/default.png'">
                             </div>
-                            <div class="p-2 text-sm font-medium text-gray-900 truncate">{$item.title|htmlentities}</div>
+                            <div class="text-sm font-medium text-gray-900 truncate" style="padding:6px 8px;">{$item.title|htmlentities}</div>
                         </a>
                         {/cms:arclist}
                         {if $hotCount == 0}
-                        <div class="rounded-md border border-dashed border-gray-300 p-4 text-center text-sm text-gray-500">{:__('暂无热门文章')}</div>
+                        <div class="border border-dashed border-gray-300 p-4 text-center text-sm text-gray-500">{:__('暂无热门文章')}</div>
                         {/if}
                     </div>
                 </div>
@@ -192,11 +195,11 @@
             
             <!-- 最新文章 -->
             <section aria-labelledby="recent-articles-title">
-                <div class="rounded-lg border border-gray-200 bg-white shadow-sm">
-                    <h3 class="border-b border-gray-100 px-4 py-3 text-base font-semibold text-gray-900" id="recent-articles-title"><i class="fa fa-clock-o mr-2 text-emerald-600" aria-hidden="true"></i>{:__('最新发布')}</h3>
+                <div class="ui-card">
+                    <h3 class="ui-card-header text-xs font-semibold tracking-[0.18em] text-gray-900" id="recent-articles-title"><i class="fa fa-clock-o mr-2 text-black/60" aria-hidden="true"></i>{:__('最新发布')}</h3>
                     <div class="divide-y divide-gray-100">
                         {cms:arclist id="item" orderby="publishtime" orderway="DESC" limit="8"}
-                        <a href="{$item.url}" title="{$item.title|htmlentities}" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600">
+                        <a href="{$item.url}" title="{$item.title|htmlentities}" class="block px-4 py-3 text-sm text-gray-800/90 hover:bg-gray-50 hover:text-black no-underline">
                             <div class="font-medium leading-6 text-gray-900">{$item.title|htmlentities}</div>
                             <div class="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500">
                                 <span><i class="fa fa-calendar mr-1" aria-hidden="true"></i>{$item.publishtime|date='Y-m-d',###}</span>
@@ -209,115 +212,10 @@
             </section>
             
             <!-- Google AdSense 侧边栏广告 -->
-            <div id="ad-list-sidebar" class="my-5 min-h-[600px] text-center"></div>
+            
             
             {include file="common/sidebar" /}
         </aside>
     </div>
 </div>
 
-<!-- Google AdSense JavaScript -->
-<script type="text/javascript" src="__ADDON__/js/vue.js"></script>
-<script>
-Vue.config.ignoredElements = ['o:p'];
-
-new Vue({
-    el: '#content-container',
-    mounted() {
-        // 立即初始化广告
-        this.initAds();
-    },
-    methods: {
-        initAds() {
-            console.log('[AdSense] Init starting...', window._adsenseInitialized);
-            
-            if (window._adsenseInitialized) {
-                console.log('[AdSense] Already initialized, skipping');
-                return;
-            }
-            
-            console.log('[AdSense] Starting initialization');
-            
-            // 50ms快速检测
-            const waitForAdSense = (callback, maxAttempts = 100) => {
-                let attempts = 0;
-                const startTime = Date.now();
-                
-                const checkAdSense = () => {
-                    if (window.adsbygoogle && Array.isArray(window.adsbygoogle)) {
-                        const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
-                        console.log(`[AdSense] Script ready in ${elapsed}s`);
-                        callback();
-                    } else if (attempts >= maxAttempts) {
-                        const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
-                        console.log(`[AdSense] Timeout after ${elapsed}s, trying anyway`);
-                        callback();
-                    } else {
-                        attempts++;
-                        setTimeout(checkAdSense, 50);
-                    }
-                };
-                checkAdSense();
-            };
-            
-            const createAd = (containerId, config) => {
-                const container = document.getElementById(containerId);
-                if (!container) {
-                    console.warn('[AdSense] Container not found:', containerId);
-                    return;
-                }
-                
-                const existingAd = container.querySelector('.adsbygoogle');
-                if (existingAd && existingAd.getAttribute('data-adsbygoogle-status') === 'done') {
-                    console.log('[AdSense] Ad already exists:', containerId);
-                    return;
-                }
-                
-                console.log('[AdSense] Creating ad:', containerId);
-                container.innerHTML = '';
-                const ins = document.createElement('ins');
-                ins.className = 'adsbygoogle block';
-                
-                Object.keys(config).forEach(key => {
-                    ins.setAttribute(key, config[key]);
-                });
-                
-                container.appendChild(ins);
-                
-                // 立即push
-                try {
-                    console.log('[AdSense] Pushing ad:', containerId);
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                } catch (e) {
-                    console.error('[AdSense] Push error:', containerId, e);
-                }
-            };
-            
-            waitForAdSense(() => {
-                console.log('[AdSense] Creating all ads...');
-                
-                // 列表页头部横向广告
-                createAd('ad-list-header', {
-                    'data-ad-client': 'ca-pub-9195262048954682',
-                    'data-ad-slot': '7906059149',
-                    'data-ad-format': 'auto',
-                    'data-full-width-responsive': 'true'
-                });
-                
-                // 列表页侧边栏广告
-                createAd('ad-list-sidebar', {
-                    'data-ad-client': 'ca-pub-9195262048954682',
-                    'data-ad-slot': '2901144473',
-                    'data-ad-format': 'auto',
-                    'data-full-width-responsive': 'true'
-                });
-                
-                window._adsenseInitialized = true;
-                console.log('[AdSense] ✅ All ads initialized');
-            });
-        }
-    }
-});
-
-console.log('[AdSense] Vue initialized');
-</script>

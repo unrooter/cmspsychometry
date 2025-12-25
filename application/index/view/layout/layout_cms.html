@@ -8,20 +8,21 @@
 <!--[if gt IE 8]><!-->
 <html class=""> <!--<![endif]-->
 <head>
-
-    {include file="common/meta" /}
+ 
+    {include file="layout/auth_meta" /}
+    {include file="layout/auth_head" /}
     <link rel="stylesheet" media="screen" href="__CDN__/assets/css/bootstrap.css?v={$site.version}"/>
-    <link rel="stylesheet" media="screen" href="__CDN__/assets/libs/font-awesome/css/font-awesome.min.css?v={$site.version}"/>
     <link rel="stylesheet" media="screen" href="__CDN__/assets/libs/fastadmin-layer/dist/theme/default/layer.css?v={$site.version}"/>
     <link rel="stylesheet" media="screen" href="__ADDONCMS__/css/common.css?v={$site.version}"/>
-    <link href="__CDN__/assets/css/user.css?v={$Think.config.site.version|htmlentities}" rel="stylesheet">
+    {php}$__usercssver = @filemtime(ROOT_PATH . 'public/assets/css/user.css');{/php}
+    <link href="__CDN__/assets/css/user.css?v={$__usercssver ?: $Think.config.site.version|htmlentities}" rel="stylesheet">
     <!--[if lt IE 9]>
     <script src="__CDN__/libs/html5shiv.js"></script>
     <script src="__CDN__/libs/respond.min.js"></script>
     <![endif]-->
-</head>
-<body class="group-page skin-white">
-<style>
+</head> 
+ <body class="min-h-screen group-page skin-white">
+ <style>
     /* header {
         position: relative;
     }
@@ -118,210 +119,361 @@
             font-size: 14px;
         }
     }
-</style>
-<header class="header">
-    <!-- S 导航 -->
-    <nav class="navbar navbar-default navbar-white navbar-fixed-top transparent" role="navigation">
-        <div class="container">
-            <div class="navbar-header" style="text-align: center;">
-                <!-- <a href="{:url('/')}" style="color: #fff;font-weight: 700;">前往网站首页</a> -->
-                <a class="navbar-brand" href="{:url('/')}"><img src="{$Think.config.cms.sitelogo|default='/assets/addons/cms/img/logo.png'|cdnurl}" style="height:100%;" alt=""></a>
-            </div>
 
-            <!-- <div class="navbar-header">
-                <button type="button" class="navbar-toggle">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="{cms:config name='cms.indexurl'/}"><img src="{$Think.config.cms.sitelogo|default='/assets/addons/cms/img/logo.png'|cdnurl}" style="height:100%;" alt=""></a>
-            </div> -->
-
-            <div class="collapse navbar-collapse" id="navbar-collapse">
-                <ul class="nav navbar-nav" data-current="{$__CHANNEL__.id|default=0}">
-                    <!--如果你需要自定义NAV,可使用channellist标签来完成,这里只设置了2级,如果显示无限级,请使用cms:nav标签-->
-                    {cms:channellist id="nav" type="top" condition="1=isnav"}
-                    <!--判断是否有子级或高亮当前栏目-->
-                    <li class="{if $nav.has_child}dropdown{/if} {if $nav->is_active} active{/if}">
-                        <a href="{$nav.url}" {if $nav.has_child} data-toggle="dropdown" {/if}>{:__($nav.name)}{if $nav.has_nav_child} <b class="caret"></b>{/if}</a>
-                        <ul class="dropdown-menu {if !$nav.has_nav_child}hidden{/if}" role="menu">
-                            {cms:channellist id="sub" type="son" typeid="nav['id']" condition="1=isnav"}
-                            <li><a href="{$sub.url}">{:__($sub.name)}</a></li>
-                            {/cms:channellist}
-                        </ul>
-                    </li>
-                    {/cms:channellist}
-                    <!--如果需要无限级请使用cms:nav标签-->
-                    {//cms:nav maxlevel="4" cache="86400" /}
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <form class="form-inline navbar-form" action="{:addon_url('cms/search/index')}" method="get">
-                            <div class="form-search hidden-sm">
-                                <input class="form-control" name="q" data-suggestion-url="{:addon_url('cms/search/suggestion')}" type="search" id="searchinput" value="{$Think.request.q|default=''|htmlentities}" placeholder="搜索">
-                                <div class="search-icon"></div>
-                            </div>
-                            {:token('__searchtoken__')}
-                        </form>
-                    </li>
-                    <!-- 语言切换 -->
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-globe"></i> <span class="hidden-sm">{:__('Lang')}</span> <b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="?lang=zh-cn" onclick="switchLanguage('zh-cn'); return false;" class="lang-switch {if cookie('frontend_language')=='zh-cn' || !cookie('frontend_language')}active{/if}"><i class="fa fa-flag"></i> 中文</a></li>
-                            <li><a href="?lang=en" onclick="switchLanguage('en'); return false;" class="lang-switch {if cookie('frontend_language')=='en'}active{/if}"><i class="fa fa-flag"></i> English</a></li>
-                        </ul>
-                    </li>
-
-                    {if config('fastadmin.usercenter')}
-                    <li class="dropdown navbar-userinfo">
-                        {if $user}
-                        <a href="{:url('index/user/index')}" class="dropdown-toggle" data-toggle="dropdown">
-                            <span class="avatar-img pull-left"><img src="{$user.avatar|cdnurl|htmlentities}" style="width:27px;height:27px;border-radius:50%;" alt=""></span>
-                            <span class="visible-xs pull-left ml-2 pt-1">{$user.nickname|htmlentities} <b class="caret"></b></span>
-                        </a>
-                        {else /}
-                        <a href="{:url('index/user/index')}" class="dropdown-toggle" data-toggle="dropdown">{:__('Member center')} <b class="caret"></b></a>
-                        {/if}
-                        <ul class="dropdown-menu">
-
-                            {if $user}
-                            <li><a href="{:url('index/user/index')}"><i class="fa fa-user fa-fw"></i> {:__('Member center')}</a></li>
-                            {php}$sidenav = array_filter(explode(',', config('cms.usersidenav')));{/php}
-                            {if in_array('mycomment', $sidenav)}
-                            <li><a href="{:url('index/cms.answer/index')}"><i class="fa fa-comments fa-fw"></i> {:__('Test Records')}</a></li>
-                            {/if}
-                            {if in_array('mycollection', $sidenav)}
-                            <!-- <li><a href="{:url('index/cms.collection/index')}"><i class="fa fa-bookmark fa-fw"></i> 我的收藏</a></li> -->
-                            {/if}
-                            <li><a href="javascript:localStorage.removeItem('email_token'); window.location.href='{:url('index/user/logout')}';"  data-placement="left"><i class="fa fa-sign-out fa-fw"></i> {:__('Sign out')}</a></li>
-                            {else /}
-                            <li><a href="{:url('index/user/login')}"><i class="fa fa-sign-in fa-fw"></i> {:__('Login')}</a></li>
-                            <li><a href="{:url('index/user/register')}"><i class="fa fa-user-o fa-fw"></i> {:__('Register')}</a></li>
-                            {/if}
-                        </ul>
-                    </li>
-                    {/if}
-                </ul>
-            </div>
-
-        </div>
-    </nav>
-    <!-- E 导航 -->
-
-</header>
-
-<main class="main-content">
-    {__CONTENT__}
-</main>
-
-<footer>
-    <div id="footer">
-        <div class="container">
-            <div class="row footer-inner">
-                <div class="col-xs-12">
-                    <div class="footer-logo pull-left mr-4">
-                        <div class="u-flex">
-                            <a href="{:addon_url('cms/index/index')}"><i class="fa fa-bookmark"></i></a>
-                            <div class="ml-3">
-                                <p>
-                                    {:__('Platform Description')}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="pull-left u-flex u-flex-between" style="width: 100%;">
-                        Copyright&nbsp;©&nbsp;{:date("Y")} All rights reserved. {cms:config name="cms.sitename"/}
-                        <a href="https://beian.miit.gov.cn" target="_blank">{$site.beian|htmlentities}</a>
-
-                        <ul class="list-unstyled list-inline">
-                            <li><a href="{:addon_url('cms/page/index', [':diyname'=>'aboutus'])}">{:__('About Us')}</a></li>
-                            <li><a href="{:addon_url('cms/page/index', [':diyname'=>'agreement'])}">{:__('User Agreement')}</a></li>
-                            {if config('fastadmin.usercenter')}
-                            <li><a href="{:url('index/user/index')}">{:__('Member center')}</a></li>
-                            {/if}
-                        </ul>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-</footer>
-
-<div id="floatbtn">
-    <a id="back-to-top" class="hover" href="javascript:;">
-        <i class="iconfont icon-backtotop"></i>
-        <em>返回<br>顶部</em>
-    </a>
-    <!-- E 浮动按钮 -->
-</div>
-{if !$isMobile}
-<script type="text/javascript" src="__CDN__/assets/libs/jquery/dist/jquery.min.js?v={$site.version}"></script>
-<script type="text/javascript" src="__CDN__/assets/libs/bootstrap/dist/js/bootstrap.min.js?v={$site.version}"></script>
-<script type="text/javascript" src="__CDN__/assets/libs/fastadmin-layer/dist/layer.js?v={$site.version}"></script>
-<script type="text/javascript" src="__ADDONCMS__/js/jquery.autocomplete.js?v={$site.version}"></script>
-<script type="text/javascript" src="__ADDONCMS__/js/libs.js?v={$site.version}"></script>
-<script type="text/javascript" src="__ADDONCMS__/js/common.js?v={$site.version}"></script>
-{/if}
-
-<!-- 多语言切换功能 -->
-<script type="text/javascript">
-// 语言切换功能
-function switchLanguage(lang) {
-    // 设置cookie
-    document.cookie = 'frontend_language=' + lang + '; path=/; max-age=31536000';
-    
-    // 构建新的URL
-    const currentUrl = new URL(window.location.href);
-    
-    // 移除现有的语言参数
-    currentUrl.searchParams.delete('lg');
-    
-    // 添加新的语言参数
-    currentUrl.searchParams.set('lg', lang);
-    
-    // 如果是测试页面，同时更新API调用的语言参数
-    if (window.location.pathname.includes('/MBTI/') || 
-        window.location.pathname.includes('/xinling/') || 
-        window.location.pathname.includes('/qinggan/') || 
-        window.location.pathname.includes('/renge/') || 
-        window.location.pathname.includes('/zhiye/')) {
-        
-        // 延迟跳转，让用户看到语言切换效果
-        setTimeout(() => {
-            window.location.href = currentUrl.toString();
-        }, 300);
-    } else {
-        // 立即跳转
-        window.location.href = currentUrl.toString();
+    body.group-page.skin-white {
+        background: #f7f7f7;
+        color: #111;
+        font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+        font-size: 16px;
+        line-height: 1.5;
+        padding-top: 0 !important;
     }
-}
 
-// 页面加载时初始化语言状态
-document.addEventListener('DOMContentLoaded', function() {
-    const currentLang = getCookie('frontend_language') || 'zh-cn';
-    
-    // 更新语言切换按钮的激活状态
-    document.querySelectorAll('.lang-switch').forEach(link => {
-        link.classList.remove('active');
-        if (link.onclick.toString().includes(currentLang)) {
-            link.classList.add('active');
-        }
-    });
-});
+    .auth-page, .auth-page * {
+        box-sizing: border-box;
+    }
 
-// 获取Cookie的辅助函数
-function getCookie(name) {
-    const value = "; " + document.cookie;
-    const parts = value.split("; " + name + "=");
-    if (parts.length === 2) return parts.pop().split(";").shift();
-}
-</script>
+    .auth-page .input-group {
+        display: flex !important;
+        align-items: stretch !important;
+        width: 100% !important;
+    }
 
-{include file="common/script" /}
-</body>
-</html>
+    .auth-page .input-group .form-control {
+        flex: 1 1 auto !important;
+        min-width: 0 !important;
+    }
+
+    .auth-page .input-group-btn {
+        flex: 0 0 auto !important;
+        display: flex !important;
+    }
+
+    .auth-page .input-group-btn .btn {
+        white-space: nowrap;
+    }
+
+    .navbar.navbar-default.navbar-white.navbar-fixed-top {
+        background: #fff !important;
+        border: 0 !important;
+        border-bottom: 1px solid rgba(0,0,0,0.06) !important;
+        box-shadow: none !important;
+    }
+
+    .navbar.navbar-default.navbar-white.navbar-fixed-top .container {
+        width: 100% !important;
+        max-width: 1280px;
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .navbar-default .navbar-brand {
+        height: 60px;
+        padding: 10px 15px;
+    }
+
+    .navbar-default .navbar-nav > li > a {
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+    }
+
+    .navbar-default .navbar-brand,
+    .navbar-default .navbar-nav > li > a {
+        color: #111 !important;
+    }
+
+    .navbar-default .navbar-nav > li > a:hover,
+    .navbar-default .navbar-nav > li > a:focus {
+        color: #000 !important;
+        background: transparent !important;
+    }
+
+    .navbar-default .dropdown-menu {
+        border-radius: 0;
+        border: 1px solid rgba(0,0,0,0.08);
+        box-shadow: none;
+        background: #fff;
+    }
+
+    .navbar-default .dropdown-menu > li > a {
+        color: #111;
+    }
+
+    .navbar-default .dropdown-menu > li > a:hover,
+    .navbar-default .dropdown-menu > li > a:focus {
+        background: rgba(0,0,0,0.04);
+        color: #000;
+    }
+
+    #footer {
+        background: #fff;
+        border-top: 1px solid rgba(0,0,0,0.06);
+    }
+
+    #footer .container {
+        width: 100% !important;
+        max-width: 1280px;
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    #footer, #footer a {
+        color: rgba(0,0,0,0.65);
+    }
+
+    #footer a:hover {
+        color: #000;
+    }
+
+    .auth-page .form-control {
+        height: 44px;
+        padding: 10px 12px;
+        border-radius: 0;
+        border-color: rgba(0,0,0,0.12);
+        box-shadow: none;
+    }
+
+    .auth-page label,
+    .auth-page .control-label {
+        font-weight: 600;
+    }
+
+    .auth-page .form-control:focus {
+        border-color: #000;
+        box-shadow: none;
+    }
+
+    .auth-page .btn,
+    .auth-page .btn-lg {
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .auth-page .btn-primary,
+    .auth-page .btn-info {
+        background: #000;
+        border-color: #000;
+        color: #fff;
+    }
+
+    .auth-page .btn-primary:hover,
+    .auth-page .btn-info:hover,
+    .auth-page .btn-primary:focus,
+    .auth-page .btn-info:focus {
+        background: rgba(0,0,0,0.9);
+        border-color: rgba(0,0,0,0.9);
+        color: #fff;
+    }
+
+    .auth-page .btn-default {
+        background: transparent;
+        border: 1px solid rgba(0,0,0,0.12);
+        color: #111;
+    }
+
+    .auth-page .btn-default:hover,
+    .auth-page .btn-default:focus {
+        background: rgba(0,0,0,0.04);
+        border-color: rgba(0,0,0,0.16);
+        color: #000;
+    }
+ </style>
+ 
+ {include file="layout/auth_header" /}
+ 
+ <main class="main-content">
+     {__CONTENT__}
+ </main>
+ 
+ {include file="layout/auth_footer" /}
+ 
+ <div id="floatbtn">
+     <a id="back-to-top" class="hover" href="javascript:;">
+         <i class="iconfont icon-backtotop"></i>
+         <em>返回<br>顶部</em>
+     </a>
+     <!-- E 浮动按钮 -->
+ </div>
+ {if !$isMobile}
+ <script type="text/javascript" src="__CDN__/assets/libs/jquery/dist/jquery.min.js?v={$site.version}"></script>
+ <script type="text/javascript" src="__CDN__/assets/libs/bootstrap/dist/js/bootstrap.min.js?v={$site.version}"></script>
+ <script type="text/javascript" src="__CDN__/assets/libs/fastadmin-layer/dist/layer.js?v={$site.version}"></script>
+ <script type="text/javascript" src="__ADDONCMS__/js/jquery.autocomplete.js?v={$site.version}"></script>
+ <script type="text/javascript" src="__ADDONCMS__/js/libs.js?v={$site.version}"></script>
+ <script type="text/javascript" src="__ADDONCMS__/js/common.js?v={$site.version}"></script>
+ {/if}
+ 
+ <script>
+ (function () {
+     function closest(el, selector) {
+         while (el && el.nodeType === 1) {
+             if (el.matches(selector)) return el;
+             el = el.parentElement;
+         }
+         return null;
+     }
+ 
+     var lastTouchTime = 0;
+ 
+     function getCollapse() {
+         return document.getElementById('navbar-collapse');
+     }
+ 
+     function removeBackdrop() {
+         var bg = document.querySelector('.navbar-collapse-bg');
+         if (bg && bg.parentNode) bg.parentNode.removeChild(bg);
+     }
+ 
+     function openMenu() {
+         var collapse = getCollapse();
+         if (!collapse) return;
+         document.body.classList.add('is-open');
+         collapse.classList.add('active');
+         removeBackdrop();
+         var bg = document.createElement('div');
+         bg.className = 'navbar-collapse-bg';
+         bg.addEventListener('click', function () {
+             closeMenu();
+         });
+         collapse.insertAdjacentElement('afterend', bg);
+     }
+ 
+     function closeMenu() {
+         var collapse = getCollapse();
+         document.body.classList.remove('is-open');
+         if (collapse) collapse.classList.remove('active');
+         removeBackdrop();
+     }
+ 
+     function handleToggleEvent(e) {
+         if (e.type === 'touchend') {
+             lastTouchTime = Date.now();
+         }
+         if (e.type === 'click' && lastTouchTime && Date.now() - lastTouchTime < 600) {
+             return;
+         }
+         var btn = closest(e.target, '.sidebar-toggle');
+         if (!btn) return;
+         e.preventDefault();
+         e.stopImmediatePropagation();
+         var collapse = getCollapse();
+         if (!collapse) return;
+         if (collapse.classList.contains('active')) {
+             closeMenu();
+         } else {
+             openMenu();
+         }
+     }
+ 
+     document.addEventListener('click', handleToggleEvent, true);
+     document.addEventListener('touchend', handleToggleEvent, true);
+ 
+     document.addEventListener('click', function (e) {
+         var a = closest(e.target, '#navbar-collapse a');
+         if (!a) return;
+         if (window.innerWidth < 768) closeMenu();
+     }, true);
+ 
+     document.addEventListener('keydown', function (e) {
+         if (e.key === 'Escape' || e.keyCode === 27) {
+             var collapse = getCollapse();
+             if (collapse && collapse.classList.contains('active')) {
+                 closeMenu();
+             }
+         }
+     }, true);
+ })();
+ </script>
+ 
+ <script>
+ (function () {
+     function closest(el, selector) {
+         while (el && el.nodeType === 1) {
+             if (el.matches(selector)) return el;
+             el = el.parentElement;
+         }
+         return null;
+     }
+ 
+     document.addEventListener('click', function (e) {
+         var btn = closest(e.target, '.oh-mnav-toggle');
+         if (!btn) return;
+         e.preventDefault();
+         e.stopPropagation();
+         var li = closest(btn, '.oh-mnav-item');
+         if (!li) return;
+         var submenu = li.querySelector('[data-mnav-submenu]');
+         if (!submenu) return;
+         var isHidden = submenu.classList.contains('hidden');
+         if (isHidden) {
+             submenu.classList.remove('hidden');
+             li.classList.add('is-open');
+         } else {
+             submenu.classList.add('hidden');
+             li.classList.remove('is-open');
+         }
+     }, true);
+ })();
+ </script>
+
+  <!-- 多语言切换功能 -->
+  <script type="text/javascript">
+ // 语言切换功能
+ function switchLanguage(lang) {
+     // 设置cookie
+     document.cookie = 'frontend_language=' + lang + '; path=/; max-age=31536000';
+     
+     // 构建新的URL
+     const currentUrl = new URL(window.location.href);
+     
+     // 移除现有的语言参数
+     currentUrl.searchParams.delete('lg');
+     
+     // 添加新的语言参数
+     currentUrl.searchParams.set('lg', lang);
+     
+     // 如果是测试页面，同时更新API调用的语言参数
+     if (window.location.pathname.includes('/MBTI/') || 
+         window.location.pathname.includes('/xinling/') || 
+         window.location.pathname.includes('/qinggan/') || 
+         window.location.pathname.includes('/renge/') || 
+         window.location.pathname.includes('/zhiye/')) {
+         
+         // 延迟跳转，让用户看到语言切换效果
+         setTimeout(() => {
+             window.location.href = currentUrl.toString();
+         }, 300);
+     } else {
+         // 立即跳转
+         window.location.href = currentUrl.toString();
+     }
+ }
+ 
+ // 页面加载时初始化语言状态
+ document.addEventListener('DOMContentLoaded', function() {
+     const currentLang = getCookie('frontend_language') || 'zh-cn';
+     
+     // 更新语言切换按钮的激活状态
+     document.querySelectorAll('.lang-switch').forEach(link => {
+         link.classList.remove('active');
+         if (link.onclick.toString().includes(currentLang)) {
+             link.classList.add('active');
+         }
+     });
+ });
+ 
+ // 获取Cookie的辅助函数
+ function getCookie(name) {
+     const value = "; " + document.cookie;
+     const parts = value.split("; " + name + "=");
+     if (parts.length === 2) return parts.pop().split(";").shift();
+ }
+  </script>
+ 
+ {include file="common/script" /}
+ </body>
+ </html>

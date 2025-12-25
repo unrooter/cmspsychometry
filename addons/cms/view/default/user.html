@@ -4,7 +4,7 @@
          <div class="relative py-12 sm:py-16">
              <div class="pointer-events-none absolute inset-0">
                  <div class="absolute -left-24 -top-24 h-72 w-72 rounded-full bg-white/10 blur-3xl"></div>
-                 <div class="absolute -bottom-28 -right-28 h-80 w-80 rounded-full bg-emerald-400/20 blur-3xl"></div>
+                 <div class="absolute -bottom-28 -right-28 h-80 w-80 rounded-full bg-white/10 blur-3xl"></div>
              </div>
 
              <div class="relative flex flex-col items-center text-center text-white">
@@ -33,21 +33,21 @@
      </div>
  </div>
 
- <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" id="content-container">
-     <div class="mt-6 grid gap-6 lg:grid-cols-12">
+ <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8" id="content-container">
+     <div class="grid gap-6 lg:grid-cols-12">
          <main class="space-y-6 lg:col-span-8">
-             <section class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
-                 <div class="border-b border-gray-100 px-4 py-3">
+             <section class="ui-card overflow-hidden">
+                 <div class="ui-card-header">
                      <div class="flex flex-wrap items-center justify-between gap-3">
                          <h2 class="text-base font-semibold text-gray-900">{$title|htmlentities}</h2>
                          <div class="flex items-center gap-2 text-sm">
-                             <a href="{:addon_url('cms/user/index',[':id'=>$__USER__['id']],false)}/archives" class="rounded-md px-3 py-1.5 font-medium {:$type=='archives'?'bg-emerald-50 text-emerald-700':'text-gray-600 hover:text-gray-900'}">{:$user&&$user['id']==$__USER__.id?'我':'TA'}的文章</a>
-                             <a href="{:addon_url('cms/user/index',[':id'=>$__USER__['id']],false)}/comment" class="rounded-md px-3 py-1.5 font-medium {:$type=='comment'?'bg-emerald-50 text-emerald-700':'text-gray-600 hover:text-gray-900'}">{:$user&&$user['id']==$__USER__.id?'我':'TA'}的评论</a>
+                             <a href="{:addon_url('cms/user/index',[':id'=>$__USER__['id']],false)}/archives" class="rounded-md px-3 py-1.5 font-medium no-underline {:$type=='archives'?'bg-gray-50 text-black':'text-gray-600 hover:text-black'}">{:$user&&$user['id']==$__USER__.id?'我':'TA'}的文章</a>
+                             <a href="{:addon_url('cms/user/index',[':id'=>$__USER__['id']],false)}/comment" class="rounded-md px-3 py-1.5 font-medium no-underline {:$type=='comment'?'bg-gray-50 text-black':'text-gray-600 hover:text-black'}">{:$user&&$user['id']==$__USER__.id?'我':'TA'}的评论</a>
                          </div>
                      </div>
                  </div>
 
-                 <div class="p-4 sm:p-6">
+                 <div class="ui-card-body">
                      {if $type == 'archives'}
                      <div class="divide-y divide-gray-100">
                          {volist name="archivesList" id="item"}
@@ -58,17 +58,18 @@
                      {include file="common/pageinfo" /}
                      {else/}
                      <div class="space-y-4">
-                         {volist name="commentList" id="item"}
-                         <article class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
-                             <div class="flex gap-4">
-                                 <a href="{$item.source.url}" class="group block w-28 shrink-0 overflow-hidden rounded-md bg-gray-100 aspect-[4/3]">
-                                     <img src="{$item.source.image}" alt="" class="h-full w-full object-cover transition duration-300 group-hover:scale-105">
-                                 </a>
+                        {volist name="commentList" id="item"}
+                        <article class="ui-card">
+                            <div class="ui-card-body">
+                            <div class="flex gap-4">
+                                <a href="{$item.source.url}" class="group block w-28 shrink-0 overflow-hidden rounded-md bg-gray-100 aspect-[4/3]">
+                                    <img src="{$item.source.image ?: '/assets/addons/cms/img/default.png'}" alt="" class="h-full w-full object-cover transition duration-300 group-hover:scale-105" loading="lazy" onerror="this.onerror=null;this.src='/assets/addons/cms/img/default.png'">
+                                </a>
 
-                                 <div class="min-w-0 flex-1">
-                                     <h3 class="text-base font-semibold leading-6 text-gray-900">
-                                         <a href="{$item.source.url}" class="hover:text-emerald-600">{$item.source.title|htmlentities}</a>
-                                     </h3>
+                                <div class="min-w-0 flex-1">
+                                    <h3 class="text-base font-semibold leading-6 text-gray-900">
+                                        <a href="{$item.source.url}" class="no-underline hover:text-black">{$item.source.title|htmlentities}</a>
+                                    </h3>
                                      <div class="mt-2 rounded-md bg-gray-50 p-3 text-sm leading-6 text-gray-700">
                                          <div>{$item.content}</div>
                                      </div>
@@ -76,6 +77,7 @@
                                          <span itemprop="date"><i class="fa fa-calendar mr-1"></i> {:date("Y年m月d日", $item['createtime'])}</span>
                                      </div>
                                  </div>
+                             </div>
                              </div>
                          </article>
                          {/volist}
@@ -89,14 +91,14 @@
 
          <aside class="space-y-6 lg:col-span-4">
              <!-- S 会员菜单 -->
-             <section class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
-                 <div class="border-b border-gray-100 px-4 py-3">
+             <section class="ui-card overflow-hidden">
+                 <div class="ui-card-header">
                      <h3 class="text-base font-semibold text-gray-900">会员菜单</h3>
                  </div>
-                 <div class="p-4">
+                 <div class="ui-card-body">
                      <div class="space-y-2 text-sm">
-                         <a href="{:addon_url('cms/user/index',[':id'=>$__USER__['id']],false)}/archives" class="block rounded-md px-3 py-2 font-medium {:$type=='archives'?'bg-emerald-50 text-emerald-700':'text-gray-700 hover:bg-gray-50'}">{:$user&&$user['id']==$__USER__.id?'我':'TA'}的文章</a>
-                         <a href="{:addon_url('cms/user/index',[':id'=>$__USER__['id']],false)}/comment" class="block rounded-md px-3 py-2 font-medium {:$type=='comment'?'bg-emerald-50 text-emerald-700':'text-gray-700 hover:bg-gray-50'}">{:$user&&$user['id']==$__USER__.id?'我':'TA'}的评论</a>
+                         <a href="{:addon_url('cms/user/index',[':id'=>$__USER__['id']],false)}/archives" class="block rounded-md px-3 py-2 font-medium no-underline {:$type=='archives'?'bg-gray-50 text-black':'text-gray-700 hover:bg-gray-50 hover:text-black'}">{:$user&&$user['id']==$__USER__.id?'我':'TA'}的文章</a>
+                         <a href="{:addon_url('cms/user/index',[':id'=>$__USER__['id']],false)}/comment" class="block rounded-md px-3 py-2 font-medium no-underline {:$type=='comment'?'bg-gray-50 text-black':'text-gray-700 hover:bg-gray-50 hover:text-black'}">{:$user&&$user['id']==$__USER__.id?'我':'TA'}的评论</a>
                      </div>
                  </div>
              </section>

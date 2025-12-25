@@ -6,26 +6,26 @@
     <div class="sm:col-span-9">
         {switch $item.type}
         {case string}
-        <input {$item.extend_html} type="text" name="row[{$item.name}]" id="c-{$item.name}" value="{$item.value|htmlentities}" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20" data-rule="{$item.rule}" data-tip="{$item.tip}" />
+        <input {$item.extend_html} type="text" name="row[{$item.name}]" id="c-{$item.name}" value="{$item.value|htmlentities}" class="ui-input" data-rule="{$item.rule}" data-tip="{$item.tip}" />
         {/case}
         {case password}
-        <input {$item.extend_html} type="password" name="row[{$item.name}]" id="c-{$item.name}" value="{$item.value|htmlentities}" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20" data-rule="{$item.rule}" data-tip="{$item.tip}" />
+        <input {$item.extend_html} type="password" name="row[{$item.name}]" id="c-{$item.name}" value="{$item.value|htmlentities}" class="ui-input" data-rule="{$item.rule}" data-tip="{$item.tip}" />
         {/case}
         {case value="text" break="0"}{/case}
         {case editor}
-        <textarea {$item.extend_html} name="row[{$item.name}]" id="c-{$item.name}" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 {eq name='$item.type' value='editor'}editor{/eq}" data-rule="{$item.rule}" rows="5" data-tip="{$item.tip}">{$item.value|htmlentities}</textarea>
+        <textarea {$item.extend_html} name="row[{$item.name}]" id="c-{$item.name}" class="ui-input {eq name='$item.type' value='editor'}editor{/eq}" data-rule="{$item.rule}" rows="5" data-tip="{$item.tip}">{$item.value|htmlentities}</textarea>
         {/case}
         {case array}
         {if $item.name=='downloadurl'}
         {php}$item['value']=isset($values[$item['name']])?$item['value']:$item['download_list'];{/php}
-        <dl {$item.extend_html} class="fieldlist downloadlist" data-name="row[{$item.name}]" data-template="downloadurltpl">
+        <dl {$item.extend_html} class="fieldlist downloadlist ui-card space-y-3 p-4" data-name="row[{$item.name}]" data-template="downloadurltpl">
             <dd>
-                <ins class="inline-block w-[70px]">来源</ins>
-                <ins class="inline-block w-[250px]">地址</ins>
-                <ins>密码(可为空)</ins>
+                <ins class="inline-block w-[70px] text-xs font-semibold text-gray-700">来源</ins>
+                <ins class="inline-block w-[250px] text-xs font-semibold text-gray-700">地址</ins>
+                <ins class="text-xs font-semibold text-gray-700">密码(可为空)</ins>
             </dd>
             <dd>
-                <a href="javascript:;" class="btn-append inline-flex items-center gap-2 rounded-md bg-emerald-600 px-3 py-2 text-xs font-semibold text-white shadow-sm hover:bg-emerald-700">
+                <a href="javascript:;" class="btn-append ui-btn ui-btn-primary ui-btn-sm">
                     <i class="fa fa-plus"></i>
                     {:__('Append')}
                 </a>
@@ -34,14 +34,14 @@
         </dl>
         {else /}
         {php}$arrList=isset($values[$item['name']])?(array)json_decode($item['value'],true):$item['content_list'];{/php}
-        <dl {$item.extend_html} class="fieldlist" data-name="row[{$item.name}]">
+        <dl {$item.extend_html} class="fieldlist ui-card space-y-3 p-4" data-name="row[{$item.name}]">
             <dd>
-                <ins>{:isset($item["setting"]["key"])&&$item["setting"]["key"]?$item["setting"]["key"]:__('Array key')}</ins>
-                <ins>{:isset($item["setting"]["value"])&&$item["setting"]["value"]?$item["setting"]["value"]:__('Array value')}</ins>
+                <ins class="text-xs font-semibold text-gray-700">{:isset($item["setting"]["key"])&&$item["setting"]["key"]?$item["setting"]["key"]:__('Array key')}</ins>
+                <ins class="text-xs font-semibold text-gray-700">{:isset($item["setting"]["value"])&&$item["setting"]["value"]?$item["setting"]["value"]:__('Array value')}</ins>
             </dd>
 
             <dd>
-                <a href="javascript:;" class="append inline-flex items-center gap-2 rounded-md bg-emerald-600 px-3 py-2 text-xs font-semibold text-white shadow-sm hover:bg-emerald-700">
+                <a href="javascript:;" class="append ui-btn ui-btn-primary ui-btn-sm">
                     <i class="fa fa-plus"></i>
                     {:__('Append')}
                 </a>
@@ -51,24 +51,24 @@
         {/if}
         {/case}
         {case date}
-        <input {$item.extend_html} type="text" name="row[{$item.name}]" id="c-{$item.name}" value="{$item.value|htmlentities}" class="datetimepicker w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20" data-date-format="YYYY-MM-DD" data-tip="{$item.tip}" data-rule="{$item.rule}" />
+        <input {$item.extend_html} type="text" name="row[{$item.name}]" id="c-{$item.name}" value="{$item.value|htmlentities}" class="datetimepicker ui-input" data-date-format="YYYY-MM-DD" data-tip="{$item.tip}" data-rule="{$item.rule}" />
         {/case}
         {case time}
-        <input {$item.extend_html} type="text" name="row[{$item.name}]" id="c-{$item.name}" value="{$item.value|htmlentities}" class="datetimepicker w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20" data-date-format="HH:mm:ss" data-tip="{$item.tip}" data-rule="{$item.rule}" />
+        <input {$item.extend_html} type="text" name="row[{$item.name}]" id="c-{$item.name}" value="{$item.value|htmlentities}" class="datetimepicker ui-input" data-date-format="HH:mm:ss" data-tip="{$item.tip}" data-rule="{$item.rule}" />
         {/case}
         {case datetime}
-        <input {$item.extend_html} type="text" name="row[{$item.name}]" id="c-{$item.name}" value="{$item.value|htmlentities}" class="datetimepicker w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20" data-date-format="YYYY-MM-DD HH:mm:ss" data-tip="{$item.tip}" data-rule="{$item.rule}" />
+        <input {$item.extend_html} type="text" name="row[{$item.name}]" id="c-{$item.name}" value="{$item.value|htmlentities}" class="datetimepicker ui-input" data-date-format="YYYY-MM-DD HH:mm:ss" data-tip="{$item.tip}" data-rule="{$item.rule}" />
         {/case}
         {case datetimerange}
-        <input {$item.extend_html} type="text" name="row[{$item.name}]" id="c-{$item.name}" value="{$item.value|htmlentities}" class="datetimerange w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20" data-tip="{$item.tip}" data-rule="{$item.rule}"/>
+        <input {$item.extend_html} type="text" name="row[{$item.name}]" id="c-{$item.name}" value="{$item.value|htmlentities}" class="datetimerange ui-input" data-tip="{$item.tip}" data-rule="{$item.rule}"/>
         {/case}
         {case number}
-        <input {$item.extend_html} type="number" name="row[{$item.name}]" id="c-{$item.name}" value="{$item.value|htmlentities}" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20" data-tip="{$item.tip}" data-rule="{$item.rule}" />
+        <input {$item.extend_html} type="number" name="row[{$item.name}]" id="c-{$item.name}" value="{$item.value|htmlentities}" class="ui-input" data-tip="{$item.tip}" data-rule="{$item.rule}" />
         {/case}
         {case checkbox}
         {foreach name="item.content_list" item="vo"}
         <label for="row[{$item.name}][]-{$key}" class="flex items-center gap-2 py-1 text-sm text-gray-700">
-            <input id="row[{$item.name}][]-{$key}" name="row[{$item.name}][]" type="checkbox" value="{$key}" data-rule="{$item.rule}" data-tip="{$item.tip}" {in name="key" value="$item.value" }checked{/in} class="h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500" />
+            <input id="row[{$item.name}][]-{$key}" name="row[{$item.name}][]" type="checkbox" value="{$key}" data-rule="{$item.rule}" data-tip="{$item.tip}" {in name="key" value="$item.value" }checked{/in} class="h-4 w-4 rounded border-gray-300 text-gray-900 focus:ring-black/10" />
             <span>{$vo}</span>
         </label>
         {/foreach}
@@ -77,7 +77,7 @@
         {case radio}
         {foreach name="item.content_list" item="vo"}
         <label for="row[{$item.name}]-{$key}" class="flex items-center gap-2 py-1 text-sm text-gray-700">
-            <input id="row[{$item.name}]-{$key}" name="row[{$item.name}]" type="radio" value="{$key}" data-rule="{$item.rule}" data-tip="{$item.tip}" {in name="key" value="$item.value" }checked{/in} class="h-4 w-4 border-gray-300 text-emerald-600 focus:ring-emerald-500" />
+            <input id="row[{$item.name}]-{$key}" name="row[{$item.name}]" type="radio" value="{$key}" data-rule="{$item.rule}" data-tip="{$item.tip}" {in name="key" value="$item.value" }checked{/in} class="h-4 w-4 border-gray-300 text-gray-900 focus:ring-black/10" />
             <span>{$vo}</span>
         </label>
         {/foreach}
@@ -85,7 +85,7 @@
         {/case}
         {case value="select" break="0"}{/case}
         {case value="selects"}
-        <select {$item.extend_html} id="c-{$item.name}" name="row[{$item.name}]{$item.type=='selects'?'[]':''}" class="selectpicker w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20" data-rule="{$item.rule}" data-tip="{$item.tip}" {$item.type=='selects'?'multiple':''}>
+        <select {$item.extend_html} id="c-{$item.name}" name="row[{$item.name}]{$item.type=='selects'?'[]':''}" class="selectpicker ui-input" data-rule="{$item.rule}" data-tip="{$item.tip}" {$item.type=='selects'?'multiple':''}>
             {foreach name="item.content_list" item="vo"}
             <option value="{$key}" {in name="key" value="$item.value" }selected{/in}>{$vo}</option>
             {/foreach}
@@ -94,11 +94,11 @@
         {case value="image" break="0"}{/case}
         {case value="images"}
         <div class="flex items-stretch gap-2">
-            <input id="c-{$item.name}" class="min-w-0 flex-1 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20" name="row[{$item.name}]" type="text" value="{$item.value|htmlentities}" data-rule="{$item.rule}" data-tip="{$item.tip}">
+            <input id="c-{$item.name}" class="ui-input min-w-0 flex-1" name="row[{$item.name}]" type="text" value="{$item.value|htmlentities}" data-rule="{$item.rule}" data-tip="{$item.tip}">
             <div class="flex flex-wrap items-center gap-2">
-                <button type="button" id="plupload-{$item.name}" class="plupload inline-flex items-center gap-2 rounded-md bg-rose-600 px-3 py-2 text-xs font-semibold text-white shadow-sm hover:bg-rose-700" data-input-id="c-{$item.name}" data-preview-id="p-{$item.name}" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp,image/webp" data-multiple="{$item.type=='image'?'false':'true'}" {if $item.maximum}data-maxcount="{$item.maximum}" {/if}><i class="fa fa-upload"></i> {:__('Upload')}</button>
+                <button type="button" id="plupload-{$item.name}" class="plupload ui-btn ui-btn-danger ui-btn-sm" data-input-id="c-{$item.name}" data-preview-id="p-{$item.name}" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp,image/webp" data-multiple="{$item.type=='image'?'false':'true'}" {if $item.maximum}data-maxcount="{$item.maximum}" {/if}><i class="fa fa-upload"></i> {:__('Upload')}</button>
                 {if $user}
-                <button type="button" id="fachoose-{$item.name}" class="fachoose inline-flex items-center gap-2 rounded-md bg-indigo-600 px-3 py-2 text-xs font-semibold text-white shadow-sm hover:bg-indigo-700" data-input-id="c-{$item.name}" data-preview-id="p-{$item.name}" data-mimetype="image/*" data-multiple="{$item.type=='image'?'false':'true'}" {if $item.maximum}data-maxcount="{$item.maximum}" {/if}><i class="fa fa-list"></i> {:__('Choose')}</button>
+                <button type="button" id="fachoose-{$item.name}" class="fachoose ui-btn ui-btn-secondary ui-btn-sm" data-input-id="c-{$item.name}" data-preview-id="p-{$item.name}" data-mimetype="image/*" data-multiple="{$item.type=='image'?'false':'true'}" {if $item.maximum}data-maxcount="{$item.maximum}" {/if}><i class="fa fa-list"></i> {:__('Choose')}</button>
                 {/if}
             </div>
             <span class="msg-box n-right" for="c-{$item.name}"></span>
@@ -108,11 +108,11 @@
         {case value="file" break="0"}{/case}
         {case value="files"}
         <div class="flex items-stretch gap-2">
-            <input id="c-{$item.name}" class="min-w-0 flex-1 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20" name="row[{$item.name|htmlentities}]" type="text" value="{$item.value}" data-rule="{$item.rule}" data-tip="{$item.tip}">
+            <input id="c-{$item.name}" class="ui-input min-w-0 flex-1" name="row[{$item.name|htmlentities}]" type="text" value="{$item.value}" data-rule="{$item.rule}" data-tip="{$item.tip}">
             <div class="flex flex-wrap items-center gap-2">
-                <button type="button" id="plupload-{$item.name}" class="plupload inline-flex items-center gap-2 rounded-md bg-rose-600 px-3 py-2 text-xs font-semibold text-white shadow-sm hover:bg-rose-700" data-input-id="c-{$item.name}" data-multiple="{$item.type=='file'?'false':'true'}" {if $item.maximum}data-maxcount="{$item.maximum}" {/if}><i class="fa fa-upload"></i> {:__('Upload')}</button>
+                <button type="button" id="plupload-{$item.name}" class="plupload ui-btn ui-btn-danger ui-btn-sm" data-input-id="c-{$item.name}" data-multiple="{$item.type=='file'?'false':'true'}" {if $item.maximum}data-maxcount="{$item.maximum}" {/if}><i class="fa fa-upload"></i> {:__('Upload')}</button>
                 {if $user}
-                <button type="button" id="fachoose-{$item.name}" class="fachoose inline-flex items-center gap-2 rounded-md bg-indigo-600 px-3 py-2 text-xs font-semibold text-white shadow-sm hover:bg-indigo-700" data-input-id="c-{$item.name}" data-multiple="{$item.type=='file'?'false':'true'}" {if $item.maximum}data-maxcount="{$item.maximum}" {/if}><i class="fa fa-list"></i> {:__('Choose')}</button>
+                <button type="button" id="fachoose-{$item.name}" class="fachoose ui-btn ui-btn-secondary ui-btn-sm" data-input-id="c-{$item.name}" data-multiple="{$item.type=='file'?'false':'true'}" {if $item.maximum}data-maxcount="{$item.maximum}" {/if}><i class="fa fa-list"></i> {:__('Choose')}</button>
                 {/if}
             </div>
             <span class="msg-box n-right" for="c-{$item.name}"></span>
@@ -121,23 +121,23 @@
         {case switch}
         <input id="c-{$item.name}" name="row[{$item.name}]" type="hidden" value="{:$item.value?1:0}">
         <a href="javascript:;" data-toggle="switcher" class="btn-switcher inline-flex items-center" data-input-id="c-{$item.name}" data-yes="1" data-no="0">
-            <i class="fa fa-toggle-on {if !$item.value}fa-flip-horizontal text-gray-400{else/}text-emerald-600{/if} fa-2x"></i>
+            <i class="fa fa-toggle-on {if !$item.value}fa-flip-horizontal text-gray-400{else/}text-black/70{/if} fa-2x"></i>
         </a>
         {/case}
         {case bool}
         <div class="flex flex-wrap items-center gap-6">
-            <label for="row[{$item.name}]-yes" class="inline-flex items-center gap-2 text-sm text-gray-700"><input id="row[{$item.name}]-yes" name="row[{$item.name}]" type="radio" value="1" {$item.value?'checked':''} data-tip="{$item.tip}" class="h-4 w-4 border-gray-300 text-emerald-600 focus:ring-emerald-500" /> {:__('Yes')}</label>
-            <label for="row[{$item.name}]-no" class="inline-flex items-center gap-2 text-sm text-gray-700"><input id="row[{$item.name}]-no" name="row[{$item.name}]" type="radio" value="0" {$item.value?'':'checked'} data-tip="{$item.tip}" class="h-4 w-4 border-gray-300 text-emerald-600 focus:ring-emerald-500" /> {:__('No')}</label>
+            <label for="row[{$item.name}]-yes" class="inline-flex items-center gap-2 text-sm text-gray-700"><input id="row[{$item.name}]-yes" name="row[{$item.name}]" type="radio" value="1" {$item.value?'checked':''} data-tip="{$item.tip}" class="h-4 w-4 border-gray-300 text-gray-900 focus:ring-black/10" /> {:__('Yes')}</label>
+            <label for="row[{$item.name}]-no" class="inline-flex items-center gap-2 text-sm text-gray-700"><input id="row[{$item.name}]-no" name="row[{$item.name}]" type="radio" value="0" {$item.value?'':'checked'} data-tip="{$item.tip}" class="h-4 w-4 border-gray-300 text-gray-900 focus:ring-black/10" /> {:__('No')}</label>
         </div>
         {/case}
         {case city}
         <div class="relative">
-        <input {$item.extend_html} type="text" name="row[{$item.name}]" id="c-{$item.name}" value="{$item.value|htmlentities}" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20" data-toggle="city-picker" data-tip="{$item.tip}" data-rule="{$item.rule}" />
+        <input {$item.extend_html} type="text" name="row[{$item.name}]" id="c-{$item.name}" value="{$item.value|htmlentities}" class="ui-input" data-toggle="city-picker" data-tip="{$item.tip}" data-rule="{$item.rule}" />
         </div>
         {/case}
         {case value="selectpage" break="0"}{/case}
         {case value="selectpages"}
-        <input {$item.extend_html} type="text" name="row[{$item.name}]" id="c-{$item.name}" value="{$item.value|htmlentities}" class="selectpage w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20" data-source="{:addon_url('cms/ajax/selectpage')}?id={$item.id}" data-primary-key="{$item.setting.primarykey}" data-field="{$item.setting.field}" data-multiple="{$item.type=='selectpage'?'false':'true'}" data-tip="{$item.tip}" data-rule="{$item.rule}" />
+        <input {$item.extend_html} type="text" name="row[{$item.name}]" id="c-{$item.name}" value="{$item.value|htmlentities}" class="selectpage ui-input" data-source="{:addon_url('cms/ajax/selectpage')}?id={$item.id}" data-primary-key="{$item.setting.primarykey}" data-field="{$item.setting.field}" data-multiple="{$item.type=='selectpage'?'false':'true'}" data-tip="{$item.tip}" data-rule="{$item.rule}" />
         {/case}
         {case custom}
         {$item.extend_html}
@@ -150,14 +150,14 @@
 
 <script type="text/html" id="downloadurltpl">
     <dd class="flex flex-wrap items-center gap-2">
-        <input type="text" name="<%=name%>[<%=index%>][name]" class="w-[70px] rounded-md border border-gray-300 bg-white px-2 py-1 text-sm text-gray-900 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20" value="<%=row.name%>" />
-        <input type="text" name="<%=name%>[<%=index%>][url]" id="c-downloadurl-<%=index%>" class="w-[170px] rounded-md border border-gray-300 bg-white px-2 py-1 text-sm text-gray-900 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20" value="<%=row.url%>" />
+        <input type="text" name="<%=name%>[<%=index%>][name]" class="ui-input w-[70px] px-2 py-1" value="<%=row.name%>" />
+        <input type="text" name="<%=name%>[<%=index%>][url]" id="c-downloadurl-<%=index%>" class="ui-input w-[170px] px-2 py-1" value="<%=row.url%>" />
         <div class="inline-flex items-center overflow-hidden rounded-md border border-gray-200 bg-white shadow-sm">
-            <button type="button" id="plupload-downloadurl-<%=index%>" class="plupload inline-flex items-center justify-center bg-rose-600 px-2 py-1 text-xs font-semibold text-white hover:bg-rose-700" data-input-id="c-downloadurl-<%=index%>" data-mimetype="*" data-multiple="false"><i class="fa fa-upload"></i></button>
-            <button type="button" id="fachoose-downloadurl-<%=index%>" class="fachoose inline-flex items-center justify-center bg-indigo-600 px-2 py-1 text-xs font-semibold text-white hover:bg-indigo-700" data-input-id="c-downloadurl-<%=index%>" data-mimetype="*" data-multiple="false"><i class="fa fa-list"></i></button>
+            <button type="button" id="plupload-downloadurl-<%=index%>" class="plupload ui-btn ui-btn-danger ui-btn-sm px-2 py-1" data-input-id="c-downloadurl-<%=index%>" data-mimetype="*" data-multiple="false"><i class="fa fa-upload"></i></button>
+            <button type="button" id="fachoose-downloadurl-<%=index%>" class="fachoose ui-btn ui-btn-secondary ui-btn-sm px-2 py-1" data-input-id="c-downloadurl-<%=index%>" data-mimetype="*" data-multiple="false"><i class="fa fa-list"></i></button>
         </div>
-        <input type="text" name="<%=name%>[<%=index%>][password]" class="w-[70px] rounded-md border border-gray-300 bg-white px-2 py-1 text-sm text-gray-900 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20" value="<%=row.password%>" />
-        <span class="btn-remove inline-flex items-center rounded-md bg-rose-600 px-2 py-1 text-xs font-semibold text-white hover:bg-rose-700"><i class="fa fa-times"></i></span>
-        <span class="btn-dragsort inline-flex items-center rounded-md bg-indigo-600 px-2 py-1 text-xs font-semibold text-white hover:bg-indigo-700"><i class="fa fa-arrows"></i></span>
+        <input type="text" name="<%=name%>[<%=index%>][password]" class="ui-input w-[70px] px-2 py-1" value="<%=row.password%>" />
+        <span class="btn-remove ui-btn ui-btn-danger ui-btn-sm px-2 py-1"><i class="fa fa-times"></i></span>
+        <span class="btn-dragsort ui-btn ui-btn-secondary ui-btn-sm px-2 py-1"><i class="fa fa-arrows"></i></span>
     </dd>
 </script>

@@ -25,6 +25,7 @@ class User extends Frontend
 
     public function _initialize()
     {
+        $action = strtolower($this->request->action());
         parent::_initialize();
         $auth = $this->auth;
 
@@ -32,6 +33,7 @@ class User extends Frontend
         $this->view->assign('configcms', $configcms);
         $this->view->assign('__CHANNEL__', null);
         $this->view->assign('isWechat', strpos($this->request->server('HTTP_USER_AGENT'), 'MicroMessenger') !== false);
+        $this->view->assign('__is_auth_page__', in_array($action, ['login', 'register']));
 
         if (!Config::get('fastadmin.usercenter')) {
             $this->error(__('User center already closed'), '/');

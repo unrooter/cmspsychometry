@@ -3,9 +3,9 @@
          <!-- S 相关文章 -->
          {cms:arclist id="relate" tags="__ARCHIVES__.tags" model="__ARCHIVES__.model_id" row="4"}
          <div class="min-w-0">
-             <a href="{$relate.url}" class="group block overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
+            <a href="{$relate.url}" class="ui-card group block transition hover:bg-gray-50 no-underline">
                  <div class="aspect-[4/3] overflow-hidden bg-gray-100">
-                     <img src="{$relate.image}" alt="{$relate.title|htmlentities}" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105">
+                     <img src="{$relate.image ?: '/assets/addons/cms/img/default.png'}" alt="{$relate.title|htmlentities}" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" loading="lazy" onerror="this.onerror=null;this.src='/assets/addons/cms/img/default.png'">
                  </div>
                  <div class="p-3">
                      <h5 class="line-clamp-2 text-sm font-medium text-gray-900">{$relate.title|htmlentities}</h5>

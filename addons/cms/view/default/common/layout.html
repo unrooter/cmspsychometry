@@ -16,41 +16,52 @@
     <meta name="keywords" content="{cms:config name='cms.keywords|htmlentities'/}"/>
     <meta name="description" content="{cms:config name='cms.description|htmlentities'/}"/>
 
-    <link rel="shortcut icon" href="__CDN__/favicon.ico" type="image/x-icon"/>
+    <link rel="icon" href="/assets/img/favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="/assets/img/favicon.ico" type="image/x-icon"/>
+    <link rel="apple-touch-icon" href="/assets/img/logo.png"/>
     
     <!-- 性能优化：DNS预连接和资源预加载 -->
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
-    <link rel="preconnect" href="https://adservice.google.com" crossorigin>
-    <link rel="preconnect" href="https://googleads.g.doubleclick.net" crossorigin>
     <link rel="preconnect" href="https://api.nbmgkj.com" crossorigin>
-    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
-    <link rel="dns-prefetch" href="//pagead2.googlesyndication.com">
-    <link rel="dns-prefetch" href="//adservice.google.com">
-    <link rel="dns-prefetch" href="//googleads.g.doubleclick.net">
     <link rel="dns-prefetch" href="//api.nbmgkj.com">
     <!-- 内联最小关键CSS，防止FOUC -->
     <style>
+    html,body{width:100%;max-width:none !important;overflow-x:hidden !important}
+    *,*:before,*:after{box-sizing:border-box !important}
     body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif;opacity:0;transition:opacity 0.3s ease-in}
     body.loaded{opacity:1}
+
+    img,svg,video,canvas{max-width:100%;height:auto}
+
+    #content-container{overflow-x:hidden;box-sizing:border-box !important}
+    .oh-panel,.oh-focus,.ui-card{box-sizing:border-box !important;max-width:100%}
+
+    body.oharchi-home #content-container{width:auto !important}
+
+    @media (max-width: 767px){
+        #content-container{width:auto !important;max-width:100% !important;margin-left:auto;margin-right:auto;padding-left:16px !important;padding-right:16px !important}
+        .oh-panel,.oh-focus,.ui-card{max-width:100% !important;width:auto !important}
+        body.oharchi-home #content-container{overflow-x:hidden !important}
+        body.oharchi-home .oh-panel,body.oharchi-home .oh-focus{padding:16px !important;width:auto !important;max-width:100% !important}
+    }
+
+    .mnav-auth{display:flex;gap:10px}
+    .mnav-auth-btn{display:inline-flex;align-items:center;justify-content:center;flex:1 1 0;height:40px;padding:0 14px;border-radius:0;border:1px solid rgba(0,0,0,0.12);font-size:12px;font-weight:700;letter-spacing:0.14em;text-decoration:none;user-select:none;-webkit-tap-highlight-color:transparent}
+    .mnav-auth-btn:active{transform:scale(0.98)}
+    .mnav-auth-login{background:#fff !important;color:#111 !important}
+    .mnav-auth-register{background:#111 !important;color:#fff !important;border-color:#111 !important}
     
     /* 页面加载动画 */
     #page-loader{position:fixed;top:0;left:0;width:100%;height:100%;background:#fff;z-index:99999;display:flex;align-items:center;justify-content:center;transition:opacity 0.3s ease-out,visibility 0.3s ease-out}
     #page-loader.hidden{opacity:0;visibility:hidden}
-    .loader-spinner{width:50px;height:50px;border:4px solid #f3f3f3;border-top:4px solid #5CB89F;border-radius:50%;animation:spin 0.8s linear infinite}
+    .loader-spinner{width:50px;height:50px;border:4px solid #f3f3f3;border-top:4px solid #111111;border-radius:50%;animation:spin 0.8s linear infinite}
     @keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
 
     /* 移动端菜单（配合 .active class 切换） */
-    #navbar-collapse{transform:translateX(-100%);transition:transform 0.25s ease;width:16rem;z-index:50;overflow-y:auto;-webkit-overflow-scrolling:touch}
-    #navbar-collapse.active{transform:translateX(0)}
+    #navbar-collapse{position:fixed;top:0;bottom:0;left:0;height:100dvh;max-height:100dvh;width:min(16rem,86vw) !important;max-width:86vw;transform:translateX(-110%);transition:transform 0.25s ease;z-index:50;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:env(safe-area-inset-bottom);overscroll-behavior:contain;visibility:hidden;pointer-events:none;will-change:transform}
+    #navbar-collapse.active{transform:translateX(0);visibility:visible;pointer-events:auto}
     body.is-open{overflow:hidden}
-    .navbar-collapse-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:40}
+    .navbar-collapse-bg{position:fixed;inset:0;height:100dvh;background:rgba(0,0,0,.5);z-index:40}
     </style>
-
-    {php}$__twver = @filemtime(ROOT_PATH . 'public/assets/addons/cms/css/tailwind.min.css');{/php}
-    <link rel="stylesheet" href="__ADDON__/css/tailwind.min.css?v={$__twver ?: $site.version}">
-    <noscript><link rel="stylesheet" href="__ADDON__/css/tailwind.min.css?v={$__twver ?: $site.version}"></noscript>
-    
     <!-- 字体预加载（防止CLS布局偏移） -->
     <link rel="preload" href="__CDN__/assets/libs/font-awesome/fonts/fontawesome-webfont.woff2?v=4.7.0" as="font" type="font/woff2" crossorigin>
     
@@ -160,17 +171,20 @@
     <meta name="twitter:description" content="{$channelOgDesc|htmlentities}"/>
     {/if}
 
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9195262048954682" crossorigin="anonymous"></script>
+
+    {cms:block name="header" field="content" /}
+
     {__STYLE__}
+
+    {php}$__twver = @filemtime(ROOT_PATH . 'public/assets/addons/cms/css/tailwind.min.css');{/php}
+    <link rel="stylesheet" href="__ADDON__/css/tailwind.min.css?v={$__twver ?: $site.version}">
+    <noscript><link rel="stylesheet" href="__ADDON__/css/tailwind.min.css?v={$__twver ?: $site.version}"></noscript>
 
     <!--[if lt IE 9]>
     <script src="__CDN__/libs/html5shiv.js"></script>
     <script src="__CDN__/libs/respond.min.js"></script>
     <![endif]-->
-    <!-- Google AdSense 脚本 - 立即加载以确保广告显示 -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9195262048954682"
-            crossorigin="anonymous"></script>
-     
-    {cms:block name="header" field="content" /}
     
     <!-- JSON-LD 结构化数据 - 网站信息 -->
     <script type="application/ld+json">
@@ -204,20 +218,27 @@
       "sameAs": []
     }
     </script>
-</head>
-<body class="min-h-screen bg-white text-gray-900">
+ </head>
+ <body class="min-h-screen {$bodyClass|default=''}">
 
 <!-- 页面加载动画 -->
 <div id="page-loader">
     <div class="loader-spinner"></div>
 </div>
 
-<header class="sticky top-0 z-50 bg-white shadow">
+<header class="sticky top-0 z-50 w-full border-b border-black/10 bg-white/70">
     <!-- S 导航 -->
     <nav role="navigation">
-        <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+        <div class="flex w-full items-center justify-between px-4 py-3 sm:py-4 md:mx-auto md:max-w-7xl md:px-6">
             <div class="flex items-center">
-                <button type="button" class="sidebar-toggle mr-3 inline-flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-700 shadow-sm active:scale-[0.98] md:hidden" aria-label="Toggle navigation">
+                <a class="inline-flex items-center no-underline" href="{cms:config name='cms.indexurl'/}" title="{cms:config name='cms.sitename'/} - {:__('返回首页')}">
+                    <img class="h-9 w-9" src="{$Think.config.cms.sitelogo|default='/assets/addons/cms/img/logo.png'|cdnurl}" alt="{cms:config name='cms.sitename'/} - {:__('专业心理测试在线平台')}" width="36" height="36" loading="eager" onerror="this.onerror=null;this.src='/assets/addons/cms/img/logo.png'">
+                    <span class="ml-3 hidden text-xs font-semibold tracking-[0.18em] text-gray-900 sm:block">{cms:config name="cms.sitename"/}</span>
+                </a>
+            </div>
+
+            <div class="flex items-center md:hidden">
+                <button type="button" class="sidebar-toggle inline-flex h-9 w-9 items-center justify-center text-gray-800 active:scale-[0.98]" aria-label="Toggle navigation">
                     <span class="sr-only">Toggle navigation</span>
                     <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -225,20 +246,16 @@
                         <line x1="3" y1="18" x2="21" y2="18"></line>
                     </svg>
                 </button>
-                <a class="inline-flex items-center" href="{cms:config name='cms.indexurl'/}" title="{cms:config name='cms.sitename'/} - {:__('返回首页')}">
-                    <img class="h-10 w-10" src="{$Think.config.cms.sitelogo|default='/assets/addons/cms/img/logo.png'|cdnurl}" alt="{cms:config name='cms.sitename'/} - {:__('专业心理测试在线平台')}" width="40" height="40" loading="eager">
-                    <span class="ml-2 hidden text-sm font-semibold text-gray-900 sm:block">{cms:config name="cms.sitename"/}</span>
-                </a>
             </div>
 
             <div class="hidden items-center md:flex">
                 <ul class="flex items-center" data-current="{$__CHANNEL__.id|default=0}">
                     {cms:channellist id="nav" type="top" condition="1=isnav"}
-                    <li class="relative group mr-5 {if $nav->is_active}font-semibold text-emerald-600{/if}">
-                        <a class="text-sm text-gray-700 hover:text-emerald-600" href="{$nav.url}">{:__($nav.name)}{if $nav.has_nav_child} <i class="fa fa-caret-down ml-1" aria-hidden="true"></i>{/if}</a>
-                        <ul class="{if !$nav.has_nav_child}hidden{else}hidden group-hover:block{/if} absolute left-0 top-full z-50 mt-2 min-w-[10rem] rounded-md border border-gray-100 bg-white py-2 shadow-lg" role="menu">
+                    <li class="oh-nav-item relative group mr-6">
+                        <a class="oh-nav-link {if $nav->is_active}oh-nav-link-active{/if}" href="{$nav.url}">{:__($nav.name)}{if $nav.has_nav_child} <i class="fa fa-angle-down oh-nav-caret" aria-hidden="true"></i>{/if}</a>
+                        <ul class="{if !$nav.has_nav_child}hidden{else}hidden group-hover:block{/if} oh-nav-submenu absolute left-0 top-full z-50 mt-0 min-w-[12rem] rounded-md border border-gray-200 bg-white py-2 shadow-md" role="menu">
                             {cms:channellist id="sub" type="son" typeid="nav['id']" condition="1=isnav"}
-                            <li><a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600" href="{$sub.url}">{:__($sub.name)}</a></li>
+                            <li><a class="oh-nav-sublink block px-4 py-2 text-xs tracking-[0.14em] text-gray-800/90 hover:bg-gray-50 hover:text-gray-900 no-underline" href="{$sub.url}">{:__($sub.name)}</a></li>
                             {/cms:channellist}
                         </ul>
                     </li>
@@ -248,20 +265,20 @@
 
                 <form class="ml-6 hidden md:block" action="{:addon_url('cms/search/index')}" method="get">
                     <div class="relative">
-                        <input class="h-10 w-64 rounded-full border border-gray-200 bg-white pl-10 pr-4 text-sm text-gray-900 placeholder:text-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-100" name="q" data-suggestion-url="{:addon_url('cms/search/suggestion')}" type="search" id="searchinput" value="{$Think.request.q|default=''|htmlentities}" placeholder="{:__('搜索心理测试、文章...')}" aria-label="搜索" autocomplete="off">
+                        <input class="ui-input ui-input-pill h-10 w-64 pl-10 pr-4" style="padding-left:2.75rem;padding-right:2.75rem;" name="q" data-suggestion-url="{:addon_url('cms/search/suggestion')}" type="search" id="searchinput" value="{$Think.request.q|default=''|htmlentities}" placeholder="{:__('搜索心理测试、文章...')}" aria-label="搜索" autocomplete="off">
                         <span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"><i class="fa fa-search" aria-hidden="true"></i></span>
                     </div>
                     {:token('__searchtoken__')}
                 </form>
 
                 <div class="relative ml-6">
-                    <button type="button" class="inline-flex items-center gap-2 rounded-md px-2 py-2 text-sm text-gray-700 hover:bg-gray-50" aria-label="{:__('切换语言')}" data-dropdown-toggle="lang">
+                    <button type="button" class="inline-flex items-center gap-2 rounded-md px-2 py-2 text-xs tracking-[0.14em] text-gray-800/90 hover:bg-gray-50 no-underline" aria-label="{:__('切换语言')}" data-dropdown-toggle="lang">
                         <i class="fa fa-globe" aria-hidden="true"></i>
-                        <span>{if $Think.cookie.frontend_language == 'en'}English{else}中文{/if}</span>
+                        <span id="current-lang-text">{if $Think.cookie.frontend_language == 'en'}English{else}中文{/if}</span>
                     </button>
                     <div class="absolute right-0 top-full z-50 hidden min-w-[10rem] rounded-md border border-gray-100 bg-white py-2 shadow-lg" data-dropdown-menu="lang">
-                        <a href="?lang=zh-cn" onclick="switchLanguage('zh-cn'); return false;" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600 {if $Think.cookie.frontend_language == 'zh-cn'}font-semibold text-emerald-600{/if}"><i class="fa fa-flag mr-2" aria-hidden="true"></i>中文</a>
-                        <a href="?lang=en" onclick="switchLanguage('en'); return false;" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600 {if $Think.cookie.frontend_language == 'en'}font-semibold text-emerald-600{/if}"><i class="fa fa-flag mr-2" aria-hidden="true"></i>English</a>
+                        <a href="?lang=zh-cn" onclick="switchLanguage('zh-cn'); return false;" class="block px-4 py-2 text-xs tracking-[0.14em] text-gray-800/90 hover:bg-gray-50 hover:text-gray-900 no-underline {if $Think.cookie.frontend_language == 'zh-cn'}font-semibold text-black{/if}"><i class="fa fa-flag mr-2" aria-hidden="true"></i>中文</a>
+                        <a href="?lang=en" onclick="switchLanguage('en'); return false;" class="block px-4 py-2 text-xs tracking-[0.14em] text-gray-800/90 hover:bg-gray-50 hover:text-gray-900 no-underline {if $Think.cookie.frontend_language == 'en'}font-semibold text-black{/if}"><i class="fa fa-flag mr-2" aria-hidden="true"></i>English</a>
                     </div>
                 </div>
 
@@ -269,30 +286,33 @@
                     {if config('fastadmin.usercenter')}
                     <div class="relative">
                         {if $user}
-                        <a class="inline-flex items-center gap-2 rounded-full border border-gray-200 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50" href="{:url('index/user/index')}" data-dropdown-toggle="user">
+                        <a class="inline-flex items-center gap-2 rounded-full border border-gray-200 px-3 py-2 text-xs tracking-[0.12em] text-gray-800/90 hover:bg-gray-50 no-underline" href="{:url('index/user/index')}" data-dropdown-toggle="user">
                             <img class="h-7 w-7 rounded-full" src="{$user.avatar|cdnurl|htmlentities}" alt="{$user.nickname|htmlentities} - {:__('用户头像')}">
                             <span class="hidden sm:inline">{$user.nickname|htmlentities}</span>
                         </a>
                         {else /}
-                        <a class="inline-flex items-center rounded-md border border-gray-200 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50" href="{:url('index/user/index')}" data-dropdown-toggle="user">{:__('会员')}{:__('中心')}</a>
+                        <div class="mnav-auth" style="width:200px;">
+                            <a class="mnav-auth-btn mnav-auth-login" href="{:url('index/user/login')}">{:__('登录')}</a>
+                            <a class="mnav-auth-btn mnav-auth-register" href="{:url('index/user/register')}">{:__('注册')}</a>
+                        </div>
                         {/if}
                         <div class="absolute right-0 top-full z-50 mt-2 hidden min-w-[12rem] rounded-md border border-gray-100 bg-white py-2 shadow-lg" data-dropdown-menu="user">
                             {if $user}
-                            <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600" href="{:url('index/user/index')}"><i class="fa fa-user mr-2" aria-hidden="true"></i>{:__('会员中心')}</a>
+                            <a class="block px-4 py-2 text-xs tracking-[0.14em] text-gray-800/90 hover:bg-gray-50 hover:text-gray-900 no-underline" href="{:url('index/user/index')}"><i class="fa fa-user mr-2" aria-hidden="true"></i>{:__('会员中心')}</a>
                             {php}$sidenav = array_filter(explode(',', config('cms.usersidenav')));{/php}
                             {if in_array('myorder', $sidenav)}
                            <!-- <li><a href="{:url('index/vip/viplist')}"><i class="fa fa-shopping-bag fa-fw"></i> 开通VIP</a></li> -->
                             {/if}
                             {if in_array('mycomment', $sidenav)}
-                            <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600" href="{:url('index/cms.answer/index')}"><i class="fa fa-comments mr-2" aria-hidden="true"></i>测试记录</a>
+                            <a class="block px-4 py-2 text-xs tracking-[0.14em] text-gray-800/90 hover:bg-gray-50 hover:text-gray-900 no-underline" href="{:url('index/cms.answer/index')}"><i class="fa fa-comments mr-2" aria-hidden="true"></i>测试记录</a>
                             {/if}
                             {if in_array('mycollection', $sidenav)}
                             <!-- <li><a href="{:url('index/cms.collection/index')}"><i class="fa fa-bookmark fa-fw"></i> 我的收藏</a></li> -->
                             {/if}
-                            <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600" href="javascript:localStorage.removeItem('email_token'); window.location.href='{:url('index/user/logout')}';"><i class="fa fa-sign-out mr-2" aria-hidden="true"></i>退出</a>
+                            <a class="block px-4 py-2 text-xs tracking-[0.14em] text-gray-800/90 hover:bg-gray-50 hover:text-gray-900 no-underline" href="javascript:localStorage.removeItem('email_token'); window.location.href='{:url('index/user/logout')}';"><i class="fa fa-sign-out mr-2" aria-hidden="true"></i>退出</a>
                             {else /}
-                            <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600" href="{:url('index/user/login')}"><i class="fa fa-sign-in mr-2" aria-hidden="true"></i>{:__('登录')}</a>
-                            <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600" href="{:url('index/user/register')}"><i class="fa fa-user-o mr-2" aria-hidden="true"></i>{:__('注册')}</a>
+                            <a class="block px-4 py-2 text-xs tracking-[0.14em] text-gray-800/90 hover:bg-gray-50 hover:text-gray-900 no-underline" href="{:url('index/user/login')}"><i class="fa fa-sign-in mr-2" aria-hidden="true"></i>{:__('登录')}</a>
+                            <a class="block px-4 py-2 text-xs tracking-[0.14em] text-gray-800/90 hover:bg-gray-50 hover:text-gray-900 no-underline" href="{:url('index/user/register')}"><i class="fa fa-user-o mr-2" aria-hidden="true"></i>{:__('注册')}</a>
                             {/if}
                         </div>
                     </div>
@@ -302,8 +322,8 @@
 
             <div class="fixed inset-y-0 left-0 z-50 w-64 bg-white p-4 shadow-xl md:hidden" id="navbar-collapse">
                 <div class="mb-4 flex items-center justify-between">
-                    <span class="text-sm font-semibold text-gray-900">{cms:config name="cms.sitename"/}</span>
-                    <button type="button" class="sidebar-toggle inline-flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-700 shadow-sm active:scale-[0.98]" aria-label="Close navigation">
+                    <span class="text-xs font-semibold tracking-[0.18em] text-gray-900">{cms:config name="cms.sitename"/}</span>
+                    <button type="button" class="sidebar-toggle inline-flex h-10 w-10 items-center justify-center rounded-md border border-gray-200 bg-white text-gray-800 active:scale-[0.98]" aria-label="Close navigation">
                         <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                             <line x1="18" y1="6" x2="6" y2="18"></line>
                             <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -312,23 +332,43 @@
                 </div>
                 <form class="mb-4" action="{:addon_url('cms/search/index')}" method="get">
                     <div class="relative">
-                        <input class="h-10 w-full rounded-full border border-gray-200 bg-white pl-10 pr-4 text-sm text-gray-900 placeholder:text-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-100" name="q" data-suggestion-url="{:addon_url('cms/search/suggestion')}" type="search" value="{$Think.request.q|default=''|htmlentities}" placeholder="{:__('搜索心理测试、文章...')}" aria-label="搜索" autocomplete="off">
+                        <input class="ui-input ui-input-pill h-10 w-full pl-10 pr-4" style="padding-left:2.75rem;padding-right:2.75rem;" name="q" data-suggestion-url="{:addon_url('cms/search/suggestion')}" type="search" value="{$Think.request.q|default=''|htmlentities}" placeholder="{:__('搜索心理测试、文章...')}" aria-label="搜索" autocomplete="off">
                         <span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"><i class="fa fa-search" aria-hidden="true"></i></span>
                     </div>
                     {:token('__searchtoken__')}
                 </form>
                 <ul class="space-y-2" data-current="{$__CHANNEL__.id|default=0}">
                     {cms:channellist id="nav" type="top" condition="1=isnav"}
-                    <li>
-                        <a class="block rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600 {if $nav->is_active}font-semibold text-emerald-600{/if}" href="{$nav.url}">{:__($nav.name)}</a>
-                        <ul class="{if !$nav.has_nav_child}hidden{/if} mt-1 space-y-1 pl-3" role="menu">
+                    <li class="oh-mnav-item">
+                        <div class="flex items-center justify-between">
+                            <a class="oh-mnav-link block flex-1 rounded-md px-3 py-2 text-xs tracking-[0.14em] text-gray-800/90 hover:bg-gray-50 hover:text-gray-900 no-underline {if $nav->is_active}oh-mnav-link-active{/if}" href="{$nav.url}">{:__($nav.name)}</a>
+                            {if $nav.has_nav_child}
+                            <button type="button" class="oh-mnav-toggle ml-2 inline-flex h-9 w-9 items-center justify-center text-gray-600 hover:text-gray-900" aria-label="Toggle submenu">
+                                <i class="fa fa-angle-down" aria-hidden="true"></i>
+                            </button>
+                            {/if}
+                        </div>
+                        <ul class="{if !$nav.has_nav_child}hidden{else}hidden{/if} mt-1 space-y-1 pl-4" role="menu" data-mnav-submenu>
                             {cms:channellist id="sub" type="son" typeid="nav['id']" condition="1=isnav"}
-                            <li><a class="block rounded-md px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-emerald-600" href="{$sub.url}">{:__($sub.name)}</a></li>
+                            <li><a class="block rounded-md px-3 py-2 text-xs tracking-[0.12em] text-gray-700 hover:bg-gray-50 hover:text-gray-900 no-underline" href="{$sub.url}">{:__($sub.name)}</a></li>
                             {/cms:channellist}
                         </ul>
                     </li>
                     {/cms:channellist}
                 </ul>
+
+                {if config('fastadmin.usercenter')}
+                <div class="mt-6 border-t border-black/10 pt-4">
+                    {if $user}
+                    <a class="block rounded-md px-3 py-2 text-xs font-semibold tracking-[0.14em] text-gray-900 hover:bg-gray-50 no-underline" href="{:url('index/user/index')}">{:__('会员中心')}</a>
+                    {else /}
+                    <div class="mnav-auth">
+                        <a class="mnav-auth-btn mnav-auth-login" href="{:url('index/user/login')}">{:__('登录')}</a>
+                        <a class="mnav-auth-btn mnav-auth-register" href="{:url('index/user/register')}">{:__('注册')}</a>
+                    </div>
+                    {/if}
+                </div>
+                {/if}
             </div>
         </div>
     </nav>
@@ -340,8 +380,8 @@
 </main>
 
 <footer itemscope itemtype="https://schema.org/WPFooter">
-    <div class="mt-12 bg-emerald-600 text-white">
-        <div class="mx-auto max-w-6xl px-4 py-10">
+    <div class="mt-12 bg-black text-white">
+        <div class="mx-auto max-w-7xl px-4 py-10 md:px-6">
             <div class="grid gap-8 md:grid-cols-2">
                 <div class="flex gap-4">
                     <a class="text-white" href="{:addon_url('cms/index/index')}" title="{cms:config name='cms.sitename'/}" aria-label="返回首页"><i class="fa fa-bookmark fa-2x" aria-hidden="true"></i></a>
@@ -355,19 +395,24 @@
                 <div class="md:text-right">
                     <nav aria-label="footer navigation">
                         <div class="flex flex-wrap gap-x-6 gap-y-2 md:justify-end">
-                            <a class="text-sm text-white/90 hover:text-white" href="{:addon_url('cms/page/index', [':diyname'=>'aboutus'])}" title="关于我们">关于我们</a>
-                            <a class="text-sm text-white/90 hover:text-white" href="{:addon_url('cms/page/index', [':diyname'=>'agreement'])}" title="用户协议">用户协议</a>
+                            <a class="text-sm text-white/90 hover:text-white no-underline" href="{:addon_url('cms/page/index', [':diyname'=>'aboutus'])}" title="关于我们">关于我们</a>
+                            <a class="text-sm text-white/90 hover:text-white no-underline" href="{:addon_url('cms/page/index', [':diyname'=>'agreement'])}" title="用户协议">用户协议</a>
                             {if config('fastadmin.usercenter')}
-                            <a class="text-sm text-white/90 hover:text-white" href="{:url('index/user/index')}" title="会员中心">会员中心</a>
+                            {if $user}
+                            <a class="text-sm text-white/90 hover:text-white no-underline" href="{:url('index/user/index')}" title="会员中心">会员中心</a>
+                            {else /}
+                            <a class="text-sm text-white/90 hover:text-white no-underline" href="{:url('index/user/login')}" title="登录">登录</a>
+                            <a class="text-sm text-white/90 hover:text-white no-underline" href="{:url('index/user/register')}" title="注册">注册</a>
                             {/if}
-                            <a class="text-sm text-white/90 hover:text-white" href="{:addon_url('cms/search/index')}" title="搜索">搜索</a>
+                            {/if}
+                            <a class="text-sm text-white/90 hover:text-white no-underline" href="{:addon_url('cms/search/index')}" title="搜索">搜索</a>
                         </div>
                     </nav>
                     <div class="mt-5 text-sm text-white/80">
                                 <p class="my-1">Copyright&nbsp;©&nbsp;{:date("Y")} All rights reserved</p>
                                 <p class="my-1">{cms:config name="cms.sitename"/}</p>
                                 {if $site.beian}
-                                <p class="my-1"><a href="https://beian.miit.gov.cn" target="_blank" rel="noopener noreferrer" class="text-white/80 hover:text-white">{$site.beian|htmlentities}</a></p>
+                                <p class="my-1"><a href="https://beian.miit.gov.cn" target="_blank" rel="noopener noreferrer" class="text-white/80 hover:text-white no-underline">{$site.beian|htmlentities}</a></p>
                                 {/if}
                             </div>
                         </div>
@@ -466,6 +511,37 @@
             if (collapse && collapse.classList.contains('active')) {
                 closeMenu();
             }
+        }
+    }, true);
+})();
+</script>
+
+<script>
+(function () {
+    function closest(el, selector) {
+        while (el && el.nodeType === 1) {
+            if (el.matches(selector)) return el;
+            el = el.parentElement;
+        }
+        return null;
+    }
+
+    document.addEventListener('click', function (e) {
+        var btn = closest(e.target, '.oh-mnav-toggle');
+        if (!btn) return;
+        e.preventDefault();
+        e.stopPropagation();
+        var li = closest(btn, '.oh-mnav-item');
+        if (!li) return;
+        var submenu = li.querySelector('[data-mnav-submenu]');
+        if (!submenu) return;
+        var isHidden = submenu.classList.contains('hidden');
+        if (isHidden) {
+            submenu.classList.remove('hidden');
+            li.classList.add('is-open');
+        } else {
+            submenu.classList.add('hidden');
+            li.classList.remove('is-open');
         }
     }, true);
 })();

@@ -1,0 +1,33 @@
+<footer itemscope itemtype="https://schema.org/WPFooter">
+    <div class="mt-12 bg-black text-white">
+        <div class="mx-auto max-w-7xl px-4 py-10 md:px-6">
+            <div class="grid gap-8 md:grid-cols-2">
+                <div class="flex gap-4">
+                    <a class="text-white" href="{:addon_url('cms/index/index')}" title="{cms:config name='cms.sitename'/}" aria-label="返回首页"><svg class="h-8 w-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M7 3H17C18.1046 3 19 3.89543 19 5V21L12 17L5 21V5C5 3.89543 5.89543 3 7 3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></a>
+                    <div>
+                        <h3 class="text-lg font-semibold">{cms:config name="cms.sitename"/}</h3>
+                        <p class="mt-2 text-sm leading-7 text-white/90">{:__('自我孵化心理测试平台是一个集合各种专业的心理估量表以及趣味测试的平台，致力于为用户提供高质量、专业且有趣的在线心理测试服务。通过这些测试，希望你能够在不同的角度更加了解自我。')}</p>
+                    </div>
+                </div>
+                <div class="md:text-right">
+                    <nav aria-label="footer navigation">
+                        <div class="flex flex-wrap gap-x-6 gap-y-2 md:justify-end">
+                            <a class="text-sm text-white/90 hover:text-white no-underline" href="{:addon_url('cms/page/index', [':diyname'=>'aboutus'])}" title="关于我们">关于我们</a>
+                            <a class="text-sm text-white/90 hover:text-white no-underline" href="{:addon_url('cms/page/index', [':diyname'=>'agreement'])}" title="用户协议">用户协议</a>
+                            {if config('fastadmin.usercenter')}
+                            <a class="text-sm text-white/90 hover:text-white no-underline" href="{:url('index/user/index')}" title="会员中心">会员中心</a>
+                            {/if}
+                        </div>
+                    </nav>
+                    <div class="mt-5 text-sm text-white/80">
+                        <p class="my-1">Copyright&nbsp;©&nbsp;{:date("Y")} All rights reserved</p>
+                        <p class="my-1">{cms:config name="cms.sitename"/}</p>
+                        {if $site.beian}
+                        <p class="my-1"><a href="https://beian.miit.gov.cn" target="_blank" rel="noopener noreferrer" class="text-white/80 hover:text-white no-underline">{$site.beian|htmlentities}</a></p>
+                        {/if}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

@@ -1,0 +1,115 @@
+<script src="__CDN__/assets/libs/jquery/dist/jquery.min.js?v={$site.version}"></script>
+<script defer src="__CDN__/assets/libs/fastadmin-layer/dist/layer.js?v={$site.version}"></script>
+
+<script>
+(function () {
+    function closest(el, selector) {
+        while (el && el.nodeType === 1) {
+            if (el.matches(selector)) return el;
+            el = el.parentElement;
+        }
+        return null;
+    }
+
+    var lastTouchTime = 0;
+
+    function getCollapse() {
+        return document.getElementById('navbar-collapse');
+    }
+
+    function removeBackdrop() {
+        var bg = document.querySelector('.navbar-collapse-bg');
+        if (bg && bg.parentNode) bg.parentNode.removeChild(bg);
+    }
+
+    function openMenu() {
+        var collapse = getCollapse();
+        if (!collapse) return;
+        document.body.classList.add('is-open');
+        collapse.classList.add('active');
+        removeBackdrop();
+        var bg = document.createElement('div');
+        bg.className = 'navbar-collapse-bg';
+        bg.addEventListener('click', function () {
+            closeMenu();
+        });
+        collapse.insertAdjacentElement('afterend', bg);
+    }
+
+    function closeMenu() {
+        var collapse = getCollapse();
+        document.body.classList.remove('is-open');
+        if (collapse) collapse.classList.remove('active');
+        removeBackdrop();
+    }
+
+    function handleToggleEvent(e) {
+        if (e.type === 'touchend') {
+            lastTouchTime = Date.now();
+        }
+        if (e.type === 'click' && lastTouchTime && Date.now() - lastTouchTime < 600) {
+            return;
+        }
+        var btn = closest(e.target, '.sidebar-toggle');
+        if (!btn) return;
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        var collapse = getCollapse();
+        if (!collapse) return;
+        if (collapse.classList.contains('active')) {
+            closeMenu();
+        } else {
+            openMenu();
+        }
+    }
+
+    document.addEventListener('click', handleToggleEvent, true);
+    document.addEventListener('touchend', handleToggleEvent, true);
+
+    document.addEventListener('click', function (e) {
+        var a = closest(e.target, '#navbar-collapse a');
+        if (!a) return;
+        if (window.innerWidth < 768) closeMenu();
+    }, true);
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' || e.keyCode === 27) {
+            var collapse = getCollapse();
+            if (collapse && collapse.classList.contains('active')) {
+                closeMenu();
+            }
+        }
+    }, true);
+})();
+</script>
+
+<script>
+(function () {
+    function closest(el, selector) {
+        while (el && el.nodeType === 1) {
+            if (el.matches(selector)) return el;
+            el = el.parentElement;
+        }
+        return null;
+    }
+
+    document.addEventListener('click', function (e) {
+        var btn = closest(e.target, '.oh-mnav-toggle');
+        if (!btn) return;
+        e.preventDefault();
+        e.stopPropagation();
+        var li = closest(btn, '.oh-mnav-item');
+        if (!li) return;
+        var submenu = li.querySelector('[data-mnav-submenu]');
+        if (!submenu) return;
+        var isHidden = submenu.classList.contains('hidden');
+        if (isHidden) {
+            submenu.classList.remove('hidden');
+            li.classList.add('is-open');
+        } else {
+            submenu.classList.add('hidden');
+            li.classList.remove('is-open');
+        }
+    }, true);
+})();
+</script>

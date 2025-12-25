@@ -2,7 +2,608 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    --ui-bg: #F3F4F6;
+    --ui-panel: rgba(255, 255, 255, 0.78);
+    --ui-border: rgba(0, 0, 0, 0.10);
+    --ui-text: #111111;
+    --ui-muted: rgba(0, 0, 0, 0.62);
+    --ui-accent: #FFF03C;
+    --ui-link-hover: #000000;
+  }
+
+  html {
+    background: var(--ui-bg);
+  }
+
+  body {
+    @apply font-sans antialiased;
+    background: var(--ui-bg);
+    color: var(--ui-text);
+  }
+
+  ::selection {
+    background: var(--ui-accent);
+    color: #000000;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-display tracking-tight;
+  }
+
+  a {
+    color: currentColor;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: var(--ui-link-hover);
+  }
+
+  body.oharchi-home {
+    --oh-bg: #F3F4F6;
+    --oh-panel: rgba(255, 255, 255, 0.78);
+    --oh-border: rgba(0, 0, 0, 0.10);
+    --oh-accent: #FFF03C;
+    background: var(--oh-bg) !important;
+    color: #000000 !important;
+    font-family: "Zen Kaku Gothic New", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  body.oharchi-home #content-container {
+    padding-left: 28px !important;
+    padding-right: 28px !important;
+    padding-top: 44px !important;
+    padding-bottom: 56px !important;
+  }
+
+  @media screen and (max-width: 639px) {
+    body.oharchi-home #content-container {
+      padding-left: 16px !important;
+      padding-right: 16px !important;
+      padding-top: 24px !important;
+      padding-bottom: 40px !important;
+    }
+  }
+
+  body.oharchi-home ::selection {
+    background: var(--oh-accent);
+    color: #000000;
+  }
+
+  body.oharchi-home a {
+    color: currentColor;
+  }
+
+  body.oharchi-home a:hover {
+    color: #1A1A1A;
+  }
+
+  
+}
+
 @layer components {
+  .ui-card {
+    @apply overflow-hidden;
+    border: 1px solid var(--ui-border);
+    background: var(--ui-panel);
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .ui-pill {
+    @apply inline-flex items-center rounded-full border border-gray-200 bg-white px-3 py-1 text-gray-800/90 transition hover:border-gray-300 hover:bg-gray-50 hover:text-gray-900 no-underline;
+  }
+
+  .ui-pill-active {
+    @apply border-black/10 bg-[var(--ui-accent)] text-black hover:border-black/10 hover:bg-[var(--ui-accent)] hover:text-black;
+  }
+
+  body.oharchi-home .ui-card {
+    @apply rounded-none border border-black/10 bg-transparent shadow-none;
+  }
+
+  .ui-card-header {
+    @apply px-5 py-4;
+    border-bottom: 1px solid var(--ui-border);
+  }
+
+  body.oharchi-home .ui-card-header {
+    @apply border-black/10 px-0 py-0;
+  }
+
+  .ui-card-body {
+    @apply px-5 py-5;
+  }
+
+  body.oharchi-home .ui-card-body {
+    @apply px-0 py-0;
+  }
+
+  .oh-clamp-1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .oh-clamp-2 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+  }
+
+  .oh-section {
+    @apply border-t border-black/10 pt-8 md:pt-10;
+  }
+
+  .oh-panel {
+    border: 1px solid var(--ui-border);
+    background: var(--ui-panel);
+    padding: 22px;
+  }
+
+  .oh-section-head {
+    @apply mb-4 md:mb-6 flex items-end justify-between gap-6;
+  }
+
+  .oh-section-title {
+    @apply font-medium text-black;
+    font-size: 15px;
+    letter-spacing: 0.12em;
+    font-family: "Outfit", system-ui;
+    font-weight: 500;
+    position: relative;
+    padding-bottom: 10px;
+  }
+
+  .oh-section-title:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 28px;
+    height: 2px;
+    background: var(--ui-accent);
+  }
+
+  .oh-section-link {
+    @apply text-black/70 no-underline;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    font-family: "Outfit", system-ui;
+    font-weight: 200;
+  }
+
+  .oh-section-link:hover {
+    @apply text-black;
+  }
+
+  body.oharchi-home .oh-focus {
+    border: 1px solid var(--oh-border);
+    background: var(--oh-panel);
+  }
+
+  body.oharchi-home .oh-focus {
+    padding: 22px;
+  }
+
+  body.oharchi-home .oh-focus #index-focus {
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    background: #EDEDED;
+  }
+
+  body.oharchi-home .oh-focus #index-focus {
+    height: 220px;
+  }
+
+  body.oharchi-home .oh-focus [role="region"] {
+    height: 220px;
+  }
+
+  @media screen and (min-width: 768px) {
+    body.oharchi-home .oh-focus [role="region"] {
+      height: 420px;
+    }
+
+    body.oharchi-home .oh-focus #index-focus {
+      height: 420px;
+    }
+  }
+
+  body.oharchi-home .oh-focus [data-carousel-slide],
+  body.oharchi-home .oh-focus [data-carousel-slide] > a {
+    height: 100%;
+  }
+
+  body.oharchi-home .oh-focus [role="region"],
+  body.oharchi-home .oh-focus [role="region"] > [data-carousel-slide] {
+    height: 100%;
+  }
+
+  body.oharchi-home .oh-focus-img {
+    height: 100%;
+  }
+
+  body.oharchi-home .oh-focus-caption {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0));
+    color: #FFFFFF;
+  }
+
+  body.oharchi-home .oh-section-title {
+    position: relative;
+    padding-left: 0;
+  }
+
+  body.oharchi-home .oh-slide-noimg {
+    display: flex;
+    align-items: flex-end;
+    height: 100%;
+  }
+
+  body.oharchi-home .oh-slide-noimg > a {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  body.oharchi-home .oh-slide-noimg .oh-focus-caption {
+    background: none;
+    color: rgba(0, 0, 0, 0.85);
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+  }
+
+  body.oharchi-home .oh-tile-grid {
+    display: grid;
+    gap: 22px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media screen and (min-width: 640px) {
+    body.oharchi-home .oh-tile-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media screen and (min-width: 1024px) {
+    body.oharchi-home .oh-tile-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  body.oharchi-home .oh-tile-grid > .oh-tile-cell {
+    grid-column: auto;
+  }
+
+  .oh-nav-link {
+    @apply relative inline-flex items-center gap-1 no-underline;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    color: rgba(0, 0, 0, 0.68);
+  }
+
+  .oh-nav-link:hover {
+    color: rgba(0, 0, 0, 0.82);
+  }
+
+  .oh-nav-link-active {
+    color: rgba(0, 0, 0, 0.86);
+    font-weight: 600;
+  }
+
+  .oh-nav-link-active:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -8px;
+    height: 2px;
+    background: var(--ui-accent);
+  }
+
+  .oh-nav-item::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    height: 12px;
+  }
+
+  .oh-mnav-item.is-open .oh-mnav-toggle i {
+    transform: rotate(180deg);
+  }
+
+  .oh-nav-caret {
+    margin-left: 4px;
+    font-size: 12px;
+    opacity: 0.35;
+    transform: translateY(0.5px);
+  }
+
+  .oh-nav-link:hover .oh-nav-caret {
+    opacity: 0.55;
+  }
+
+  .oh-nav-submenu {
+    border-color: rgba(0, 0, 0, 0.10) !important;
+    box-shadow: none !important;
+  }
+
+  .oh-nav-sublink {
+    color: rgba(0, 0, 0, 0.68) !important;
+  }
+
+  .oh-nav-sublink:hover {
+    color: rgba(0, 0, 0, 0.82) !important;
+  }
+
+  .oh-mnav-link {
+    color: rgba(0, 0, 0, 0.68) !important;
+  }
+
+  .oh-mnav-link:hover {
+    color: rgba(0, 0, 0, 0.82) !important;
+  }
+
+  .oh-mnav-link-active {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.86) !important;
+    background: rgba(255, 255, 255, 0.65);
+    border: 1px solid rgba(0, 0, 0, 0.10);
+    border-radius: 0;
+  }
+
+  body.oharchi-home .oh-tile .ui-card {
+    @apply border-transparent;
+  }
+
+  body.oharchi-home .oh-tile .ui-card {
+    border: 1px solid rgba(0, 0, 0, 0.10) !important;
+    background: rgba(255, 255, 255, 0.62) !important;
+    transition: background 180ms ease, border-color 180ms ease;
+  }
+
+  body.oharchi-home .oh-tile .ui-card:hover {
+    border-color: rgba(0, 0, 0, 0.18) !important;
+    background: rgba(255, 255, 255, 0.78) !important;
+  }
+
+  body.oharchi-home .oh-tile .ui-card .p-3 {
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+
+  body.oharchi-home .oh-tile-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(0, 0, 0, 0.10);
+    box-shadow: none;
+    color: rgba(0, 0, 0, 0.65);
+  }
+
+  body.oharchi-home .oh-tile .ui-card:hover .oh-tile-icon {
+    color: rgba(0, 0, 0, 0.85);
+    border-color: rgba(0, 0, 0, 0.14);
+  }
+
+  body.oharchi-home .oh-tile .ui-card a.block,
+  body.oharchi-home .oh-tile .ui-card a.block:hover {
+    font-size: 13px;
+    letter-spacing: 0.02em;
+  }
+
+  body.oharchi-home .oh-tile .ui-card .text-xs.leading-6 {
+    font-size: 11px;
+    letter-spacing: 0.02em;
+    line-height: 1.6;
+  }
+
+  body.oharchi-home .oh-tile .ui-card:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  body.oharchi-home .oh-tile .ui-card img {
+    transform: none !important;
+  }
+
+  body.oharchi-home .oh-tile .ui-card > a {
+    @apply rounded-none;
+  }
+
+  body.oharchi-home .oh-tile .ui-card .p-3 {
+    padding: 14px 0 0;
+  }
+
+  body.oharchi-home .oh-tile .ui-card a.block {
+    color: #000000;
+    font-family: "Zen Kaku Gothic New", sans-serif;
+    font-weight: 400;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  body.oharchi-home .oh-tile .ui-card .text-xs.leading-6 {
+    color: rgba(0, 0, 0, 0.6);
+    font-family: "Zen Kaku Gothic New", sans-serif;
+  }
+
+  .ui-btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-none px-4 py-2 text-sm font-semibold no-underline transition active:scale-95 focus:outline-none focus:ring-2 focus:ring-emerald-200;
+  }
+
+  .ui-btn-primary {
+    @apply bg-black text-white hover:bg-black/90;
+  }
+
+  .ui-btn-secondary {
+    @apply bg-black/80 text-white hover:bg-black;
+  }
+
+  .ui-btn-danger {
+    @apply bg-rose-600 text-white hover:bg-rose-700;
+  }
+
+  .ui-btn-outline {
+    @apply border border-black/10 bg-transparent text-black/80 hover:bg-white/60 hover:text-black;
+  }
+
+  .ui-btn-ghost {
+    @apply text-black/70 hover:bg-white/60 hover:text-black;
+  }
+
+  .ui-btn-sm {
+    @apply px-3 py-1.5 text-xs;
+  }
+
+  .ui-badge {
+    @apply inline-flex items-center rounded-full px-2 py-0.5 text-xs font-semibold;
+  }
+
+  .ui-badge-muted {
+    @apply bg-black/5 text-black/80 ring-1 ring-inset ring-black/10;
+  }
+
+  .ui-badge-emerald {
+    @apply bg-black/5 text-black/80 ring-1 ring-inset ring-black/10;
+  }
+
+  .ui-input {
+    @apply w-full rounded-none border border-black/10 bg-transparent px-3 py-2 text-sm text-black placeholder:text-black/40 focus:border-black/30 focus:outline-none focus:ring-0;
+  }
+
+  body.oharchi-home .ui-input {
+    @apply rounded-none border-black bg-transparent px-3 py-2 text-sm text-black placeholder:text-black/40 focus:border-black focus:ring-0;
+    font-family: "Outfit", system-ui;
+    font-weight: 200;
+    letter-spacing: 0.04em;
+  }
+
+  .ui-input-pill {
+    @apply rounded-full;
+  }
+
+  body.oharchi-home .ui-input-pill {
+    @apply rounded-none;
+  }
+
+  body.oharchi-home #content-container {
+    max-width: 1280px !important;
+  }
+
+  @media screen and (min-width: 1024px) {
+    body.oharchi-home #content-container {
+      padding-top: 40px !important;
+    }
+  }
+
+  body.oharchi-home #content-container main > section,
+  body.oharchi-home #content-container aside > section {
+    border: 1px solid var(--oh-border);
+    background: var(--oh-panel);
+    padding: 22px;
+  }
+
+  body.oharchi-home #content-container main > section + section,
+  body.oharchi-home #content-container aside > section + section {
+    margin-top: 22px;
+  }
+
+  body.oharchi-home .oh-section {
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  body.oharchi-home .oh-hide-empty:empty {
+    display: none !important;
+  }
+
+  body.oharchi-home .oh-tags > div {
+    @apply rounded-none border border-black/10 bg-transparent p-0;
+  }
+
+  body.oharchi-home .oh-tags nav {
+    @apply space-y-6;
+  }
+
+  body.oharchi-home .oh-tags nav > div > div:first-child {
+    font-family: "Outfit", system-ui;
+    font-weight: 200;
+    letter-spacing: 0.04em;
+    font-size: 11px;
+    color: rgba(0, 0, 0, 0.85);
+  }
+
+  body.oharchi-home .oh-tags nav a {
+    @apply rounded-none border border-black/10 bg-transparent px-3 py-1 text-black/70;
+    font-size: 11px;
+    font-family: "Outfit", system-ui;
+    font-weight: 200;
+    letter-spacing: 0.04em;
+  }
+
+  body.oharchi-home .oh-tags nav a:hover {
+    @apply border-black/20 bg-transparent text-black;
+  }
+
+  .prose {
+    @apply text-sm leading-7;
+    color: var(--ui-muted);
+  }
+
+  .prose p {
+    @apply my-3;
+  }
+
+  .prose h2 {
+    @apply mb-3 mt-7 text-lg font-semibold;
+    color: var(--ui-text);
+  }
+
+  .prose h3 {
+    @apply mb-2 mt-6 text-base font-semibold;
+    color: var(--ui-text);
+  }
+
+  .prose a {
+    @apply underline underline-offset-4;
+    color: var(--ui-text);
+    text-decoration-color: rgba(0, 0, 0, 0.18);
+  }
+
+  .prose ul {
+    @apply my-3 list-disc space-y-1 pl-5;
+  }
+
+  .prose ol {
+    @apply my-3 list-decimal space-y-1 pl-5;
+  }
+
+  .prose blockquote {
+    @apply my-4 border-l-4 px-4 py-3;
+    border-left-color: rgba(0, 0, 0, 0.18);
+    background: rgba(255, 255, 255, 0.62);
+    color: var(--ui-muted);
+    border-radius: 0;
+  }
+
+  .prose img {
+    @apply my-4;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
   .pagination,
   .pager {
     @apply flex flex-wrap items-center justify-center gap-2 list-none p-0 m-0;
@@ -12,20 +613,55 @@
   .pagination > li > span,
   .pager > li > a,
   .pager > li > span {
-    @apply inline-flex h-9 min-w-[2.25rem] items-center justify-center rounded-md border border-gray-300 bg-white px-3 text-sm text-gray-700 shadow-sm;
+    @apply inline-flex h-9 min-w-9 items-center justify-center rounded-none border border-black/10 bg-transparent px-3 text-sm text-black/70;
   }
 
   .pagination > li > a:hover,
   .pager > li > a:hover {
-    @apply bg-gray-50 text-emerald-600;
+    @apply bg-white/60 text-black;
   }
 
   .pagination > li.active > span {
-    @apply border-emerald-600 bg-emerald-600 text-white;
+    @apply border-black bg-black text-white;
   }
 
   .pagination > li.disabled > span,
   .pager > li.disabled > span {
     @apply cursor-not-allowed opacity-50;
+  }
+
+  #back-to-top {
+    position: fixed !important;
+    right: 18px !important;
+    bottom: 18px !important;
+    width: 42px;
+    height: 42px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(0, 0, 0, 0.10);
+    background: rgba(255, 255, 255, 0.78);
+    color: rgba(0, 0, 0, 0.78);
+    box-shadow: none;
+    border-radius: 0;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transform: translateY(8px) !important;
+    transition: opacity 180ms ease, transform 180ms ease, visibility 180ms ease;
+    z-index: 60;
+  }
+
+  #back-to-top.show {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translateY(0) !important;
+  }
+
+  #back-to-top:hover {
+    color: rgba(0, 0, 0, 0.92);
+    border-color: rgba(0, 0, 0, 0.18);
+    background: rgba(255, 255, 255, 0.86);
   }
 }

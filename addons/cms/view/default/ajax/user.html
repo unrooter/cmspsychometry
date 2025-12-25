@@ -4,28 +4,23 @@
     {/volist}
 {else/}
     {volist name="commentList" id="item"}
-        <article class="article-item">
-            <div class="media">
-                <div class="media-left">
-                    <a href="{$item.source.url}">
-                        <div class="embed-responsive embed-responsive-4by3 img-zoom">
-                            <img src="{$item.source.image}">
-                        </div>
+        <article class="ui-card">
+            <div class="ui-card-body">
+                <div class="flex gap-4">
+                    <a href="{$item.source.url}" class="group block w-28 shrink-0 overflow-hidden rounded-lg bg-gray-100 aspect-[4/3]">
+                        <img src="{$item.source.image ?: '/assets/addons/cms/img/default.png'}" alt="{$item.source.title|htmlentities}" loading="lazy" class="h-full w-full object-cover transition duration-300 group-hover:scale-105" onerror="this.onerror=null;this.src='/assets/addons/cms/img/default.png'">
                     </a>
-                </div>
-                <div class="media-body">
-                    <h3 class="article-title">
-                        <a href="{$item.source.url}" {if isset($item.source.style) && $item.source.style}style="{$item.source.style_text|default=''}" {/if}>{$item.source.title|htmlentities}</a>
-                    </h3>
-                    <div class="comment-content">
-                        <div>{$item.content|htmlentities}</div>
-                    </div>
-                    <div class="article-tag">
-                        <span itemprop="date"><i class="fa fa-calendar"></i> {:date("Y年m月d日", $item['createtime'])}</span>
+                    <div class="min-w-0 flex-1">
+                        <h3 class="text-base font-semibold leading-6 text-gray-900">
+                            <a href="{$item.source.url}" class="no-underline hover:text-black" {if isset($item.source.style) && $item.source.style}data-css="{$item.source.style_text|default=''}"{/if}>{$item.source.title|htmlentities}</a>
+                        </h3>
+                        <div class="mt-2 text-sm leading-7 text-gray-700">{$item.content|htmlentities}</div>
+                        <div class="mt-3 text-xs text-gray-500">
+                            <span itemprop="date"><i class="fa fa-calendar mr-1" aria-hidden="true"></i>{:date("Y年m月d日", $item['createtime'])}</span>
+                        </div>
                     </div>
                 </div>
             </div>
-
         </article>
     {/volist}
 {/if}

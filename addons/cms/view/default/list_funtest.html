@@ -2,7 +2,6 @@
 
 <!-- SEO结构化数据 -->
 <script type="application/ld+json">
-{
   "@context": "https://schema.org",
   "@type": "CollectionPage",
   "name": "{$__CHANNEL__.seotitle ?: $__CHANNEL__.name}",
@@ -11,15 +10,16 @@
 }
 </script>
 
-<div class="funtest-list-container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+<div class="funtest-list-container mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8" style="padding-bottom:88px;">
     <!-- SEO优化的面包屑导航 -->
-    <nav aria-label="breadcrumb" class="mt-6">
-        <ol class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-gray-600" itemscope itemtype="https://schema.org/BreadcrumbList">
+    <nav aria-label="breadcrumb" class="mb-6">
+        <ol class="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs text-gray-500" itemscope itemtype="https://schema.org/BreadcrumbList">
             {php}$breadPos = 0;{/php}
             {cms:breadcrumb id="item"}
             {php}$breadPos++;{/php}
             <li class="inline-flex items-center" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                <a class="hover:text-emerald-600" href="{$item.url}" itemprop="item"><span itemprop="name">{:__($item.name)}</span></a>
+                {if $breadPos>1}<span class="mx-1 text-gray-300">›</span>{/if}
+                <a class="no-underline hover:text-black" href="{$item.url}" itemprop="item"><span itemprop="name">{:__($item.name)}</span></a>
                 <meta itemprop="position" content="{$breadPos}" />
             </li>
             {/cms:breadcrumb}
@@ -27,20 +27,21 @@
     </nav>
 
     <!-- SEO优化的页面头部 -->
-    <header class="mt-4 rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
+    <header class="ui-card">
+        <div class="ui-card-body">
         <div>
             <div class="flex flex-wrap items-center gap-3">
-                <h1 class="text-xl font-bold text-gray-900" itemprop="headline">{:__($__CHANNEL__.name ?: '趣味心理测试')}</h1>
-                <span class="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-sm font-medium text-emerald-700">
+                <h1 class="text-lg font-semibold tracking-tight text-gray-900" itemprop="headline">{:__($__CHANNEL__.name ?: '趣味心理测试')}</h1>
+                <span class="inline-flex items-center gap-2 rounded-full bg-black/5 px-3 py-1 text-xs font-semibold tracking-[0.14em] text-gray-900">
                     <i class="fa fa-check-circle" aria-hidden="true"></i>
                     {$__PAGELIST__->total()} {:__('个测试')}
                 </span>
             </div>
 
             {if $__CHANNEL__.description}
-            <div class="mt-3 text-sm leading-7 text-gray-600" itemprop="description">{$__CHANNEL__.description}</div>
+            <div class="mt-2 text-xs leading-6 text-gray-600" itemprop="description">{$__CHANNEL__.description}</div>
             {else}
-            <div class="mt-3 text-sm leading-7 text-gray-600" itemprop="description">{:__('探索')} <strong class="font-semibold text-emerald-700">{:__($__CHANNEL__.name)}</strong> {:__('相关的心理测试，深入了解自我，发现内心世界的更多可能性。')}</div>
+            <div class="mt-2 text-xs leading-6 text-gray-600" itemprop="description">{:__('探索')} <strong class="font-semibold text-gray-900">{:__($__CHANNEL__.name)}</strong> {:__('相关的心理测试，深入了解自我，发现内心世界的更多可能性。')}</div>
             {/if}
 
             <!-- 子栏目快速导航 -->
@@ -48,24 +49,23 @@
                 <span class="inline-flex items-center gap-2 text-sm font-medium text-gray-700"><i class="fa fa-th-list" aria-hidden="true"></i>{:__('子分类')}</span>
                 {php}$navType = $__CHANNEL__['parent_id'] > 0 ? $__CHANNEL__['parent_id'] : $__CHANNEL__['id'];{/php}
                 {cms:channellist id="subchan" type="son" typeid="$navType" limit="6"}
-                <a href="{$subchan.url}" class="rounded-full border border-gray-200 px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600 {if $subchan.id == $__CHANNEL__.id}bg-emerald-50 text-emerald-700 border-emerald-200{/if}">{:__($subchan.name)}</a>
+                <a href="{$subchan.url}" class="ui-pill text-xs tracking-[0.14em] {if $subchan.id == $__CHANNEL__.id}ui-pill-active{/if}">{:__($subchan.name)}</a>
                 {/cms:channellist}
             </nav>
         </div>
+        </div>
     </header>
-
-    <!-- Google AdSense 头部横向广告 -->
-    <div id="ad-header-horizontal" class="my-4 min-h-[100px] transition-all duration-300 empty:my-0 empty:min-h-0"></div>
 
     {if $__FILTERLIST__}
     <!-- 筛选区域 -->
     <section class="mt-4" aria-label="{:__('筛选条件')}">
-        <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+        <div class="ui-card">
+            <div class="ui-card-body">
             <div class="flex flex-wrap items-center justify-between gap-3">
-                <h2 class="inline-flex items-center gap-2 text-base font-semibold text-gray-900"><i class="fa fa-filter text-emerald-600" aria-hidden="true"></i>{:__('筛选')}</h2>
+                <h2 class="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-gray-900"><i class="fa fa-filter text-black/60" aria-hidden="true"></i>{:__('筛选')}</h2>
                 <form action="" id="multipleform" class="flex items-center gap-2">
                     <input type="checkbox" name="multiple" id="multiple"
-                           class="h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-600"
+                           class="h-4 w-4 rounded border-gray-300 text-gray-600 focus:ring-gray-600"
                            onclick="document.getElementById('multipleform').submit();"
                            value="{:$Think.get.multiple?0:1}"
                            {:$Think.get.multiple?'checked':''}>
@@ -79,11 +79,12 @@
                     <div class="mt-1 w-20 shrink-0 text-sm font-medium text-gray-700">{$filter.title|htmlentities}:</div>
                     <div class="flex flex-wrap gap-2">
                         {volist name="$filter.content" id="filterItem"}
-                        <a href="{$filterItem.url}" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600 {$filterItem.active?'bg-emerald-50 text-emerald-700 border-emerald-200':''}">{$filterItem.title|htmlentities}</a>
+                        <a href="{$filterItem.url}" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-xs tracking-[0.14em] text-gray-800/90 hover:bg-gray-50 hover:text-black no-underline {$filterItem.active?'bg-gray-50 text-gray-900 border-gray-200':''}">{$filterItem.title|htmlentities}</a>
                         {/volist}
                     </div>
                 </div>
                 {/cms:pagefilter}
+            </div>
             </div>
         </div>
     </section>
@@ -94,21 +95,21 @@
         <main class="lg:col-span-9">
             <!-- 测试列表 -->
             <section class="test-list-section" aria-label="{:__('测试列表')}">
-                <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
-                    <div class="flex flex-wrap items-center justify-between gap-3 border-b border-gray-100 pb-3">
-                        <h2 class="text-base font-semibold text-gray-900">{:__('全部测试')}</h2>
+                <div class="ui-card">
+                    <div class="ui-card-header flex flex-wrap items-center justify-between gap-3">
+                        <h2 class="text-xs font-semibold tracking-[0.18em] text-gray-900">{:__('全部测试')}</h2>
                         <div class="flex flex-wrap gap-2">
                         {cms:pageorder id="order"}
-                        <a href="{$order.url}" class="rounded-full border border-gray-200 bg-white px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600 {$order.active?'bg-emerald-50 text-emerald-700 border-emerald-200':''}">{$order.title|htmlentities}</a>
+                        <a href="{$order.url}" class="ui-pill text-xs tracking-[0.14em] {$order.active?'ui-pill-active':''}">{$order.title|htmlentities}</a>
                         {/cms:pageorder}
                         </div>
                     </div>
 
-                    <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+                    <div class="ui-card-body grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
                         {cms:pagelist id="item"}
-                        <article class="group overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition hover:shadow-md" itemscope itemtype="https://schema.org/Quiz">
+                        <article class="ui-card group overflow-hidden transition" itemscope itemtype="https://schema.org/Quiz">
                             <a href="{$item.url}" class="block" aria-label="{$item.title|htmlentities}">
-                                <div class="relative aspect-square overflow-hidden bg-gray-100">
+                                <div class="relative aspect-square overflow-hidden bg-black/5">
                                     <img src="{$item.image ?: '/assets/addons/cms/img/default.png'}"
                                          alt="{$item.title|htmlentities} - 心理测试题封面图"
                                          title="{$item.title|htmlentities}"
@@ -126,26 +127,21 @@
                                     {/if}
                                 </div>
 
-                                <div class="p-3">
+                                <div style="padding:10px;">
                                     <h3 class="text-sm font-semibold leading-6 text-gray-900" itemprop="name">{$item.title|htmlentities}</h3>
                                     {if $item.sub_title}
-                                    <p class="mt-2 text-xs leading-6 text-gray-600" itemprop="description">{$item.sub_title|htmlentities}</p>
+                                    <p class="oh-clamp-2 mt-1 text-xs text-gray-600" style="line-height:1.55;" itemprop="description">{$item.sub_title|htmlentities}</p>
                                     {/if}
-                                    <div class="mt-2 text-xs text-gray-500"><i class="fa fa-eye mr-1" aria-hidden="true"></i>{$item.views|default=0}</div>
+                                    <div class="mt-1 text-xs text-gray-500"><i class="fa fa-eye mr-1" aria-hidden="true"></i>{$item.views|default=0}</div>
                                 </div>
                             </a>
                         </article>
                         {/cms:pagelist}
                     </div>
 
-                    <!-- Google AdSense 信息流广告 -->
-                    {if !$__PAGELIST__->isEmpty()}
-                    <div id="ad-list-infeed" class="my-8 min-h-[100px] transition-all duration-300 empty:my-0 empty:min-h-0"></div>
-                    {/if}
-
                     <!-- 空状态 -->
                     {if $__PAGELIST__->isEmpty()}
-                    <div class="mt-6 rounded-lg border border-gray-200 bg-white p-10 text-center text-gray-500">
+                    <div class="mt-8 rounded-lg border border-dashed border-gray-300 p-8 text-center">
                         <i class="fa fa-inbox text-4xl opacity-60" aria-hidden="true"></i>
                         <p class="mt-3 text-sm">{:__('暂无测试内容')}</p>
                     </div>
@@ -153,7 +149,7 @@
 
                     <!-- 分页 -->
                     {if !$__PAGELIST__->isEmpty()}
-                    <div class="mt-8">
+                    <div class="mt-6 px-5 pb-16" style="padding-bottom:80px;">
                         {include file="common/pageinfo" /}
                     </div>
                     {/if}
@@ -165,13 +161,13 @@
         <aside class="space-y-6 lg:col-span-3">
             <!-- 热门测试 -->
             <section aria-labelledby="hot-tests-title">
-                <div class="rounded-lg border border-gray-200 bg-white shadow-sm">
-                    <h2 class="border-b border-gray-100 px-4 py-3 text-base font-semibold text-gray-900" id="hot-tests-title"><i class="fa fa-fire mr-2 text-emerald-600" aria-hidden="true"></i>{:__('热门测试')}</h2>
+                <div class="ui-card">
+                    <h2 class="ui-card-header text-xs font-semibold tracking-[0.18em] text-gray-900" id="hot-tests-title"><i class="fa fa-fire mr-2 text-black/60" aria-hidden="true"></i>{:__('热门测试')}</h2>
                     <div class="p-2">
                         {php}$hotType = $__CHANNEL__['parent_id'] > 0 ? '' : 'son';{/php}
                         {cms:arclist id="hot" type="$hotType" channel="$__CHANNEL__.id" orderby="views" orderway="DESC" limit="5"}
-                        <a class="flex items-start gap-3 rounded-md px-3 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600" href="{$hot.url}">
-                            <div class="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-50 text-xs font-semibold text-emerald-700">{$i}</div>
+                        <a class="flex items-start gap-3 rounded-md px-3 py-3 text-sm text-gray-800/90 hover:bg-gray-50 hover:text-black no-underline" href="{$hot.url}">
+                            <div class="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-black/5 text-xs font-semibold text-gray-900">{$i}</div>
                             <div class="min-w-0 flex-1">
                                 <div class="truncate font-medium">{$hot.title|htmlentities|mb_substr=0,30}</div>
                                 <div class="mt-1 text-xs text-gray-500"><i class="fa fa-eye mr-1" aria-hidden="true"></i>{$hot.views|default=0}</div>
@@ -184,23 +180,23 @@
 
             <!-- 快速分类导航 -->
             <section aria-labelledby="category-title">
-                <div class="rounded-lg border border-gray-200 bg-white shadow-sm">
-                    <h2 class="border-b border-gray-100 px-4 py-3 text-base font-semibold text-gray-900" id="category-title"><i class="fa fa-th-large mr-2 text-emerald-600" aria-hidden="true"></i>{:__('分类导航')}</h2>
+                <div class="ui-card">
+                    <h2 class="ui-card-header text-xs font-semibold tracking-[0.18em] text-gray-900" id="category-title"><i class="fa fa-th-large mr-2 text-black/60" aria-hidden="true"></i>{:__('分类导航')}</h2>
                     <nav class="p-4">
                         <div class="grid grid-cols-2 gap-3">
                             <!-- 如果是子频道，显示父频道的所有子频道（兄弟频道） -->
                             {if $__CHANNEL__.parent_id > 0}
                             {cms:channellist id="sub" type="son" typeid="$__CHANNEL__.parent_id"}
-                            <a href="{$sub.url}" class="flex items-center gap-3 rounded-lg border border-gray-200 bg-white px-3 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600 {if $sub.id == $__CHANNEL__.id}border-emerald-200 bg-emerald-50 text-emerald-700{/if}">
-                                <span class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-gray-100 text-gray-500 {if $sub.id == $__CHANNEL__.id}bg-white text-emerald-600{/if}"><i class="fa fa-folder-o" aria-hidden="true"></i></span>
+                            <a href="{$sub.url}" class="flex items-center gap-3 rounded-lg border border-gray-200 bg-white px-3 py-3 text-sm text-gray-800/90 hover:bg-gray-50 hover:text-black no-underline {if $sub.id == $__CHANNEL__.id}border-gray-200 bg-gray-50 text-gray-900{/if}">
+                                <span class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-black/5 text-black/60"><i class="fa fa-folder-o" aria-hidden="true"></i></span>
                                 <span class="min-w-0 flex-1 truncate">{:__($sub.name)}</span>
                             </a>
                             {/cms:channellist}
                             {else}
                             <!-- 如果是父频道，显示自己的子频道 -->
                             {cms:channellist id="sub" type="son" typeid="$__CHANNEL__.id"}
-                            <a href="{$sub.url}" class="flex items-center gap-3 rounded-lg border border-gray-200 bg-white px-3 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600">
-                                <span class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-gray-100 text-gray-500"><i class="fa fa-folder-o" aria-hidden="true"></i></span>
+                            <a href="{$sub.url}" class="flex items-center gap-3 rounded-lg border border-gray-200 bg-white px-3 py-3 text-sm text-gray-800/90 hover:bg-gray-50 hover:text-black no-underline">
+                                <span class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-black/5 text-black/60"><i class="fa fa-folder-o" aria-hidden="true"></i></span>
                                 <span class="min-w-0 flex-1 truncate">{:__($sub.name)}</span>
                             </a>
                             {/cms:channellist}
@@ -212,12 +208,12 @@
 
             <!-- 最新测试 -->
             <section aria-labelledby="recent-tests-title">
-                <div class="rounded-lg border border-gray-200 bg-white shadow-sm">
-                    <h2 class="border-b border-gray-100 px-4 py-3 text-base font-semibold text-gray-900" id="recent-tests-title"><i class="fa fa-clock-o mr-2 text-emerald-600" aria-hidden="true"></i>{:__('最新测试')}</h2>
+                <div class="ui-card">
+                    <h2 class="ui-card-header text-xs font-semibold tracking-[0.18em] text-gray-900" id="recent-tests-title"><i class="fa fa-clock-o mr-2 text-black/60" aria-hidden="true"></i>{:__('最新测试')}</h2>
                     <div class="p-2">
                         {php}$recentType = $__CHANNEL__['parent_id'] > 0 ? '' : 'son';{/php}
                         {cms:arclist id="recent" type="$recentType" channel="$__CHANNEL__.id" orderby="publishtime" orderway="DESC" limit="5"}
-                        <a class="flex items-start gap-3 rounded-md px-3 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600" href="{$recent.url}">
+                        <a class="flex items-start gap-3 rounded-md px-3 py-3 text-sm text-gray-800/90 hover:bg-gray-50 hover:text-black no-underline" href="{$recent.url}">
                             <div class="h-12 w-12 shrink-0 overflow-hidden rounded-md bg-gray-100">
                                 <img src="{$recent.image ?: '/assets/addons/cms/img/default.png'}" alt="{$recent.title|htmlentities}" loading="lazy" class="h-full w-full object-cover">
                             </div>
@@ -232,77 +228,8 @@
             </section>
 
             <!-- Google AdSense 侧边栏广告 -->
-            <div id="ad-sidebar" class="my-5 min-h-[100px] transition-all duration-300 empty:my-0 empty:min-h-0"></div>
+            {include file="common/sidebar" /}
         </aside>
     </div>
 </div>
-
-<script type="text/javascript" src="__ADDON__/js/vue.js"></script>
-<script>
-    // 忽略 Office 标签
-    Vue.config.ignoredElements = ['o:p'];
-    
-    new Vue({
-        el: '.funtest-list-container',
-        mounted() {
-            this.initAds();
-        },
-        methods: {
-            initAds() {
-                const waitForAdSense = (callback, maxAttempts = 50) => {
-                    let attempts = 0;
-                    const checkAdSense = () => {
-                        if (window.adsbygoogle || attempts >= maxAttempts) {
-                            callback();
-                        } else {
-                            attempts++;
-                            setTimeout(checkAdSense, 200);
-                        }
-                    };
-                    checkAdSense();
-                };
-                
-                const createAd = (container, config) => {
-                    if (!container) return;
-                    const ins = document.createElement('ins');
-                    ins.className = 'adsbygoogle block';
-                    Object.keys(config).forEach(key => {
-                        ins.setAttribute(key, config[key]);
-                    });
-                    container.appendChild(ins);
-                    setTimeout(() => {
-                        try {
-                            (adsbygoogle = window.adsbygoogle || []).push({});
-                        } catch (e) {}
-                    }, 100);
-                };
-                
-                waitForAdSense(() => {
-                    // 头部横向广告
-                    createAd(document.getElementById('ad-header-horizontal'), {
-                        'data-ad-client': 'ca-pub-9195262048954682',
-                        'data-ad-slot': '7906059149',
-                        'data-ad-format': 'auto',
-                        'data-full-width-responsive': 'true'
-                    });
-                    
-                    // 信息流广告
-                    createAd(document.getElementById('ad-list-infeed'), {
-                        'data-ad-format': 'fluid',
-                        'data-ad-layout-key': '-6t+ed+2i-1n-4w',
-                        'data-ad-client': 'ca-pub-9195262048954682',
-                        'data-ad-slot': '3120669155'
-                    });
-                    
-                    // 侧边栏广告
-                    createAd(document.getElementById('ad-sidebar'), {
-                        'data-ad-client': 'ca-pub-9195262048954682',
-                        'data-ad-slot': '2901144473',
-                        'data-ad-format': 'autorelaxed'
-                    });
-                });
-            }
-        }
-    });
-</script>
 

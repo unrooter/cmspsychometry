@@ -44,9 +44,9 @@
 }
 </script>
 
-<article class="min-h-screen bg-gray-50">
+<article class="min-h-screen bg-gray-50 py-10">
     <!-- Hero 区域 -->
-    <section class="bg-gradient-to-br from-emerald-500 to-emerald-700 py-14 text-white">
+    <section class="bg-black py-14 text-white">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="text-center">
                 <h1 class="text-3xl font-bold tracking-tight sm:text-5xl" itemprop="headline">{:__('关于我们')}</h1>
@@ -59,35 +59,35 @@
 
     <!-- 面包屑导航 -->
     <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" aria-label="面包屑导航">
-        <ol class="mt-6 flex flex-wrap items-center gap-x-2 gap-y-1 rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-600 shadow-sm" vocab="https://schema.org/" typeof="BreadcrumbList">
-            <li class="inline-flex items-center" property="itemListElement" typeof="ListItem">
-                <a class="hover:text-gray-900" property="item" typeof="WebPage" href="{cms:config name='cms.indexurl'/}">
-                    <span property="name">{:__('首页')}</span>
-                </a>
-                <meta property="position" content="1">
-            </li>
+        <ol class="mb-6 mt-6 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs text-gray-500" vocab="https://schema.org/" typeof="BreadcrumbList">
+            {php}$__breadPos = 0; $__breadShown = 0;{/php}
             {cms:breadcrumb id="item"}
+            {php}$__breadPos++;{/php}
+            {if $item.name != '首页' && $item.name != '关于我们'}
+            {php}$__breadShown++;{/php}
             <li class="inline-flex items-center" property="itemListElement" typeof="ListItem">
-                <span class="px-1 text-gray-400">›</span>
-                <a class="hover:text-gray-900" property="item" typeof="WebPage" href="{$item.url}">
+                <span class="mx-1 text-gray-300">›</span>
+                <a class="no-underline hover:text-black" property="item" typeof="WebPage" href="{$item.url}">
                     <span property="name">{:__($item.name)}</span>
                 </a>
-                <meta property="position" content="{:$i+1}">
+                <meta property="position" content="{$__breadShown}">
             </li>
+            {/if}
             {/cms:breadcrumb}
             <li class="inline-flex items-center font-semibold text-gray-900" property="itemListElement" typeof="ListItem">
-                <span class="px-1 text-gray-400">›</span>
+                <span class="mx-1 text-gray-300">›</span>
                 <span property="name">{:__('关于我们')}</span>
-                <meta property="position" content="{:count($breadcrumb ?? [])+2}">
+                <meta property="position" content="{:$__breadShown+1}">
             </li>
         </ol>
     </nav>
 
-    <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8" id="content-container">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" id="content-container">
         <div class="grid gap-6 lg:grid-cols-12">
             <!-- 主内容区 -->
             <main class="lg:col-span-8" role="main">
-                <article class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8" itemscope itemtype="https://schema.org/AboutPage">
+                <article class="ui-card" itemscope itemtype="https://schema.org/AboutPage">
+                    <div class="ui-card-body">
                     <div class="prose max-w-none prose-p:leading-7 prose-headings:scroll-mt-24" itemprop="mainContentOfPage">
                         {cms:page name="content" /}
                     </div>
@@ -102,25 +102,27 @@
                             <span>{:__('最后更新')}: {cms:page name="updatetime|date='Y-m-d',###" /}</span>
                         </div>
                     </div>
+                    </div>
                 </article>
             </main>
 
             <!-- 侧边栏 -->
             <aside class="space-y-6 lg:col-span-4" role="complementary">
-                <section class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
-                    <div class="border-b border-gray-100 px-5 py-4">
-                        <h3 class="flex items-center gap-2 text-base font-semibold text-gray-900">
-                            <i class="fa fa-fire text-rose-600" aria-hidden="true"></i>
-                            {:__('热门测试')}
-                        </h3>
-                    </div>
-                    <div class="p-4">
-                        <div class="space-y-3">
+                <section>
+                    <div class="ui-card">
+                        <div class="ui-card-header">
+                            <h3 class="flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-gray-900">
+                                <i class="fa fa-fire text-black/60" aria-hidden="true"></i>
+                                {:__('热门测试')}
+                            </h3>
+                        </div>
+                        <div class="ui-card-body">
+                            <div class="space-y-2">
                             {cms:arclist id="hot" orderby="views" orderway="DESC" limit="8"}
-                            <a href="{$hot.url}" class="group flex gap-3 rounded-xl border border-gray-200 bg-gray-50 p-3 transition hover:bg-white hover:shadow-sm" title="{$hot.title|htmlentities}">
-                                <div class="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-gray-200">
-                                    <img src="{$hot.image ?: '/assets/addons/cms/img/default.png'}" alt="{$hot.title|htmlentities}" loading="lazy" class="h-full w-full object-cover transition group-hover:scale-105">
-                                    <span class="absolute right-1 top-1 rounded-full bg-emerald-600 px-2 py-0.5 text-[11px] font-semibold text-white">{:__('热门')}</span>
+                            <a href="{$hot.url}" class="group flex gap-3 rounded-none bg-transparent transition hover:bg-black/5 no-underline" style="padding:10px 12px;" title="{$hot.title|htmlentities}">
+                                <div class="relative h-20 w-20 shrink-0 overflow-hidden rounded-none bg-black/5">
+                                    <img src="{$hot.image ?: '/assets/addons/cms/img/default.png'}" alt="{$hot.title|htmlentities}" loading="lazy" class="h-full w-full object-cover transition group-hover:scale-105" onerror="this.onerror=null;this.src='/assets/addons/cms/img/default.png'">
+                                    <span class="absolute right-1 top-1 bg-black px-2 py-0.5 text-[11px] font-semibold text-white">{:__('热门')}</span>
                                 </div>
                                 <div class="min-w-0 flex-1">
                                     <div class="line-clamp-2 text-sm font-semibold text-gray-900">{$hot.title|htmlentities|mb_substr=0,25}</div>
@@ -130,24 +132,26 @@
                                 </div>
                             </a>
                             {/cms:arclist}
+                            </div>
                         </div>
                     </div>
                 </section>
 
-                <section class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
-                    <div class="border-b border-gray-100 px-5 py-4">
-                        <h3 class="flex items-center gap-2 text-base font-semibold text-gray-900">
-                            <i class="fa fa-clock-o text-indigo-600" aria-hidden="true"></i>
-                            {:__('最新测试')}
-                        </h3>
-                    </div>
-                    <div class="p-4">
-                        <div class="space-y-3">
+                <section>
+                    <div class="ui-card">
+                        <div class="ui-card-header">
+                            <h3 class="flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-gray-900">
+                                <i class="fa fa-clock-o text-black/60" aria-hidden="true"></i>
+                                {:__('最新测试')}
+                            </h3>
+                        </div>
+                        <div class="ui-card-body">
+                            <div class="space-y-2">
                             {cms:arclist id="new" orderby="publishtime" orderway="DESC" limit="4"}
-                            <a href="{$new.url}" class="group flex gap-3 rounded-xl border border-gray-200 bg-gray-50 p-3 transition hover:bg-white hover:shadow-sm" title="{$new.title|htmlentities}">
-                                <div class="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-gray-200">
-                                    <img src="{$new.image ?: '/assets/addons/cms/img/default.png'}" alt="{$new.title|htmlentities}" loading="lazy" class="h-full w-full object-cover transition group-hover:scale-105">
-                                    <span class="absolute right-1 top-1 rounded-full bg-rose-600 px-2 py-0.5 text-[11px] font-semibold text-white">{:__('最新')}</span>
+                            <a href="{$new.url}" class="group flex gap-3 rounded-none bg-transparent transition hover:bg-black/5 no-underline" style="padding:10px 12px;" title="{$new.title|htmlentities}">
+                                <div class="relative h-20 w-20 shrink-0 overflow-hidden rounded-none bg-black/5">
+                                    <img src="{$new.image ?: '/assets/addons/cms/img/default.png'}" alt="{$new.title|htmlentities}" loading="lazy" class="h-full w-full object-cover transition group-hover:scale-105" onerror="this.onerror=null;this.src='/assets/addons/cms/img/default.png'">
+                                    <span class="absolute right-1 top-1 bg-black px-2 py-0.5 text-[11px] font-semibold text-white">{:__('最新')}</span>
                                 </div>
                                 <div class="min-w-0 flex-1">
                                     <div class="line-clamp-2 text-sm font-semibold text-gray-900">{$new.title|htmlentities|mb_substr=0,25}</div>
@@ -157,6 +161,7 @@
                                 </div>
                             </a>
                             {/cms:arclist}
+                            </div>
                         </div>
                     </div>
                 </section>

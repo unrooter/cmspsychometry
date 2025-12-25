@@ -417,8 +417,27 @@ if (!function_exists('check_nav_active')) {
     {
         $auth = \app\common\library\Auth::instance();
         $requestUrl = $auth->getRequestUri();
-        $url = ltrim($url, '/');
-        return $requestUrl === str_replace(".", "/", $url) ? $classname : '';
+        $requestUrl = strtolower(ltrim($requestUrl, '/'));
+        $requestUrl = preg_replace('/\\?.*$/', '', $requestUrl);
+        if (substr($requestUrl, 0, 6) === 'index/') {
+            $requestUrl = substr($requestUrl, 6);
+        }
+
+        $url = strtolower(ltrim($url, '/'));
+        $url = str_replace(".", "/", $url);
+        if (substr($url, 0, 6) === 'index/') {
+            $url = substr($url, 6);
+        }
+
+        if ($requestUrl === $url) {
+            return $classname;
+        }
+
+        $len = strlen($url);
+        if ($len > 0 && (substr($requestUrl, -$len) === $url || substr($requestUrl, -($len + 1)) === '/' . $url)) {
+            return $classname;
+        }
+        return '';
     }
 }
 

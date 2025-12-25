@@ -92,6 +92,9 @@ class Auth
         if ($this->_error) {
             return false;
         }
+        if (!$token) {
+            return false;
+        }
         $data = Token::get($token);
         if (!$data) {
             return false;

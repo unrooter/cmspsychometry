@@ -1,44 +1,51 @@
 <link rel="stylesheet" href="__CDN__/assets/libs/bootstrap-table/dist/bootstrap-table.min.css">
-<div id="content-container" class="container">
-    <div class="row">
-        <div class="col-md-3">
+<div id="content-container" class="ucenter-page mx-auto max-w-7xl px-4 py-8 md:px-6 md:py-10">
+    <div class="grid grid-cols-1 gap-6 lg:grid-cols-12">
+        <div class="lg:col-span-3">
             {include file="common/sidenav" /}
         </div>
-        <div class="col-md-9">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <h2 class="page-header">{:__('Change password')}</h2>
-                    <form id="changepwd-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
-                        {:token()}
-                        <div class="form-group">
-                            <label for="oldpassword" class="control-label col-xs-12 col-sm-2">{:__('Old password')}:</label>
-                            <div class="col-xs-12 col-sm-4">
-                                <input type="password" class="form-control" id="oldpassword" name="oldpassword" value="" data-rule="required;password" placeholder="{:__('Old password')}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="newpassword" class="control-label col-xs-12 col-sm-2">{:__('New password')}:</label>
-                            <div class="col-xs-12 col-sm-4">
-                                <input type="password" class="form-control" id="newpassword" name="newpassword" value="" data-rule="required;password" placeholder="{:__('New password')}" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="renewpassword" class="control-label col-xs-12 col-sm-2">{:__('Renew password')}:</label>
-                            <div class="col-xs-12 col-sm-4">
-                                <input type="password" class="form-control" id="renewpassword" name="renewpassword" value="" data-rule="required;password" placeholder="{:__('Renew password')}" />
+        <div class="lg:col-span-9">
+            <section class="ui-card border border-black/10 bg-white/70">
+                <div class="px-5 py-5 sm:px-6 sm:py-6">
+                    <div class="mb-6 border-b border-black/10 pb-4">
+                        <div class="flex items-center justify-between gap-3">
+                            <h2 class="m-0 text-lg font-extrabold tracking-[0.02em] text-black">{:__('Change password')}</h2>
+                            <div class="flex items-center gap-2">
                             </div>
                         </div>
 
-                        <div class="form-group normal-footer">
-                            <label class="control-label col-xs-12 col-sm-2"></label>
-                            <div class="col-xs-12 col-sm-8">
-                                <button type="submit" class="btn btn-primary btn-embossed disabled">{:__('Submit')}</button>
-                                <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
-                            </div>
+                        <div class="mt-4 ucenter-tabs md:hidden">
+                            <a href="{:url('cms.answer/index')}" class="ucenter-tab {:check_nav_active('cms.answer/index','ucenter-tab-active')}">{:__('我的测试记录')}</a>
+                            <a href="{:url('cms.answer/fun')}" class="ucenter-tab {:check_nav_active('cms.answer/fun','ucenter-tab-active')}">{:__('趣味测试记录')}</a>
+                            <a href="{:url('cms.comment/index')}" class="ucenter-tab {:check_nav_active('cms.comment/index','ucenter-tab-active')}">{:__('我发表的评论')}</a>
+                        </div>
+                    </div>
+
+                    <form id="changepwd-form" role="form" data-toggle="validator" method="POST" action="" class="max-w-xl">
+                        {:token()}
+
+                        <div class="mb-4">
+                            <label for="oldpassword" class="tw-label">{:__('Old password')}:</label>
+                            <input type="password" class="tw-input" id="oldpassword" name="oldpassword" value="" data-rule="required;password" placeholder="{:__('Old password')}">
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="newpassword" class="tw-label">{:__('New password')}:</label>
+                            <input type="password" class="tw-input" id="newpassword" name="newpassword" value="" data-rule="required;password" placeholder="{:__('New password')}" />
+                        </div>
+
+                        <div class="mb-6">
+                            <label for="renewpassword" class="tw-label">{:__('Renew password')}:</label>
+                            <input type="password" class="tw-input" id="renewpassword" name="renewpassword" value="" data-rule="required;password" placeholder="{:__('Renew password')}" />
+                        </div>
+
+                        <div class="flex flex-wrap gap-3">
+                            <button type="submit" class="tw-btn tw-btn-primary disabled">{:__('Submit')}</button>
+                            <button type="reset" class="tw-btn tw-btn-outline">{:__('Reset')}</button>
                         </div>
                     </form>
                 </div>
-            </div>
+            </section>
         </div>
     </div>
 </div>

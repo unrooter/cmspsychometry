@@ -1,6 +1,39 @@
 $(function () {
     window.isMobile = !!("ontouchstart" in window);
 
+    window.__cmsInitAdsense = function () {
+        try {
+            if (!window.adsbygoogle || !Array.isArray(window.adsbygoogle)) {
+                return;
+            }
+            var nodes = document.querySelectorAll('ins.adsbygoogle');
+            if (!nodes || !nodes.length) return;
+
+            for (var i = 0; i < nodes.length; i++) {
+                var el = nodes[i];
+                if (!el || el.getAttribute('data-adsbygoogle-status') === 'done') {
+                    continue;
+                }
+
+                var rect = el.getBoundingClientRect();
+                if (!rect || rect.width <= 0 || rect.height < 0) {
+                    continue;
+                }
+
+                var style = window.getComputedStyle(el);
+                if (style && (style.display === 'none' || style.visibility === 'hidden')) {
+                    continue;
+                }
+
+                try {
+                    window.adsbygoogle.push({});
+                } catch (e) {
+                }
+            }
+        } catch (e) {
+        }
+    };
+
     function AddFavorite(sURL, sTitle) {
         if (/firefox/i.test(navigator.userAgent)) {
             return false;
@@ -44,6 +77,12 @@ $(function () {
         var currentNav = $("a[href='" + location.href + "']", nav)[0] || $("a[href='" + location.pathname + "']", nav)[0] || $("li[value='" + current + "'] > a", nav)[0];
         currentNav && $(currentNav, nav).parents("li").addClass("active");
     }
+
+    setTimeout(function () {
+        if (typeof window.__cmsInitAdsense === 'function') {
+            window.__cmsInitAdsense();
+        }
+    }, 0);
 
     //移动端菜单点击
     $(document).on("click", ".navbar-collapse.collapse.in .navbar-nav .dropdown-submenu > a", function () {
@@ -332,14 +371,16 @@ $(function () {
     }
 
     // 打赏
-    $(".btn-donate").popover({
-        trigger: 'hover',
-        placement: 'top',
-        html: true,
-        content: function () {
-            return "<img src='" + $(this).data("image") + "' width='250' height='250'/>";
-        }
-    });
+    if ($.fn && $.fn.popover) {
+        $(".btn-donate").popover({
+            trigger: 'hover',
+            placement: 'top',
+            html: true,
+            content: function () {
+                return "<img src='" + $(this).data("image") + "' width='250' height='250'/>";
+            }
+        });
+    }
     $(document).on("click", ".btn-paynow", function () {
         var paytype = $(this).data("paytype");
         var price = $(this).data("price");

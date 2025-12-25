@@ -1,41 +1,49 @@
-<div id="content-container" class="container">
-    <div class="user-section login-section">
-        <div class="logon-tab clearfix"><a class="active">{:__('Sign in')}</a> <a href="{:url('user/register')}?url={$url|urlencode|htmlentities}">{:__('Sign up')}</a></div>
-        <div class="login-main">
-            <form name="form" id="login-form" class="form-vertical" method="POST" action="">
-                <!--@IndexLoginFormBegin-->
-                <input type="hidden" name="url" value="{$url|htmlentities}"/>
-                {:token()}
-                <div class="form-group">
-                    <label class="control-label" for="account">{:__('Account')}</label>
-                    <div class="controls">
-                        <input class="form-control" id="account" type="text" name="account" value="" data-rule="required" placeholder="{:__('Email/Mobile/Username')}" autocomplete="off">
-                        <div class="help-block"></div>
+<div id="content-container" class="auth-page">
+    <div class="mx-auto max-w-7xl px-4 py-10 md:px-6 md:py-14">
+        <div class="auth-form-wrap">
+            <section class="ui-card border border-black/10 bg-white/70">
+                <div class="border-b border-black/10 px-5 py-4">
+                    <div class="auth-tabs">
+                        <a class="auth-tab auth-tab-active" href="javascript:;">{:__('Sign in')}</a>
+                        <a class="auth-tab" href="{:url('user/register')}?url={$url|urlencode|htmlentities}">{:__('Sign up')}</a>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="control-label" for="password">{:__('Password')}</label>
-                    <div class="controls">
-                        <input class="form-control" id="password" type="password" name="password" data-rule="required;password" placeholder="{:__('Password')}" autocomplete="off">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="controls">
-                        <div class="checkbox inline">
-                            <label>
-                                <input type="checkbox" name="keeplogin" checked="checked" value="1"> {:__('Keep login')}
-                            </label>
+                <div class="ui-card-body px-5 py-5">
+                    <form name="form" id="login-form" class="form-vertical" method="POST" action="">
+                    <!--@IndexLoginFormBegin-->
+                    <input type="hidden" name="url" value="{$url|htmlentities}"/>
+                    {:token()}
+                    <div class="form-group">
+                        <label class="control-label" for="account">{:__('Account')}</label>
+                        <div class="controls">
+                            <input class="form-control ui-input" id="account" type="text" name="account" value="" data-rule="required" placeholder="{:__('Email/Mobile/Username')}" autocomplete="off">
+                            <div class="help-block"></div>
                         </div>
-                        <div class="pull-right"><a href="javascript:;" class="btn-forgot">{:__('Forgot password')}</a></div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-lg btn-block">{:__('Sign in')}</button>
-                    <a href="{:url('user/register')}?url={$url|urlencode|htmlentities}" class="btn btn-default btn-lg btn-block mt-3 no-border">{:__("Don't have an account? Sign up")}</a>
-                </div>
-                <!--@IndexLoginFormEnd-->
-            </form>
-        </div>
+                    <div class="form-group">
+                        <label class="control-label" for="password">{:__('Password')}</label>
+                        <div class="controls">
+                            <input class="form-control ui-input" id="password" type="password" name="password" data-rule="required;password" placeholder="{:__('Password')}" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="controls flex items-center justify-between gap-4">
+                            <div class="checkbox inline">
+                                <label class="text-xs text-black/70">
+                                    <input type="checkbox" name="keeplogin" checked="checked" value="1"> {:__('Keep login')}
+                                </label>
+                            </div>
+                            <div class="pull-right"><a href="javascript:;" class="btn-forgot text-xs text-black/80 no-underline hover:text-black">{:__('Forgot password')}</a></div>
+                        </div>
+                    </div>
+                    <div class="form-group mb-0">
+                        <button type="submit" class="btn btn-primary btn-lg btn-block ui-btn ui-btn-primary">{:__('Sign in')}</button>
+                        <a href="{:url('user/register')}?url={$url|urlencode|htmlentities}" class="btn btn-default btn-lg btn-block mt-3 no-border ui-btn ui-btn-outline">{:__("Don't have an account? Sign up")}</a>
+                    </div>
+                    <!--@IndexLoginFormEnd-->
+                </form>
+            </div>
+        </section>
     </div>
 </div>
 

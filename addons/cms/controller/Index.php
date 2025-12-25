@@ -16,6 +16,8 @@ class Index extends Base
     {
         $config = get_addon_config('cms');
 
+        $this->view->assign('bodyClass', 'oharchi-home');
+
         //设置TKD
         Config::set('cms.title', $config['title'] ?: __('Home'));
         Config::set('cms.keywords', $config['keywords']);

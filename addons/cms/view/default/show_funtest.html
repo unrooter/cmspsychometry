@@ -26,16 +26,46 @@
 }
 </script>
 
+<style data-render="style">
+ .oh-fun-head{display:flex;flex-direction:column;gap:14px}
+ @media (min-width: 768px){.oh-fun-head{flex-direction:row;align-items:flex-start;justify-content:space-between}}
+ .oh-fun-cta{display:inline-flex;align-items:center;justify-content:center;border-radius:12px;border:1px solid #facc15;background:#facc15;padding:12px 18px;font-size:13px;font-weight:900;letter-spacing:0.14em;color:#111;box-shadow:0 12px 28px rgba(250,204,21,0.28), 0 10px 26px rgba(0,0,0,0.10);user-select:none;white-space:nowrap}
+ .oh-fun-cta:hover{background:#fbbf24;border-color:#fbbf24}
+ .oh-fun-cta-muted{border-color:rgba(0,0,0,0.10);background:rgba(0,0,0,0.04);color:rgba(0,0,0,0.55);box-shadow:none}
+ .oh-fun-cta-muted:hover{background:rgba(0,0,0,0.04);border-color:rgba(0,0,0,0.10)}
+ @media (max-width: 767px){.oh-fun-cta{width:100%}}
+ .oh-fun-shell{background:rgba(0,0,0,0.035);padding:16px;border-radius:16px}
+ @media (min-width: 768px){.oh-fun-shell{padding:22px}}
+ .oh-fun-work{background:#fff;box-shadow:0 18px 45px rgba(0,0,0,0.06);padding:16px;border-radius:16px}
+ @media (min-width: 768px){.oh-fun-work{padding:20px}}
+ .oh-fun-choice{border-radius:14px}
+ .oh-fun-choice[disabled]{opacity:0.60;pointer-events:none}
+ .oh-fun-mask{position:fixed;inset:0;z-index:9999;background:rgba(255,255,255,0.88);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:24px}
+ .oh-fun-mask-card{width:min(360px, 100%);background:#111;color:#fff;border-radius:16px;padding:18px 18px 16px;text-align:center;box-shadow:0 22px 60px rgba(0,0,0,0.22)}
+ .oh-fun-spin{display:inline-block;width:22px;height:22px;border-radius:999px;border:2px solid rgba(255,255,255,0.35);border-top-color:#facc15;animation:oh-fun-spin 0.8s linear infinite}
+ @keyframes oh-fun-spin{to{transform:rotate(360deg)}}
+</style>
+
 
 <div id="app" v-cloak class="hidden">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" id="content-container" itemscope itemtype="https://schema.org/Quiz">
-        <nav aria-label="breadcrumb" class="mt-6">
-            <ol class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-gray-600" itemscope itemtype="https://schema.org/BreadcrumbList">
+    <div v-if="isGenerating" class="oh-fun-mask" role="status" aria-live="polite" aria-label="{:__('报告生成中')}">
+        <div class="oh-fun-mask-card">
+            <div class="flex items-center justify-center gap-3" style="gap:12px;">
+                <span class="oh-fun-spin" aria-hidden="true"></span>
+                <div class="text-base font-semibold">{:__('报告生成中')}</div>
+            </div>
+            <div class="mt-2 text-sm" style="color:rgba(255,255,255,0.78);">{:__('正在分析你的答案，请稍候…')}</div>
+        </div>
+    </div>
+    <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8" id="content-container" itemscope itemtype="https://schema.org/Quiz">
+        <nav aria-label="breadcrumb" class="mb-6">
+            <ol class="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs text-gray-500" itemscope itemtype="https://schema.org/BreadcrumbList">
                 {php}$breadPos = 0;{/php}
                 {cms:breadcrumb id="item"}
                 {php}$breadPos++;{/php}
                 <li class="inline-flex items-center" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                    <a class="hover:text-emerald-600" href="{$item.url}" itemprop="item">
+                    {if $breadPos>1}<span class="mx-1 text-gray-300">›</span>{/if}
+                    <a class="no-underline hover:text-black" href="{$item.url}" itemprop="item">
                         <span itemprop="name">{:__($item.name)}</span>
                     </a>
                     <meta itemprop="position" content="{$breadPos}" />
@@ -46,34 +76,43 @@
 
         <div class="mt-6 grid gap-6 lg:grid-cols-12">
             <main class="lg:col-span-8">
-                <article class="rounded-lg border border-gray-200 bg-white shadow-sm">
-                    <header class="space-y-4 border-b border-gray-100 p-5">
-                        <h1 class="text-xl font-bold leading-7 text-gray-900" itemprop="name" {if $__ARCHIVES__.style}data-css="{$__ARCHIVES__.style_text}"{/if} id="article-title">
-                            {cms:archives name="title|htmlentities" /}
-                        </h1>
-                        <div class="rounded-md bg-emerald-50 p-3 text-sm font-semibold text-emerald-800" itemprop="description">
-                            <i class="fa fa-quote-left mr-2" aria-hidden="true"></i>
-                            {cms:archives name="sub_title|htmlentities" /}
-                        </div>
-                        <div class="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-gray-600">
-                            <span class="inline-flex items-center gap-2"><i class="fa fa-eye text-emerald-600" aria-hidden="true"></i>{cms:archives name="views" /} 次</span>
-                            <span class="inline-flex items-center gap-2"><i class="fa fa-calendar text-emerald-600" aria-hidden="true"></i>{$__ARCHIVES__.publishtime|date='Y-m-d',###}</span>
-                            <span class="inline-flex items-center gap-2"><i class="fa fa-tag text-emerald-600" aria-hidden="true"></i>{:__('趣味测试')}</span>
+                <article class="ui-card">
+                    <header class="ui-card-header">
+                        <div class="oh-fun-head">
+                            <div class="min-w-0 space-y-4">
+                                <h1 class="text-xl font-bold leading-7 text-gray-900" itemprop="name" {if $__ARCHIVES__.style}data-css="{$__ARCHIVES__.style_text}"{/if} id="article-title">
+                                    {cms:archives name="title|htmlentities" /}
+                                </h1>
+                                <div class="bg-black/5 p-2 text-sm font-semibold text-gray-900" itemprop="description">
+                                    <i class="fa fa-quote-left mr-2" aria-hidden="true"></i>
+                                    {cms:archives name="sub_title|htmlentities" /}
+                                </div>
+                                <div class="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-gray-600">
+                                    <span class="inline-flex items-center gap-2"><i class="fa fa-eye text-black/60" aria-hidden="true"></i>{cms:archives name="views" /} 次</span>
+                                    <span class="inline-flex items-center gap-2"><i class="fa fa-calendar text-black/60" aria-hidden="true"></i>{$__ARCHIVES__.publishtime|date='Y-m-d',###}</span>
+                                    <span class="inline-flex items-center gap-2"><i class="fa fa-tag text-black/60" aria-hidden="true"></i>{:__('趣味测试')}</span>
+                                </div>
+                            </div>
+                            <div class="shrink-0">
+                                {if $check_data['code']==3}
+                                <a class="oh-fun-cta" href="{:url('index/user/login')}"><i class="fa fa-sign-in mr-2" aria-hidden="true"></i>{:__('登录后测试')}</a>
+                                {elseif $check_data['code']==0}
+                                <button type="button" class="oh-fun-cta oh-fun-cta-muted" disabled><i class="fa fa-check-circle mr-2" aria-hidden="true"></i>{:__('今日已完成')}</button>
+                                {else}
+                                <button type="button" class="oh-fun-cta" onclick="var el=document.getElementById('fun-test-start'); if(el){el.scrollIntoView({behavior:'smooth',block:'start'}); setTimeout(function(){window.scrollBy({top:-80,behavior:'smooth'});},300);} "><i class="fa fa-play-circle mr-2" aria-hidden="true"></i>{:__('立即测试')}</button>
+                                {/if}
+                            </div>
                         </div>
                     </header>
 
-                    <div id="ad-header-horizontal" class="my-4 min-h-[90px]"></div>
-
-                    <div class="space-y-5 p-5">
-                        <div class="rounded-md bg-emerald-50 p-3 text-base font-bold text-gray-900">
+                    <div class="ui-card-body space-y-4">
+                        <div class="bg-black/5 p-2 text-base font-bold text-gray-900">
                             {:__('测：')}{cms:archives name="sub_title|htmlentities" /}
                         </div>
 
                         <div class="text-sm leading-7 text-gray-700">
                             {cms:archives name="content" /}
                         </div>
-
-                        <div id="ad-in-article" class="my-4 min-h-[100px] text-center"></div>
 
                         <img src="{cms:archives name='image|cdnurl'}"
                              alt="{cms:archives name='title|htmlentities'} - 心理测试题图片"
@@ -83,74 +122,84 @@
                              height="670"
                              fetchpriority="high"
                              loading="eager"
-                             class="w-full rounded-lg bg-gray-100 object-cover">
+                             class="w-full bg-gray-100 object-contain" style="max-height:360px;">
 
-                        <div class="rounded-md bg-emerald-50 p-3 text-sm font-bold text-gray-900">
+                        <div class="bg-black/5 p-2 text-sm font-bold text-gray-900">
                             {:__('问题：')}{cms:archives name="title" /}
                         </div>
 
+                        <div id="fun-test-start"></div>
+
                         {if $check_data['code']==3}
-                        <a href="{:url('index/user/login')}" class="block rounded-md border border-amber-200 bg-amber-50 p-4 text-center text-sm font-semibold text-amber-800 hover:bg-amber-100">{:__('超出游客次数，请登录增加测试次数')}</a>
+                        <a href="{:url('index/user/login')}" class="block border border-amber-200 bg-amber-50 p-4 text-center text-sm font-semibold text-amber-800 hover:bg-amber-100">{:__('超出游客次数，请登录增加测试次数')}</a>
                         {elseif $check_data['code']==0}
-                        <div class="rounded-md border border-amber-200 bg-amber-50 p-4 text-center text-sm font-semibold text-amber-800">{:__('今日已经做过该测试了，请明天再重试哦')}</div>
+                        <div class="border border-amber-200 bg-amber-50 p-4 text-center text-sm font-semibold text-amber-800">{:__('今日已经做过该测试了，请明天再重试哦')}</div>
                         {elseif $check_data['code']!==4}
 
-                        <div v-if="loading" class="rounded-md border border-gray-200 bg-white p-4 text-center text-sm text-gray-600">
+                        <div v-if="loading" class="border border-gray-200 bg-white p-4 text-center text-sm text-gray-600">
                             {:__('加载中...')}
                         </div>
 
-                        <div v-if="!loading && productInfo && productInfo.back_type==1" class="space-y-4">
-                            <button type="button" class="flex w-full items-center gap-3 rounded-lg bg-gray-100 p-4 text-left text-base font-semibold text-gray-900 transition hover:bg-gray-200" v-for="item in quesList" @click="getExamResult(item)">
-                                <span class="text-emerald-700">{{item.mark}}.</span>
-                                <span class="min-w-0 flex-1">{{item.title}}</span>
-                            </button>
-                        </div>
+                        <div class="oh-fun-shell">
+                            <div class="oh-fun-work">
 
-                        <div v-if="!loading && productInfo && productInfo.back_type==0" class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                            <button type="button" class="flex w-full items-center justify-center rounded-lg bg-gray-100 p-6 text-base font-bold text-gray-900 transition hover:bg-gray-200" v-for="item in quesList" @click="getExamResult(item)">
-                                {{item.mark}}.
-                            </button>
-                        </div>
-
-                        <div v-if="!loading && productInfo && productInfo.back_type==2" class="space-y-4">
-                            <button type="button" class="flex w-full items-start gap-3 rounded-lg bg-gray-100 p-4 text-left text-base font-semibold text-gray-900 transition hover:bg-gray-200" v-for="item in quesList" @click="getExamResult(item)">
-                                <span class="text-emerald-700">{{item.mark}}.</span>
-                                <span class="min-w-0 flex-1">{{item.title}}</span>
-                            </button>
-                        </div>
-
-                        <div v-if="!loading && productInfo && productInfo.back_type==3" class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                            <button type="button" class="w-full rounded-lg border-2 p-4 text-left transition"
-                                    v-for="item in quesList" @click="selectItem(item)"
-                                    :class="selectedItem && selectedItem.id === item.id ? 'border-emerald-600 bg-emerald-50 shadow' : 'border-gray-200 bg-white hover:border-emerald-600'">
-                                <div class="flex items-start gap-2">
-                                    <div class="font-bold text-emerald-700">{{item.mark}}.</div>
-                                    <div class="min-w-0 flex-1 font-bold text-gray-900">{{item.title}}</div>
-                                    <div v-if="selectedItem && selectedItem.id === item.id" class="ml-auto text-emerald-600">✓</div>
+                                <div v-if="!loading && productInfo && productInfo.back_type==1" class="space-y-4">
+                                    <button type="button" class="oh-fun-choice flex w-full items-center gap-3 bg-white px-4 py-3 text-left text-base font-semibold text-gray-900 shadow-sm transition hover:bg-black/5" v-for="item in quesList" @click="getExamResult(item)" :disabled="isGenerating">
+                                        <span class="text-black/80">{{item.mark}}.</span>
+                                        <span class="min-w-0 flex-1">{{item.title}}</span>
+                                    </button>
                                 </div>
-                                <img v-if="item.cover" :src="item.cover" :alt="item.title" width="270" height="350" class="mt-3 w-full max-h-52 rounded-md bg-white object-contain">
-                            </button>
-                        </div>
 
-                        <div v-if="selectedItem" class="pt-2 text-center">
-                            <button type="button" @click="submitAnswer" class="inline-flex items-center rounded-full bg-emerald-600 px-8 py-3 text-sm font-semibold text-white shadow hover:bg-emerald-700">{:__('确认选择')}</button>
+                                <div v-if="!loading && productInfo && productInfo.back_type==0" class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                                    <button type="button" class="oh-fun-choice flex w-full items-center justify-center bg-white p-4 text-base font-bold text-gray-900 shadow-sm transition hover:bg-black/5" v-for="item in quesList" @click="getExamResult(item)" :disabled="isGenerating">
+                                        {{item.mark}}.
+                                    </button>
+                                </div>
+
+                                <div v-if="!loading && productInfo && productInfo.back_type==2" class="space-y-4">
+                                    <button type="button" class="oh-fun-choice flex w-full items-start gap-3 bg-white px-4 py-3 text-left text-base font-semibold text-gray-900 shadow-sm transition hover:bg-black/5" v-for="item in quesList" @click="getExamResult(item)" :disabled="isGenerating">
+                                        <span class="text-black/80">{{item.mark}}.</span>
+                                        <span class="min-w-0 flex-1">{{item.title}}</span>
+                                    </button>
+                                </div>
+
+                                <div v-if="!loading && productInfo && productInfo.back_type==3" class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                                    <button type="button" class="oh-fun-choice w-full bg-white p-4 text-left shadow-sm transition"
+                                            v-for="item in quesList" @click="selectItem(item)"
+                                            :class="selectedItem && selectedItem.id === item.id ? 'bg-black/5' : 'hover:bg-black/5'">
+                                        <div class="flex items-start gap-2">
+                                            <div class="font-bold text-black/80">{{item.mark}}.</div>
+                                            <div class="min-w-0 flex-1 font-bold text-gray-900">{{item.title}}</div>
+                                            <div v-if="selectedItem && selectedItem.id === item.id" class="ml-auto text-black">✓</div>
+                                        </div>
+                                        <img v-if="item.cover" :src="item.cover" :alt="item.title" width="270" height="350" class="mt-3 w-full max-h-52 bg-white object-contain">
+                                    </button>
+                                </div>
+
+                                <div v-if="selectedItem" class="pt-2 text-center">
+                                    <button type="button" @click="submitAnswer" class="inline-flex items-center rounded-none bg-black px-10 py-3 text-sm font-semibold tracking-[0.14em] text-white shadow hover:bg-black/90" :disabled="isGenerating">{:__('确认选择')}</button>
+                                </div>
+
+                            </div>
                         </div>
                         {/if}
                     </div>
                 </article>
 
-                <section class="mt-6 rounded-lg border border-amber-200 bg-amber-50 p-4 text-center text-sm font-medium text-amber-800">
-                    {:__('注：趣味型测试仅供娱乐参考，不可作为临床诊断依据。')}
+                <section class="ui-card mt-6" aria-label="{:__('免责声明')}">
+                    <div class="ui-card-body bg-amber-50 text-center text-sm font-medium text-amber-800" style="padding:10px 12px;">
+                        {:__('注：趣味型测试仅供娱乐参考，不可作为临床诊断依据。')}
+                    </div>
                 </section>
 
                 {if $config.iscomment && config('fastadmin.usercenter')}
-                <section class="mt-6 rounded-lg border border-gray-200 bg-white shadow-sm" id="comments">
-                    <div class="border-b border-gray-100 px-4 py-3">
+                <section class="ui-card mt-6" id="comments">
+                    <div class="ui-card-header">
                         <h2 class="text-base font-semibold text-gray-900">{:__('评论列表')}
-                            <small class="ml-2 text-sm font-normal text-gray-600">{:__('共有')} <span class="font-semibold text-emerald-700">{cms:archives name="comments" /}</span> {:__('条评论')}</small>
+                            <small class="ml-2 text-sm font-normal text-gray-600">{:__('共有')} <span class="font-semibold text-black">{cms:archives name="comments" /}</span> {:__('条评论')}</small>
                         </h2>
                     </div>
-                    <div class="p-4">
+                    <div class="ui-card-body">
                         <!--@formatter:off-->
                         {if $__ARCHIVES__.iscomment}
                         {include file="common/comment" type="archives" aid="__ARCHIVES__.eid"}
@@ -164,19 +213,16 @@
             </main>
 
             <aside class="space-y-6 lg:col-span-4">
-                <section class="rounded-lg border border-gray-200 bg-white shadow-sm" aria-label="{:__('相关推荐')}">
-                    <div class="border-b border-gray-100 px-4 py-3">
+                <section class="ui-card" aria-label="{:__('相关推荐')}">
+                    <div class="ui-card-header">
                         <h2 class="text-base font-semibold text-gray-900">{:__('相关推荐')}</h2>
                     </div>
-                    <div class="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2">
+                    <div class="ui-card-body grid grid-cols-1 gap-4 sm:grid-cols-2">
                         {cms:arclist id="item" type="son" channel="25" limit="6"}
                         {include file="common/item_funtest" /}
                         {/cms:arclist}
                     </div>
                 </section>
-
-                <div id="ad-feed" class="my-4 min-h-[100px]"></div>
-                <div id="ad-sidebar-top" class="my-4 min-h-[100px]"></div>
 
                 {include file="common/authorinfo" /}
                 {include file="common/sidebar" /}
@@ -204,7 +250,8 @@
             productInfo: null,
             isMobile: false,
             loading: true,
-            selectedItem: null
+            selectedItem: null,
+            isGenerating: false
         },
         mounted() {
             this.$el.classList.remove('hidden');
@@ -213,6 +260,12 @@
             window.addEventListener('resize', () => {
                 this.isMobile = window.innerWidth <= 992;
             });
+
+            setTimeout(function () {
+                if (typeof window.__cmsInitAdsense === 'function') {
+                    window.__cmsInitAdsense();
+                }
+            }, 0);
             
             var url = window.location.href;
             const parsedUrl = new URL(url);
@@ -220,9 +273,6 @@
             const filename = pathnameParts[pathnameParts.length - 1];
             this.qid = filename.split(".")[0];
             this.getQuestions()
-            
-            // 动态插入 Google AdSense 广告
-            this.initAds();
         },
         methods: {
             applyDynamicTitleStyle() {
@@ -237,80 +287,6 @@
                 } catch (e) {
                     console.warn('[Title] Failed to apply dynamic style', e);
                 }
-            },
-            initAds() {
-                // 等待 AdSense 脚本加载
-                const waitForAdSense = (callback, maxAttempts = 50) => {
-                    let attempts = 0;
-                    const checkAdSense = () => {
-                        if (window.adsbygoogle || attempts >= maxAttempts) {
-                            callback();
-                        } else {
-                            attempts++;
-                            setTimeout(checkAdSense, 200);
-                        }
-                    };
-                    checkAdSense();
-                };
-                
-                // 创建广告的辅助函数
-                const createAd = (container, config) => {
-                    if (!container) return;
-                    
-                    // 创建 ins 元素
-                    const ins = document.createElement('ins');
-                    ins.className = 'adsbygoogle block';
-                    
-                    // 设置广告属性
-                    Object.keys(config).forEach(key => {
-                        ins.setAttribute(key, config[key]);
-                    });
-                    
-                    container.appendChild(ins);
-                    
-                    // 延迟执行广告加载
-                    setTimeout(() => {
-                        try {
-                            (adsbygoogle = window.adsbygoogle || []).push({});
-                        } catch (e) {
-                            // 静默处理错误
-                        }
-                    }, 100);
-                };
-                
-                // 等待 AdSense 加载完成后创建广告
-                waitForAdSense(() => {
-                    // 头部横向广告
-                    createAd(document.getElementById('ad-header-horizontal'), {
-                        'data-ad-client': 'ca-pub-9195262048954682',
-                        'data-ad-slot': '7906059149',
-                        'data-ad-format': 'auto',
-                        'data-full-width-responsive': 'true'
-                    });
-                    
-                    // 文章内嵌广告
-                    createAd(document.getElementById('ad-in-article'), {
-                        'data-ad-layout': 'in-article',
-                        'data-ad-format': 'fluid',
-                        'data-ad-client': 'ca-pub-9195262048954682',
-                        'data-ad-slot': '5294962935'
-                    });
-                    
-                    // 信息流广告
-                    createAd(document.getElementById('ad-feed'), {
-                        'data-ad-format': 'fluid',
-                        'data-ad-layout-key': '-6t+ed+2i-1n-4w',
-                        'data-ad-client': 'ca-pub-9195262048954682',
-                        'data-ad-slot': '3120669155'
-                    });
-                    
-                    // 侧边栏广告 (autorelaxed 格式)
-                    createAd(document.getElementById('ad-sidebar-top'), {
-                        'data-ad-client': 'ca-pub-9195262048954682',
-                        'data-ad-slot': '2901144473',
-                        'data-ad-format': 'autorelaxed'
-                    });
-                });
             },
             // 获取当前语言设置
             getCurrentLanguage() {
@@ -386,6 +362,8 @@
                 }
             },
             getExamResult(item) {
+                if (this.isGenerating) return;
+                this.isGenerating = true;
                 const params = new URLSearchParams();
                 params.append('aid', this.qid);
                 params.append('token', token);
@@ -409,15 +387,23 @@
                     .then(data => {
                         if (data.code == 1) {
                             // Redirect to the result page based on test type
-                            const testType = data.data.test_type || productInfo.test_type || 'custom';
+                            const testType = data.data.test_type || (this.productInfo && this.productInfo.test_type) || 'custom';
                             const resultPage = getResultPage(testType);
                             // 使用完整的URL，包含端口号
                             const baseUrl = window.location.protocol + '//' + window.location.host;
+                            try {
+                                sessionStorage.setItem('cms_result_generating', '1');
+                                sessionStorage.setItem('cms_result_generating_at', String(Date.now()));
+                            } catch (e) {}
                             window.location.href = baseUrl + resultPage + '?answer_id=' + data.data.answer_id;
+                        } else {
+                            this.isGenerating = false;
+                            alert(data.msg || '{:__("提交失败")}');
                         }
                     })
                     .catch(error => {
                         console.error('Error fetching data:', error);
+                        this.isGenerating = false;
                     });
             }
         }

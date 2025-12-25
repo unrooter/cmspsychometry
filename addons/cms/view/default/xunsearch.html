@@ -1,15 +1,15 @@
 {layout name="common/layout" /}
 
-<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-    <div class="rounded-lg border border-gray-200 bg-white shadow-sm">
-        <div class="p-4">
+<div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+    <div class="ui-card">
+        <div class="ui-card-body">
             <form class="pt-2" id="search-form" method="get">
                 <input type="hidden" name="order" value="{$order|htmlentities}">
                 <div class="grid gap-4 md:grid-cols-12">
                     <div class="md:col-span-6" id="q-input">
                         <div class="flex gap-2">
-                            <input type="search" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200" name="q" title="输入任意关键词皆可搜索" value="<?php echo htmlspecialchars($q); ?>">
-                            <button class="inline-flex items-center justify-center rounded-md bg-emerald-600 px-6 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700" type="submit">搜索</button>
+                            <input type="search" class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm outline-none focus:border-gray-900 focus:ring-2 focus:ring-black/10" name="q" title="输入任意关键词皆可搜索" value="<?php echo htmlspecialchars($q); ?>">
+                            <button class="inline-flex items-center justify-center rounded-md bg-black px-6 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/90" type="submit">搜索</button>
                         </div>
                     </div>
                     <div class="md:col-span-6">
@@ -40,8 +40,8 @@
 </div>
 
 <div class="mx-auto mt-6 max-w-7xl px-4 sm:px-6 lg:px-8">
-    <div class="rounded-lg border border-gray-200 bg-white shadow-sm">
-        <div class="p-4">
+    <div class="ui-card">
+        <div class="ui-card-body">
             <!-- 开始搜索 -->
             <?php if (!empty($q)): ?>
             <div class="xunsearch-results">
@@ -77,13 +77,13 @@
                     <div class="rounded-lg border border-gray-100 p-4 hover:bg-gray-50">
                         <dt>
                             <h4 class="text-base font-semibold text-gray-900">
-                                <a href="{$doc['url']}" class="text-emerald-700 hover:text-emerald-800" target="_blank">
+                                <a href="{$doc['url']}" class="text-gray-900 hover:text-black" target="_blank">
                                     <?php echo $highlight(htmlspecialchars($doc['title'])); ?>
                                 </a>
                             </h4>
                         </dt>
                         <dd class="mt-2">
-                            <div class="text-sm leading-7 text-gray-600"><?php echo $fulltext ? $highlight(htmlspecialchars($doc['content'])) : htmlspecialchars($doc['content']); ?></div>
+                            <div class="oh-clamp-2 text-sm leading-7 text-gray-600"><?php echo $fulltext ? $highlight(htmlspecialchars($doc['content'])) : htmlspecialchars($doc['content']); ?></div>
                             <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-gray-600">
                                 {if $doc['type']=="question"}
                                 <span class="inline-flex items-center rounded-full bg-gray-100 px-2 py-0.5 font-medium text-gray-700">问题</span>
@@ -119,12 +119,12 @@
 <!-- 相关搜索 -->
 <?php if (count($related) > 0): ?>
 <div class="mx-auto mt-6 max-w-7xl px-4 sm:px-6 lg:px-8">
-    <div class="rounded-lg border border-gray-200 bg-white shadow-sm">
-        <div class="p-4">
+    <div class="ui-card">
+        <div class="ui-card-body">
             <h4 class="text-base font-semibold text-gray-900">相关搜索</h4>
             <div class="mt-3 flex flex-wrap gap-2">
                 <?php foreach ($related as $word): ?>
-                <a class="inline-flex items-center rounded-full border border-gray-200 bg-white px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 hover:text-emerald-600" href="<?php echo '?q=' . urlencode($word); ?>"><?php echo htmlentities($word); ?></a>
+                <a class="inline-flex items-center rounded-full border border-gray-200 bg-white px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 hover:text-black" href="<?php echo '?q=' . urlencode($word); ?>"><?php echo htmlentities($word); ?></a>
                 <?php endforeach; ?>
             </div>
         </div>
@@ -184,7 +184,7 @@
                 el.classList.add('hover:bg-gray-50');
             });
             document.querySelectorAll('.pagination > li.active > span, .pagination > li.active > a').forEach(function (el) {
-                el.classList.add('bg-emerald-600', 'border-emerald-600', 'text-white');
+                el.classList.add('bg-black', 'border-black', 'text-white');
             });
             document.querySelectorAll('.pagination > li.disabled > span, .pagination > li.disabled > a').forEach(function (el) {
                 el.classList.add('opacity-60');

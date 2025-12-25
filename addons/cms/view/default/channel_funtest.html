@@ -24,17 +24,17 @@
 }
 </script>
 
-<article class="min-h-screen bg-gray-50 py-6">
+<article class="min-h-screen bg-gray-50 py-10">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <!-- SEO优化的面包屑导航 -->
-        <nav aria-label="breadcrumb" class="mt-2">
-            <ol class="flex flex-wrap items-center gap-x-2 gap-y-1 rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-600 shadow-sm" itemscope itemtype="https://schema.org/BreadcrumbList">
+        <nav aria-label="breadcrumb" class="mb-6">
+            <ol class="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs text-gray-500" itemscope itemtype="https://schema.org/BreadcrumbList">
                 {php}$breadPos = 0;{/php}
                 {cms:breadcrumb id="item"}
                 {php}$breadPos++;{/php}
                 <li class="inline-flex items-center" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                    {if $breadPos > 1}<span class="px-1 text-gray-400">›</span>{/if}
-                    <a href="{$item.url}" class="hover:text-gray-900" itemprop="item">
+                    {if $breadPos > 1}<span class="mx-1 text-gray-300">›</span>{/if}
+                    <a href="{$item.url}" class="no-underline hover:text-black" itemprop="item">
                         <span itemprop="name">{:__($item.name)}</span>
                     </a>
                     <meta itemprop="position" content="{$breadPos}" />
@@ -44,11 +44,11 @@
         </nav>
 
         <!-- SEO优化的页面头部 -->
-        <header class="mt-6 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
-            <div class="p-6 sm:p-8">
+        <header class="ui-card">
+            <div class="ui-card-body">
                 <div class="flex flex-wrap items-center gap-3">
-                    <h1 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl" itemprop="headline">{:__($__CHANNEL__.name ?: '趣味心理测试')}</h1>
-                    <span class="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-3 py-1 text-xs font-semibold text-white">
+                    <h1 class="text-xl font-semibold tracking-tight text-gray-900 sm:text-2xl" itemprop="headline">{:__($__CHANNEL__.name ?: '趣味心理测试')}</h1>
+                    <span class="inline-flex items-center gap-2 rounded-full bg-black px-3 py-1 text-xs font-semibold text-white">
                         <i class="fa fa-check-circle" aria-hidden="true"></i>
                         {$__PAGELIST__->total()} 个测试
                     </span>
@@ -58,15 +58,15 @@
                     {if $__CHANNEL__.description}
                     <p>{$__CHANNEL__.description}</p>
                     {else}
-                    <p>探索 <span class="font-semibold text-emerald-700">{:__($__CHANNEL__.name)}</span> 相关的心理测试，深入了解自我，发现内心世界的更多可能性。</p>
+                    <p>探索 <span class="font-semibold text-gray-900">{:__($__CHANNEL__.name)}</span> 相关的心理测试，深入了解自我，发现内心世界的更多可能性。</p>
                     {/if}
                 </div>
 
                 <nav class="mt-6 flex flex-wrap items-center gap-2" aria-label="子分类导航">
-                    <span class="inline-flex items-center gap-2 text-sm font-semibold text-gray-700"><i class="fa fa-th-list text-emerald-600" aria-hidden="true"></i>分类</span>
+                    <span class="inline-flex items-center gap-2 text-sm font-semibold text-gray-700"><i class="fa fa-th-list text-black/60" aria-hidden="true"></i>分类</span>
                     {php}$navType = $__CHANNEL__['parent_id'] > 0 ? $__CHANNEL__['parent_id'] : $__CHANNEL__['id'];{/php}
                     {cms:channellist id="subchan" type="son" typeid="$navType" limit="6"}
-                    <a href="{$subchan.url}" class="rounded-full border px-3 py-1 text-sm font-medium transition {if $subchan.id == $__CHANNEL__.id}border-emerald-600 bg-emerald-50 text-emerald-700{else/}border-gray-200 bg-white text-gray-700 hover:border-emerald-600 hover:bg-emerald-50 hover:text-emerald-700{/if}">
+                    <a href="{$subchan.url}" class="ui-pill text-sm font-medium {if $subchan.id == $__CHANNEL__.id}ui-pill-active{/if}">
                         {:__($subchan.name)}
                     </a>
                     {/cms:channellist}
@@ -79,7 +79,7 @@
                 <section aria-label="{:__('测试列表')}">
                     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                         {volist name="__PAGELIST__" id="item"}
-                        <article class="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md" itemscope itemtype="https://schema.org/Quiz">
+                        <article class="ui-card group overflow-hidden transition" itemscope itemtype="https://schema.org/Quiz">
                             <a href="{$item.url}" class="block" aria-label="{$item.title|htmlentities}">
                                 <div class="relative aspect-square bg-gray-100">
                                     <img src="{$item.image ?: '/assets/addons/cms/img/default.png'}"
@@ -93,7 +93,7 @@
                                     {if $item.tags}
                                     <div class="absolute left-2 top-2 flex flex-wrap gap-1">
                                         {volist name="item.tags" id="tag"}
-                                        <span class="rounded bg-emerald-600/90 px-2 py-0.5 text-xs font-semibold text-white">{$tag.title}</span>
+                                        <span class="rounded bg-black/70 px-2 py-0.5 text-xs font-semibold text-white">{$tag.title}</span>
                                         {/volist}
                                     </div>
                                     {/if}
@@ -130,10 +130,10 @@
             </main>
 
             <aside class="space-y-6 lg:col-span-3">
-                <section class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm" aria-labelledby="hot-tests-title">
-                    <div class="border-b border-gray-100 px-4 py-3">
-                        <h2 class="flex items-center gap-2 text-base font-semibold text-gray-900" id="hot-tests-title">
-                            <i class="fa fa-fire text-rose-600" aria-hidden="true"></i>
+                <section class="ui-card" aria-labelledby="hot-tests-title">
+                    <div class="ui-card-header">
+                        <h2 class="flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-gray-900" id="hot-tests-title">
+                            <i class="fa fa-fire text-black/60" aria-hidden="true"></i>
                             {:__('热门测试')}
                         </h2>
                     </div>
@@ -141,7 +141,7 @@
                         {php}$hotType = $__CHANNEL__['parent_id'] > 0 ? '' : 'son';{/php}
                         {cms:arclist id="hot" type="$hotType" channel="$__CHANNEL__.id" orderby="views" orderway="DESC" limit="5"}
                         <a href="{$hot.url}" class="flex items-center gap-3 px-4 py-3 text-sm hover:bg-gray-50" title="{$hot.title|htmlentities}">
-                            <span class="inline-flex h-6 w-6 items-center justify-center rounded-full bg-emerald-600 text-xs font-bold text-white">{$i}</span>
+                            <span class="inline-flex h-6 w-6 items-center justify-center rounded-full bg-black/5 text-xs font-bold text-gray-900">{$i}</span>
                             <span class="min-w-0 flex-1 truncate font-medium text-gray-900">{$hot.title|htmlentities|mb_substr=0,30}</span>
                             <span class="inline-flex items-center gap-1 text-xs text-gray-500"><i class="fa fa-eye" aria-hidden="true"></i>{$hot.views|default=0}</span>
                         </a>
@@ -149,24 +149,24 @@
                     </div>
                 </section>
 
-                <section class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm" aria-labelledby="category-title">
-                    <div class="border-b border-gray-100 px-4 py-3">
-                        <h2 class="flex items-center gap-2 text-base font-semibold text-gray-900" id="category-title">
-                            <i class="fa fa-th-large text-emerald-600" aria-hidden="true"></i>
+                <section class="ui-card" aria-labelledby="category-title">
+                    <div class="ui-card-header">
+                        <h2 class="flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-gray-900" id="category-title">
+                            <i class="fa fa-th-large text-black/60" aria-hidden="true"></i>
                             {:__('分类导航')}
                         </h2>
                     </div>
-                    <div class="grid grid-cols-2 gap-3 p-4">
+                    <div class="ui-card-body grid grid-cols-2 gap-3">
                         {if $__CHANNEL__.parent_id > 0}
                         {cms:channellist id="sub" type="son" typeid="$__CHANNEL__.parent_id"}
-                        <a href="{$sub.url}" class="rounded-xl border px-3 py-3 text-center text-sm font-semibold transition {if $sub.id == $__CHANNEL__.id}border-emerald-600 bg-emerald-50 text-emerald-700{else/}border-gray-200 bg-white text-gray-700 hover:border-emerald-600 hover:bg-emerald-50 hover:text-emerald-700{/if}">
+                        <a href="{$sub.url}" class="rounded-xl border px-3 py-3 text-center text-sm font-semibold transition no-underline {if $sub.id == $__CHANNEL__.id}border-gray-200 bg-gray-50 text-gray-900{else/}border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50 hover:text-black{/if}">
                             <div class="mb-2 text-lg"><i class="fa fa-folder-o" aria-hidden="true"></i></div>
                             <div class="truncate">{:__($sub.name)}</div>
                         </a>
                         {/cms:channellist}
                         {else}
                         {cms:channellist id="sub" type="son" typeid="$__CHANNEL__.id"}
-                        <a href="{$sub.url}" class="rounded-xl border border-gray-200 bg-white px-3 py-3 text-center text-sm font-semibold text-gray-700 transition hover:border-emerald-600 hover:bg-emerald-50 hover:text-emerald-700">
+                        <a href="{$sub.url}" class="rounded-xl border border-gray-200 bg-white px-3 py-3 text-center text-sm font-semibold text-gray-700 transition hover:border-gray-300 hover:bg-gray-50 hover:text-black no-underline">
                             <div class="mb-2 text-lg"><i class="fa fa-folder-o" aria-hidden="true"></i></div>
                             <div class="truncate">{:__($sub.name)}</div>
                         </a>
@@ -175,10 +175,10 @@
                     </div>
                 </section>
 
-                <section class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm" aria-labelledby="recent-tests-title">
-                    <div class="border-b border-gray-100 px-4 py-3">
-                        <h2 class="flex items-center gap-2 text-base font-semibold text-gray-900" id="recent-tests-title">
-                            <i class="fa fa-clock-o text-indigo-600" aria-hidden="true"></i>
+                <section class="ui-card" aria-labelledby="recent-tests-title">
+                    <div class="ui-card-header">
+                        <h2 class="flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-gray-900" id="recent-tests-title">
+                            <i class="fa fa-clock-o text-black/60" aria-hidden="true"></i>
                             {:__('最新测试')}
                         </h2>
                     </div>
