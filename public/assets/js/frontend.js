@@ -25,8 +25,12 @@ define(['fast', 'template', 'moment'], function (Fast, Template, Moment) {
                         if (typeof callback == 'function') {
                             callback.call(this, data, ret);
                         }
-                    }, function () {
+                    }, function (data, ret) {
                         $(btn).removeClass("disabled").text('发送验证码');
+                        if (ret && ret.msg) {
+                            Layer.msg(ret.msg);
+                            return false;
+                        }
                     });
                 };
                 if (['mobile', 'email'].indexOf(type) > -1) {
