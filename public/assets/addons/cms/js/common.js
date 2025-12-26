@@ -3,7 +3,13 @@ $(function () {
 
     window.__cmsInitAdsense = function () {
         try {
-            if (!window.adsbygoogle || !Array.isArray(window.adsbygoogle)) {
+            if (!window.__cmsAdsenseScriptLoaded) {
+                return;
+            }
+            if (!window.adsbygoogle) {
+                window.adsbygoogle = [];
+            }
+            if (!Array.isArray(window.adsbygoogle)) {
                 return;
             }
             var nodes = document.querySelectorAll('ins.adsbygoogle');

@@ -23,11 +23,15 @@
     <!-- 性能优化：DNS预连接和资源预加载 -->
     <link rel="preconnect" href="https://api.nbmgkj.com" crossorigin>
     <link rel="dns-prefetch" href="//api.nbmgkj.com">
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+    <link rel="dns-prefetch" href="//pagead2.googlesyndication.com">
+    <link rel="preconnect" href="https://googleads.g.doubleclick.net" crossorigin>
+    <link rel="dns-prefetch" href="//googleads.g.doubleclick.net">
     <!-- 内联最小关键CSS，防止FOUC -->
     <style>
     html,body{width:100%;max-width:none !important;overflow-x:hidden !important}
     *,*:before,*:after{box-sizing:border-box !important}
-    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif;opacity:0;transition:opacity 0.3s ease-in}
+    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif;opacity:1;transition:opacity 0.3s ease-in}
     body.loaded{opacity:1}
 
     img,svg,video,canvas{max-width:100%;height:auto}
@@ -171,7 +175,62 @@
     <meta name="twitter:description" content="{$channelOgDesc|htmlentities}"/>
     {/if}
 
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9195262048954682" crossorigin="anonymous"></script>
+    <script>
+    (function () {
+        var loaded = false;
+        var loading = false;
+        var SRC = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9195262048954682';
+
+        function loadAdsense() {
+            if (loaded || loading) return;
+            loading = true;
+            var s = document.createElement('script');
+            s.async = true;
+            s.src = SRC;
+            s.crossOrigin = 'anonymous';
+            s.onload = function () {
+                loaded = true;
+                loading = false;
+                window.__cmsAdsenseScriptLoaded = true;
+                try {
+                    if (typeof window.__cmsInitAdsense === 'function') {
+                        window.__cmsInitAdsense();
+                    }
+                } catch (e) {}
+            };
+            s.onerror = function () {
+                loading = false;
+            };
+            (document.head || document.documentElement).appendChild(s);
+        }
+
+        window.__cmsLoadAdsense = loadAdsense;
+
+        // 默认不阻塞首屏：滚动/交互/超时后再加载
+        function trigger() {
+            setTimeout(loadAdsense, 0);
+        }
+
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            setTimeout(function () {
+                var hasAds = document.querySelector && document.querySelector('ins.adsbygoogle');
+                if (hasAds) trigger();
+            }, 1200);
+        } else {
+            window.addEventListener('DOMContentLoaded', function () {
+                setTimeout(function () {
+                    var hasAds = document.querySelector && document.querySelector('ins.adsbygoogle');
+                    if (hasAds) trigger();
+                }, 1200);
+            });
+        }
+
+        window.addEventListener('scroll', trigger, {passive: true, once: true});
+        window.addEventListener('touchstart', trigger, {passive: true, once: true});
+        window.addEventListener('mousemove', trigger, {passive: true, once: true});
+        setTimeout(trigger, 5000);
+    })();
+    </script>
 
     {cms:block name="header" field="content" /}
 
@@ -222,7 +281,7 @@
  <body class="min-h-screen {$bodyClass|default=''}">
 
 <!-- 页面加载动画 -->
-<div id="page-loader">
+<div id="page-loader" class="hidden">
     <div class="loader-spinner"></div>
 </div>
 
